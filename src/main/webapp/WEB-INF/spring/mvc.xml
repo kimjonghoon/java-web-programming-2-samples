@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+<mvc:annotation-driven />
+
+<mvc:resources mapping="/static/**" location="/static/" />
+
+<context:component-scan base-package="net.java_school.blog" />
+
+<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<property name="basename" value="classpath:messages" />
+	<property name="defaultEncoding" value="UTF-8" />
+</bean>
+
+<bean id="templateResolver" class="org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver">
+	<property name="prefix" value="/WEB-INF/views/" />
+	<property name="suffix" value=".html" />
+	<property name="templateMode" value="HTML" />
+	<property name="cacheable" value="true" />
+</bean>
+
+<bean id="templateEngine" class="org.thymeleaf.spring6.SpringTemplateEngine">
+	<property name="templateResolver" ref="templateResolver" />
+	<property name="enableSpringELCompiler" value="true" />
+</bean>
+
+<bean class="org.thymeleaf.spring6.view.ThymeleafViewResolver">
+	<property name="templateEngine" ref="templateEngine" />
+	<property name="characterEncoding" value="UTF-8" />
+</bean>
+
+<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+	<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+	<property name="username" value="web" />
+	<property name="password" value="programming2" />
+	<property name="maxTotal" value="100" />
+	<property name="maxWaitMillis" value="1000" />
+	<property name="poolPreparedStatements" value="true" />
+	<property name="defaultAutoCommit" value="true" />
+	<property name="validationQuery" value=" SELECT 1 FROM DUAL" />
+</bean>
+
+</beans>
+
