@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="index" id="sidebar">
+
+<h1>User</h1>
+<ul>
+ 	<li><a th:href="@{/users/login}">Login</a></li>
+	<li><a th:href="@{/users/signUp}">SignUp</a></li>
+	<li><a th:href="@{/users/editAccount}">Edit Account</a></li>
+	<li><a th:href="@{/users/changePasswd}">Change Password</a></li>
+	<li><a th:href="@{/users/bye}">Bye</a></li>
+</ul>
+
+</div>
+</body>
+</html>
