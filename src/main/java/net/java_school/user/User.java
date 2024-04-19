@@ -14,9 +14,10 @@ public class User {
 	@Size(min=4, message="Please enter a password that is at least 4 characters long.")
 	private String password;
 	
+	
 	@NotNull
 	@Pattern(regexp="(Y|N)", message="Y or N.")
-	private char enabled;
+	private String enabled;
 
 	public String getUsername() {
 		return username;
@@ -34,12 +35,11 @@ public class User {
 		this.password = password;
 	}
 
-	public char getEnabled() {
+	public String getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(char enabled) {
+	public void setEnabled(String enabled) {
 		this.enabled = enabled;
 	}
-	
 }

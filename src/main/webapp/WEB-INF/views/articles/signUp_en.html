@@ -2,8 +2,8 @@
 
 <head>
 <title>SignUp</title>
-<meta name="Keywords" content="SignUp" />
-<meta name="Description" content="SignUp" />
+<meta name="Keywords" content="Sign Up" />
+<meta name="Description" content="Sign Up" />
 </head>
 
 <body>
@@ -11,6 +11,31 @@
 <article>
 
 <h1>SignUp</h1>
+<form id="signUpForm" action="@{/uers/signUp}" method="post" th:object="${user}">
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<input type="hidden" name="enabled" value="Y" />
+<table style="width: 98%;">
+<tr>
+    <td style="width: 18%;">Full Name</td>
+    <td>
+        <input type="text" th:field="*{username}" style="width: 80%;" /><br />
+        <span class="validationError" th:if="${#fields.hasErrors('username')}"
+        	th:errors="*{username}">Name Error</span>
+    </td>
+</tr>
+<tr>
+    <td>Password</td>
+    <td>
+        <input type="password" th:field="*{password}" style="width: 80%;" /><br />
+        <span class="validationError" th:if="${#fields.hasErrors('password')}"
+        	th:errors="*{password}">Password Error</span>
+    </td>
+</tr>
+</table>
+<div style="text-align: center;padding-bottom: 15px;">
+    <input type="submit" value="Submit" />
+</div>
+</form>
 
 </article>
 
