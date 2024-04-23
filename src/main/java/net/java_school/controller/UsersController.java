@@ -19,9 +19,7 @@ public class UsersController {
 	
 	@GetMapping("signUp")
 	public String signUp(Model model) {
-		
 		model.addAttribute("user", new User());
-		
 		return "users/signUp";
 	}
 }
