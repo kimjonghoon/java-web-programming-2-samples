@@ -14,7 +14,7 @@
 
 <div th:if="${param.error }">Invalid username and password.</div>
 <div th:if="${param.logout }">You have been logged out.</div>
-<form action="@{/login }" method="post">
+<form th:action="@{/login }" method="post">
 <table>
 <tr>
     <td style="width: 200px;">Username</td>

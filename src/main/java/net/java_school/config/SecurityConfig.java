@@ -38,10 +38,10 @@ public class SecurityConfig {
 			
 			.authorizeHttpRequests((authorize) -> authorize
 					.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
-					.requestMatchers(HttpMethod.GET, "/users/login").permitAll()
+					//.requestMatchers(HttpMethod.GET, "/users/login").permitAll()
 					.anyRequest().authenticated()
 			)
-			.formLogin(form -> form.loginPage("/users/login"))
+			.formLogin(form -> form.loginPage("/users/login").permitAll().loginProcessingUrl("/login"))
 			.httpBasic(withDefaults());
 				
 		return http.build();
