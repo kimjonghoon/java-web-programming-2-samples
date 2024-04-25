@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}" th:fragment="layout (title, metas, links, scripts, content, nextprev, submenu)" 
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	
 <head>
 <meta charset="UTF-8">
 <title th:replace="${title}">Layout Title</title>
@@ -17,6 +19,15 @@
 		<div id="header">
 			<div id="java-school-ci">
 				<a href="/" th:href="@{'/'}"><img th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
+			</div>
+			<div id="member" style="float: right;position: relative;top: 7px;">
+			
+				<input type="button" value="Login" onclick="location.href = '/users/login'" />
+            	<input type="button" value="SignUp" onclick="location.href = '/users/signUp'" />
+            	<div sec:authorize="isAuthenticated()">
+		            <input type="button" value="Logout" id="logout" />
+	    			<input type="button" value="Edit My Account" onclick="location.href = '/users/editAccount'" />
+    			</div> 
 			</div>
 		</div>
 		
