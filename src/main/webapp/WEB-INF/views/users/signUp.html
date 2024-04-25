@@ -6,7 +6,7 @@
 <meta name="Description" th:replace="${#locale.country == 'KR'} ? ~{articles/signUp :: meta[@name='Description']} : ~{articles/signUp_en :: meta[@name='Description']}" />
 <link rel="stylesheet" th:href="${#locale.country == 'KR'} ? '/static/css/korean.css' : '/static/css/english.css'" />
 <link rel="stylesheet" th:href="@{/static/css/errors.css}" />
-<script src="/static/js/jquery-3.7.1.min.js"></script>
+<script th:src="@{/static/js/jquery-3.7.1.min.js}"></script>
 
 </head>
 <body>

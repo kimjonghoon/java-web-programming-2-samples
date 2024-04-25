@@ -12,8 +12,7 @@
 
 <h1>SignUp</h1>
 <form id="signUpForm" action="@{/uers/signUp}" method="post" th:object="${user}">
-<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-<input type="hidden" name="enabled" value="Y" />
+<input type="hidden" name="enabled" value="1" />
 <table style="width: 98%;">
 <tr>
     <td style="width: 18%;">Full Name</td>
