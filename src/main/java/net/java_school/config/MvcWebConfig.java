@@ -12,6 +12,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
@@ -31,6 +32,11 @@ public class MvcWebConfig implements WebMvcConfigurer {
 	}
 	
 	@Bean
+	public SpringSecurityDialect springSecurityDialect() {
+	    return new SpringSecurityDialect();
+	}
+	
+	@Bean
 	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setBasename("messages");
@@ -45,6 +51,7 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		templateResolver.setPrefix("/WEB-INF/views/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode(TemplateMode.HTML);
+		templateResolver.setCharacterEncoding("UTF-8");//added
 		templateResolver.setCacheable(true);
 		return templateResolver;
 	}
@@ -53,7 +60,10 @@ public class MvcWebConfig implements WebMvcConfigurer {
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver());
-		templateEngine.setEnableSpringELCompiler(true);
+		templateEngine.setEnableSpringELCompiler(false);
+		templateEngine.setTemplateEngineMessageSource(messageSource());
+		templateEngine.addDialect(springSecurityDialect());
+		
 		return templateEngine;
 	}
 
@@ -73,7 +83,6 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		dataSource.setUsername("web");
 		dataSource.setPassword("programming2");
 		dataSource.setMaxTotal(100);
-		//dataSource.setMaxWaitMillis(1000);
 		dataSource.setPoolPreparedStatements(true);
 		dataSource.setDefaultAutoCommit(true);
 		dataSource.setValidationQuery("SELECT 1 FROM DUAL");
