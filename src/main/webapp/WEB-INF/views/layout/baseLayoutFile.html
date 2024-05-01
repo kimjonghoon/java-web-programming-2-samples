@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:lang="${#locale.language}" th:fragment="layout (title, metas, links, scripts, content, nextprev, submenu)" 
+<html th:lang="${#locale.language}" th:fragment="layout (title, metas, links, scripts, content, submenu)" 
 	xmlns:th="http://www.thymeleaf.org"	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	
 <head>
@@ -50,12 +50,10 @@
 		<div id="container">		
 			<div id="content">
 				<th:block th:replace="${content}" />
-				<th:block th:replace="${nextprev}" />
 			</div>
 		</div>	
 		
 		<div th:replace="${submenu}">
-			Layout Sub menu	
 		</div>
 		
 		<div id="extra">

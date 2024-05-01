@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/baseLayoutFile :: layout(~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::section}, ~{::article}, ~{::aside})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/baseLayoutFile :: layout(~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::section}, ~{::aside})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:replace="${#locale.country == 'KR'} ? ~{articles/blog-index :: title} : ~{articles/blog-index_en :: title}">Java Install</title>
 <meta name="Keywords" th:replace="${#locale.country == 'KR'} ? ~{articles/blog-index :: meta[@name='Keywords']} : ~{articles/blog-index_en :: meta[@name='Keywords']}" />
@@ -8,11 +8,10 @@
 <link rel="stylesheet" th:href="@{/static/css/blog.css}" type="text/css" />
 </head>
 <body>
-<!-- article -->
+
 <section th:replace="${#locale.country == 'KR'} ? ~{articles/blog-index :: article} : ~{articles/blog-index_en :: article}"></section>
-<!--  next and prev -->
-<article th:replace="~{}"></article>
-<!-- sub menu -->
+
 <aside th:replace="~{}"></aside>
+
 </body>
 </html>
