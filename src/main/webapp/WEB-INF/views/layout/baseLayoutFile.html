@@ -7,8 +7,8 @@
 <title th:replace="${title}">Layout Title</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <th:block th:replace="${metas}" />
-<link rel="stylesheet" th:href="@{/static/css/screen.css}" type="text/css" />
-<link rel="stylesheet" th:href="@{/static/css/print.css}" type="text/css" />
+<link rel="stylesheet" media="screen" th:href="@{/static/css/screen.css}" />
+<link rel="stylesheet" media="print" th:href="@{/static/css/print.css}" />
 <th:block th:replace="${links}" />
 <th:block th:replace="${scripts}" />
 </head>
@@ -17,34 +17,26 @@
 	
 		<div id="header">
 			<div id="java-school-ci">
-				<a href="/" th:href="@{'/'}"><img th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
+				<a th:href="@{'/'}"><img th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
 			</div>
 			<div id="member" style="float: right;position: relative;top: 7px;">
-			
-				<input type="button" value="Login" onclick="location.href = '/users/login'" />
-            	<input type="button" value="SignUp" onclick="location.href = '/users/signUp'" />
-            	<div sec:authorize="isAuthenticated()">
-		            <input type="button" value="Logout" id="logout" />
-	    			<input type="button" value="Edit My Account" onclick="location.href = '/users/editAccount'" />
-    			</div> 
+            			<div sec:authorize="isAnonymous()">
+					<input type="button" value="Login" onclick="location.href = '/users/login'" />
+					<input type="button" value="SignUp" onclick="location.href = '/users/signUp'" />
+				<div sec:authorize="isAuthenticated()">
+					<input type="button" value="Logout" id="logout" />
+					<input type="button" value="Edit My Account" onclick="location.href = '/users/editAccount'" />
+    				</div> 
 			</div>
 		</div>
 		
 		<div id="main-menu">
 			<ul id="nav">
-			    <li><a th:href="@{/java/Features}">Java</a></li>
-			    <li><a th:href="@{/jdbc/JDBC-Intro}">JDBC</a></li>
-			    <li><a th:href="@{/jsp/How-to-install-Tomcat}">JSP</a></li>
-			    <li><a th:href="@{/css-layout/div-element-arrangement}">CSS Layout</a></li>
-			    <li><a th:href="@{/jsp-pjt/Dynamic-Web-Project-Set-Up}">JSP Project</a></li>
-			    <li><a th:href="@{/spring/building-java-projects-with-maven}">Spring</a></li>
-			    <li><a th:href="@{/javascript/introduction}">JavaScript</a></li>
-			    <li><a th:href="@{/google-app-engine/building-gae-projects-with-maven}">Google Cloud</a></li>
-			    <li><a th:href="@{/blog}">Blog</a></li>
+			    <li><a th:href="@{/thymeleaf}">Thymeleaf</a></li>
 			</ul>
 		</div>
 
-		<div id="i18n" style="height: 23px;">
+		<div id="i18n">
 		</div>
 		
 		<div id="container">		
