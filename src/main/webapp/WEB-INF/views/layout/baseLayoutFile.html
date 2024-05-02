@@ -20,13 +20,14 @@
 				<a th:href="@{'/'}"><img th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
 			</div>
 			<div id="member" style="float: right;position: relative;top: 7px;">
-            			<div sec:authorize="isAnonymous()">
+            	<div sec:authorize="isAnonymous()">
 					<input type="button" value="Login" onclick="location.href = '/users/login'" />
 					<input type="button" value="SignUp" onclick="location.href = '/users/signUp'" />
+				</div>	
 				<div sec:authorize="isAuthenticated()">
 					<input type="button" value="Logout" id="logout" />
 					<input type="button" value="Edit My Account" onclick="location.href = '/users/editAccount'" />
-    				</div> 
+    			</div>
 			</div>
 		</div>
 		

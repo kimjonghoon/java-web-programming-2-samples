@@ -8,25 +8,14 @@
 <link rel="stylesheet" href="/static/css/prettify.css" type="text/css" />
 <link rel="stylesheet" href="/static/css/windows.css" type="text/css" />
 <script src="/static/js/jquery.js"></script>
-<script src="/static/js/commons.js"></script>
 <script src="/static/js/prettify.js"></script>
-<script>
-$(document).ready(function () {
-	prettyPrint();
-	$('pre.prettyprint').html(function () {
-	    return this.innerHTML.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-	});
-	$('pre.prettyprint').dblclick(function () {
-	    selectRange(this);
-	});
-});
-</script>
+<script src="/static/js/indent-select-code.js"></script>
 </head>
 <body>
 
 <section th:replace="${#locale.country == 'KR'} ? ~{articles/JDK-Install :: article} : ~{articles/JDK-Install_en :: article}"></section>
 
-<aside th:replace="${#locale.country == 'KR'} ? ~{java/menu :: index} : ~{java/menu_en :: index}"></aside>
+<aside th:replace="${#locale.country == 'KR'} ? ~{home/menu :: index} : ~{home/menu_en :: index}"></aside>
 
 </body>
 </html>
