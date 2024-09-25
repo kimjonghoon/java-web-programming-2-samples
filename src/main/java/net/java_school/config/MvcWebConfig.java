@@ -48,10 +48,9 @@ public class MvcWebConfig implements WebMvcConfigurer {
 	public SpringResourceTemplateResolver templateResolver() {
 		SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 		templateResolver.setApplicationContext(this.applicationContext);
-		templateResolver.setPrefix("/WEB-INF/views/");
+		templateResolver.setPrefix("/WEB-INF/templates/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode(TemplateMode.HTML);
-		templateResolver.setCharacterEncoding("UTF-8");//added
 		templateResolver.setCacheable(true);
 		return templateResolver;
 	}
@@ -63,7 +62,6 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		templateEngine.setEnableSpringELCompiler(true);
 		templateEngine.setTemplateEngineMessageSource(messageSource());
 		templateEngine.addDialect(springSecurityDialect());
-		
 		return templateEngine;
 	}
 

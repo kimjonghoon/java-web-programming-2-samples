@@ -1,4 +1,5 @@
 package net.java_school.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 	@Autowired
 	private DataSource dataSource;
 	
@@ -37,20 +37,14 @@ public class SecurityConfig {
 		http
 			
 			.authorizeHttpRequests((authorize) -> authorize
-					.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
-					//.requestMatchers(HttpMethod.GET, "/users/login").permitAll()
-					.anyRequest().authenticated()
+				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/users/signup").permitAll()
+				.requestMatchers(HttpMethod.POST, "/users/signup").permitAll()
+				.requestMatchers(HttpMethod.POST, "/users/welcome").permitAll()
+				.anyRequest().authenticated()
 			)
 			.formLogin(form -> form.loginPage("/users/login").permitAll().loginProcessingUrl("/login"))
 			.httpBasic(withDefaults());
-				
 		return http.build();
 	}
-
-	/*
-	 * @Bean public UserDetailsService userDetailsService() { UserDetails user =
-	 * User.withDefaultPasswordEncoder() .username("user") .password("password")
-	 * .roles("USER") .build(); return new InMemoryUserDetailsManager(user); }
-	 */
-
 }

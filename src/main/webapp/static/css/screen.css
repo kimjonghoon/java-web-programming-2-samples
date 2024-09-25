@@ -24,6 +24,10 @@ a:hover {
 	color: #2C80D0;
 	text-decoration: underline;
 }
+button {
+	color: #646464;
+	font-size: 12px;
+}
 article {
 	margin-top: 10px;
 }
@@ -103,7 +107,7 @@ article > ol > li {
 #wrap {
 	margin: 7px auto;
 	padding: 0;
-	width: 1000px;
+	width: 1200px;
 }
 #header {
 	width: 100%;
@@ -112,6 +116,11 @@ article > ol > li {
 	width: 117px;
 	float: left;
 	border: none;
+}
+#member {
+	float: right;
+	position: relative;
+	right: 3px;
 }
 #main-menu {
 	display: block;
@@ -123,12 +132,35 @@ article > ol > li {
 	background: #92B91C;
 	border: 2px solid #DAEAAA;
 }
+#main-menu > ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	position: relative;
+	top: 9px;
+	left: 17px;
+}
+#main-menu > ul > li {
+	float: left;
+	padding: 0 17px 0 8px;
+	background: url('../images/bull_circle.gif') no-repeat 0 50%;
+}
+#main-menu > ul > li > a {
+	text-decoration: none;
+	color: #FFF;
+}
+#main-menu > ul > li > a:hover {
+	text-decoration: underline;
+	background: none;
+	color: #FFF;
+}
 #i18n {
 	clear: both;
 	display: block;
 	padding: 3px;
 	text-align: right;
 	font-size: 14px;
+	height: 23px;
 }
 #container {
 	float: left;
@@ -161,30 +193,13 @@ article > ol > li {
 	width: 160px;
 	margin-left: -160px;
 	margin-bottom: 20px;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
 	position: relative;
-	top: 7px;
+	top: 11px;
 }
-ul#nav {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	position: relative;
-	top: 9px;
-	left: 17px;
-}
-ul#nav > li {
-	float: left;
-	padding: 0 17px 0 8px;
-	background: url('../images/bull_circle.gif') no-repeat 0 50%;
-}
-ul#nav > li > a {
-	text-decoration: none;
-	color: #FFF;
-}
-ul#nav > li > a:hover {
-	text-decoration: underline;
-	background: none;
-	color: #FFF;
+#extra > ul {
+	border: 1px solid #DAEAAA;
 }
 #sidebar > h1 {
 	margin: 0;
@@ -219,9 +234,31 @@ ul#nav > li > a:hover {
 	font-weight: normal;
 	background: #FFF url('../images/circle.gif') no-repeat 5% 50%;
 }
-#searchcontainer {
-	float: right;
-	width: 30%;
+#extra > ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+#extra > ul > li.sub-heading {
+	display: block;
+	padding: 6px 10px 6px 10px;
+	color: #64615D;
+	background: #DAEAAA;
+	text-decoration: none;
+	font-weight: bold;
+}
+#extra > ul > li > a:hover {
+	background-color: #EDFEBA;
+	color: #64615D;
+}
+#extra > ul > li > a {
+	display: block;
+	color: #64615D;
+	padding: 5px 3px 4px 17px;
+	text-decoration: none;
+	border-bottom: 1px solid #FFF;
+	font-weight: normal;
+	background: #FFF url('../images/circle.gif') no-repeat 5% 50%;
 }
 #footer {
 	clear: both;
@@ -243,4 +280,4 @@ ul#nav > li > a:hover {
 #footer > ul > li {
 	margin: 0;
 	padding: 0;
-}
+}  

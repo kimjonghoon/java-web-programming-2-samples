@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 i18n, 6 maintext, 7 submenu, 8 reference */-->
+<html th:replace="~{layout/baseLayoutFile :: layout(~{::title}, ~{::meta}, ~{}, ~{}, ~{::div},~{::section}, ~{::aside})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:replace="~{articles/toc :: title}">홈페이지</title>
+<meta name="Keywords" th:replace="~{articles/toc :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="~{articles/toc :: meta[@name='Description']}" />
+</head>
+<body>
+
+<div id="i18n"></div>
+<section th:replace="~{articles/toc :: article}"></section>
+
+<aside th:replace="~{home/menu :: index}"></aside>
+
+</body>
+</html>
