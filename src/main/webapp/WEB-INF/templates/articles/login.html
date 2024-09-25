@@ -14,15 +14,15 @@
 
 <div th:if="${param.error}" th:text="#{login.error}">사용자명과 패스워드가 유효하지 않습니다.</div>
 <div th:if="${param.logout}" th:text="#{logout.done}">로그아웃되었습니다.</div>
-<form th:action="@{/login}" method="post">
+<form th:action="@{/login}" th:method="post">
 <table>
 <tr>
-    <td style="width: 200px;" th:text="#{username}">이름</td>
-    <td style="width: 390px"><input type="text" name="username" placeholder="Username" /></td>
+    <td th:text="#{username}">사용자명</td>
+    <td><input type="text" name="username" placeholder="username" /></td>
 </tr>
 <tr>
     <td th:text="#{password}">패스워드</td>
-    <td><input type="password" name="password" placeholder="Password" /></td>
+    <td><input type="password" name="password" placeholder="password" /></td>
 </tr>
 </table>
 <div>

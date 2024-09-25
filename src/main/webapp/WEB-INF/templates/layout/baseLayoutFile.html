@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:lang="${#locale.language}" th:fragment="layout (title, metas, links, scripts, i18n, maintext, submenu, reference)" 
+<html th:lang="${#locale.language}" th:fragment="layout (title, metas, links, scripts, mainmenu, i18n, maintext, submenu, reference)" 
 	xmlns:th="http://www.thymeleaf.org"	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
@@ -16,7 +16,7 @@
 <div id="wrap">
 	<div id="header">
 		<div id="java-school-ci">
-			<a href="#" th:href="@{'/'}"><img src="../../../static/images/ci.gif" th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
+			<a href="#" th:href="@{/}"><img src="../../../static/images/ci.gif" th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
 		</div>
 		<div id="member">
 			<a href="#"><button type="button">로그인</button></a>
@@ -24,11 +24,11 @@
 		</div>
 	</div>
 		
-	<div id="main-menu">
-		<ul id="nav">
-		    <li><a href="#" th:href="@{/thymeleaf}">Thymeleaf</a></li>
-		    <li><a href="#" th:href="@{/spring-security}">Spring Security</a></li>
-		    <li><a href="#" th:href="@{/board}">Bulletin Board</a></li>
+	<div id="main-menu" th:replace="${mainmenu}">
+		<ul>
+			<li><a href="#">Thymeleaf</a></li>
+			<li><a href="#">Spring Security</a></li>
+			<li><a href="#">Bulletin Board</a></li>
 		</ul>
 	</div>
 
