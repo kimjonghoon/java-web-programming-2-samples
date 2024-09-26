@@ -1,11 +1,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+</head>
 <body>
-<div th:fragment="index" id="sidebar">
+<th:block th:fragment="index">
 <h1>Home</h1>
 <ul>
-    <li class="sub-heading">Book Source</li>
-    <li><a href="https://github.com/kimjonghoon/java-web-programming-2-samples">Java Web Programming2</a></li>
+	<li class="sub-heading">Samples</li>
+	<li><a href="https://github.com/kimjonghoon/java-web-programming-2-samples">Web Programming 2</a></li>
 </ul>
-</div>
+</th:block>
 </body>
 </html>

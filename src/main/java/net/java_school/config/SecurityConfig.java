@@ -38,6 +38,9 @@ public class SecurityConfig {
 			
 			.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/").permitAll()
+				.requestMatchers(HttpMethod.GET, "/en").permitAll()
+				.requestMatchers(HttpMethod.GET, "/ko").permitAll()
 				.requestMatchers(HttpMethod.GET, "/users/signup").permitAll()
 				.requestMatchers(HttpMethod.POST, "/users/signup").permitAll()
 				.requestMatchers(HttpMethod.POST, "/users/welcome").permitAll()

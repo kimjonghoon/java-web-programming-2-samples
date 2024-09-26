@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:lang="${#locale.language}" th:fragment="layout (title, metas, links, scripts, mainmenu, i18n, maintext, submenu, reference)" 
+<html th:lang="${lang} ?: 'ko'" th:fragment="layout (title, metas, links, scripts, mainmenu, i18n, maintext, submenu, reference)" 
 	xmlns:th="http://www.thymeleaf.org"	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
@@ -50,7 +50,7 @@
 		</div>
 	</div>	
 		
-	<div id="sidebar" th:replace="${submenu}">
+	<div id="sidebar" th:insert="${submenu}">
 		<h1>Home</h1>
 		<ul>
 			<li class="sub-heading">예제 소스</li>
