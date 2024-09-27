@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:lang="${lang} ?: 'ko'" th:fragment="layout (title, metas, links, scripts, mainmenu, i18n, maintext, submenu, reference)" 
+<html th:lang="${lang} ?: (${#locale.language == 'ko'} ? 'ko' : 'en')" th:fragment="layout (title, metas, links, scripts, mainmenu, i18n, maintext, submenu, reference)" 
 	xmlns:th="http://www.thymeleaf.org"	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
@@ -19,8 +19,8 @@
 			<a href="#" th:href="@{/}"><img src="../../../static/images/ci.gif" th:src="@{/static/images/ci.gif}" alt="java-school" /></a>
 		</div>
 		<div id="member">
-			<a href="#"><button type="button">로그인</button></a>
-			<a href="#"><button type="button">회원가입</button></a>
+			<a href="#" th:href="@{/users/login}"><button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')">로그인</button></a>
+			<a href="#" th:href="@{/user/signup}"><button type="button" th:text="${lang == null} ? #{signup} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
 		</div>
 	</div>
 		
