@@ -1,16 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+|
+</style>
 <body>
-<div th:fragment="index" id="sidebar">
-
-<h1>회원</h1>
+<th:block th:fragment="index" id="sidebar">
+<h1 th:text="#{user}">회원</h1>
 <ul>
-	<li><a th:href="@{/users/login}">로그인</a></li>
-	<li><a th:href="@{/users/signUp}">회원가입</a></li>
-	<li><a th:href="@{/users/editAccount}">내 정보 수정</a></li>
-	<li><a th:href="@{/users/changePasswd}">비밀번호 변경</a></li>
-	<li><a th:href="@{/users/bye}">탈퇴</a></li>
+	<li><a href="#" th:href="@{/users/login}" th:text="#{login}">로그인</a></li>
+	<li><a href="#" th:href="@{/users/signup}" th:text="#{signup}">회원가입</a></li>
 </ul>
-
-</div>
+</th:block>
 </body>
 </html>

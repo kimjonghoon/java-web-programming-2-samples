@@ -13,6 +13,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -73,6 +75,13 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		viewResolver.setTemplateEngine(templateEngine());
 		viewResolver.setCharacterEncoding("UTF-8");
 		return viewResolver;
+	}
+	
+	@Override
+	public Validator getValidator() {
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());
+		return bean;
 	}
 	
 	@Bean(destroyMethod = "close")

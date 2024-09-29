@@ -3,12 +3,12 @@
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
 <style>
 #sidebar {
-	margin-left: 0;
-}
+  margin-left: 0;
+|
 </style>
 </head>
 <body>
-<th:block th:fragment="index">
+<th:block th:fragment="index" id="sidebar">
 <h1>Home</h1>
 <ul>
   <li class="sub-heading" th:text="${lang == null} ? #{samples} : (${lang == 'ko'} ? _ : 'samples')">예제 소스</li>

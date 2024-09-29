@@ -1,39 +1,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>회원가입</title>
-<meta name="Keywords" content="회원 가입" />
-<meta name="Description" content="회원 가입" />
+<title th:text="#{signup}">회원가입</title>
+<meta name="Keywords" content="회원 가입" th:content="#{signup}" />
+<meta name="Description" content="회원 가입" th:content="#{signup}" />
+<link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
 </head>
 
 <body>
 
 <article>
 
-<h3>회원가입</h3>
+<h3 th:text="#{signup}">회원가입</h3>
 
-<form id="signUpForm" action="@{/uers/signUp}" method="post" th:object="${user}">
-<input type="hidden" name="enabled" value="1" />
-<table style="width: 98%;">
+<form id="signUpForm" th:action="@{/users/signup}" th:method="post" th:object="${user}">
+<table>
 <tr>
-    <td style="width: 18%;">이름</td>
-    <td>
-        <input type="text" th:field="*{username}" style="width: 80%;" /><br />
-        <span class="validationError" th:if="${#fields.hasErrors('username')}"
-        	th:errors="*{username}">이름 에러</span>
-    </td>
+  <td th:text="#{username}">사용자명</td>
+  <td>
+    <input type="text" th:field="*{username}"/><br />
+    <span class="validationError" th:if="${#fields.hasErrors('username')}" 
+        th:errors="*{username}">이름 에러</span>
+  </td>
 </tr>
 <tr>
-    <td>패스워드</td>
-    <td>
-        <input type="password" th:field="*{password}" style="width: 80%;" /><br />
-        <span class="validationError" th:if="${#fields.hasErrors('password')}"
-        	th:errors="*{password}">패스워드 에러</span>
+  <td th:text="#{password}">패스워드</td>
+  <td>
+    <input type="password" th:field="*{password}"/><br />
+    <span class="validationError" th:if="${#fields.hasErrors('password')}"
+        th:errors="*{password}">패스워드 에러</span>
     </td>
 </tr>
 </table>
-<div style="text-align: center;padding-bottom: 15px;">
-    <input type="submit" value="전송" />
+<div>
+  <input type="submit" th:value="#{submit}" value="전송" />
 </div>
 </form>
 

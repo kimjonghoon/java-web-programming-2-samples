@@ -20,7 +20,7 @@
 		</div>
 		<div id="member">
 			<a href="#" th:href="@{/users/login}"><button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')">로그인</button></a>
-			<a href="#" th:href="@{/user/signup}"><button type="button" th:text="${lang == null} ? #{signup} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
+			<a href="#" th:href="@{/users/signup}"><button type="button" th:text="${lang == null} ? #{signup} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
 		</div>
 	</div>
 		

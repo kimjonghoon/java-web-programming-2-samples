@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html th:replace="~{layout/baseLayoutFile :: layout(~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::section}, ~{}, ~{::aside})}" xmlns:th="http://www.thymeleaf.org">
+<!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:replace="${#locale.country == 'KR'} ? ~{articles/signUp :: title} : ~{articles/signUp_en :: title}">Java Install</title>
-<meta name="Keywords" th:replace="${#locale.country == 'KR'} ? ~{articles/signUp :: meta[@name='Keywords']} : ~{articles/signUp_en :: meta[@name='Keywords']}" />
-<meta name="Description" th:replace="${#locale.country == 'KR'} ? ~{articles/signUp :: meta[@name='Description']} : ~{articles/signUp_en :: meta[@name='Description']}" />
-<link rel="stylesheet" th:href="${#locale.country == 'KR'} ? '/static/css/korean.css' : '/static/css/english.css'" />
-<link rel="stylesheet" th:href="@{/static/css/errors.css}" />
-<script th:src="@{/static/js/jquery-3.7.1.min.js}"></script>
-
+<title th:replace="~{articles/signup :: title}">회원가입</title>
+<meta name="Keywords" th:replace="~{articles/signup :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="~{articles/signup :: meta[@name='Description']}" />
+<link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/validation.css}" />
 </head>
 <body>
 
-<section th:replace="${#locale.country == 'KR'} ? ~{articles/signUp :: article} : ~{articles/signUp_en :: article}"></section>
+<nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
 
-<aside th:replace="${#locale.country == 'KR'} ? ~{users/menu :: index} : ~{users/menu_en :: index}"></aside>
+<div id="i18n">
+</div>
+
+<section th:replace="~{articles/signup :: article}"></section>
+
+<aside th:replace="~{users/menu :: index}"></aside>
 
 </body>
 </html>
