@@ -1,29 +1,32 @@
 package net.java_school.config;
 
-import javax.sql.DataSource;
-
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.MessageSource;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import javax.sql.DataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.mybatis.spring.annotation.MapperScan;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.validation.Validator;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("net.java_school.controller")
+@MapperScan("net.java_school.mapper")
+@ComponentScan("net.java_school.controller, net.java_school.user")
 public class MvcWebConfig implements WebMvcConfigurer {
 
 	@Autowired
@@ -97,5 +100,12 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		dataSource.setValidationQuery("SELECT 1 FROM DUAL");
 		
 		return dataSource;
+	}
+	
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
+		SqlSessionFactoryBean sessionBean = new SqlSessionFactoryBean();
+		sessionBean.setDataSource(dataSource());
+		return sessionBean.getObject();
 	}	
 }

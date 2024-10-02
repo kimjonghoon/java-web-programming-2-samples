@@ -97,6 +97,18 @@
 		<artifactId>hibernate-validator</artifactId>
 		<version>8.0.1.Final</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+		<version>3.5.16</version>
+	</dependency>	
+	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>3.0.4</version>
+	</dependency>	
 </dependencies>
 
 <build>
