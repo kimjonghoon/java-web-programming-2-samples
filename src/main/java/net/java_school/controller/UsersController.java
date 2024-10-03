@@ -37,6 +37,17 @@ public class UsersController {
 		String authority = "ROLE_USER";
 		userService.addUser(user);
 		userService.addAuthority(user.getUsername(), authority);
+		return "redirect:/users/welcome";
+	}
+	
+	@GetMapping("welcome")
+	public String welcome() {
 		return "users/welcome";
 	}
+
+	@GetMapping("editAccount")
+	public String editAccount() {
+		return "users/editAccount";
+	}
+
 }

@@ -35,18 +35,19 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-			
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/").permitAll()
-				.requestMatchers(HttpMethod.GET, "/en").permitAll()
-				.requestMatchers(HttpMethod.GET, "/ko").permitAll()
-				.requestMatchers(HttpMethod.GET, "/users/signup").permitAll()
+				.requestMatchers(HttpMethod.GET, "/users/welcome").permitAll()
 				.requestMatchers(HttpMethod.POST, "/users/signup").permitAll()
-				.requestMatchers(HttpMethod.POST, "/users/welcome").permitAll()
+				.requestMatchers(HttpMethod.GET, "/users/signup").permitAll()
+				.requestMatchers(HttpMethod.GET, "/en/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/ko/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/").permitAll()
+				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin(form -> form.loginPage("/users/login").permitAll().loginProcessingUrl("/login"))
+			.logout((logout) -> logout.logoutSuccessUrl("/"))
 			.httpBasic(withDefaults());
 		return http.build();
 	}

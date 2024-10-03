@@ -30,7 +30,7 @@
 		</th:block>
 		<form id="logoutForm" th:action="@{/logout}" th:method="post" style="display:none"></form>
 		<script>
-		$(document).ready(function(e) {
+		$(document).ready(function() {
 			$('#logout').click(function (e) {
 				e.preventDefault();
 				$('#logoutForm').submit();
