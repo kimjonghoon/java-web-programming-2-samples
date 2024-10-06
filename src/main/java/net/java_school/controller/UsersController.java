@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.security.Principal;
 import net.java_school.user.User;
 import net.java_school.user.UserService;
 import jakarta.validation.Valid;
@@ -50,4 +52,14 @@ public class UsersController {
 		return "users/editAccount";
 	}
 
+	@GetMapping("changePassword")
+	public String changePassword() {
+		return "users/changePassword";
+	}
+	@PostMapping("changePassword")
+	public String changePassword(@RequestParam("currentPassword") String currentPassword, @RequestParam("newPassword") String newPassword, Principal principal) {
+		String username = principal.getName();
+		userService.changePassword(currentPassword, newPassword, username);
+		return "redirect:/users/changePassword?change=done";
+	}
 }

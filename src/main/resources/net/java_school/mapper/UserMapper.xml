@@ -9,4 +9,10 @@
   <insert id="insertAuthority">
     INSERT INTO authorities VALUES (#{username}, #{authority})
   </insert>
+  <update id="updatePassword">
+    UPDATE users SET password=#{newPassword} WHERE username=#{username}
+  </update>
+  <select id="selectPassword">
+    SELECT password FROM users WHERE username=#{username}
+  </select>
 </mapper>
