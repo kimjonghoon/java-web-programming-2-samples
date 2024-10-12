@@ -74,6 +74,8 @@ local.properties
 ### Java-Web ###
 ## ignoring target file
 target/
+src/main/webapp/WEB-INF/classes/
+src/main/webapp/WEB-INF/lib/
 
 ### Maven ###
 pom.xml.tag
