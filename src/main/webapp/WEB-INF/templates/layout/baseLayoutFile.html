@@ -22,7 +22,7 @@
 		<div id="member">
 		<th:block sec:authorize="isAnonymous()">
 		  <a href="#" th:href="@{/users/login}"><button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')">로그인</button></a>
-		  <a href="#" th:href="@{/users/signup}"><button type="button" th:text="${lang == null} ? #{signup} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
+		  <a href="#" th:href="@{/users/signUp}"><button type="button" th:text="${lang == null} ? #{signUp} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
 		</th:block>
 		<th:block sec:authorize="isAuthenticated()">
 		  <a href="#" id="logout"><button type="button" th:text="${lang == null} ? #{logout} : (${lang == 'ko'} ? _ : 'Logout')">로그아웃</button></a>

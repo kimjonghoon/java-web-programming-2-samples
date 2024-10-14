@@ -1,9 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title th:text="#{signup}">회원가입</title>
-<meta name="Keywords" content="회원 가입" th:content="#{signup}" />
-<meta name="Description" content="회원 가입" th:content="#{signup}" />
+<title th:text="#{signUp}">회원가입</title>
+<meta name="Keywords" content="회원 가입" th:content="#{signUp}" />
+<meta name="Description" content="회원 가입" th:content="#{signUp}" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
 </head>
 
@@ -11,9 +11,9 @@
 
 <article>
 
-<h3 th:text="#{signup}">회원가입</h3>
+<h3 th:text="#{signUp}">회원가입</h3>
 
-<form id="signUpForm" th:action="@{/users/signup}" th:method="post" th:object="${user}">
+<form id="signUpForm" th:action="@{/users/signUp}" th:method="post" th:object="${user}">
 <table>
 <tr>
   <td th:text="#{username}">사용자명</td>

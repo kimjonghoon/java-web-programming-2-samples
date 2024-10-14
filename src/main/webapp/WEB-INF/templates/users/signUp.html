@@ -2,9 +2,9 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:replace="~{articles/signup :: title}">회원가입</title>
-<meta name="Keywords" th:replace="~{articles/signup :: meta[@name='Keywords']}" />
-<meta name="Description" th:replace="~{articles/signup :: meta[@name='Description']}" />
+<title th:replace="~{articles/signUp :: title}">회원가입</title>
+<meta name="Keywords" th:replace="~{articles/signUp :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="~{articles/signUp :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/validation.css}" />
 </head>
@@ -15,7 +15,7 @@
 <div id="i18n">
 </div>
 
-<section th:replace="~{articles/signup :: article}"></section>
+<section th:replace="~{articles/signUp :: article}"></section>
 
 <aside th:replace="~{users/menu :: index}"></aside>
 

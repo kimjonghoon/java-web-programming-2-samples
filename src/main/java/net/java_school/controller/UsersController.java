@@ -25,16 +25,16 @@ public class UsersController {
 		return "users/login";
 	}
 	
-	@GetMapping("signup")
+	@GetMapping("signUp")
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
-		return "users/signup";
+		return "users/signUp";
 	}
 	
-	@PostMapping("signup")
+	@PostMapping("signUp")
 	public String signup(@Valid User user, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "users/signup";
+			return "users/signUp";
 		}
 		String authority = "ROLE_USER";
 		userService.addUser(user);
