@@ -11,10 +11,10 @@
 <h1 th:text="#{user}">회원</h1>
 <ul sec:authorize="isAnonymous()">
 	<li><a href="#" th:href="@{/users/login}" th:text="#{login}">로그인</a></li>
-	<li><a href="#" th:href="@{/users/signUp}" th:text="#{signUp}">회원가입</a></li>
+	<li><a href="#" th:href="@{/users/signUp}" th:text="#{sign.up}">회원가입</a></li>
 </ul>
 <ul sec:authorize="isAuthenticated()">
-	<li><a href="#" th:href="@{/users/editAccount}" th:text="#{edit.account}">내 정보 수정</a></li>
+	<li><a href="#" th:href="@{/users/editAccount}" th:text="#{edit.my.account}">내 정보 수정</a></li>
 	<li><a href="#" th:href="@{/users/changePassword}" th:text="#{change.password}">비밀번호 변경</a></li>
 </ul>
 </th:block>

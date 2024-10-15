@@ -13,7 +13,6 @@
 <h2 th:text="#{login}">로그인</h2>
 
 <div th:if="${param.error}" th:text="#{login.error}">사용자명과 패스워드가 유효하지 않습니다.</div>
-<div th:if="${param.logout}" th:text="#{logout.done}">로그아웃되었습니다.</div>
 <form th:action="@{/login}" th:method="post">
 <table>
 <tr>
@@ -27,7 +26,7 @@
 </table>
 <div>
     <input type="submit" value="전송" th:value="#{submit}" />
-    <a href="#" th:href="@{/users/signUp}"><button type="button" th:text="#{signUp}">회원가입</button></a>
+    <a href="#" th:href="@{/users/signUp}"><button type="button" th:text="#{sign.up}">회원가입</button></a>
 </div>
 </form>
 

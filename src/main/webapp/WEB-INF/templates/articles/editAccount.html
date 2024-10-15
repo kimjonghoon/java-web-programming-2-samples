@@ -1,14 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title th:text="#{edit.account}">내 정보 수정</title>
-<meta name="Keywords" content="내 정보 수정" th:content="#{edit.account}" />
-<meta name="Description" content="내 정보 수정" th:content="#{edit.account}" />
+<title th:text="#{edit.my.account}">내 정보 수정</title>
+<meta name="Keywords" content="내 정보 수정" th:content="#{edit.my.account}" />
+<meta name="Description" content="내 정보 수정" th:content="#{edit.my.account}" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
 </head>
 <body>
 <article>
-<h3 th:text="#{edit.account}">내 정보 수정</h3>
+<h3 th:text="#{edit.my.account}">내 정보 수정</h3>
 <p>
 <a href="#" th:href="@{/users/changePassword}"><button type="button" th:text="#{change.password}">비밀번호 변경</button></a>
 </p>

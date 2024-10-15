@@ -22,11 +22,11 @@
 		<div id="member">
 		<th:block sec:authorize="isAnonymous()">
 		  <a href="#" th:href="@{/users/login}"><button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')">로그인</button></a>
-		  <a href="#" th:href="@{/users/signUp}"><button type="button" th:text="${lang == null} ? #{signUp} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
+		  <a href="#" th:href="@{/users/signUp}"><button type="button" th:text="${lang == null} ? #{sign.up} : (${lang == 'ko'} ? _ : 'Sing Up')">회원가입</button></a>
 		</th:block>
 		<th:block sec:authorize="isAuthenticated()">
 		  <a href="#" id="logout"><button type="button" th:text="${lang == null} ? #{logout} : (${lang == 'ko'} ? _ : 'Logout')">로그아웃</button></a>
-		  <a href="#" th:href="@{/users/editAccount}"><button type="button" th:text="${lang == null} ? #{edit.account} : (${lang == 'ko'} ? _ : 'Edit Account')">내 정보 수정</button></a>
+		  <a href="#" th:href="@{/users/editAccount}"><button type="button" th:text="${lang == null} ? #{edit.my.account} : (${lang == 'ko'} ? _ : 'Edit Account')">내 정보 수정</button></a>
 		</th:block>
 		<form id="logoutForm" th:action="@{/logout}" th:method="post" style="display:none"></form>
 		<script>
