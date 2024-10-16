@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title th:text="#{admin}">관리자</title>
+<meta name="Keywords" content="관리자" th:content="#{admin}" />
+<meta name="Description" content="관리자" th:content="#{admin}" />
+<link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+<script>
+$(document).ready(function() {
+	$('.del-user-link').click(function(e) {
+		e.preventDefault();
+		var check = confirm('정말로 삭제할까요?");
+		if (check) {
+			var username = this.title;
+			$('#delUserForm input[nmae*=username]').val(username);
+			$('#delUserform').submit();
+		}
+	});
+});
+</script>
+</head>
+
+<body>
+<article>
+<h3 th:text="#{sign.up}">회원명부</h3>
+<table class="bbs-table">
+<tr>
+	<th>No</th>
+	<th>사용자명</th>
+	<th>권한</th>
+	<th>&nbsp;</th>
+</tr>
+<tr>
+	<td>3</td>
+	<td>hannah</td>
+	<td>[ROLE_USER]</td>
+	<td>
+		<a href="/admin/editAccount?username=usename&page=1&search="><button type="button">수정</button></a>
+		<a href="#" class="del-user-link"><button type="button">삭제</button></a>
+	</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>hannah</td>
+	<td>[ROLE_USER]</td>
+	<td><button type="button">수정</button><button type="button">삭제</button></td>
+</tr>
+<tr>
+	<td>1</td>
+	<td>hannah</td>
+	<td>[ROLE_USER]</td>
+	<td><button type="button">수정</button><button type="button">삭제</button></td>
+</tr>
+</table>
+<div id="paging">
+	<a href="#">[처음]</a>
+	<a href="#">[1]</a>
+	<a href="#">[2]</a>
+	<a href="#">[3]</a>
+	<a href="#">[4]</a>
+	<a href="#">[5]</a>
+	<a href="#">[다음]</a>
+	<a href="#">[마지막]</a>
+</div>
+<form>
+	<input type="hidden" name="page" />
+	<input type="text" name="search" /><input type="submit" value="검색" />
+</form>
+<form id="delUserForm" th:action="@{/admin/delUser}" th:method="post">
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="search" value="" />
+    <input type="hidden" name="username" />
+</form>
+</article>
+
+</body>
+</html>
