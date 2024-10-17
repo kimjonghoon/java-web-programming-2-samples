@@ -277,3 +277,42 @@ article > ol > li {
 	margin: 0;
 	padding: 0;
 }  
+.bbs-table {
+	width: 100%;
+	margin: 0.7em 0 0 0;
+}
+.bbs-table th {
+	color: #92B91C;
+	border-top: 1px solid #92B91C;
+	border-bottom: 1px solid #92B91C;
+}
+.bbs-table td {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border-bottom: 1px solid silver;
+	line-height: 1.45;
+}
+.bbs-table td a {
+	color: #555;
+	text-decoration: none;
+}
+.bbs-table td a:hover {
+	color: #555;
+	text-decoration: underline;
+}
+#paging {
+	text-align: center;
+	font-size: 13px;
+}
+#paging > a {
+	color: #555;
+	text-decoration: none;
+}
+#paging > a:hover {
+	color: #555;
+	text-decoration: underline;
+}
+.bbs-strong {
+	color: #FFA500;
+	font-weight: bold;
+}
