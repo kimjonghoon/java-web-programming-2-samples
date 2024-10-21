@@ -22,12 +22,12 @@ $(document).ready(function() {
 
 <body>
 <article>
-<h3 th:text="#{sign.up}">회원명부</h3>
+<h3 th:text="#{user.list}">회원명부</h3>
 <table class="bbs-table">
 <tr>
 	<th>No</th>
 	<th>사용자명</th>
-	<th>권한</th>
+	<th>Role</th>
 	<th></th>
 </tr>
 <tr>
@@ -74,6 +74,7 @@ $(document).ready(function() {
 	<input type="text" name="search" />
 	<input type="submit" value="검색" th:value="#{search}" />
 </form>
+
 <table class="bbs-table">
 <tr>
 	<td>Username</td>
@@ -86,31 +87,43 @@ $(document).ready(function() {
 <tr>
 	<td>Enabled</td>
 	<td>
-		<input type="radio" name="enabled" value="true" />
-		<input type="radio" name="enabled" value="false" />
+		<input type="radio" name="enabled" value="true" />true
+		<input type="radio" name="enabled" value="false" />false
 		<input type="submit" value="전송" />
 	</td>
 </tr>
+</table>
+
+<table>
 <tr>
 	<td>New Password</td>
 	<td>
-		<input type="Password" name="password" />
+		<input type="password" name="password" />
 		<input type="submit" value="전송" />
 	</td>
 </tr>
+</table>
+
+<table>
 <tr>
 	<td>Role</td>
-	<td>ROLE_USER</td>
+	<td>
+		ROLE_USER
+		<a href="#" title="" class="del-auth-link">x</a>
+	</td>
 </tr>
 <tr>
 	<td>Add</td>
 	<td>
 		<select name="role">
-			<option value="ROLE_USER" />
-			<option value="ROLE_ADMIN" />
+			<option value="ROLE_USER" selected="selected">ROLE_USER</option>
+			<option value="ROLE_ADMIN">ROLE_ADMIN</option>
 		</select>
+		<input type="submit" value="전송" />
 	</td>
 </tr>
+</table>
+
 </table>
 <form id="delUserForm" th:action="@{/admin/delUser}" th:method="post">
     <input type="hidden" name="page" />
