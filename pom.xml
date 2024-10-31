@@ -60,6 +60,11 @@
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-jdbc</artifactId>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-data -->
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-data</artifactId>
+</dependency>
 	<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
 	<dependency>
 		<groupId>com.oracle.database.jdbc</groupId>

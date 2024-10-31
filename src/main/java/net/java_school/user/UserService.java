@@ -1,6 +1,7 @@
 package net.java_school.user;
 
-import org.springframework.security.access.method.P;
+import org.springframework.data.repository.query.Param; 
+//import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface UserService {
@@ -13,5 +14,5 @@ public interface UserService {
 	public int changePassword(String currentPassword, String newPassword, String username);
 
 	@PreAuthorize("hasRole('ADMIN') or #username == principal.username")
-	public String getPassword(@P("username") String username);
+	public String getPassword(@Param("username") String username);
 }
