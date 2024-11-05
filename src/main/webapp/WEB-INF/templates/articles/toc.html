@@ -4,7 +4,11 @@
 <title>목차</title>
 <meta name="Keywords" content="목차" />
 <meta name="Description" content="목차" />
+<link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
+<script src="../../../static/js/prettify.js"></script>
+<script src="../../../static/js/run-prettify.js"></script>
 </head>
 
 <body>
@@ -13,13 +17,384 @@
 
 <h1>개발환경 준비</h1>
 
-<h3>Java 설치</h3>
+<h3>Java</h3>
 
-<h3>Maven 설치</h3>
+<p>
+https://www.oracle.com/java/technologies/downloads<br />
+페이지에서 최신 x64 Installer를 내려받습니다.<br />
+</p>
 
-<h3>Git 설치</h3>
+<p>
+<img src="../../../static/images/java-latest-x64-installer.png" th:src="@{/static/images/java-latest-x64-installer.png}" alt="최신 자바 x64 Installer 선택" /><br />
+</p>
 
-<h3>Vim 설치</h3>
+<p>
+내려받은 파일을 실행하고, 다음 버튼을 계속 눌러 설치를 완료합니다.<br />
+</p>
+
+<p>
+설치 후, <strong>시스템 - 고급 시스템 설정 - 환경 변수(N)...</strong>을 선택합니다.<br />
+<strong>사용자 변수</strong>에서 <strong>새로 만들기(N)...</strong> 버튼을 누르고, 
+자바 설치 폴더를 값으로 하는 환경 변수 <strong>JAVA_HOME</strong>을 생성합니다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/win11-system.png" th:src="@{/static/images/win11-system.png}" alt="시작 - 시스템" />
+</p>
+
+<p>
+<img src="../../../static/images/win11-advanced.png" th:src="@{/static/images/win11-advanced.png}" alt="고급 시스템 설정" />
+</p>
+
+<p>
+<img src="../../../static/images/win11-variables.png" th:src="@{/static/images/win11-variables.png}" alt="환경 변수" />
+</p>
+
+<p>
+<img src="../../../static/images/user-variables-new-button.png" th:src="@{/static/images/user-variables-new-button.png}" alt="사용자 환경 변수 새로 만들기" />
+</p>
+
+<p>
+<img src="../../../static/images/win11-java_home.png" th:src="@{/static/images/win11-java_home.png}" alt="JAVA_HOME" />
+</p>
+
+<p>
+사용자 변수에서 Path를 선택하고, <strong>편집(E)...</strong> 버튼을 누릅니다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/user-variables-path-edit.png" th:src="@{/static/images/user-variables-path-edit.png}" alt="사용자 환경 변수 Path 편집" />
+</p>
+
+<p>
+<strong>새로 만들기(N)</strong> 버튼을 누르고 <strong>%JAVA_HOME%\bin</strong>을 입력합니다.
+</p>
+
+<p>
+<img src="../../../static/images/add-java_home-to-path.png" th:src="@{/static/images/add-java_home-to-path.png}" alt="사용자 환경 변수 Path에 JDK의 bin 폴더 추가" />
+</p>
+
+<p>
+사용자 변수 Path에 추가한 경로는 자동으로 시스템 변수 Path에 추가됩니다.<br />
+시스템 변수 Path를 확인하려면, 명령 프롬프트를 관리자 권한으로 실행하고 echo %PATH%를 실행합니다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/run-comand-prompt-by-admin.png" th:src="@{/static/images/run-command-prompt-by-admin.png}" alt="명령 프롬프트를 관리자 권한으로 실행" />
+</p>
+
+<p>
+;로 구분된 경로에서 JDK의 bin 경로가 있는지 확인합니다.
+</p>
+
+<pre class="commandLine">C:\Windows\System32&gt; <strong>echo %PATH%</strong>
+
+C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;<strong>C:\Program Files\Java\jdk-22\bin;</strong>
+</pre>
+
+<h3>Maven</h3>
+
+<p>
+https://maven.apache.org/download.cgi<br />
+페이지에서 최신 버전의 바이너리 파일(Binary zip archive)을 내려받습니다.<br />
+압축을 풀고 생성된 폴더를 원하는 곳에 옮깁니다.<br />
+다음, 사용자 변수 Path에 메이븐 bin 경로를 추가합니다.<br />
+경로 추과 과정은 자바의 경우를 참고합니다. 자바처럼 MAVEN_HOME을 만들 필요는 없습니다.<br />
+</p>
+
+<p>
+명령 프롬프트를 열고, mvn -v를 실행하여 설치된 메이븐 버전을 확인합니다.<br />
+</p>
+
+<pre class="commandLine">mvn -v</pre>
+
+<p>
+출력 화면에서, 설치한 자바 버전이 출력되는지 확인합니다.<br />
+</p>
+
+<h3>Git</h3>
+
+<p>
+https://git-scm.com/download/win<br />
+페이지에서 <strong>64-bit Git for Windows Setup</strong> 파일을 내려받습니다.<br />
+파일 실행 후, 옵션은 모두 디폴트로 선택해 설치합니다.<br />
+</p>
+
+<p>
+명령 프롬프트에서 git --version을 실행해 설치된 깃 버전을 확인합니다.<br />
+</p>
+
+<pre class="commandLine">git --version</pre>
+
+<p>
+아래를 참고해, 사용자 이름과 이메일을 설정합니다.<br />
+</p>
+
+<pre class="commandLine">git config --global user.name <em>"Gildong Hong"</em>
+git config --global user.email <em>hong@gmail.org</em>
+</pre>
+
+<p>
+설정이 제대로인지 확인합니다.<br />
+</p>
+
+<pre class="commandLine">git config --global --list</pre>
+
+<p>
+책 예제 소스를 관리하기 위해서 https://github.com 사이트에 가입합니다.<br />
+로그인 상태에서 윈도 버전의 gh를 설치합니다.<br />
+https://cli.github.com 페이지에서 Download for Windows 클릭하여 msi 파일을 내려받습니다.<br />
+설치 후, gh auth login을 실행합니다.<br />
+</p>
+
+<pre class="commandLine">gh auth login</pre>
+
+<p>
+아래처럼 선택합니다.<br />
+</p>
+
+<pre class="commandLine">? What account do you want to log into? <strong>GitHub.com</strong>
+? What is your preferred protocol for Git operations? <strong>HTTPS</strong>
+? Authenticate Git with your GitHub credentials? <strong>Yes</strong>
+? How would you like to authenticate GitHub CLI? <strong>Login with a web browser</strong>
+</pre>
+
+<p>
+선택을 완료하면 원-타임 비밀번호가 출력에 추가됩니다.<br />
+</p>
+
+<pre class="commandLine">! First copy your one-time code: <em>one-time code</em> 
+- Press Enter to open github.com in your browser...
+</pre>
+
+<p>
+<img src="../../../static/images/Device-Activation-selection.png" th:src="@{/static/images/device-activation-selection.png}" alt="Device Activation selection" />
+</p>
+
+<p>
+명령 프롬프트에 출력된 원타임 비밀번호를 복사하고 엔터를 치면, 웹 브라우저가 실행되고 비밀번호를 입력할 수 있는 페이지가 보입니다.<br />
+명령 프롬프트에 표시된 비밀번호를 페이지에 붙여 넣습니다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/Device-Activation-onetime.png" th:src="@{/static/images/device-activation-onetime.png}" alt="Device Activation one time code" />
+</p>
+
+<p>
+다음 화면이 보이면 완료된 겁니다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/Authorize-GitHub-CLI.png" th:src="@{/static/images/authorize-github-cli.png}" alt="Authorize GitHub CLI" />
+</p>
+
+<p>
+<img src="../../../static/images/Your-device-is-now-connected.png" th:src="@{/static/images/your-device-is-now-connected.png}" alt="Your device is now connected" />
+</p>
+
+<p>
+https://github.com 사이트에서 예제를 관리할 프로젝트를 만듭니다.<br />
+무료 계정도 private 프로젝트를 만들 수 있습니다.<br />
+책 예제인 만큼 public으로 프로젝트를 만듭니다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/Create-a-new-repository-1.png" th:src="@{/static/images/create-a-new-repository-1.png}" alt="Create a new repository new button click" />
+</p>
+
+<p>
+<img src="../../../static/images/Create-a-new-repository-2.png" th:src="@{/static/images/create-a-new-repository-2.png}" alt="Create a new repository form" />
+</p>
+
+<p>
+https://www.toptal.com/developers/gitignore<br />
+사이트에서 .gitignore 파일을 만듭니다.<br />
+자바 프로젝트이므로 java를 입력하고 생성하면 기본적인 자바 프로젝트에서 사용할 .gitignore 파일을 만들 수  있습니다.<br />
+</p>
+
+<p>
+https://github.com 사이트에서 생성한 레포지터리를 클릭합니다.
+웹 브라우저 주소창에서 주소를 복사한 후, 명령 프롬프트에 git clone 다음에 레포지터리 주소를 복사합니다.
+레포지터리 이름이 jwp2samples라면 같은 이름이 폴더가 명령을 수행한 폴더에 서브 폴더로 생깁니다.
+cd jwp2samples로 이동한 후 README.md 파일을 열고 다음과 같이 작성합니다.
+</p>
+
+<div class="filename">README.md</div>
+<pre class="prettyprint">Java Web Programming 2 Samples
+==============================
+
+## A Bulletin Board Program with
+* Spring MVC
+* Spring Security
+* MyBatis Spring
+* Bean Validation
+* i18n
+* Thymeleaf
+
+## How to run
+**mvn clean jetty:run**
+</pre>
+
+<p>
+깃허브 저장소에 변경된 내용을 반영합니다.<br />
+</p>
+
+<pre class="commandLine">git add . -A
+git commit -m "first commit"
+git push
+</pre>
+
+<p>
+에제를 실행하면서 갱신된 내용이 있으면 위 과정을 실행합니다.<br />
+</p>
+
+<p>
+다른 곳이나 시스템에서 깃허브의 프로젝트의 내용을 따라가려면 다음을 실행합니다.<br />
+</p>
+
+<pre class="commandLine">git fetch orign
+git reset --hard orgin/main
+</pre>
+
+<p>
+git 간편 안내서<br />
+https://rogerdudler.github.io/git-guide/index.ko.html<br />
+</p>
+
+<h3>Vim</h3>
+<p>
+https://www.vim.org/download.php<br />
+페이지에서 <strong>gvim_9.1.0_x64_signed.exe (64bit installer)</strong>를 내려받고, 
+모든 옵션을 디폴트로 선택해 설치합니다.<br />
+</p>
+
+<p>
+Vim 설치 폴더(C:\Program Files\Vim\vim91)를 환경 변수 Path에 추가합니다.<br />
+</p>
+
+<p>
+vim 명령 대신 vi를 사용하려면, 명령 프롬프트에서 다음을 실행합니다.<br />
+</p>
+
+<pre class="commandLine">Set-Alias vi vim</pre>
+
+<p>
+Vim을 설치하면 명령 프롬프트에서, 유닉스와 리눅스에서 사용했던, 몇몇 유용한 명령을 실행할 수 있습니다.<br />
+</p>
+
+<p>
+명령 프롬프트를 실행하고 ctrl 키와 r를 동시에 누릅니다.
+-- 이후부터 이 작업을 ctrl + r이라 표현하겠습니다--<br />
+한 줄 아래에서 bck-i-search: 다음에 사용자 입력을 기다립니다.<br />
+</p>
+
+<pre class="commandLine">PS C:\Users\javaschool&gt;
+bck-i-search: _
+</pre>
+
+<p>
+문자를 입력할 때마다 문자가 포함된 명령 히스토리를 보여줍니다.<br />
+엔터를 치면 명령이 실행됩니다. 또는 esc 키를 눌러 명령을 수정할 수 있습니다.<br />
+</p>
+
+<p>
+git r만 치면, 명령 히스토리에서 찾아 git reset --hard origin/main을 보여줍니다.<br />
+</p>
+
+<pre class="commandLine"><strong>git r</strong>eset --hard origin/main
+bck-i-search: git r
+</pre>
+
+<p>
+엔터를 치면 git reset --hard orgin/main이 실행됩니다.<br />
+</p>
+
+<p>
+윈도에 Vim을 설치한 이유는 리눅스의 몇몇 유용한 명령을 사용할 수 있고 간단한 문서 편집 작업을 위해서입니다.<br />
+윈도에서 문서 작성에 Vim만 사용하는 건 리눅스에서와 달리 무리입니다.<br />
+전문적인 문서 편집을 위해선 Notepad++을 추천합니다.<br />
+https://notepad-plus-plus.org/downloads/<br />
+자바 소스 편집을 위한 IDE로는 이클립스를 추천합니다.<br />
+https://www.eclipse.org/<br />
+</p>
+
+<h3>Oracle</h3>
+
+<p>
+Oracle Database 11gR2 Express Edition--Express Edition을 XE라고 줄여 쓴다--
+윈도에 오라클 11g XE 설치
+</p>
+
+<p>
+https://www.oracle.com/database/technologies/xe-prior-release-downloads.html<br />
+위 사이트를 방문해, 자신의 윈도 시스템에 맞는 Oracle Database 11gR2 Express Edition을 내려받는다. 오라클 웹사이트의 회원이 아니면 회원 가입을 하고 로그인해야 내려받을 수 있다.
+</p>
+
+<p>
+윈도는 오라클이 지원하는 운영체제이니 오라클이 쉽게 설치된다. 압축을 풀고 Disk1 디렉터리에서 setup.exe를 실행한 후, 다음 버튼을 계속 눌러 설치할 수 있다. 설치 과정에서 관리자 계정의 비밀번호는 기억해야 한다.
+</p>
+
+<p>
+윈도의 경우 오라클 설치 과정에서 오라클 XDB의 디폴트 포트 8080을 변경할 수 없다. 설치 후 XDB의 8080 포트를 9090으로 바꾸는 방법은 다음과 같다.
+</p>
+
+<pre class="prettyprint">C:\Users&gt; sqlplus
+Enter user-name: system
+Enter password:
+Connected.
+
+SQL&gt; Exec DBMS_XDB.SETHTTPPORT(9090);
+
+PL/SQL procedure successfully completed.
+
+SQL&gt;
+</pre>
+
+<pre class="prettyprint">C:\Users&gt; sqlplus
+Enter user-name: system
+Enter password:
+Connected.
+SQL&gt; @C:\oraclexe\app\oracle\product\11.2.0\server\rdbms\admin\scott.sql
+SQL&gt;
+</pre>
+
+<pre class="prettyprint">C:\User&gt; sqlplus scott/tiger
+
+SQL&gt;
+</pre>
+
+<h3>Tomcat</h3>
+
+<p>
+https://tomcat.apache.org/download-10.cgi<br />
+페이지에서 10.1.xx 버전의 <strong>64-bit Windows zip</strong>을 내려받아 압축을 풀고, 
+생성된 폴더를 원하는 곳으로 옮깁니다.<br />
+폴더 이름 tomcat10처럼 쉬운 이름으로 바꿉니다. (예, C:\tomcat10)
+</p>
+
+<p>
+bin 폴더에서 startup.bat를 실행하면 톰캣이 실행되고, shutdown.bat를 실행하면 종료됩니다.<br />
+</p>
+
+<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
+
+<p>
+startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 톰캣이 실행되는데, 이때 새 명령 프롬프트 창에서 글자가 깨져서 보입니다. 해결하려면, 톰캣 하위 폴더 conf/에서 logging.properties 파일을 열고 다음 줄의 인코딩 설정을 UTF-8 에서 EUC-KR로 변경합니다. 다음 실행부터 글자는 깨지지 않습니다.<br />
+</p>
+
+<pre class="prettyprint no-border">java.util.logging.ConsoleHandler.encoding = <strong>EUC-KR</strong></pre>
+
+<p>
+<img src="../../../static/images/logging_properties.png" th:src="@{/static/images/logging_properties.png}" alt="logging.properties 편집" />
+</p>
+
+<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\shutdown.bat</strong></pre>
+
+<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
+
+<p>
+<img src="../../../static/images/logging_properties2.png" th:src="@{/static/images/logging_properties2.png}" alt="logging.properties 편집 결과" />
+</p>
 
 <h1>1장 Thymeleaf</h1>
 

@@ -8,6 +8,18 @@ form {
 	margin: 0;
 	padding: 0;
 }
+pre {
+	white-space: pre-wrap;
+	hyphens: none;
+}
+.commandLine {
+	background: #eee;
+	padding: 0.25em;
+}
+div.filename {
+	margin: 0.7em 0 0 0;
+	font-size: 0.9em;
+}
 a:link {
 	color: #2C80D0;
 	text-decoration: none;
