@@ -16,7 +16,7 @@
 
 <div id="i18n">
   <a th:href="@{/ko}">korean</a>
-  <a th:href="@{/en}">english</a> 
+  <a th:href="@{/en}">english</a>
 </div>
 
 <section th:replace="${#locale.language == 'ko'} ? ~{articles/toc :: article} : ~{articles/toc_en :: article}"></section>
