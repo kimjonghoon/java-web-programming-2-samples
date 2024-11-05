@@ -7,6 +7,7 @@
 <link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
+<script src="../../../static/js/jquery.js"></script>
 <script src="../../../static/js/prettify.js"></script>
 <script src="../../../static/js/run-prettify.js"></script>
 </head>
@@ -80,7 +81,7 @@ https://www.oracle.com/java/technologies/downloads<br />
 </p>
 
 <p>
-<img src="../../../static/images/run-comand-prompt-by-admin.png" th:src="@{/static/images/run-command-prompt-by-admin.png}" alt="명령 프롬프트를 관리자 권한으로 실행" />
+<img src="../../../static/images/run-command-prompt-by-admin.png" th:src="@{/static/images/run-command-prompt-by-admin.png}" alt="명령 프롬프트를 관리자 권한으로 실행" />
 </p>
 
 <p>
@@ -168,7 +169,7 @@ https://cli.github.com 페이지에서 Download for Windows 클릭하여 msi 파
 </pre>
 
 <p>
-<img src="../../../static/images/Device-Activation-selection.png" th:src="@{/static/images/device-activation-selection.png}" alt="Device Activation selection" />
+<img src="../../../static/images/device-activation-selection.png" th:src="@{/static/images/device-activation-selection.png}" alt="Device Activation selection" />
 </p>
 
 <p>
@@ -177,7 +178,7 @@ https://cli.github.com 페이지에서 Download for Windows 클릭하여 msi 파
 </p>
 
 <p>
-<img src="../../../static/images/Device-Activation-onetime.png" th:src="@{/static/images/device-activation-onetime.png}" alt="Device Activation one time code" />
+<img src="../../../static/images/device-activation-onetime.png" th:src="@{/static/images/device-activation-onetime.png}" alt="Device Activation one time code" />
 </p>
 
 <p>
@@ -185,11 +186,11 @@ https://cli.github.com 페이지에서 Download for Windows 클릭하여 msi 파
 </p>
 
 <p>
-<img src="../../../static/images/Authorize-GitHub-CLI.png" th:src="@{/static/images/authorize-github-cli.png}" alt="Authorize GitHub CLI" />
+<img src="../../../static/images/authorize-github-cli.png" th:src="@{/static/images/authorize-github-cli.png}" alt="Authorize GitHub CLI" />
 </p>
 
 <p>
-<img src="../../../static/images/Your-device-is-now-connected.png" th:src="@{/static/images/your-device-is-now-connected.png}" alt="Your device is now connected" />
+<img src="../../../static/images/your-device-is-now-connected.png" th:src="@{/static/images/your-device-is-now-connected.png}" alt="Your device is now connected" />
 </p>
 
 <p>
@@ -199,11 +200,11 @@ https://github.com 사이트에서 예제를 관리할 프로젝트를 만듭니
 </p>
 
 <p>
-<img src="../../../static/images/Create-a-new-repository-1.png" th:src="@{/static/images/create-a-new-repository-1.png}" alt="Create a new repository new button click" />
+<img src="../../../static/images/create-a-new-repository-1.png" th:src="@{/static/images/create-a-new-repository-1.png}" alt="Create a new repository new button click" />
 </p>
 
 <p>
-<img src="../../../static/images/Create-a-new-repository-2.png" th:src="@{/static/images/create-a-new-repository-2.png}" alt="Create a new repository form" />
+<img src="../../../static/images/create-a-new-repository-2.png" th:src="@{/static/images/create-a-new-repository-2.png}" alt="Create a new repository form" />
 </p>
 
 <p>
@@ -338,28 +339,23 @@ https://www.oracle.com/database/technologies/xe-prior-release-downloads.html<br 
 윈도의 경우 오라클 설치 과정에서 오라클 XDB의 디폴트 포트 8080을 변경할 수 없다. 설치 후 XDB의 8080 포트를 9090으로 바꾸는 방법은 다음과 같다.
 </p>
 
-<pre class="prettyprint">C:\Users&gt; sqlplus
-Enter user-name: system
+<pre class="commandLine">C:\Users&gt; <strong>sqlplus</strong>
+Enter user-name: <strong>system</strong>
 Enter password:
 Connected.
 
-SQL&gt; Exec DBMS_XDB.SETHTTPPORT(9090);
+SQL&gt; <strong>Exec DBMS_XDB.SETHTTPPORT(9090);</strong>
 
 PL/SQL procedure successfully completed.
 
 SQL&gt;
 </pre>
 
-<pre class="prettyprint">C:\Users&gt; sqlplus
-Enter user-name: system
+<pre class="commandLine">C:\Users&gt; <strong>sqlplus</strong>
+Enter user-name: <strong>system</strong>
 Enter password:
 Connected.
-SQL&gt; @C:\oraclexe\app\oracle\product\11.2.0\server\rdbms\admin\scott.sql
-SQL&gt;
-</pre>
-
-<pre class="prettyprint">C:\User&gt; sqlplus scott/tiger
-
+SQL&gt; <strong>@C:\oraclexe\app\oracle\product\11.2.0\server\rdbms\admin\scott.sql</strong>
 SQL&gt;
 </pre>
 
@@ -385,7 +381,7 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 <pre class="prettyprint no-border">java.util.logging.ConsoleHandler.encoding = <strong>EUC-KR</strong></pre>
 
 <p>
-<img src="../../../static/images/logging_properties.png" th:src="@{/static/images/logging_properties.png}" alt="logging.properties 편집" />
+<img src="../../../static/images/edit-logging-properties.png" th:src="@{/static/images/edit-logging-properties.png}" alt="logging.properties 편집" />
 </p>
 
 <pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\shutdown.bat</strong></pre>
@@ -393,7 +389,7 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 <pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
 
 <p>
-<img src="../../../static/images/logging_properties2.png" th:src="@{/static/images/logging_properties2.png}" alt="logging.properties 편집 결과" />
+<img src="../../../static/images/after-edit-logging-properties.png" th:src="@{/static/images/after-edit-logging-properties.png}" alt="logging.properties 편집 후 화면" />
 </p>
 
 <h1>1장 Thymeleaf</h1>
