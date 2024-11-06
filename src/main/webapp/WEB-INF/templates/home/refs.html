@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#extra {
+  margin-left: 0;
+|
+</style>
+</head>
+<body>
+<div id="extra" th:fragment="reference">
+<ul>
+	<li class="sub-heading" th:text="${lang == null} ? #{references} : (${lang == 'ko'} ? _ : 'References')">참고자료</li>
+	<li><a href="#" th:href="@{https://www.oracle.com/java/technologies/downloads/}">Java</a></li>
+	<li><a href="#" th:href="@{https://maven.apache.org/download.cgi}">Maven</a></li>
+	<li><a href="#" th:href="@{https://git-scm.com/download/win}">Git</a></li>
+	<li><a href="#" th:href="@{https://github.com}">GitHub</a></li>
+	<li><a href="#" th:href="@{https://cli.github.com}">Git Cli</a></li>
+	<li><a href="#" th:href="@{https://www.toptal.com/developers/gitignore}">.gitignore</a></li>
+	<li><a href="#" th:href="@{https://rogerdudler.github.io/git-guide/index.ko.html}">Git Guide</a></li>
+	<li><a href="#" th:href="@{https://www.vim.org/download.php}">Vim</a></li>
+	<li><a href="#" th:href="@{https://www.eclipse.org/}">Eclipse</a></li>
+	<li><a href="#" th:href="@{https://notepad-plus-plus.org/downloads/}">Notepad++</a></li>
+	<li><a href="#" th:href="@{https://www.oracle.com/database/technologies/xe-prior-release-downloads.html}">Oracle 11g XE</a></li>
+	<li><a href="#" th:href="@{https://tomcat.apache.org/download-10.cgi}">Tomcat 10</a></li>
+</ul>
+</div>
+</body>
+</html>

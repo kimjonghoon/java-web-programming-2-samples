@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <!--*/ 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
-<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:replace="~{articles/toc :: title}">홈페이지</title>
 <meta name="Keywords" th:replace="~{articles/toc :: meta[@name='Keywords']}" />
 <meta name="Description" th:replace="~{articles/toc :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/ko.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
+<script th:src="@{/static/js/prettify.js}"></script>
+<script th:src="@{/static/js/run-prettify.js}"></script>
 </head>
 <body>
 
@@ -18,6 +21,8 @@
 <section th:replace="~{articles/toc :: article}"></section>
 
 <aside th:replace="~{home/menu :: index}"></aside>
+
+<footer th:replace="~{home/refs :: reference}"></footer>
 
 </body>
 </html>
