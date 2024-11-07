@@ -19,26 +19,41 @@ public class HomeController {
 		return lang + "/index";
 	}
 
-	@GetMapping("{chapter:thymeleaf|spring-security}")
-	public String chapterIndex(@PathVariable("chapter") String chapter) {
-		return chapter + "/index";
-	}
-	
-	@GetMapping("{chapter:thymeleaf|spring-security}/{section}")
-	public String getSection(@PathVariable("chapter") String chapter, @PathVariable("section") String section) {
-		return chapter + "/" + section;
+	/*
+	 * @GetMapping("{chapter:thymeleaf|spring-security}") public String
+	 * chapterIndex(@PathVariable("chapter") String chapter) { return chapter +
+	 * "/index"; }
+	 */	
+	@GetMapping(value={"{chapter:thymeleaf|spring-security}", 
+			"{chapter:thymeleaf|spring-security}/{section}"})
+	public String getSection(@PathVariable("chapter") String chapter, 
+			@PathVariable(value="section", required=false) String section) {
+		
+		if (section != null) {
+			return chapter + "/" + section;
+		} else {
+			return chapter + "/index";
+		}
 	}
 
-	@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}")
-	public String chapterIndexByLang(@PathVariable("lang") String lang, @PathVariable("chapter") String chapter, Model model) {
+	/*
+	 * @GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}") public String
+	 * chapterIndexByLang(@PathVariable("lang") String
+	 * lang, @PathVariable("chapter") String chapter, Model model) {
+	 * model.addAttribute("lang", lang); return lang + "/" + chapter + "/index"; }
+	 */
+	@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security}", 
+			"{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}"})
+	public String getSectionByLang(@PathVariable("lang") String lang, 
+			@PathVariable("chapter") String chapter, 
+			@PathVariable(value="section", required=false) String section, 
+			Model model) {
+		
 		model.addAttribute("lang", lang);
-		return lang + "/" + chapter + "/index";
+		
+		if (section != null)
+			return lang + "/" + chapter + "/" + section;
+		else 
+			return lang + "/" + chapter + "/index";
 	}
-
-	@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}")
-	public String getSectionByLang(@PathVariable("lang") String lang, @PathVariable("chapter") String chapter, @PathVariable("section") String section, Model model) {
-		model.addAttribute("lang", lang);
-		return lang + "/" + chapter + "/" + section;
-	}
-
 }
