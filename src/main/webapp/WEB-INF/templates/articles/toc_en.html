@@ -5,6 +5,9 @@
 <meta name="Keywords" content="TOC" />
 <meta name="Description" content="TOC" />
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
+<script src="../../../static/js/prettify.js"></script>
+<script src="../../../static/js/run_prettify.js"></script>
 </head>
 
 <body>
@@ -15,11 +18,335 @@
 
 <h3>Java</h3>
 
+<p>
+https://www.oracle.com/java/technologies/downloads<br />
+</p>
+
+<p>
+<img src="../../../static/images/java-latest-x64-installer.png" th:src="@{/static/images/java-latest-x64-installer.png}" alt="최신 자바 x64 Installer 선택" /><br />
+</p>
+
+<p>
+Run the JDK Installer.<br>
+You can complete the installation simply by clicking the Next button.<br>
+The installed JDK directory is <strong>C:\Program Files\Java\jdk-22</strong>.
+</p>
+
+<p>
+Create the JAVA_HOME environment variable as follows:
+</p>
+
+<p>
+Open <strong>Start</strong><br />
+<strong>System</strong><br />
+<strong>Advanced System Settings</strong><br />
+<strong>Environment Variables(N)...</strong><br />
+Under the "User variables for someson" section, click the <strong>New</strong> button.<br />
+Type JAVA_HOME in the "Variable name" setting.<br />
+Type C:\Program Files\Java\jdk-22 in the "Variable values" setting.<br />
+Click the OK button.<br />
+Click the OK button.<br />
+</pre>
+
+<p>
+Run the command prompt as an administrator and execute <strong>echo %PATH%</strong> to confirm the JDK's bin path is in your Path.
+</p>
+
+<pre class="commandLine">C:\Windows\System32&gt; <strong>echo %PATH%</strong>
+
+C:\Program Files\Common Files\Oracle\Java\javapath;
+C:\Windows\system32;C:\Windows;
+C:\Windows\System32\Wbem;
+C:\Windows\System32\WindowsPowerShell\v1.0\;
+C:\Windows\System32\OpenSSH\;
+<strong>C:\Program Files\Java\jdk-22\bin;</strong>
+</pre>
+
 <h3>Maven</h3>
+
+<p>
+https://maven.apache.org/download.cgi<br />
+Download and unzip the latest binary version, copy the created directory to the location you want, and add Maven's bin path to the Path of the user variables.<br />
+</p>
+
+<pre class="commandLine">mvn -v</pre>
 
 <h3>Git</h3>
 
+<p>
+https://git-scm.com/download/win<br />
+Download <strong>64-bit Git for Windows Setup</strong>.
+You can complete the installation simply by clicking the Next button.<br />
+</p>
+
+<p>
+Add your name and email to your git config.
+</p>
+
+<pre class="commandLine">git config --global user.name "Jo Maso"
+git config --global user.email jo@gmail.org
+</pre>
+
+<p>
+Verify.
+</p>
+
+<pre class="commandLine">
+git config --global --list
+</pre>
+
+<h3>GitHub CLI</h3>
+
+<p>
+Sign up at https://github.com.<br />
+Install the Windows version of gh while logged in.<br />
+Click Download for Windows on the https://cli.github.com page to download the msi file.<br />
+After installation, run <strong>gh auth login</strong>.<br />
+</p>
+
+<pre class="commandLine">gh auth login</pre>
+
+<p>
+Select as below.<br />
+</p>
+
+<pre class="commandLine">? What account do you want to log into? <strong>GitHub.com</strong>
+? What is your preferred protocol for Git operations? <strong>HTTPS</strong>
+? Authenticate Git with your GitHub credentials? <strong>Yes</strong>
+? How would you like to authenticate GitHub CLI? <strong>Login with a web browser</strong>
+</pre>
+
+<p>
+Once you complete your selection, a one-time password will be added to the output.<br />
+</p>
+
+<pre class="commandLine">! First copy your one-time code: <em>one-time code</em> 
+- Press Enter to open github.com in your browser...
+</pre>
+
+<p>
+<img src="../../../static/images/device-activation-selection.png" th:src="@{/static/images/device-activation-selection.png}" alt="Device Activation selection" />
+</p>
+
+<p>
+Copy the one-time password displayed in the command prompt and press Enter.<br />
+A web browser will launch and you will see a page where you can enter your password.<br />
+Paste the password displayed in the command prompt into the page.
+</p>
+
+<p>
+<img src="../../../static/images/device-activation-onetime.png" th:src="@{/static/images/device-activation-onetime.png}" alt="Device Activation one time code" />
+</p>
+
+<p>
+<img src="../../../static/images/authorize-github-cli.png" th:src="@{/static/images/authorize-github-cli.png}" alt="Authorize GitHub CLI" />
+</p>
+
+<p>
+<img src="../../../static/images/your-device-is-now-connected.png" th:src="@{/static/images/your-device-is-now-connected.png}" alt="Your device is now connected" />
+</p>
+
+<p>
+Create a project to manage your examples on the https://github.com.
+</p>
+
+<p>
+<img src="../../../static/images/create-a-new-repository-1.png" th:src="@{/static/images/create-a-new-repository-1.png}" alt="Create a new repository new button click" />
+</p>
+
+<p>
+<img src="../../../static/images/create-a-new-repository-2.png" th:src="@{/static/images/create-a-new-repository-2.png}" alt="Create a new repository form" />
+</p>
+
+<p>
+https://www.toptal.com/developers/gitignore<br />
+This site helps you create a .gitignore file.<br />
+In the site input box, type java to get hints for the .gitignore file of a typical Java project.<br />
+</p>
+
+<p>
+Click on the repository you created on the https://github.com.<br />
+Copy the address from the web browser address bar.<br />
+Paste the copied address after git clone at the command prompt and press Enter.<br />
+If the repository name is jwp2samples, a folder with the same name will be created.<br />
+</p>
+
+<p>
+After going to jwp2samples, open the README.md file and write as follows:
+</p>
+
+<pre class="commandLine">cd jwp2samples
+vi README.md
+</pre>
+
+<div class="filename">README.md</div>
+<pre class="prettyprint">Java Web Programming 2 Samples
+==============================
+
+## A Bulletin Board Program with
+* Spring MVC
+* Spring Security
+* MyBatis Spring
+* Bean Validation
+* i18n
+* Thymeleaf
+
+## How to run
+**mvn clean jetty:run**
+</pre>
+
+<p>
+Save your changes to your GitHub repository.
+</p>
+
+<pre class="commandLine">git add . -A
+git commit -m "first commit"
+git push
+</pre>
+
+<p>
+To follow a GitHub repository from another computer, run:<br />
+</p>
+
+<pre class="commandLine">git fetch orign
+git reset --hard orgin/main
+</pre>
+
+<p>
+git Guide:<br />
+https://rogerdudler.github.io/git-guide/index.ko.html<br />
+</p>
+
 <h3>Vim</h3>
+
+<p>
+https://www.vim.org/download.php<br />
+페이지에서 <strong>gvim_9.1.0_x64_signed.exe (64bit installer)</strong>를 내려받고, 
+모든 옵션을 디폴트로 선택해 설치합니다.<br />
+</p>
+
+<p>
+Vim 설치 폴더(C:\Program Files\Vim\vim91)를 환경 변수 Path에 추가합니다.<br />
+</p>
+
+<p>
+vim 명령 대신 vi를 사용하려면, 명령 프롬프트에서 다음을 실행합니다.<br />
+</p>
+
+<pre class="commandLine">Set-Alias vi vim</pre>
+
+<p>
+Vim을 설치하면 명령 프롬프트에서, 유닉스와 리눅스에서 사용했던, 몇몇 유용한 명령을 실행할 수 있습니다.<br />
+</p>
+
+<p>
+명령 프롬프트를 실행하고 ctrl 키와 r를 동시에 누릅니다.
+-- 이후부터 이 작업을 ctrl + r이라 표현하겠습니다--<br />
+한 줄 아래에서 bck-i-search: 다음에 사용자 입력을 기다립니다.<br />
+</p>
+
+<pre class="commandLine">PS C:\Users\javaschool&gt;
+bck-i-search: _
+</pre>
+
+<p>
+문자를 입력할 때마다 문자가 포함된 명령 히스토리를 보여줍니다.<br />
+엔터를 치면 명령이 실행됩니다. 또는 esc 키를 눌러 명령을 수정할 수 있습니다.<br />
+</p>
+
+<p>
+git r만 치면, 명령 히스토리에서 찾아 git reset --hard origin/main을 보여줍니다.<br />
+</p>
+
+<pre class="commandLine"><strong>git r</strong>eset --hard origin/main
+bck-i-search: git r
+</pre>
+
+<p>
+엔터를 치면 git reset --hard orgin/main이 실행됩니다.<br />
+</p>
+
+<p>
+윈도에 Vim을 설치한 이유는 리눅스의 몇몇 유용한 명령을 사용할 수 있고 간단한 문서 편집 작업을 위해서입니다.<br />
+윈도에서 문서 작성에 Vim만 사용하는 건 리눅스에서와 달리 무리입니다.<br />
+전문적인 문서 편집을 위해선 Notepad++을 추천합니다.<br />
+https://notepad-plus-plus.org/downloads/<br />
+자바 소스 편집을 위한 IDE로는 이클립스를 추천합니다.<br />
+https://www.eclipse.org/<br />
+</p>
+
+<h3>Oracle</h3>
+
+<p>
+Oracle Database 11gR2 Express Edition--Express Edition을 XE라고 줄여 쓴다--
+윈도에 오라클 11g XE 설치
+</p>
+
+<p>
+https://www.oracle.com/database/technologies/xe-prior-release-downloads.html<br />
+위 사이트를 방문해, 자신의 윈도 시스템에 맞는 Oracle Database 11gR2 Express Edition을 내려받는다. 오라클 웹사이트의 회원이 아니면 회원 가입을 하고 로그인해야 내려받을 수 있다.
+</p>
+
+<p>
+윈도는 오라클이 지원하는 운영체제이니 오라클이 쉽게 설치된다. 압축을 풀고 Disk1 디렉터리에서 setup.exe를 실행한 후, 다음 버튼을 계속 눌러 설치할 수 있다. 설치 과정에서 관리자 계정의 비밀번호는 기억해야 한다.
+</p>
+
+<p>
+윈도의 경우 오라클 설치 과정에서 오라클 XDB의 디폴트 포트 8080을 변경할 수 없다. 설치 후 XDB의 8080 포트를 9090으로 바꾸는 방법은 다음과 같다.
+</p>
+
+<pre class="commandLine">C:\Users&gt; <strong>sqlplus</strong>
+Enter user-name: <strong>system</strong>
+Enter password:
+Connected.
+
+SQL&gt; <strong>Exec DBMS_XDB.SETHTTPPORT(9090);</strong>
+
+PL/SQL procedure successfully completed.
+
+SQL&gt;
+</pre>
+
+<pre class="commandLine">C:\Users&gt; <strong>sqlplus</strong>
+Enter user-name: <strong>system</strong>
+Enter password:
+Connected.
+SQL&gt; <strong>@C:\oraclexe\app\oracle\product\11.2.0\server\rdbms\admin\scott.sql</strong>
+SQL&gt;
+</pre>
+
+<h3>Tomcat</h3>
+
+<p>
+https://tomcat.apache.org/download-10.cgi<br />
+페이지에서 10.1.xx 버전의 <strong>64-bit Windows zip</strong>을 내려받아 압축을 풀고, 
+생성된 폴더를 원하는 곳으로 옮깁니다.<br />
+폴더 이름 tomcat10처럼 쉬운 이름으로 바꿉니다. (예, C:\tomcat10)
+</p>
+
+<p>
+bin 폴더에서 startup.bat를 실행하면 톰캣이 실행되고, shutdown.bat를 실행하면 종료됩니다.<br />
+</p>
+
+<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
+
+<p>
+startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 톰캣이 실행되는데, 이때 새 명령 프롬프트 창에서 글자가 깨져서 보입니다. 해결하려면, 톰캣 하위 폴더 conf/에서 logging.properties 파일을 열고 다음 줄의 인코딩 설정을 UTF-8 에서 EUC-KR로 변경합니다. 다음 실행부터 글자는 깨지지 않습니다.<br />
+</p>
+
+<pre class="prettyprint no-border">java.util.logging.ConsoleHandler.encoding = <strong>EUC-KR</strong></pre>
+
+<p>
+<img src="../../../static/images/edit-logging-properties.png" th:src="@{/static/images/edit-logging-properties.png}" alt="logging.properties 편집" />
+</p>
+
+<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\shutdown.bat</strong></pre>
+
+<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
+
+<p>
+<img src="../../../static/images/after-edit-logging-properties.png" th:src="@{/static/images/after-edit-logging-properties.png}" alt="logging.properties 편집 후 화면" />
+</p>
 
 <h1>Chapter 1. Thymeleaf</h1>
 
