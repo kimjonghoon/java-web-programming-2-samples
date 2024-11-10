@@ -2,20 +2,20 @@
 
 <head>
 <title>Thymeleaf</title>
-<meta name="Keywords" content="Thymeleaf" />
+<meta name="Keywords" content="Thymeleaf,jwp2samples,thymeleaf-spring6,jetty plugin,Java-based Configuration,Prototype,Thymeleaf base layout,css positioning,tomcat,how to deploy app to tomcat,ROOT.xml,mvn clean compile war:inplace,mvn clean jetty:run,i18n,homepage,MessageSource,Bean Validation,Sign Up,Login,Change Password," />
 <meta name="Description" content="Thymeleaf" />
-<link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
-<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
-<link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
-<script src="../../../static/js/jquery.js"></script>
-<script src="../../../static/js/prettify.js"></script>
-<script src="../../../static/js/run-prettify.js"></script>
+<link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/prettify.css" />
+<script src="../../../../static/js/prettify.js"></script>
+<script src="../../../../static/js/run_prettify.js"></script>
 </head>
 
 <body>
-<article>
 
-<h1>2 Thymeleaf</h1>
+<article id="get-started">
+
+<h1>Thymeleaf</h1>
 
 <p>
 타임리프는 스프링 진영에서 권장하는 레이아웃 템플릿 엔진이다.<br />
@@ -26,7 +26,7 @@ https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html<br />
 
 <div class="filename">jwp2samples</div>
 <p style="margin: 0;padding: 0">
-<img src="../images/tree.png" alt="예제 파일 구조" />
+<img src="../../../../static/images/tree.png" th:src="@{/static/images/tree.png}" alt="예제 파일 구조" />
 </p>
 
 <p>
@@ -206,7 +206,9 @@ pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
 테스트에 성공한 의존 라이브러리 최신 버전은 블로그에서 확인할 수 있다.<br />
 http://java-school.net<br />
 </p>
+</article>
 
+<article id="java-based-config">
 <h3>자바 기반 스프링 설정</h3>
 
 <p>
@@ -338,48 +340,19 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
   }
 }
 </pre>
+</article>
 
-<h3>컨트롤러</h3>
+<article id="prototype">
+
+<h3>프로토타입</h3>
 
 <p>
-컨트롤러 패키지를 net.java_school.controller로 정했다.<br />
+타임리프가 사용할 레이아웃 페이지를 만들기 위해 디자인이 필요하다.<br />
+아래는 디자인 파일을 기반으로 타임리트 레이아웃 파일을 만드는 과정이다.<br />
 </p>
 
 <p>
-일반 에디터로 작업한다면, src/main/java/net/java_school/controller 폴더를 생성한 후,
- 파일을 작성한다.<br />
-</p>
-
-<pre class="commandLine">mkdir -p src/main/java/net/java_school/controller</pre>
-
-<p>
-홈페이지 핸들러를 가진 홈컨트롤러를 작성한다.
-</p>
-
-<div class="filename">HomeController.java</div>
-<pre class="prettyprint">package net.java_school.controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
-public class HomeController {
-  @GetMapping
-  public String index() {
-    return "index";
-  }
-}
-</pre>
-
-<h3>뷰</h3>
-
-<p>
-이 파일을 타임리프가 사용할 레이아웃 페이지를 만들기 위해 디자인이 필요하다.
-아래는 디자인 파일을 기반으로 타임리트 레이아웃 파일을 만드는 과정이다.
-</p>
-
-<p>
-타임리트 레이아웃 파일 위치를 src/main/webapp/WEB-INF/templates/layout 폴더로 정했다.
+타임리프 레이아웃 파일 위치를 src/main/webapp/WEB-INF/templates/layout 폴더로 정했다.
 </p>
 
 <pre class="commandLine">mkdir -p src/main/webapp/WEB-INF/templates/layout</pre>
@@ -995,8 +968,14 @@ table, img, form, a, article 엘리먼트 스타일은 print.css 파일 내용�
 </p>
 
 <p>
-<img src="../images/homepage-design.png" style="border: 2px solid #999;" alt="메인 페이지 디자인" />
+<img src="../../../../static/images/homepage-design.png" th:src="@{/static/images/homepage-design.png}" style="border: 2px solid #999;" alt="메인 페이지 디자인" />
 </p>
+
+</article>
+
+<article id="base-layout">
+
+<h3>타임리프 레이아웃 파일</h3>
 
 <p>
 다음은 레이아웃 프로토타입 파일을 타임리프의 레이아웃 파일로 변환하는 과정이다.<br />
@@ -1090,7 +1069,7 @@ title, Keywords 메타 태그, Description 메타 태그도 페이지마다 다�
 </p>
 
 <p>
-<img src="../images/homepage-design2.png" style="border: 2px solid #999;" alt="Thymeleaf layout file" />
+<img src="../../../../static/images/homepage-design2.png" th:src="@{/static/images/homepage-design2.png}" style="border: 2px solid #999;" alt="Thymeleaf layout file" />
 </p>
 
 <p>
@@ -1148,8 +1127,40 @@ div 엘리먼트는 레이아웃 페이지의 submenu 파라미터에 전달된 
 &lt;div id="extra" th:replace="${reference}"&gt;로 시작해 &lt;/div&gt;로
 끝나는 엘리먼트는 레이아웃 페이지의 reference 파라미터로 전달된 프레그먼트로 교체된다.<br />
 </p>
+</article>
 
-<h4>홈페이지</h4>
+<article id="frist-test-homepage">
+<h3>컨트롤러</h3>
+
+<p>
+컨트롤러 패키지를 net.java_school.controller로 정했다.<br />
+</p>
+
+<p>
+일반 에디터로 작업한다면, src/main/java/net/java_school/controller 폴더를 생성한 후,
+ 파일을 작성한다.<br />
+</p>
+
+<pre class="commandLine">mkdir -p src/main/java/net/java_school/controller</pre>
+
+<p>
+홈페이지 핸들러를 가진 홈컨트롤러를 작성한다.
+</p>
+
+<div class="filename">HomeController.java</div>
+<pre class="prettyprint">package net.java_school.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+  @GetMapping
+  public String index() {
+    return "index";
+  }
+}
+</pre>
 
 <p>
 자바 기반 설정과 홈 컨트롤러의 홈페이지 핸들러 설정대로, 다음이 예제 홈페이지 파일이다.<br />
@@ -1355,8 +1366,6 @@ screen.css에선 #sidebar가 margin-left: -100%;으로 설정되었기에,
 탐색기에서 웹 브라우저로 확인하면 아무것도 보이지 않는다.<br />
 </p>
 
-<h3>테스트</h3>
-
 <p>
 제티 플러그인을 사용하면 빠르게 테스트할 수 있다.<br />
 다음 명령으로 제티를 실행하고, http://localhost:8080을 방문한다.<br />
@@ -1365,10 +1374,8 @@ screen.css에선 #sidebar가 margin-left: -100%;으로 설정되었기에,
 <pre class="commandLine">mvn jetty:run</pre>
 
 <p>
-<img src="../images/homepage-test.png" style="border: 2px solid #999;" alt="homepage test by jetty plugin" />
+<img src="../../../../static/images/homepage-test.png" th:src="@{/static/images/homepage-test.png}" style="border: 2px solid #999;" alt="homepage test by jetty plugin" />
 </p>
-
-<h3>수정</h3>
 
 <p>
 th:block의 내용<sup>body</sup>은 쉽게 재사용할 수 있다.<br />
@@ -1461,7 +1468,7 @@ index란 이름으로 선언된 프레그먼트 내용만 #sidebar 내용으로 
 </p>
 
 <p>
-<img src="../images/homepage-test2.png" style="border: 2px solid #999;" alt="서브 메뉴를 메인 텍스트에 보이기" />
+<img src="../../../../static/images/homepage-test2.png" th:src="@{/static/images/homepage-test2.png}" style="border: 2px solid #999;" alt="서브 메뉴를 메인 텍스트에 보이기" />
 </p>
 
 <p>
@@ -1482,6 +1489,10 @@ article 엘리먼트가 index 프레그먼트로 교체되었음을 알 수 있�
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
+
+</article>
+
+<article id="deploy-to-tomcat">
 
 <h3>톰캣에 배포</h3>
 
@@ -1577,8 +1588,11 @@ startup.bat 실행 후, http://localhost:8080을 방문해 테스트한다.<br /
 같은 에디터로 열어 놓고 개발을 진행하도록 한다.
 로그 파일 위치는 톰캣 설치 폴더의 logs 서브 폴더에 있다.<br />
 </p>
+</article>
 
-<h2>2-2. i18n</h2>
+<article id="i18n">
+
+<h3>i18n</h3>
 
 <p>
 애플리케이션이 여러 언어를 지원하도록 만드는 것을 국제화<sup>internationalization</sup>라 한다.<br />
@@ -1752,8 +1766,6 @@ http://localhost:8080을 방문한다.
 english 링크를 클릭하여, 영문 홈페이지로 이동하는지 확인한다.<br />
 </p>
 
-<h3>수정</h3>
-
 <p>
 htt://localhost:8080/en 방문하고 브라우저를 페이지 소스보기로 보면,
 html 태그의 lang 속성이 "ko"이다.<br />
@@ -1781,7 +1793,6 @@ public class EnHomeController {
   }
 }
 </pre>
-
 
 <p>
 영문 사용자의 요청 URL은 모두 /en으로 시작해야 하는데,
@@ -2033,7 +2044,7 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 
 <p>
 [홈페이지]<br />
-<img src="../images/ko.png" alt="korean homepage" />
+<img src="../../../../static/images/ko.png" th:src="@{/static/images/ko.png}" alt="korean homepage" />
 </p>
 
 <div class="filename">[페이지 원본 보기]</div>
@@ -2081,7 +2092,7 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 
 <p>
 [영어 홈페이지]<br />
-<img src="../images/en.png" alt="english homepage" />
+<img src="../../../../static/images/en.png" th:src="@{/static/images/en.png}" alt="english homepage" />
 </p>
 
 <div class="filename">[페이지 원본 보기]</div>
@@ -2141,7 +2152,7 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 메시지소스는 다음 절에서 다룬다.<br />
 </p>
 
-<h3>로케일에 따라 프레그먼트를 지정하는 방법</h3>
+<h4>로케일에 따라 프레그먼트를 지정하는 방법</h4>
 
 <p>
 로케일에 따라 프레그먼트를 지정해 페이지를 완성하는 법 소개한다.<br />
@@ -2476,6 +2487,9 @@ public class KoHomeController {
 ..
 .	
 </pre>
+</article>
+
+<article id="messagesource">
 
 <h3>메시지소스</h3>
 
@@ -2734,6 +2748,9 @@ ResourceBundleMessageSource를 사용할 때는 프로퍼티 파일이 클래스
 언어별 전용 페이지의 서브 메뉴는 menu_ko.html, menu_en.html 이름으로 만든다.<br />
 이들 페이지는 메시지소스를 적용하지 않고, 로케일을 판단하는 코드없이 작성한다.<br />
 </p>
+</article>
+
+<article id="bean-validation">
 
 <h3>빈 유효성 검사</h3>
 
@@ -2997,7 +3014,6 @@ public class UsersController {
 데이터베이스 관련 코드는 다음 장에서 다룬다.<br />
 </p>
 
-
 <div class="filename">users/signUp.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
 &lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
@@ -3043,7 +3059,7 @@ public class UsersController {
 </p>
 
 <p>
-<img src="../images/messageSource.png" alt="빈에 프로퍼티 값으로 에러 메시지 설정" /><br />
+<img src="../../../../static/images/messageSource.png" th:src="@{/static/images/messageSource.png}" alt="빈에 프로퍼티 값으로 에러 메시지 설정" /><br />
 </p>
 
 <div class="filename">[페이지 원본 보기]</div>
@@ -3103,9 +3119,8 @@ static/css/validation.css 파일 생성
 </pre>
 
 <p>
-<img src="../images/messageSource-with-style.png" alt="스타일 지정으로 에러 메시지" /><br />
+<img src="../../../../static/images/messageSource-with-style.png" th:src="@{/static/images/messageSource-with-style.png}" alt="스타일 지정으로 에러 메시지" /><br />
 </p>
-
 </article>
 
 </body>

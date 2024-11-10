@@ -8,10 +8,6 @@ form {
 	margin: 0;
 	padding: 0;
 }
-pre {
-	white-space: pre-wrap;
-	hyphens: none;
-}
 .commandLine {
 	background: #eee;
 	padding: 0.25em;

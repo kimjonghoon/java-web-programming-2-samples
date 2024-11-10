@@ -28,12 +28,12 @@ https://www.oracle.com/java/technologies/downloads<br />
 
 <p>
 Run the JDK Installer.<br>
-You can complete the installation simply by clicking the Next button.<br>
+Continue clicking the Next button to complete the installation.<br />
 The installed JDK directory is <strong>C:\Program Files\Java\jdk-22</strong>.
 </p>
 
 <p>
-Create the JAVA_HOME environment variable as follows:
+Create a new variable named JAVA_HOME in the user variables as follows:<br />
 </p>
 
 <p>
@@ -46,7 +46,11 @@ Type JAVA_HOME in the "Variable name" setting.<br />
 Type C:\Program Files\Java\jdk-22 in the "Variable values" setting.<br />
 Click the OK button.<br />
 Click the OK button.<br />
-</pre>
+</p>
+
+<p>
+Add the JDK's bin path to the Path of user variables.
+</p>
 
 <p>
 Run the command prompt as an administrator and execute <strong>echo %PATH%</strong> to confirm the JDK's bin path is in your Path.
@@ -66,7 +70,13 @@ C:\Windows\System32\OpenSSH\;
 
 <p>
 https://maven.apache.org/download.cgi<br />
-Download and unzip the latest binary version, copy the created directory to the location you want, and add Maven's bin path to the Path of the user variables.<br />
+Download the latest binary version to unpack it.<br />
+Copy the generated directory to a location of your choice.<br />
+Add the Maven's bin path to the Path of user variables.<br />
+</p>
+
+<p>
+Verify.
 </p>
 
 <pre class="commandLine">mvn -v</pre>
@@ -75,12 +85,12 @@ Download and unzip the latest binary version, copy the created directory to the 
 
 <p>
 https://git-scm.com/download/win<br />
-Download <strong>64-bit Git for Windows Setup</strong>.
+Download <strong>64-bit Git for Windows Setup</strong>.<br />
 You can complete the installation simply by clicking the Next button.<br />
 </p>
 
 <p>
-Add your name and email to your git config.
+Add your name and email to your git config as shown below.<br />
 </p>
 
 <pre class="commandLine">git config --global user.name "Jo Maso"
@@ -99,9 +109,8 @@ git config --global --list
 
 <p>
 Sign up at https://github.com.<br />
-Install the Windows version of gh while logged in.<br />
 Click Download for Windows on the https://cli.github.com page to download the msi file.<br />
-After installation, run <strong>gh auth login</strong>.<br />
+After installation, run <strong>gh auth login</strong> while logged in the https://github.com.<br />
 </p>
 
 <pre class="commandLine">gh auth login</pre>
@@ -130,12 +139,17 @@ Once you complete your selection, a one-time password will be added to the outpu
 
 <p>
 Copy the one-time password displayed in the command prompt and press Enter.<br />
-A web browser will launch and you will see a page where you can enter your password.<br />
-Paste the password displayed in the command prompt into the page.
+A page will open in your web browser where you can enter your password.<br />
+Paste the password displayed in the command prompt into the input box of the page.<br />
+Click <strong>Continue</strong>.<br />
 </p>
 
 <p>
 <img src="../../../static/images/device-activation-onetime.png" th:src="@{/static/images/device-activation-onetime.png}" alt="Device Activation one time code" />
+</p>
+
+<p>
+Click <strong>Authorize github</strong>.<br />
 </p>
 
 <p>
@@ -146,28 +160,39 @@ Paste the password displayed in the command prompt into the page.
 <img src="../../../static/images/your-device-is-now-connected.png" th:src="@{/static/images/your-device-is-now-connected.png}" alt="Your device is now connected" />
 </p>
 
-<p>
-Create a project to manage your examples on the https://github.com.
-</p>
+<h4>Create a new repository</h4>
 
 <p>
 <img src="../../../static/images/create-a-new-repository-1.png" th:src="@{/static/images/create-a-new-repository-1.png}" alt="Create a new repository new button click" />
 </p>
 
 <p>
-<img src="../../../static/images/create-a-new-repository-2.png" th:src="@{/static/images/create-a-new-repository-2.png}" alt="Create a new repository form" />
+Type <strong>jwp2samples</strong> on the Repository name.<br />
+Choose <strong>Public</strong><br />
+Check <strong>Add a README file</strong><br />
+Select <strong>.gitignore:Java</strong><br />
 </p>
 
 <p>
+<img src="../../../static/images/create-a-new-repository-2.png" th:src="@{/static/images/create-a-new-repository-2.png}" alt="Create a new repository form" />
+</p>
+
+<p style="padding: 0 0.5em;">
+<strong>Note</strong><br />
 https://www.toptal.com/developers/gitignore<br />
-This site helps you create a .gitignore file.<br />
-In the site input box, type java to get hints for the .gitignore file of a typical Java project.<br />
+This site provides more specific help in creating your .gitignore file than github provides.<br />
 </p>
 
 <p>
 Click on the repository you created on the https://github.com.<br />
 Copy the address from the web browser address bar.<br />
 Paste the copied address after git clone at the command prompt and press Enter.<br />
+</p>
+
+<pre class="commandLine">git clone https://github.com/&lt;your-account&gt;/jwp2samples
+</pre>
+
+<p>
 If the repository name is jwp2samples, a folder with the same name will be created.<br />
 </p>
 
@@ -205,7 +230,7 @@ git push
 </pre>
 
 <p>
-To follow a GitHub repository from another computer, run:<br />
+To make your local repository follow the GitHub repository, run:<br />
 </p>
 
 <pre class="commandLine">git fetch orign
@@ -213,7 +238,7 @@ git reset --hard orgin/main
 </pre>
 
 <p>
-git Guide:<br />
+<strong>Git Guide</strong><br />
 https://rogerdudler.github.io/git-guide/index.ko.html<br />
 </p>
 
@@ -221,28 +246,21 @@ https://rogerdudler.github.io/git-guide/index.ko.html<br />
 
 <p>
 https://www.vim.org/download.php<br />
-페이지에서 <strong>gvim_9.1.0_x64_signed.exe (64bit installer)</strong>를 내려받고, 
-모든 옵션을 디폴트로 선택해 설치합니다.<br />
+Down <strong>gvim_9.1.0_x64_signed.exe (64bit installer)</strong>.<br />
+Continue clicking the Next button to complete the installation.<br />
+Add "C:\Program Files\Vim\vim91" to the Path of user variables.<br />
 </p>
 
 <p>
-Vim 설치 폴더(C:\Program Files\Vim\vim91)를 환경 변수 Path에 추가합니다.<br />
-</p>
-
-<p>
-vim 명령 대신 vi를 사용하려면, 명령 프롬프트에서 다음을 실행합니다.<br />
+To use vi instead of vim, run:<br />
 </p>
 
 <pre class="commandLine">Set-Alias vi vim</pre>
 
 <p>
-Vim을 설치하면 명령 프롬프트에서, 유닉스와 리눅스에서 사용했던, 몇몇 유용한 명령을 실행할 수 있습니다.<br />
-</p>
-
-<p>
-명령 프롬프트를 실행하고 ctrl 키와 r를 동시에 누릅니다.
--- 이후부터 이 작업을 ctrl + r이라 표현하겠습니다--<br />
-한 줄 아래에서 bck-i-search: 다음에 사용자 입력을 기다립니다.<br />
+Vim has some useful commands.<br />
+At the command prompt, press ctrl and r.<br />
+bck-i-search: and a cursor appears.<br />
 </p>
 
 <pre class="commandLine">PS C:\Users\javaschool&gt;
@@ -250,12 +268,14 @@ bck-i-search: _
 </pre>
 
 <p>
-문자를 입력할 때마다 문자가 포함된 명령 히스토리를 보여줍니다.<br />
-엔터를 치면 명령이 실행됩니다. 또는 esc 키를 눌러 명령을 수정할 수 있습니다.<br />
+As you type a character, it shows the command history containing that character.<br />
+Enter will execute that command.<br />
+You can edit the command after pressing the Esc key.<br />
 </p>
 
 <p>
-git r만 치면, 명령 히스토리에서 찾아 git reset --hard origin/main을 보여줍니다.<br />
+If you just type <strong>git r</strong>, it will look in your command history and 
+show you <strong>git reset --hard origin/main</strong>.
 </p>
 
 <pre class="commandLine"><strong>git r</strong>eset --hard origin/main
@@ -263,36 +283,35 @@ bck-i-search: git r
 </pre>
 
 <p>
-엔터를 치면 git reset --hard orgin/main이 실행됩니다.<br />
+If you press enter at this point, git reset --hard orgin/main will be executed.<br />
 </p>
 
 <p>
-윈도에 Vim을 설치한 이유는 리눅스의 몇몇 유용한 명령을 사용할 수 있고 간단한 문서 편집 작업을 위해서입니다.<br />
-윈도에서 문서 작성에 Vim만 사용하는 건 리눅스에서와 달리 무리입니다.<br />
-전문적인 문서 편집을 위해선 Notepad++을 추천합니다.<br />
+Vim on Windows allow you to be able to use some useful commands 
+and to do simple document editing.<br />
+However, unlike Linux, Vim on Windows is not suitable for professional document work.<br />
+For Windows document editor, I recommend Notepad++.<br />
 https://notepad-plus-plus.org/downloads/<br />
-자바 소스 편집을 위한 IDE로는 이클립스를 추천합니다.<br />
+I recommend Eclipse as a Java development tool.<br />
 https://www.eclipse.org/<br />
 </p>
 
 <h3>Oracle</h3>
 
 <p>
-Oracle Database 11gR2 Express Edition--Express Edition을 XE라고 줄여 쓴다--
-윈도에 오라클 11g XE 설치
-</p>
-
-<p>
 https://www.oracle.com/database/technologies/xe-prior-release-downloads.html<br />
-위 사이트를 방문해, 자신의 윈도 시스템에 맞는 Oracle Database 11gR2 Express Edition을 내려받는다. 오라클 웹사이트의 회원이 아니면 회원 가입을 하고 로그인해야 내려받을 수 있다.
+If you have a 64-bit Windows system -- most systems are 64-bit systems -- download Oracle Database 11gR2 Express Edition for Windows x64.<br /> 
+You need an account on the Oracle website to download this version.<br />
+After registering as a member and logging in, the download will start.<br />
+After unpacking the downloaded compressed file, run setup.exe in the Disk1 subdirectory created and click the Next button to install it.<br />
+You can install Oracle easily since Oracle 11g version officially supports Windows 10 and 11.<br />
+Do not forget the administrator password you entered during the installation.<br />
+Since Oracle Application Express, one of the 11g XE components, uses port 8080, stop Tomcat if it is in service before installation.<br />
 </p>
 
 <p>
-윈도는 오라클이 지원하는 운영체제이니 오라클이 쉽게 설치된다. 압축을 풀고 Disk1 디렉터리에서 setup.exe를 실행한 후, 다음 버튼을 계속 눌러 설치할 수 있다. 설치 과정에서 관리자 계정의 비밀번호는 기억해야 한다.
-</p>
-
-<p>
-윈도의 경우 오라클 설치 과정에서 오라클 XDB의 디폴트 포트 8080을 변경할 수 없다. 설치 후 XDB의 8080 포트를 9090으로 바꾸는 방법은 다음과 같다.
+For Windows, the default port of Oracle Application Express, 8080, cannot be changed during installation. 
+After installation, the method to change the 8080 port of Apex to 9090 is as follows:
 </p>
 
 <pre class="commandLine">C:\Users&gt; <strong>sqlplus</strong>
@@ -319,34 +338,21 @@ SQL&gt;
 
 <p>
 https://tomcat.apache.org/download-10.cgi<br />
-페이지에서 10.1.xx 버전의 <strong>64-bit Windows zip</strong>을 내려받아 압축을 풀고, 
-생성된 폴더를 원하는 곳으로 옮깁니다.<br />
-폴더 이름 tomcat10처럼 쉬운 이름으로 바꿉니다. (예, C:\tomcat10)
+Download <strong>64-bit Windows zip</strong> of the 10.1.xx version.<br />
+Unpack the downloaded file, copy the created directory to the location you want.<br />
 </p>
 
 <p>
-bin 폴더에서 startup.bat를 실행하면 톰캣이 실행되고, shutdown.bat를 실행하면 종료됩니다.<br />
+Tomcat start: run startup.bat of the bin folder.<br />
 </p>
 
 <pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
 
 <p>
-startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 톰캣이 실행되는데, 이때 새 명령 프롬프트 창에서 글자가 깨져서 보입니다. 해결하려면, 톰캣 하위 폴더 conf/에서 logging.properties 파일을 열고 다음 줄의 인코딩 설정을 UTF-8 에서 EUC-KR로 변경합니다. 다음 실행부터 글자는 깨지지 않습니다.<br />
-</p>
-
-<pre class="prettyprint no-border">java.util.logging.ConsoleHandler.encoding = <strong>EUC-KR</strong></pre>
-
-<p>
-<img src="../../../static/images/edit-logging-properties.png" th:src="@{/static/images/edit-logging-properties.png}" alt="logging.properties 편집" />
+Tomcat stop: run shutdown.bat of the bin folder.<br />
 </p>
 
 <pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\shutdown.bat</strong></pre>
-
-<pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
-
-<p>
-<img src="../../../static/images/after-edit-logging-properties.png" th:src="@{/static/images/after-edit-logging-properties.png}" alt="logging.properties 편집 후 화면" />
-</p>
 
 <h1>Chapter 1. Thymeleaf</h1>
 
