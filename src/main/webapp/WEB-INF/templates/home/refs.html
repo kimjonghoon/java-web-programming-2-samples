@@ -8,7 +8,7 @@
 </style>
 </head>
 <body>
-<div id="extra" th:fragment="reference">
+<div id="extra" th:fragment="references">
 <ul>
 	<li class="sub-heading" th:text="${lang == null} ? #{references} : (${lang == 'ko'} ? _ : 'References')">참고자료</li>
 	<li><a href="#" th:href="@{https://www.oracle.com/java/technologies/downloads/}">Java</a></li>

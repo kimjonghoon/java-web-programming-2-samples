@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#extra {
+  margin-left: 0;
+|
+</style>
+</head>
+<body>
+<div id="extra" th:fragment="references">
+<ul>
+	<li class="sub-heading" th:text="${lang == null} ? #{references} : (${lang == 'ko'} ? _ : 'References')">참고자료</li>
+	<li><a href="#" th:href="@{https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html}">Thymeleaf + Spring</a></li>
+</ul>
+</div>
+</body>
+</html>

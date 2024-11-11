@@ -3,7 +3,7 @@
 <head>
 <title>Thymeleaf</title>
 <meta name="Keywords" content="Thymeleaf,jwp2samples,thymeleaf-spring6,jetty plugin,Java-based Configuration,Prototype,Thymeleaf base layout,css positioning,tomcat,how to deploy app to tomcat,ROOT.xml,mvn clean compile war:inplace,mvn clean jetty:run,i18n,homepage,MessageSource,Bean Validation,Sign Up,Login,Change Password," />
-<meta name="Description" content="Thymeleaf" />
+<meta name="Description" content="This article covers examples for Thymeleaf, Spring, Mybatis Spring, i18n, MessageSource and Bean Validation." />
 <link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
 <link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
 <link rel="stylesheet" media="all" href="../../../../static/css/prettify.css" />
@@ -19,15 +19,22 @@
 
 <p>
 타임리프는 스프링 진영에서 권장하는 레이아웃 템플릿 엔진이다.<br />
-타임리프 공식 문서에서 제공하는 스프링에서 타임리프를 사용하는 방법으로 예제를 만들어 보겠다.<br />
+</p>
+
+<h2>예제 준비</h2>
+
+<p>
+아래 링크를 참조해, 스프링에서 타임리프를 사용하는 예제를 만들어 보겠다.<br />
 https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html<br />
-메이븐 프로젝트의 루트 디렉터리를 jwp2samples이라 정한다면, 예제는 다음과 같은 디렉터리와 파일을 갖는다.<br />
+메이븐 프로젝트의 루트 디렉터리를 jwp2samples이라 정한다면, 예제는 다음과 같은 디렉터리와 파일을 갖게 된다.<br />
 </p>
 
 <div class="filename">jwp2samples</div>
 <p style="margin: 0;padding: 0">
 <img src="../../../../static/images/tree.png" th:src="@{/static/images/tree.png}" alt="예제 파일 구조" />
 </p>
+
+<h3>POM</h3>
 
 <p>
 pom.xml 파일은 메이븐 루트 디렉터리에 두는 파일이다.<br />
@@ -51,7 +58,7 @@ pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
   &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
   &lt;maven.compiler.source&gt;<strong>17</strong>&lt;/maven.compiler.source&gt;
   &lt;maven.compiler.target&gt;<strong>17</strong>&lt;/maven.compiler.target&gt;
-  &lt;spring.version&gt;<strong>6.1.13</strong>&lt;/spring.version&gt;
+  &lt;spring.version&gt;<strong>6.1.14</strong>&lt;/spring.version&gt;
 &lt;/properties&gt;
 &lt;dependencyManagement&gt;
   &lt;dependencies&gt;
@@ -130,7 +137,7 @@ pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
       &lt;plugin&gt;
         &lt;groupId&gt;org.eclipse.jetty&lt;/groupId&gt;
 	&lt;artifactId&gt;<strong>jetty-maven-plugin</strong>&lt;/artifactId&gt;
-        &lt;version&gt;<strong>11.0.21</strong>&lt;/version&gt;
+        &lt;version&gt;<strong>11.0.24</strong>&lt;/version&gt;
       &lt;/plugin&gt;
     &lt;/plugins&gt;
   &lt;/pluginManagement&gt;
@@ -138,11 +145,21 @@ pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
 &lt;/project&gt;
 </pre>
 
+<p style="padding-left: 0.5em">
+<strong>Note</strong>
+mvn archetype:generate -Dfilter=maven-archetype-webapp를 명령 프롬프트에서 실행<br /> 
+org.apache.maven.archetypes:maven-archetype-webapp에 해당하는 번호를 선택하고 엔터<br />
+org.apache.maven.archetypes:maven-archetype-webapp의 최신 버전을 선택하고 엔터<br />
+groupId에 net.java_school.tutorial를 입력<br />
+artifactId에 jwp2samples를 입력<br />
+그 외 항목은 그냥 엔터를 치면, 생성된 jwp2samples 디렉터리에서 위와 유사한 pom.xml 파일을 얻을 수 있다.
+</p>
+
 <pre class="prettyprint">&lt;properties&gt;
   &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
   &lt;maven.compiler.source&gt;<strong>17</strong>&lt;/maven.compiler.source&gt;
   &lt;maven.compiler.target&gt;<strong>17</strong>&lt;/maven.compiler.target&gt;
-  &lt;spring.version&gt;<strong>6.1.13</strong>&lt;/spring.version&gt;
+  &lt;spring.version&gt;<strong>6.1.14</strong>&lt;/spring.version&gt;
 &lt;/properties&gt;
 </pre>
 
@@ -198,13 +215,13 @@ pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
 &lt;plugin&gt;
   &lt;groupId&gt;org.eclipse.jetty&lt;/groupId&gt;
   &lt;artifactId&gt;<strong>jetty-maven-plugin</strong>&lt;/artifactId&gt;
-  &lt;version&gt;<strong>11.0.21</strong>&lt;/version&gt;
+  &lt;version&gt;<strong>11.0.24</strong>&lt;/version&gt;
 &lt;/plugin&gt;
 </pre>
 
 <p>
 테스트에 성공한 의존 라이브러리 최신 버전은 블로그에서 확인할 수 있다.<br />
-http://java-school.net<br />
+<a href="http://java-school.net">http://java-school.net</a><br />
 </p>
 </article>
 
