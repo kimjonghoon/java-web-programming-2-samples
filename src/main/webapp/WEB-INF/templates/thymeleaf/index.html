@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
-<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{}, ~{})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${#locale.language == 'ko'} ? _ : 'Thymeleaf Index'">타임리프 목차</title>
 <meta name="Keywords" th:content="${#locale.language == 'ko'} ? '타임리프 목차' : 'Thymeleaf Index'" />
@@ -14,9 +14,9 @@
 <div id="i18n">
 </div>
 
-<section th:replace="~{articles/thymeleaf/01 :: #get-started}"></section>
+<section th:replace="~{thymeleaf/menu :: index}"></section>
 
-<aside th:replace="~{thymeleaf/menu :: index}"></aside>
+
 
 </body>
 </html>
