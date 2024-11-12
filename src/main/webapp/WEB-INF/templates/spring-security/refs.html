@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#extra {
+  margin-left: 0;
+|
+</style>
+</head>
+<body>
+<div id="extra" th:fragment="references">
+<ul>
+	<li class="sub-heading" th:text="${lang == null} ? #{references} : (${lang == 'ko'} ? _ : 'References')">참고자료</li>
+	<li><a href="#" th:href="@{http://java-school.net}">java-school.net</a></li>
+	<li><a href="#" th:href="@{https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html}">Thymeleaf + Spring</a></li>
+	<li><a href="#" th:href="@{https://spring.io/projects/spring-framework}">Spring Framework</a></li>
+	<li><a href="#" th:href="@{https://mvnrepository.com/artifact/org.springframework/spring-framework-bom}">spring-framework-bom</a></li>
+	<li><a href="#" th:href="@{https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring6}">thymeleaf-spring6</a></li>
+	<li><a href="#" th:href="@{https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api}">jakarta.servlet-api</a></li>
+	<li><a href="#" th:href="@{https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin}">jetty-maven-plugin</a></li>
+	<li><a href="#" th:href="@{https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator}">hibernate-validator</a></li>
+</ul>
+</div>
+</body>
+</html>

@@ -4,17 +4,19 @@
 <title>Spring Security</title>
 <meta name="Keywords" content="Thymeleaf,jwp2samples,thymeleaf-spring6,jetty plugin,Java-based Configuration,Prototype,Thymeleaf base layout,css positioning,tomcat,how to deploy app to tomcat,ROOT.xml,mvn clean compile war:inplace,mvn clean jetty:run,i18n,homepage,MessageSource,Bean Validation,Sign Up,Login,Change Password," />
 <meta name="Description" content="This article covers examples for Thymeleaf, Spring, Spring Security, Mybatis Spring, i18n, MessageSource and Bean Validation." />
-<link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
-<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
-<link rel="stylesheet" media="all" href="../../../../static/css/prettify.css" />
-<script src="../../../../static/js/prettify.js"></script>
-<script src="../../../../static/js/run_prettify.js"></script>
+<link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
+<script src="../../../static/js/prettify.js"></script>
+<script src="../../../static/js/run_prettify.js"></script>
 </head>
 
 <body>
 
-<article id="get-started">
+<article id="spring-security-get-started">
 <h1>Spring Security</h1>
+
+<h2>스프링 시큐리티 의존성 추가</h2>
 
 <p>
 다음 라이브러리를 의존성을 추가한다.<br />
@@ -125,7 +127,8 @@ https://www.thymeleaf.org/doc/articles/springsecurity.html<br />
 </p>
 </article>
 
-<article id="java-based-config">
+<article id="spring-security-java-based-config">
+
 <h2>자바 기반 설정</h2>
 
 <p>
@@ -221,7 +224,7 @@ mvn clean compile war:inplace 컴파일하고 톰캣을 시작한 후 홈페이�
 </p>
 
 <p>
-<img src="../../../../static/images/spring-security-default-login.png" th:src="@{/static/images/spring-security-default-login.png}" alt="스프링 시큐리티 디폴트 로그인 화면" />
+<img src="../../../static/images/spring-security-default-login.png" th:src="@{/static/images/spring-security-default-login.png}" alt="스프링 시큐리티 디폴트 로그인 화면" />
 </p>
 
 <p>
@@ -230,7 +233,7 @@ Username에 user, Password엔 password를 입력한 후 Sign in 버튼을 클릭
 </p>
 
 <p>
-<img src="../../../../static/images/type-user-password-in-default-login.png" th:src="@{/static/images/type-user-password-in-default-login.png}" alt="스프링 시큐리티 디폴트 로그인 화면에 user/password 입력 후 홈페이지로 이동 확인" />
+<img src="../../../static/images/type-user-password-in-default-login.png" th:src="@{/static/images/type-user-password-in-default-login.png}" alt="스프링 시큐리티 디폴트 로그인 화면에 user/password 입력 후 홈페이지로 이동 확인" />
 </p>
 </article>
 
@@ -548,11 +551,11 @@ http://localhost:8080<br />
 </p>
 
 <p>
-<img src="../../../../static/images/custom-login-page-test.png" th:src="@{/images/custom-login-page-test.png}" alt="사용자 정의 로그인 페이지 테스트" />
+<img src="../../../static/images/custom-login-page-test.png" th:src="@{/images/custom-login-page-test.png}" alt="사용자 정의 로그인 페이지 테스트" />
 </p>
 </article>
 
-<article id="signup">
+<article id="sign-up">
 <h2>회원가입</h2>
 
 <p>
@@ -938,7 +941,7 @@ mvn clean compile war:inplace 컴파일한 후, 로그인 페이지에서 회원
 </p>
 
 <p>
-<img src="../../../../static/images/signup-test-1.png" th:src="@{/static/images/signup-test-1.png}" alt="회원가입 테스트" />
+<img src="../../../static/images/signup-test-1.png" th:src="@{/static/images/signup-test-1.png}" alt="회원가입 테스트" />
 </p>
 </article>
 
@@ -1127,7 +1130,7 @@ public String editAccount() {
 </pre>
 
 <p>
-<img src="../../../../static/images/editAccount-test-1.png" th:src="@{/static/images/editAccount-test-1.png}" alt="내 정보 수정 테스트" />
+<img src="../../../static/images/editAccount-test-1.png" th:src="@{/static/images/editAccount-test-1.png}" alt="내 정보 수정 테스트" />
 </p>
 </article>
 
@@ -1254,7 +1257,7 @@ public String changePassword() {
 </p>
 
 <p>
-<img src="../../../../static/images/changePassword-test-1.png" th:src="@{/static/images/changePassword-test-1.png}" alt="비밀번호 변경 화면 테스트" />
+<img src="../../../static/images/changePassword-test-1.png" th:src="@{/static/images/changePassword-test-1.png}" alt="비밀번호 변경 화면 테스트" />
 </p>
 
 <p>
@@ -1463,253 +1466,6 @@ https://docs.spring.io/spring-security/reference/features/integrations/data.html
 </p>
 </article>
 
-<article id="complete-homepage">
-<h2>홈페이지 완성</h2>
 
-<p>
-홈페이지를 웹사이트 전체 내용의 목차로 사용할 예정이다.<br />
-홈페이지를 완성해 보자.<br />
-구글에서 제공하는, 코드를 이쁘게 보여주는, 자바스크립트를 사용하겠다.<br />
-구글에서 Google Code Prettify를 검색한다.<br />
-https://github.com/googlearchive/code-prettify<br />
-https://github.com/googlearchive/code-prettify/blob/master/docs/getting_started.md<br />
-다운로드한 후 압축을 풀고, prettify.css 파일은 /static/css에, prettify.js와 run_prettify.js는 /static/js 폴더에 넣는다.<br />
-사용법은 다음과 같다.<br />
-내용에 코드가 있는 HTML 파일의 헤더에 다음을 추가한다.<br />
-</p>
-
-<pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="prettify.css" /&gt;
-&lt;script type="text/javascript" src="prettify.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="run_prettify.js"&gt;&lt;/script&gt;
-</pre>
-
-<p>
-본문의 코드는, &lt;pre class="prettyprint"&gt; 와 &lt;/pre&gt; 사이에 넣는다.<br />
-C 계열이나 HTML 코드는 이걸로 충분하다.<br />
-</p>
-
-<h3>컨트롤러</h3>
-
-<div class="filename">KoHomeController.java</div>
-<pre class="prettyprint">package net.java_school.controller;
-
-import org.springframework.ui.Model;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-@Controller
-@RequestMapping("ko")
-public class KoHomeController {
-  static final String lang = "ko";
-
-  @GetMapping
-  public String index(Model model) {
-    model.addAttribute("lang", lang);
-    return "ko/index";
-  }
-}
-</pre>
-
-<div class="filename">EnHomeController.java</div>
-<pre class="prettyprint">package net.java_school.controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.ui.Model;
-
-@Controller
-@RequestMapping("en")
-public class EnHomeController {
-  static final String lang = "en";
-
-  @GetMapping
-  public String index(Model model) {
-    model.addAttribute("lang", lang);
-    return "en/index";
-  }
-}
-</pre>
-
-<p>
-https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html<br />
-{varName:regex} 형태로 정규 표현식을 사용하여 URI 변수를 선언할 수 있다.<br />
-위의 두 컨트롤러를 제거하고, 두 컨틀로러에 있는 핸들러를 HomeController에 구현해 보겠다.<br />
-HomeController.java는 다음과 같다.<br />
-</p>
-
-<div class="filename">HomeController.java</div>
-<pre class="prettyprint">package net.java_school.controller;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.ui.Model;
-
-@Controller
-public class HomeController {
-
-  @GetMapping("/")
-  public String index() {
-    return "index";
-  }
-	
-  @GetMapping("{lang:en|ko}")
-  public String indexByLang(@PathVariable("lang") String lang, Model model) {
-    model.addAttribute("lang", lang);
-    return lang + "/index";
-  }
-
-  @GetMapping("{chapter:thymeleaf|spring-security}")
-  public String chapterIndex(@PathVariable("chapter") String chapter) {
-    return chapter + "/index";
-  }
-	
-  @GetMapping("{chapter:thymeleaf|spring-security}/{section}")
-  public String getSection(@PathVariable("chapter") String chapter,
-      @PathVariable("section") String section) {
-
-    return chapter + "/" + section;
-  }
-
-  @GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}")
-  public String chapterIndexByLang(@PathVariable("lang") String lang,
-      @PathVariable("chapter") String chapter, Model model) {
-
-    model.addAttribute("lang", lang);
-    return lang + "/" + chapter + "/index";
-  }
-
-  @GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}")
-  public String getSectionByLang(@PathVariable("lang") String lang,
-      @PathVariable("chapter") String chapter,
-      @PathVariable("section") String section, Model model) {
-
-    model.addAttribute("lang", lang);
-    return lang + "/" + chapter + "/" + section;
-  }
-}
-</pre>
-
-<p>
-@GetMapping 애터테이션에 path를 여러 개 설정할 수 있다.
-이를 이용하면 다음 4개의 메소드를 2개로 줄일 수 있다.
-</p>
-
-<pre class="prettyprint">@GetMapping("{chapter:thymeleaf|spring-security}")
-public String chapterIndex(@PathVariable("chapter") String chapter) {
-  return chapter + "/index";
-}
-@GetMapping("{chapter:thymeleaf|spring-security}/{section}")
-public String getSection(@PathVariable("chapter") String chapter,
-  @PathVariable("section") String section) {
-
-  return chapter + "/" + section;
-}
-@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}")
-public String chapterIndexByLang(@PathVariable("lang") String lang,
-  @PathVariable("chapter") String chapter, Model model) {
-
-  model.addAttribute("lang", lang);
-  return lang + "/" + chapter + "/index";
-}
-@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}")
-public String getSectionByLang(@PathVariable("lang") String lang,
-  @PathVariable("chapter") String chapter,
-  @PathVariable("section") String section, Model model) {
-
-  model.addAttribute("lang", lang);
-  return lang + "/" + chapter + "/" + section;
-}
-</pre>
-
-<pre class="prettyprint">@GetMapping(value={"{chapter:thymeleaf|spring-security}", 
-    "{chapter:thymeleaf|spring-security}/{section}"})
-public String getSection(@PathVariable("chapter") String chapter, 
-    @PathVariable(value="section", required=false) String section) {
-	
-  if (section != null) {
-    return chapter + "/" + section;
-  } else {
-    return chapter + "/index";
-  }
-}
-@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security}", 
-    "{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}"})
-public String getSectionByLang(@PathVariable("lang") String lang, 
-    @PathVariable("chapter") String chapter, 
-    @PathVariable(value="section", required=false) String section, Model model) {
-	
-  model.addAttribute("lang", lang);
-  if (section != null)
-    return lang + "/" + chapter + "/" + section;
-  else 
-    return lang + "/" + chapter + "/index";
-}
-</pre>
-	
-<div class="note">
-<p>
-http://localhost:8080/en은 되지만,
-http://localhost:8080/en/은 404 에러가 난다.<br />
-스프링 6부터 UseTrailingSlashMatch 디폴트 설정이 false로 바뀌어서 그렇다.
-UseTrailingSlashMatch 설정을 true로 바꾸려면, 스프링 설정 클래스에 다음을 추가한다.<br />
-</p>
-<pre class="prettyprint">@Override
-public void configurePathMatch(PathMatchConfigurer configurer) {
-  configurer.setUseTrailingSlashMatch(true);
-}
-</pre>
-<p>
-다음 임포트 문이 필요하다.<br />
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;<br />
-참조: https://github.com/spring-projects/spring-framework/issues/28552<br />
-참조 글을 보면, UseTrailingSlashMatch 설정을 true로 고치는 것보다,
-리다이렉트를 사용하도록 권하고 있다.<br />
-권고대로 /가 붙은 경로를 리다이렉트로 처리해 보자.<br />
-</p>
-
-<pre class="prettyprint">
-@GetMapping("{chapter:thymeleaf|spring-security}/")
-public String index(@PathVariable("chapter") String chapter) {
-	
-  return chapter + "/index";
-}
-@GetMapping(value={"{chapter:thymeleaf|spring-security}", 
-    "{chapter:thymeleaf|spring-security}/{section}"})
-public String getSection(@PathVariable("chapter") String chapter, 
-    @PathVariable(value="section", required=false) String section) {
-	
-  if (section != null) {
-    return chapter + "/" + section;
-  } else {
-    return chapter + "/index";
-  }
-}
-@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}/")
-public String index(@PathVariable("lang") String lang, 
-    @PathVariable("chapter") String chapter, Model model) {
-	
-  model.addAttribute("lang", lang);
-  return lang + "/" + chapter + "/index";
-}
-@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security}", 
-    "{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}"})
-public String getSectionByLang(@PathVariable("lang") String lang, 
-    @PathVariable("chapter") String chapter, 
-    @PathVariable(value="section", required=false) String section, Model model) {
-	
-  model.addAttribute("lang", lang);
-  if (section != null)
-    return lang + "/" + chapter + "/" + section;
-  else 
-    return lang + "/" + chapter + "/index";
-}
-</pre>
-</div>
-
-</article>
 </body>
 </html>

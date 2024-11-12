@@ -3,8 +3,8 @@
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">메시지소스</title>
-<meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/thymeleaf/01 :: meta[@name='Keywords']}" />
-<meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/thymeleaf/01 :: meta[@name='Description']}" />
+<meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
@@ -19,7 +19,7 @@
   <a th:href="@{/en/thymeleaf/bean-validation}">english</a>
 </div>
 
-<section th:replace="~{articles/thymeleaf/01 :: #bean-validation}"></section>
+<section th:replace="~{articles/01 :: #bean-validation}"></section>
 
 <aside th:replace="~{thymeleaf/menu :: index}"></aside>
 

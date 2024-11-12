@@ -2,7 +2,7 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">국제화</title>
+<title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">홈페이지 테스트</title>
 <meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Keywords']}" />
 <meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
@@ -15,11 +15,11 @@
 <nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
 
 <div id="i18n">
-  <a th:href="@{/ko/thymeleaf/i18n}">korean</a>
-  <a th:href="@{/en/thymeleaf/i18n}">english</a>
+  <a th:href="@{/ko/thymeleaf/complete-homepage}">korean</a>
+  <a th:href="@{/en/thymeleaf/complete-homepage}">english</a>
 </div>
 
-<section th:replace="~{articles/01 :: #internationalization}"></section>
+<section th:replace="~{articles/01 :: #complete-homepage}"></section>
 
 <aside th:replace="~{thymeleaf/menu :: index}"></aside>
 
