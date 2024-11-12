@@ -2,7 +2,7 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">예제 준비</title>
+<title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">타임리프 레이아웃</title>
 <meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/thymeleaf/01 :: meta[@name='Keywords']}" />
 <meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/thymeleaf/01 :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
@@ -15,11 +15,11 @@
 <nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
 
 <div id="i18n">
-  <a th:href="@{/ko/thymeleaf/get-started}">korean</a>
-  <a th:href="@{/en/thymeleaf/get-started}">english</a>
+  <a th:href="@{/ko/thymeleaf/thymeleaf-layout}">korean</a>
+  <a th:href="@{/en/thymeleaf/thymeleaf-layout}">english</a>
 </div>
 
-<section th:replace="~{articles/thymeleaf/01 :: #get-started}"></section>
+<section th:replace="~{articles/thymeleaf/01 :: #thymeleaf-layout}"></section>
 
 <aside th:replace="~{thymeleaf/menu :: index}"></aside>
 

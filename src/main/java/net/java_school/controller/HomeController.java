@@ -13,6 +13,10 @@ public class HomeController {
 		return "index";
 	}
 
+	@GetMapping("thymeleaf/")
+	public String test() {
+		return "thymeleaf/index";
+	}
 	@GetMapping("thymeleaf")
 	public String indexThymeleaf() {
 		return "thymeleaf/index";
