@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Thymeleaf</h1>
+<ul>
+	<li><a href="#" th:href="@{/thymeleaf/get-started}">Get Started</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/java-based-config}">Java-Based Config</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/prototype}">Prototype</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/thymeleaf-layout}">Thymeleaf Layout</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/homepage-test}">Homepage Test</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/deploy-to-tomcat}">Deploy app to Tomcat</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/i18n}">i18n</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/messagesource}">MessageSource</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/bean-validation}">Bean Validation</a></li>
+	<li><a href="#" th:href="@{/thymeleaf/mapping-requests}">Mapping Requests</a></li>
+</ul>
+</th:block>
+</body>
+</html>

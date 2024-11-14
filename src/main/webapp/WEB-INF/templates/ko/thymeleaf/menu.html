@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<style>
+#sidebar {
+  margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Thymeleaf</h1>
+<ul>
+  <li><a href="#" th:href="@{/ko/thymeleaf/get-started}">예제 준비</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/java-based-config}">자바 기반 설정</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/prototype}">프로토타입</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/thymeleaf-layout}">타임리프 레이아웃</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/homepage-test}">홈페이지 테스트</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/deploy-to-tomcat}">톰캣에 배포</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/i18n}">국제화</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/messagesource}">메시지소스</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/bean-validation}">빈 유효성 검사</a></li>
+  <li><a href="#" th:href="@{/ko/thymeleaf/mapping-requests}">요청 매핑</a></li>
+</ul>
+</th:block>
+</body>
+</html>
