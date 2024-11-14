@@ -3143,31 +3143,9 @@ static/css/validation.css 파일 생성
 </p>
 </article>
 
+<article id="mapping-requests">
+<h2>요청 매핑</h2>
 
-<article id="complete-homepage">
-<h2>홈페이지 완성</h2>
-
-<p>
-홈페이지를 웹사이트 전체 내용의 목차로 사용할 예정이다.<br />
-홈페이지를 완성해 보자.<br />
-구글에서 제공하는, 코드를 이쁘게 보여주는, 자바스크립트를 사용하겠다.<br />
-구글에서 Google Code Prettify를 검색한다.<br />
-https://github.com/googlearchive/code-prettify<br />
-https://github.com/googlearchive/code-prettify/blob/master/docs/getting_started.md<br />
-다운로드한 후 압축을 풀고, prettify.css 파일은 /static/css에, prettify.js와 run_prettify.js는 /static/js 폴더에 넣는다.<br />
-사용법은 다음과 같다.<br />
-내용에 코드가 있는 HTML 파일의 헤더에 다음을 추가한다.<br />
-</p>
-
-<pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="prettify.css" /&gt;
-&lt;script type="text/javascript" src="prettify.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="run_prettify.js"&gt;&lt;/script&gt;
-</pre>
-
-<p>
-본문의 코드는, &lt;pre class="prettyprint"&gt; 와 &lt;/pre&gt; 사이에 넣는다.<br />
-C 계열이나 HTML 코드는 이걸로 충분하다.<br />
-</p>
 
 <h3>컨트롤러</h3>
 
@@ -3390,6 +3368,27 @@ public String getSectionByLang(@PathVariable("lang") String lang,
 }
 </pre>
 </div>
+
+<h3>Google Code Prettify</h3>
+
+<p>
+구글에서 제공하는, 코드를 이쁘게 보여주는, 자바스크립트를 사용하겠다.<br />
+https://github.com/googlearchive/code-prettify<br />
+https://github.com/googlearchive/code-prettify/blob/master/docs/getting_started.md<br />
+다운로드한 후 압축을 풀고, prettify.css 파일은 /static/css에, prettify.js와 run_prettify.js는 /static/js 폴더에 넣는다.<br />
+사용법은 다음과 같다.<br />
+내용에 코드가 있는 HTML 파일의 헤더에 다음을 추가한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="prettify.css" /&gt;
+&lt;script type="text/javascript" src="prettify.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="run_prettify.js"&gt;&lt;/script&gt;
+</pre>
+
+<p>
+본문의 코드는, &lt;pre class="prettyprint"&gt; 와 &lt;/pre&gt; 사이에 넣는다.<br />
+C 계열이나 HTML 코드는 이걸로 충분하다.<br />
+</p>
 
 </article>
 </body>
