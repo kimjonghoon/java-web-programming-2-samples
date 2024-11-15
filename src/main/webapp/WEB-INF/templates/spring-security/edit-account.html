@@ -3,8 +3,8 @@
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${#locale.language == 'ko'} ? _ : 'Edit Account'">내 정보 수정</title>
-<meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/02 :: meta[@name='Keywords']}" />
-<meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/02 :: meta[@name='Description']}" />
+<meta name="Keywords" th:replace="~{articles/02 :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="~{articles/02 :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
@@ -19,9 +19,9 @@
   <a th:href="@{/en/spring-security/edit-account}">english</a>
 </div>
 
-<section th:replace="~{articles/02 :: #edit-account}"></section>
+<section th:replace="${#locale.language == 'ko'} ? ~{articles/02 :: #edit-account} : ~{articles/02_en :: #edit-account}"></section>
 
-<aside th:replace="~{spring-security/menu :: index}"></aside>
+<aside th:replace="${#locale.language == 'ko'} ? ~{spring-security/menu :: index} : ~{spring-security/menu_en :: index}">"></aside>
 
 <footer th:replace="~{spring-security/refs :: references}"></footer>
 

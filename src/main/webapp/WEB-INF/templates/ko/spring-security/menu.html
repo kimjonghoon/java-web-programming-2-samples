@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Spring Security</h1>
+<ul>
+	<li><a href="#" th:href="@{/ko/spring-security/get-started}">의존성 추가</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/java-based-config}">자바 기반 설정</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/jdbc-authentication}">JDBC를 사용하는 인증</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/custom-login}">사용자 정의 로그인</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/sign-up}">회원가입</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/logout}">로그아웃</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/edit-account}">내 정보 수정</a></li>
+	<li><a href="#" th:href="@{/ko/spring-security/change-password}">비밀번호 변경</a></li>
+</ul>
+</th:block>
+</body>
+</html>

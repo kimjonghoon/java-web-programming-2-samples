@@ -2,26 +2,25 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">스프링 시큐리티 의존성 추가</title>
+<title>JDBC를 사용하는 인증</title>
 <meta name="Keywords" th:replace="~{articles/02 :: meta[@name='Keywords']}" />
 <meta name="Description" th:replace="~{articles/02 :: meta[@name='Description']}" />
-<link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/ko.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
 <script th:src="@{/static/js/run_prettify.js}"></script>
 </head>
 <body>
 
-<nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
+<nav th:replace="~{commons/mainmenu_ko :: mainmenu}"></nav>
 
 <div id="i18n">
-  <a th:href="@{/ko/spring-security/get-started}">korean</a>
-  <a th:href="@{/en/spring-security/get-started}">english</a>
+  <a th:href="@{/en/spring-security/jdbc-authentication}">english</a>
 </div>
 
-<section th:replace="${#locale.language == 'ko'} ? ~{articles/02 :: #spring-security-get-started} : ~{articles/02_en :: #spring-security-get-started}"></section>
+<section th:replace="~{articles/02 :: #jdbc-authentication}"></section>
 
-<aside th:replace="${#locale.language == 'ko'} ? ~{spring-security/menu :: index} : ~{spring-security/menu_en :: index}">"></aside>
+<aside th:replace="~{ko/spring-security/menu :: index}"></aside>
 
 <footer th:replace="~{spring-security/refs :: references}"></footer>
 
