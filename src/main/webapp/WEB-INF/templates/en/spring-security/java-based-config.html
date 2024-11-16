@@ -3,8 +3,8 @@
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Java-Based Configuration</title>
-<meta name="Keywords" th:replace="~{articles/02 :: meta[@name='Keywords']}" />
-<meta name="Description" th:replace="~{articles/02 :: meta[@name='Description']}" />
+<meta name="Keywords" th:replace="~{articles/02_en :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="~{articles/02_en :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
@@ -22,7 +22,7 @@
 
 <aside th:replace="~{en/spring-security/menu :: index}"></aside>
 
-<footer th:replace="~{spring-security/refs :: references}"></footer>
+<footer th:replace="~{spring-security/refs_en :: references}"></footer>
 
 </body>
 </html>

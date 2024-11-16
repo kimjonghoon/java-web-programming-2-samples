@@ -3,8 +3,8 @@
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">예제 준비</title>
-<meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Keywords']}" />
-<meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Description']}" />
+<meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Keywords']} : ~{articles/01_en :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/01 :: meta[@name='Description']} : ~{articles/01_en :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
@@ -23,7 +23,6 @@
 
 <aside th:replace="~{thymeleaf/menu :: index}"></aside>
 
-<footer th:replace="~{thymeleaf/refs :: references}"></footer>
-
+<footer th:replace="${#locale.language == 'ko'} ? ~{thymeleaf/refs :: references} : ~{thymeleaf/refs_en :: references}"></footer>
 </body>
 </html>

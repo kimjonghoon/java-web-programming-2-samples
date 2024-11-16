@@ -16,6 +16,9 @@ div.filename {
 	margin: 0.7em 0 0 0;
 	font-size: 0.9em;
 }
+img.browser-output {
+	border: 2px solid #eee; 
+}
 a:link {
 	color: #2C80D0;
 	text-decoration: none;
