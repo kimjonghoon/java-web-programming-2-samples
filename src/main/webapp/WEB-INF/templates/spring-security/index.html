@@ -6,6 +6,7 @@
 <meta name="Keywords" th:content="${#locale.language == 'ko'} ? '스프링 시큐리티 목차' : 'Spring Security Index'" />
 <meta name="Description" th:content="${#locale.language == 'ko'} ? '스프링 시큐리티 목차' : 'Spring Security Index'" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/index.css}" />
 </head>
 <body>
 
@@ -16,7 +17,7 @@
   <a th:href="@{/en/spring-security}">english</a>
 </div>
 
-<aside th:replace="${#locale.language == 'ko'} ? ~{spring-security/menu :: index} : ~{spring-security/menu_en :: index}">"></aside>
+<section th:replace="~{spring-security/menu :: index}"></section>
 
 </body>
 </html>

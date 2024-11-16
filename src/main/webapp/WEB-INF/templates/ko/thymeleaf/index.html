@@ -2,9 +2,9 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{}, ~{})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>스프링 시큐리티 목차</title>
-<meta name="Keywords" content="스프링 시큐리티 목차" />
-<meta name="Description" content="스프링 시큐리티 목차" />
+<title>타임리프 목차</title>
+<meta name="Keywords" content="타임리프 목차" />
+<meta name="Description" content="타임리프 목차" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/ko.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/index.css}" />
 </head>
@@ -13,10 +13,10 @@
 <nav th:replace="~{commons/mainmenu_ko :: mainmenu}"></nav>
 
 <div id="i18n">
-  <a th:href="@{/en/spring-security}">english</a>
+  <a th:href="@{/en/thymeleaf}">english</a>
 </div>
 
-<section th:replace="~{ko/spring-security/menu :: index}"></section>
+<section th:replace="~{thymeleaf/menu :: index}"></section>
 
 </body>
 </html>

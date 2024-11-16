@@ -6,17 +6,18 @@
 <meta name="Keywords" th:content="${#locale.language == 'ko'} ? '타임리프 목차' : 'Thymeleaf Index'" />
 <meta name="Description" th:content="${#locale.language == 'ko'} ? '타임리프 목차' : 'Thymeleaf Index'" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/index.css}" />
 </head>
 <body>
 
 <nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
 
 <div id="i18n">
+  <a th:href="@{/ko/thymeleaf}">korean</a>
+  <a th:href="@{/en/thymeleaf}">english</a>
 </div>
 
-<section th:replace="~{thymeleaf/menu :: index}"></section>
-
-
+<section th:replace="${#locale.language == 'ko'} ? ~{thymeleaf/menu :: index} : ~{thymeleaf/menu_en :: index}"></section>
 
 </body>
 </html>
