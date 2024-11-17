@@ -1,0 +1,504 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title th:text="#{change.password}">상세보기</title>
+<meta name="Keywords" content="상세보기" th:content="#{change.password}" />
+<meta name="Description" content="상세보기" th:content="#{change.password}" />
+<link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+
+<script>
+function displayComments() {
+    var url = '/comments/' + 23466;
+    $.getJSON(url, function (data) {
+        $('#all-comments').empty();
+        $.each(data, function (i, item) {
+	    var creation = new Intl.DateTimeFormat('ko', {dateStyle: 'medium', timeStyle: 'medium'}).format(new Date(item.regdate));
+            var comments = '<div class="comments">'
+                    + '<span class="writer">' + item.name + '</span>'
+                    + '<span class="date">' + creation + '</span>';
+            if (item.editable === true) {
+                comments = comments
+                        + '<span class="modify-del">'
+                        + '<a href="#" class="comment-modify-link">' + '수정' + '</a> | '
+                        + '<a href="#" class="comment-delete-link" title="' + item.commentNo + '">' + '삭제' + '</a>'
+                        + '</span>';
+            }
+            comments = comments
+                    + '<div class="comment-memo">' + item.memo + '</div>'
+                    + '<form class="comment-form" action="/comments/' + 23466 + '/' + item.commentNo + '" method="put" style="display: none;">'
+                    + '<div style="text-align: right;">'
+                    + '<a href="#" class="comment-modify-submit-link">' + '전송' + '</a> | <a href="#" class="comment-modify-cancel-link">' + '취소' + '</a>'
+                    + '</div>'
+                    + '<div>'
+                    + '<textarea class="comment-textarea" name="memo" rows="7" cols="50">' + item.memo + '</textarea>'
+                    + '</div>'
+                    + '</form>'
+                    + '</div>';
+            $('#all-comments').append(comments);
+            //console.log(item);
+        });
+    });
+}
+$(document).ready(function () {
+    displayComments();
+    $('title').empty();
+    var title = $('#bbs-title').html();
+    $('title').append(title);
+    $('#file-list a.download').click(function (e) {
+        e.preventDefault();
+        var filename = this.title;
+	var fileno = $(this).attr('href');
+        $('#downForm input[name*=filename]').val(filename);
+        $('#downForm input[name*=fileno]').val(fileno);
+        $('#downForm').submit();
+    });
+    $('#file-list a:not(.download)').click(function (e) {
+        e.preventDefault();
+        var chk = confirm('정말로 삭제하겠습니까?');
+        if (chk === true) {
+            var attachFileNo = this.title;
+            $('#deleteAttachFileForm input[name*=attachFileNo]').val(attachFileNo);
+            $('#deleteAttachFileForm').submit();
+        }
+    });
+    //2022.10.22 added
+    $('#next-article-link').click(function (e) {
+        e.preventDefault();
+        var articleNo = this.title;
+        var action = $('#viewForm').attr('action');
+        action += articleNo;
+        $('#viewForm').attr('action', action);
+	var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+        if (parseInt(articleNo) > parseInt(firstItemNo)) {
+        	$('#viewForm-page').val(0);
+	}
+        $('#viewForm').submit();
+    });
+    //2022.10.18 added
+    $('#prev-article-link').click(function (e) {
+        e.preventDefault();
+        var articleNo = this.title;
+        var action = $('#viewForm').attr('action');
+        action += articleNo;
+        $('#viewForm').attr('action', action);
+	//2022.10.22 added
+        var lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
+        if (parseInt(articleNo) < parseInt(lastItemNo)) {
+		$('#viewForm-page').val(2);
+	}
+        $('#viewForm').submit();
+    });
+    /* 2022.10.18 removed 
+    $('.next-prev a').click(function (e) {
+        e.preventDefault();
+        var articleNo = this.title;
+        var action = $('#viewForm').attr('action');
+        action += articleNo;
+        $('#viewForm').attr('action', action);
+        $('#viewForm').submit();
+    }); */
+    //Modify Button
+    $('.goModify').click(function () {
+        $('#modifyForm').submit();
+    });
+    //Del Button
+    $('.goDelete').click(function () {
+        var chk = confirm('정말로 삭제하겠습니까?');
+        if (chk === true) {
+            $('#delForm').submit();
+        }
+    });
+    //Next Article Button
+    $('.next-article').click(function () {
+        var articleNo = this.title;
+        var action = $('#viewForm').attr('action');
+        action += articleNo;
+        $('#viewForm').attr('action', action);
+	//2022.10.22 added
+	var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+        if (parseInt(articleNo) > parseInt(firstItemNo)) {
+		$('#viewForm-page').val(0);
+	}
+        $('#viewForm').submit();
+    });
+    //Prev Article Button
+    $('.prev-article').click(function () {
+        var articleNo = this.title;
+        var action = $('#viewForm').attr('action');
+        action += articleNo;
+        $('#viewForm').attr('action', action);
+	//2022.10.22 added
+        var lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
+        if (parseInt(articleNo) < parseInt(lastItemNo)) {
+		$('#viewForm-page').val(2);
+	}
+        $('#viewForm').submit();
+    });
+    //List Button
+    $('.goList').click(function () {
+        $('#listForm').submit();
+    });
+    //Write Button
+    $('.goWrite').click(function () {
+        $('#writeForm').submit();
+    });
+    //Title Link in view.jsp
+    $('#list-table a').click(function (e) {
+        e.preventDefault();
+        var articleNo = this.title;
+        var action = $('#viewForm').attr('action');
+        action += articleNo;
+        $('#viewForm').attr('action', action);
+        $('#viewForm').submit();
+    });
+    //Paging
+    $('#paging a').click(function (e) {
+        e.preventDefault();
+        var page = this.title;
+        $('#listForm input[name*=page]').val(page);
+        $('#listForm').submit();
+    });
+    //Write Button on Search Button
+    $('#list-menu > input').click(function () {
+        $('#writeForm').submit();
+    });
+    $('#searchForm').submit(function() {
+        var $searchWord = $('#searchForm input[name*=searchWord]').val();
+        $searchWord = $.trim($searchWord);
+        $('#searchForm input[name*=searchWord]').val($searchWord);
+        $('#searchForm').submit();
+    });
+    $("#addCommentForm").submit(function (event) {
+        event.preventDefault();
+        var $form = $(this);
+        var memo = $('#addComment-ta').val();
+        memo = $.trim(memo);
+        if (memo.length === 0) {
+            $('#addComment-ta').val('');
+            return false;
+        }
+        var dataToBeSent = $form.serialize();
+        var url = $form.attr("action");
+        var posting = $.post(url, dataToBeSent);
+        posting.done(function () {
+            displayComments();
+            $('#addComment-ta').val('');
+        });
+    });    
+    var originWidth = $('#article-content > iframe').width();
+    var originHeight = $('#article-content > iframe').height();
+
+    var width = $('#detail').width();
+    var height = originHeight * width / originWidth;
+
+    $('#article-content > iframe').attr('width', width);
+    $('#article-content > iframe').attr('height', height);
+
+    $('#article-content > iframe').attr('allowFullScreen', '');
+});
+$(document).on('click', '#all-comments', function (e) {
+    if ($(e.target).is('.comment-modify-link')) {
+        e.preventDefault();
+        var $form = $(e.target).parent().parent().find('.comment-form');
+        var $div = $(e.target).parent().parent().find('.comment-memo');
+
+        if ($form.is(':hidden') === true) {
+            $form.show();
+            $div.hide();
+        } else {
+            $form.hide();
+            $div.show();
+        }
+    } else if ($(e.target).is('.comment-modify-cancel-link')) {
+        e.preventDefault();
+        var $form = $(e.target).parent().parent().parent().find('.comment-form');
+        var $div = $(e.target).parent().parent().parent().find('.comment-memo');
+
+        if ($form.is(':hidden') === true) {
+            $form.show();
+            $div.hide();
+        } else {
+            $form.hide();
+            $div.show();
+        }
+    } else if ($(e.target).is('.comment-modify-submit-link')) {
+        e.preventDefault();
+        var $form = $(e.target).parent().parent().parent().find('.comment-form');
+        var $textarea = $(e.target).parent().parent().find('.comment-textarea');
+        var memo = $textarea.val();
+        $('#modifyCommentForm input[name*=memo]').val(memo);
+        var dataToBeSent = $('#modifyCommentForm').serialize();
+        var url = $form.attr("action");
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: dataToBeSent,
+            success: function () {
+                displayComments();
+            },
+            error: function () {
+                alert('error!');
+            }
+        });
+    } else if ($(e.target).is('.comment-delete-link')) {
+        e.preventDefault();
+        var chk = confirm('정말로 삭제하겠습니까?');
+        if (chk === false) {
+            return;
+        }
+        var $commentNo = $(e.target).attr('title');
+        var url = $('#deleteCommentForm').attr('action');
+        url += $commentNo;
+        var dataToBeSent = $('#deleteCommentForm').serialize();
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: dataToBeSent,
+            success: function () {
+                displayComments();
+            },
+            error:function(request,status,error){
+                console.log("code:" + request.status 
+                		+ "\n" + "message:" + request.responseText 
+                		+ "\n" + "error:" + error);
+            }
+        });
+    }
+});
+</script>
+</head>
+
+<body>
+<article>
+
+<!-- content begin -->
+<div id="content-categories">자유게시판</div>
+<div class="view-menu" style="margin-top: 15px;margin-bottom: 5px;">
+	<div class="fl">
+		<input type="button" value="수정" class="goModify" />
+		<input type="button" value="삭제" class="goDelete" />
+	</div>
+	<div class="fr">
+		<input type="button" value="다음 글" title="23486" class="next-article" />
+		<input type="button" value="이전 글" title="23087" class="prev-article" />
+		<input type="button" value="목록" class="goList" />
+		<input type="button" value="새 글쓰기" class="goWrite" />
+	</div>
+</div>
+
+<table class="bbs-table">
+    <tr>
+        <th style="width: 47px;text-align: left;vertical-align: top;font-size: 1em;">TITLE</th>
+        <th style="text-align: left;color: #555;font-size: 1em;" id="bbs-title">git fetch origin</th>
+    </tr>
+</table>
+<div id="detail">
+    <div id="date-writer-hit">edited 2024. 7. 15. 오후 8:18:39 by lex hit 4</div>
+    <div id="article-content">git reset --hard origin/main</div>
+    <div id="file-list" style="text-align: right">
+        
+    </div>
+</div>
+<form id="addCommentForm" style="margin: 10px 0;" action="/comments/23466" method="post">
+    <div id="addComment">
+        <textarea id="addComment-ta" name="memo" rows="7" cols="50"></textarea>
+    </div>
+    <div style="text-align: right;">
+        <input type="submit" value="댓글 쓰기" />
+    </div>
+<div>
+<input type="hidden" name="_csrf" value="mGMuheI4QhvkRM-QQR-hoMtaMGR-clqqahnrVnLoARzaUK0L-Voe59YOJijJca3zJzKVlPM5HQYdQW-HCXiNZBPdNyzjNslq" />
+</div></form>
+<!--  comments begin -->
+<div id="all-comments">
+</div>
+<!--  comments end -->
+<div class="next-prev">
+	<p>다음 글 : <a href="#" title="23486" id="next-article-link">amazon ssh connect</a></p>
+	<p>이전 글 : <a href="#" title="23087" id="prev-article-link">lsb_release -a</a></p>
+</div>
+
+<div class="view-menu" style="margin-bottom: 47px;">
+	<div class="fl">
+		<input type="button" value="수정" class="goModify" />
+		<input type="button" value="삭제" class="goDelete" />
+	</div>
+	<div class="fr">
+		<input type="button" value="다음 글" title="23486" class="next-article" />
+		<input type="button" value="이전 글" title="23087" class="prev-article" />
+		<input type="button" value="목록" class="goList" />
+		<input type="button" value="새 글쓰기" class="goWrite" />
+	</div>
+</div>
+<!--  BBS list in detailed Article -->
+<table id="list-table" class="bbs-table">
+    <tr>
+        <th style="width: 60px;">NO</th>
+        <th>TITLE</th>
+        <th style="width: 84px;">DATE</th>
+        <th style="width: 60px;">HIT</th>
+    </tr>
+	<tr>
+		<td style="text-align: center;">405</td>
+            <td>
+				<a href="#" title="23488">Knocking' on Heaven's Door.smi</a>
+				<img src="../../../static/images/attach.png" alt="첨부파일" style="vertical-align: middle;" />
+            </td>
+            <td style="text-align: center;">24. 10. 20.</td>
+            <td style="text-align: center;">2</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">404</td>
+            <td>
+				<a href="#" title="23486">amazon ssh connect</a>
+				<span class="bbs-strong">[1]</span>
+            </td>
+            <td style="text-align: center;">24. 7. 15.</td>
+            <td style="text-align: center;">1</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">
+				<img src="../../../static/images/arrow.gif" alt="현재 페이지" />
+            </td>
+            <td>
+				<a href="#" title="23466">git fetch origin</a>
+				<span class="bbs-strong">[5]</span>
+            </td>
+            <td style="text-align: center;">24. 7. 15.</td>
+            <td style="text-align: center;">4</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">402</td>
+            <td>
+                <a href="#" title="23087">lsb_release -a</a>
+            </td>
+            <td style="text-align: center;">24. 4. 22.</td>
+            <td style="text-align: center;">3</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">401</td>
+            <td>
+                <a href="#" title="23086">ffmpeg: Xvid</a>
+            </td>
+            <td style="text-align: center;">24. 4. 16.</td>
+            <td style="text-align: center;">2</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">400</td>
+            <td>
+				<a href="#" title="23059">sudo e2fsck -cfpv /dev/sdb</a>
+            </td>
+            <td style="text-align: center;">24. 4. 8.</td>
+            <td style="text-align: center;">1</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">399</td>
+            <td>
+                <a href="#" title="23053">database: article 복구 방법</a>
+            </td>
+            <td style="text-align: center;">24. 4. 2.</td>
+            <td style="text-align: center;">2</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">398</td>
+            <td>
+                <a href="#" title="22400">tail -f /home/kim/tomcat/logs/catalina.2024-02-09.log</a>
+            </td>
+            <td style="text-align: center;">24. 2. 9.</td>
+            <td style="text-align: center;">0</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">397</td>
+            <td>
+                <a href="#" title="19746">database: oracle 중복 데이터 일괄 삭제</a>
+            </td>
+            <td style="text-align: center;">22. 11. 18.</td>
+            <td style="text-align: center;">0</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">396</td>
+            <td>
+                <a href="#" title="19212">database: How to recover data on Oracle</a>
+            </td>
+            <td style="text-align: center;">22. 8. 17.</td>
+            <td style="text-align: center;">0</td>
+        </tr>
+</table>
+<div id="paging">
+	<span class="bbs-strong">1</span>
+	<a href="#" title="2">[ 2 ]</a>
+	<a href="#" title="3">[ 3 ]</a>
+	<a href="#" title="4">[ 4 ]</a>
+	<a href="#" title="5">[ 5 ]</a>
+	<a href="#" title="6">[ 6 ]</a>
+	<a href="#" title="7">[ 7 ]</a>
+	<a href="#" title="8">[ 8 ]</a>
+	<a href="#" title="9">[ 9 ]</a>
+	<a href="#" title="10">[ 10 ]</a>
+	<a href="#" title="11">[다음]</a>
+	<a href="#" title="41">[마지막]</a>
+</div>
+<div id="list-menu">
+    <input type="button" value="새 글쓰기" />
+</div>
+<form id="searchForm" action="/bbs/chat" method="get">
+    <input type="hidden" name="page" value="1" />
+    <div id="search">
+        <input type="text" name="searchWord" size="15" maxlength="30" />
+        <input type="submit" value="검색" />
+    </div>
+</form>
+<div id="form-group" style="display: none">
+    <form id="listForm" action="/bbs/chat" method="get">
+        <input type="hidden" name="page" value="1" />
+        <input type="hidden" name="searchWord" value="" />
+    </form>
+    <form id="viewForm" action="/bbs/chat/" method="get">
+        <input type="hidden" name="page" value="1" id="viewForm-page" />
+        <input type="hidden" name="searchWord" value="" />
+    </form>
+    <form id="writeForm" action="/bbs/chat/new" method="get">
+        <input type="hidden" name="articleNo" value="23466" />
+        <input type="hidden" name="page" value="1" />
+        <input type="hidden" name="searchWord" value="" />
+    </form>
+    <form id="delForm" action="/bbs/chat/23466" method="post"><input type="hidden" name="_method" value="delete"/>
+        <input type="hidden" name="page" value="1" />
+        <input type="hidden" name="searchWord" value="" />
+    <div>
+<input type="hidden" name="_csrf" value="mGMuheI4QhvkRM-QQR-hoMtaMGR-clqqahnrVnLoARzaUK0L-Voe59YOJijJca3zJzKVlPM5HQYdQW-HCXiNZBPdNyzjNslq" />
+</div></form>
+    <form id="modifyForm" action="/bbs/chat/23466/edit" method="get">
+        <input type="hidden" name="page" value="1" />
+        <input type="hidden" name="searchWord" value="" />
+    </form>
+    <form id="deleteAttachFileForm" action="/bbs/deleteAttachFile" method="post"><input type="hidden" name="_method" value="delete"/>
+        <input type="hidden" name="attachFileNo" />
+        <input type="hidden" name="articleNo" value="23466" />
+        <input type="hidden" name="boardCd" value="chat" />
+        <input type="hidden" name="page" value="1" />
+        <input type="hidden" name="searchWord" value="" />
+    <div>
+<input type="hidden" name="_csrf" value="mGMuheI4QhvkRM-QQR-hoMtaMGR-clqqahnrVnLoARzaUK0L-Voe59YOJijJca3zJzKVlPM5HQYdQW-HCXiNZBPdNyzjNslq" />
+</div></form>
+    <form id="downForm" action="/data" method="post">
+        <input type="hidden" name="filename" />
+        <input type="hidden" name="fileno" />
+    <div>
+<input type="hidden" name="_csrf" value="mGMuheI4QhvkRM-QQR-hoMtaMGR-clqqahnrVnLoARzaUK0L-Voe59YOJijJca3zJzKVlPM5HQYdQW-HCXiNZBPdNyzjNslq" />
+</div></form>
+    <form id="modifyCommentForm" action="/bbs/chat/23466?page=1&amp;searchWord=" method="post"><input type="hidden" name="_method" value="put"/>
+    	<input type="hidden" name="memo" />
+    <div>
+<input type="hidden" name="_csrf" value="mGMuheI4QhvkRM-QQR-hoMtaMGR-clqqahnrVnLoARzaUK0L-Voe59YOJijJca3zJzKVlPM5HQYdQW-HCXiNZBPdNyzjNslq" />
+</div></form>
+    <form id="deleteCommentForm" action="/comments/23466/" method="post"><input type="hidden" name="_method" value="delete"/>
+    <div>
+<input type="hidden" name="_csrf" value="mGMuheI4QhvkRM-QQR-hoMtaMGR-clqqahnrVnLoARzaUK0L-Voe59YOJijJca3zJzKVlPM5HQYdQW-HCXiNZBPdNyzjNslq" />
+</div></form>
+</div>
+<!-- content end -->
+
+</article>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title th:text="#{change.password}">글 수정</title>
+<meta name="Keywords" content="글 수정" th:content="#{change.password}" />
+<meta name="Description" content="글 수정" th:content="#{change.password}" />
+<link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+
+<script>
+$(document).ready(function() {
+   $('#modifyForm').submit(function() {
+      var title = $('#modifyForm input[name*=title]').val();
+      var content = $('#modifyForm-ta').val();
+      title = $.trim(title);
+      content = $.trim(content);
+      if (title.length === 0) {
+          alert('제목이 비었습니다!');
+          $('#modifyForm input[name*=title]').val('');
+          return false;
+      }
+      if (content.length === 0) {
+          alert('내용이 비었습니다!');
+          $('#modifyForm-ta').val('');
+          return false;
+      }
+      $('#modifyForm input[name*=title]').val(title);
+      $('#modifyForm-ta').val(content);
+   });
+   $('#goView').click(function(){
+      $('#viewForm').submit(); 
+   });
+});
+</script>
+</head>
+
+<body>
+<article>
+
+<!-- content begin -->
+<div id="content-categories">자유게시판</div>
+<h3>수정</h3>
+<form id="modifyForm" action="/bbs/chat/23488?_csrf=x26Y6BafyTWY8X5F1qZKGKGDVG_koymqu1HFwKa40x5IoHUSpleoiiKprQa1xBwmsIt-LJngeQ2HkByH2DCj8seN5S5xxhFz" method="post" enctype="multipart/form-data">
+<input type="hidden" name="page" value="1" />
+<input type="hidden" name="searchWord" value="" />
+<table id="write-form" commandName="article" class="bbs-table">
+<tr>
+    <td>제목</td>
+    <td>
+    	<input id="title" name="title" style="width: 90%" type="text" value="Knocking&#39; on Heaven&#39;s Door.smi"/><br />
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+        <textarea id="modifyForm-ta" name="content" rows="17" cols="50">
+		Knocking&#39; on Heaven&#39;s Door.smi
+		</textarea><br />
+    </td>
+</tr>
+<tr>
+    <td>첨부파일</td>
+    <td><input type="file" name="attachFile" /></td>
+</tr>
+</table>
+<div style="text-align: center;padding-bottom: 15px;">
+    <input type="submit" value="전송" />
+    <input type="button" value="상세보기" id="goView" />
+</div>
+<div>
+<input type="hidden" name="_csrf" value="x26Y6BafyTWY8X5F1qZKGKGDVG_koymqu1HFwKa40x5IoHUSpleoiiKprQa1xBwmsIt-LJngeQ2HkByH2DCj8seN5S5xxhFz" />
+</div></form>
+<div id="form-group" style="display: none">
+    <form id="viewForm" action="/bbs/chat/23488" method="get">
+        <input type="hidden" name="page" value="1" />
+        <input type="hidden" name="searchWord" value="" />
+    </form>
+</div>
+<!-- content end -->
+
+</article>
+</body>
+</html>
