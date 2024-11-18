@@ -1,46 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title th:text="#{change.password}">상세보기</title>
-<meta name="Keywords" content="상세보기" th:content="#{change.password}" />
-<meta name="Description" content="상세보기" th:content="#{change.password}" />
+<title>게시글 보기</title>
+<meta name="Keywords" content="View details" />
+<meta name="Description" content="View details" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
 <script>
-function displayComments() {
-    var url = '/comments/' + 23466;
-    $.getJSON(url, function (data) {
-        $('#all-comments').empty();
-        $.each(data, function (i, item) {
-	    var creation = new Intl.DateTimeFormat('ko', {dateStyle: 'medium', timeStyle: 'medium'}).format(new Date(item.regdate));
-            var comments = '<div class="comments">'
-                    + '<span class="writer">' + item.name + '</span>'
-                    + '<span class="date">' + creation + '</span>';
-            if (item.editable === true) {
-                comments = comments
-                        + '<span class="modify-del">'
-                        + '<a href="#" class="comment-modify-link">' + '수정' + '</a> | '
-                        + '<a href="#" class="comment-delete-link" title="' + item.commentNo + '">' + '삭제' + '</a>'
-                        + '</span>';
-            }
-            comments = comments
-                    + '<div class="comment-memo">' + item.memo + '</div>'
-                    + '<form class="comment-form" action="/comments/' + 23466 + '/' + item.commentNo + '" method="put" style="display: none;">'
-                    + '<div style="text-align: right;">'
-                    + '<a href="#" class="comment-modify-submit-link">' + '전송' + '</a> | <a href="#" class="comment-modify-cancel-link">' + '취소' + '</a>'
-                    + '</div>'
-                    + '<div>'
-                    + '<textarea class="comment-textarea" name="memo" rows="7" cols="50">' + item.memo + '</textarea>'
-                    + '</div>'
-                    + '</form>'
-                    + '</div>';
-            $('#all-comments').append(comments);
-            //console.log(item);
-        });
-    });
-}
 $(document).ready(function () {
-    displayComments();
     $('title').empty();
     var title = $('#bbs-title').html();
     $('title').append(title);
@@ -61,7 +28,6 @@ $(document).ready(function () {
             $('#deleteAttachFileForm').submit();
         }
     });
-    //2022.10.22 added
     $('#next-article-link').click(function (e) {
         e.preventDefault();
         var articleNo = this.title;
@@ -71,32 +37,21 @@ $(document).ready(function () {
 	var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
         if (parseInt(articleNo) > parseInt(firstItemNo)) {
         	$('#viewForm-page').val(0);
-	}
+		}
         $('#viewForm').submit();
     });
-    //2022.10.18 added
     $('#prev-article-link').click(function (e) {
         e.preventDefault();
         var articleNo = this.title;
         var action = $('#viewForm').attr('action');
         action += articleNo;
         $('#viewForm').attr('action', action);
-	//2022.10.22 added
         var lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
         if (parseInt(articleNo) < parseInt(lastItemNo)) {
-		$('#viewForm-page').val(2);
-	}
+			$('#viewForm-page').val(2);
+		}
         $('#viewForm').submit();
     });
-    /* 2022.10.18 removed 
-    $('.next-prev a').click(function (e) {
-        e.preventDefault();
-        var articleNo = this.title;
-        var action = $('#viewForm').attr('action');
-        action += articleNo;
-        $('#viewForm').attr('action', action);
-        $('#viewForm').submit();
-    }); */
     //Modify Button
     $('.goModify').click(function () {
         $('#modifyForm').submit();
@@ -114,11 +69,10 @@ $(document).ready(function () {
         var action = $('#viewForm').attr('action');
         action += articleNo;
         $('#viewForm').attr('action', action);
-	//2022.10.22 added
-	var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+		var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
         if (parseInt(articleNo) > parseInt(firstItemNo)) {
-		$('#viewForm-page').val(0);
-	}
+			$('#viewForm-page').val(0);
+		}
         $('#viewForm').submit();
     });
     //Prev Article Button
@@ -127,11 +81,10 @@ $(document).ready(function () {
         var action = $('#viewForm').attr('action');
         action += articleNo;
         $('#viewForm').attr('action', action);
-	//2022.10.22 added
         var lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
         if (parseInt(articleNo) < parseInt(lastItemNo)) {
-		$('#viewForm-page').val(2);
-	}
+			$('#viewForm-page').val(2);
+		}
         $('#viewForm').submit();
     });
     //List Button
@@ -195,75 +148,6 @@ $(document).ready(function () {
     $('#article-content > iframe').attr('height', height);
 
     $('#article-content > iframe').attr('allowFullScreen', '');
-});
-$(document).on('click', '#all-comments', function (e) {
-    if ($(e.target).is('.comment-modify-link')) {
-        e.preventDefault();
-        var $form = $(e.target).parent().parent().find('.comment-form');
-        var $div = $(e.target).parent().parent().find('.comment-memo');
-
-        if ($form.is(':hidden') === true) {
-            $form.show();
-            $div.hide();
-        } else {
-            $form.hide();
-            $div.show();
-        }
-    } else if ($(e.target).is('.comment-modify-cancel-link')) {
-        e.preventDefault();
-        var $form = $(e.target).parent().parent().parent().find('.comment-form');
-        var $div = $(e.target).parent().parent().parent().find('.comment-memo');
-
-        if ($form.is(':hidden') === true) {
-            $form.show();
-            $div.hide();
-        } else {
-            $form.hide();
-            $div.show();
-        }
-    } else if ($(e.target).is('.comment-modify-submit-link')) {
-        e.preventDefault();
-        var $form = $(e.target).parent().parent().parent().find('.comment-form');
-        var $textarea = $(e.target).parent().parent().find('.comment-textarea');
-        var memo = $textarea.val();
-        $('#modifyCommentForm input[name*=memo]').val(memo);
-        var dataToBeSent = $('#modifyCommentForm').serialize();
-        var url = $form.attr("action");
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: dataToBeSent,
-            success: function () {
-                displayComments();
-            },
-            error: function () {
-                alert('error!');
-            }
-        });
-    } else if ($(e.target).is('.comment-delete-link')) {
-        e.preventDefault();
-        var chk = confirm('정말로 삭제하겠습니까?');
-        if (chk === false) {
-            return;
-        }
-        var $commentNo = $(e.target).attr('title');
-        var url = $('#deleteCommentForm').attr('action');
-        url += $commentNo;
-        var dataToBeSent = $('#deleteCommentForm').serialize();
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: dataToBeSent,
-            success: function () {
-                displayComments();
-            },
-            error:function(request,status,error){
-                console.log("code:" + request.status 
-                		+ "\n" + "message:" + request.responseText 
-                		+ "\n" + "error:" + error);
-            }
-        });
-    }
 });
 </script>
 </head>
