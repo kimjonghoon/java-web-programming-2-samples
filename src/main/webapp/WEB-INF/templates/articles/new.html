@@ -1,9 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <title th:text="#{change.password}">새글</title>
 <meta name="Keywords" content="새글" th:content="#{change.password}" />
 <meta name="Description" content="새글" th:content="#{change.password}" />
+<link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
 <script>
 $(document).ready(function() {
@@ -34,55 +34,52 @@ $(document).ready(function() {
 });
 </script>
 </head>
-
 <body>
 <article>
-
 <!-- content begin -->
 <div id="content-categories">자유게시판</div>
 <h3>새 글쓰기</h3>
 <form id="writeForm" action="/bbs/chat?_csrf=OgCx0KB9vjHD0Qif9KRioTRhtDIDj_aVS4rwt_1DofyKxStrWzmBspRL2gLu5Gr8kolWlQwCmVBgvMO4KOuWhZx2l8yzo08K" method="post" enctype="multipart/form-data">
 <table id="write-form" class="bbs-table">
 <tr>
-    <td>제목</td>
-    <td>
-    	<input id="title" name="title" style="width: 90%" type="text" value=""/><br />
-    </td>
+  <td>제목</td>
+  <td>
+    <input id="title" name="title" style="width: 90%" type="text" value=""/><br />
+  </td>
 </tr>
 <tr>
-    <td colspan="2">
-        <textarea id="writeForm-ta" name="content" rows="17" cols="50">
-		</textarea><br />
-    </td>
+  <td colspan="2">
+    <textarea id="writeForm-ta" name="content" rows="17" cols="50">
+    </textarea><br />
+  </td>
 </tr>
 <tr>
-    <td>첨부파일</td>
-    <td><input type="file" name="attachFile" /></td>
+  <td>첨부파일</td>
+  <td><input type="file" name="attachFile" /></td>
 </tr>
 </table>
 <div style="text-align: center;padding-bottom: 15px;">
-    <input type="submit" value="전송" />
-    <input type="button" value="목록" id="goList" />
-    <input type="button" value="상세보기" id="goView" />
+  <input type="submit" value="전송" />
+  <input type="button" value="목록" id="goList" />
+  <input type="button" value="상세보기" id="goView" />
 </div>
 <div>
 <input type="hidden" name="_csrf" value="OgCx0KB9vjHD0Qif9KRioTRhtDIDj_aVS4rwt_1DofyKxStrWzmBspRL2gLu5Gr8kolWlQwCmVBgvMO4KOuWhZx2l8yzo08K" />
 </div>
 </form>
 <div id="form-group" style="display: none">
-    <form id="viewForm" action="/bbs/chat/23488" method="get">
-        <input type="hidden" name="page" value="1" />
-        <input type="hidden" name="searchWord" value="" />
-    </form>
-    <form id="listForm" action="/bbs/chat" method="get">
-        <input type="hidden" name="page" value="1" />
-        <input type="hidden" name="searchWord" value="" />
-    </form>
-    <div id="title-empty" title="제목이 비었습니다!"></div>
-    <div id="content-empty" title="내용이 비었습니다!"></div>
+  <form id="viewForm" action="/bbs/chat/23488" method="get">
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="searchWord" value="" />
+  </form>
+  <form id="listForm" action="/bbs/chat" method="get">
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="searchWord" value="" />
+  </form>
+  <div id="title-empty" title="제목이 비었습니다!"></div>
+  <div id="content-empty" title="내용이 비었습니다!"></div>
 </div>
 <!-- content end -->
-
 </article>
 </body>
 </html>

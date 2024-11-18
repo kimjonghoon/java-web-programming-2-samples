@@ -1,11 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <title th:text="#{change.password}">목록</title>
 <meta name="Keywords" content="목록" th:content="#{change.password}" />
 <meta name="Description" content="목록" th:content="#{change.password}" />
+<link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
-
 <script>
 $(document).ready(function() {
     $('#paging a').click(function(e) {
@@ -68,138 +67,123 @@ function createCookie(name, value, days) {
     </select>
 </div>
 <table class="bbs-table">
-    <tr>
-        <th style="width: 60px;">NO</th>
-        <th>TITLE</th>
-        <th style="width: 84px;">DATE</th>
-        <th style="width: 60px;">HIT</th>
-    </tr>
-    <!--  bbs list begin-->
-        <tr>
-            <td style="text-align: center;">405</td>
-            <td>
-                <a href="#" title="23488" class="view-link">Knocking' on Heaven's Door.smi</a>
-                    <img src="/resources/images/attach.png" alt="첨부파일" style="vertical-align: middle;" />
-            </td>
-            <td style="text-align: center;">24. 10. 20.</td>
-            <td style="text-align: center;">2</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">404</td>
-            <td>
-                <a href="#" title="23486" class="view-link">amazon ssh connect</a>
-                    <span class="bbs-strong">[1]</span>
-            </td>
-            <td style="text-align: center;">24. 7. 15.</td>
-            <td style="text-align: center;">1</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">403</td>
-            <td>
-                <a href="#" title="23466" class="view-link">git fetch origin</a>
-                    <span class="bbs-strong">[5]</span>
-            </td>
-            <td style="text-align: center;">24. 7. 15.</td>
-            <td style="text-align: center;">3</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">402</td>
-            <td>
-                <a href="#" title="23087" class="view-link">lsb_release -a</a>
-            </td>
-            <td style="text-align: center;">24. 4. 22.</td>
-            <td style="text-align: center;">3</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">401</td>
-            <td>
-                <a href="#" title="23086" class="view-link">ffmpeg: Xvid</a>
-            </td>
-            <td style="text-align: center;">24. 4. 16.</td>
-            <td style="text-align: center;">2</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">400</td>
-            <td>
-                <a href="#" title="23059" class="view-link">sudo e2fsck -cfpv /dev/sdb</a>
-            </td>
-            <td style="text-align: center;">24. 4. 8.</td>
-            <td style="text-align: center;">1</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">399</td>
-            <td>
-                <a href="#" title="23053" class="view-link">database: article 복구 방법</a>
-            </td>
-            <td style="text-align: center;">24. 4. 2.</td>
-            <td style="text-align: center;">2</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">398</td>
-            <td>
-                <a href="#" title="22400" class="view-link">tail -f /home/kim/tomcat/logs/catalina.2024-02-09.log</a>
-            </td>
-            <td style="text-align: center;">24. 2. 9.</td>
-            <td style="text-align: center;">0</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">397</td>
-            <td>
-                <a href="#" title="19746" class="view-link">database: oracle 중복 데이터 일괄 삭제</a>
-            </td>
-            <td style="text-align: center;">22. 11. 18.</td>
-            <td style="text-align: center;">0</td>
-        </tr>
-        <tr>
-            <td style="text-align: center;">396</td>
-            <td>
-                <a href="#" title="19212" class="view-link">database: How to recover data on Oracle</a>
-            </td>
-            <td style="text-align: center;">22. 8. 17.</td>
-            <td style="text-align: center;">0</td>
-        </tr>
-    <!--  bbs list end -->
+<tr>
+  <th style="width: 60px;text-align: center;">NO</th>
+  <th>TITLE</th>
+  <th style="width: 84px;text-align: center;">DATE</th>
+  <th style="width: 60px;text-align: center;">HIT</th>
+</tr>
+<!--  bbs list begin-->
+<tr>
+  <td style="text-align: center;">405</td>
+  <td>
+    <a href="#" title="23488" class="view-link">Knocking' on Heaven's Door.smi</a>
+    <img src="/resources/images/attach.png" alt="첨부파일" style="vertical-align: middle;" />
+  </td>
+  <td style="text-align: center;">24. 10. 20.</td>
+  <td style="text-align: center;">2</td>
+</tr>
+<tr>
+  <td style="text-align: center;">404</td>
+  <td>
+     <a href="#" title="23486" class="view-link">amazon ssh connect</a>
+     <span class="bbs-strong">[1]</span>
+  </td>
+  <td style="text-align: center;">24. 7. 15.</td>
+  <td style="text-align: center;">1</td>
+</tr>
+<tr>
+  <td style="text-align: center;">403</td>
+  <td>
+    <a href="#" title="23466" class="view-link">git fetch origin</a>
+    <span class="bbs-strong">[5]</span>
+  </td>
+  <td style="text-align: center;">24. 7. 15.</td>
+  <td style="text-align: center;">3</td>
+</tr>
+<tr>
+  <td style="text-align: center;">402</td>
+  <td><a href="#" title="23087" class="view-link">lsb_release -a</a></td>
+  <td style="text-align: center;">24. 4. 22.</td>
+  <td style="text-align: center;">3</td>
+</tr>
+<tr>
+  <td style="text-align: center;">401</td>
+  <td><a href="#" title="23086" class="view-link">ffmpeg: Xvid</a></td>
+  <td style="text-align: center;">24. 4. 16.</td>
+  <td style="text-align: center;">2</td>
+</tr>
+<tr>
+  <td style="text-align: center;">400</td>
+  <td><a href="#" title="23059" class="view-link">sudo e2fsck -cfpv /dev/sdb</a></td>
+  <td style="text-align: center;">24. 4. 8.</td>
+  <td style="text-align: center;">1</td>
+</tr>
+<tr>
+  <td style="text-align: center;">399</td>
+  <td><a href="#" title="23053" class="view-link">database: article 복구 방법</a></td>
+  <td style="text-align: center;">24. 4. 2.</td>
+  <td style="text-align: center;">2</td>
+</tr>
+<tr>
+  <td style="text-align: center;">398</td>
+  <td><a href="#" title="22400" class="view-link">tail -f /home/kim/tomcat/logs/catalina.2024-02-09.log</a></td>
+  <td style="text-align: center;">24. 2. 9.</td>
+  <td style="text-align: center;">0</td>
+</tr>
+<tr>
+  <td style="text-align: center;">397</td>
+  <td><a href="#" title="19746" class="view-link">database: oracle 중복 데이터 일괄 삭제</a></td>
+  <td style="text-align: center;">22. 11. 18.</td>
+  <td style="text-align: center;">0</td>
+</tr>
+<tr>
+  <td style="text-align: center;">396</td>
+  <td><a href="#" title="19212" class="view-link">database: How to recover data on Oracle</a></td>
+  <td style="text-align: center;">22. 8. 17.</td>
+  <td style="text-align: center;">0</td>
+</tr>
+<!--  bbs list end -->
 </table>
 <div id="paging">
-	<span class="bbs-strong">1</span>
-	<a href="#" title="2">[ 2 ]</a>
-	<a href="#" title="3">[ 3 ]</a>
-	<a href="#" title="4">[ 4 ]</a>
-	<a href="#" title="5">[ 5 ]</a>
-	<a href="#" title="6">[ 6 ]</a>
-	<a href="#" title="7">[ 7 ]</a>
-	<a href="#" title="8">[ 8 ]</a>
-	<a href="#" title="9">[ 9 ]</a>
-	<a href="#" title="10">[ 10 ]</a>
-	<a href="#" title="11">[다음]</a>
-	<a href="#" title="41">[마지막]</a>
+  <span class="bbs-strong">1</span>
+  <a href="#" title="2">[ 2 ]</a>
+  <a href="#" title="3">[ 3 ]</a>
+  <a href="#" title="4">[ 4 ]</a>
+  <a href="#" title="5">[ 5 ]</a>
+  <a href="#" title="6">[ 6 ]</a>
+  <a href="#" title="7">[ 7 ]</a>
+  <a href="#" title="8">[ 8 ]</a>
+  <a href="#" title="9">[ 9 ]</a>
+  <a href="#" title="10">[ 10 ]</a>
+  <a href="#" title="11">[다음]</a>
+  <a href="#" title="41">[마지막]</a>
 </div>
 <div id="list-menu">
-    <input type="button" value="새 글쓰기" id="write-btn" />
+  <input type="button" value="새 글쓰기" id="write-btn" />
 </div>
 <form id="searchForm" method="get">
-    <input type="hidden" name="page" value="1" />
-    <div id="search">
-        <input type="text" name="searchWord" size="15" maxlength="30" />
-        <input type="submit" value="검색" />
-    </div>
+  <input type="hidden" name="page" value="1" />
+  <div id="search">
+    <input type="text" name="searchWord" size="15" maxlength="30" />
+    <input type="submit" value="검색" />
+  </div>
 </form>
 <div id="form-group">
-    <form id="listForm" method="get">
-        <input type="hidden" name="page" />
-        <input type="hidden" name="searchWord" value="" />
-    </form>
-    <form id="viewForm" action="/bbs/chat/" method="get">
-        <input type="hidden" name="page" value="1" />
-        <input type="hidden" name="searchWord" value="" />
-    </form>
-    <form id="writeForm" action="/bbs/chat/new" method="get">
-        <input type="hidden" name="page" value="1" />
-        <input type="hidden" name="searchWord" value="" />
-    </form>
+  <form id="listForm" method="get">
+    <input type="hidden" name="page" />
+    <input type="hidden" name="searchWord" value="" />
+  </form>
+  <form id="viewForm" action="/bbs/chat/" method="get">
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="searchWord" value="" />
+  </form>
+  <form id="writeForm" action="/bbs/chat/new" method="get">
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="searchWord" value="" />
+  </form>
 </div>
 <!-- content end -->
-
 </article>
 </body>
 </html>
