@@ -1,61 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="#{change.password}">목록</title>
-<meta name="Keywords" content="목록" th:content="#{change.password}" />
-<meta name="Description" content="목록" th:content="#{change.password}" />
+<title>목록</title>
+<meta name="Keywords" content="List" />
+<meta name="Description" content="List" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
-<script>
-$(document).ready(function() {
-    $('#paging a').click(function(e) {
-        e.preventDefault();
-        var page = this.title;
-        $('#listForm input[name*=page]').val(page);
-        $('#listForm').submit();
-    });
-    $('.view-link').click(function(e){
-        e.preventDefault();
-        var articleNo = this.title;
-        var action = $('#viewForm').attr('action');
-        action += articleNo;
-        $('#viewForm').attr('action', action);
-        $('#viewForm').submit();
-    });
-    $('#write-btn').click(function() {
-        $('#writeForm').submit();
-    });
-    $('#numPerPage').change(function() {
-        var numPerPage = $('#numPerPage option:selected').val();
-        if (numPerPage) {
-            createCookie('numPerPage', numPerPage, '30');
-            $('#listForm input[name*=page]').val('1');
-            $('#listForm').submit();
-        }
-    });
-    $('#searchForm').submit(function() {
-        var $searchWord = $('#searchForm input[name*=searchWord]').val();
-        $searchWord = $.trim($searchWord);
-        $('#searchForm input[name*=searchWord]').val($searchWord);
-        $('#searchForm').submit();
-    });
-});
-
-function createCookie(name, value, days) {
-    var newCookie = name + "=" + escape(value);
-    if (days) {
-        var expires = new Date();
-        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-        newCookie += "; expires=" + expires.toGMTString();
-    }
-    document.cookie = newCookie;
-}
-</script>
-<!-- content begin -->
 </head>
 
 <body>
 <article>
-		
 <div id="content-categories">자유게시판</div>
 <div style="text-align: right;">
     <select id="numPerPage">

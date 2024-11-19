@@ -1,36 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title th:text="#{change.password}">글 수정</title>
-<meta name="Keywords" content="글 수정" th:content="#{change.password}" />
-<meta name="Description" content="글 수정" th:content="#{change.password}" />
+<title>글 수정</title>
+<meta name="Keywords" content="Edit Post" />
+<meta name="Description" content="Edit Post" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
-<script>
-$(document).ready(function() {
-   $('#modifyForm').submit(function() {
-      var title = $('#modifyForm input[name*=title]').val();
-      var content = $('#modifyForm-ta').val();
-      title = $.trim(title);
-      content = $.trim(content);
-      if (title.length === 0) {
-          alert('제목이 비었습니다!');
-          $('#modifyForm input[name*=title]').val('');
-          return false;
-      }
-      if (content.length === 0) {
-          alert('내용이 비었습니다!');
-          $('#modifyForm-ta').val('');
-          return false;
-      }
-      $('#modifyForm input[name*=title]').val(title);
-      $('#modifyForm-ta').val(content);
-   });
-   $('#goView').click(function(){
-      $('#viewForm').submit(); 
-   });
-});
-</script>
 </head>
 <body>
 <article>
