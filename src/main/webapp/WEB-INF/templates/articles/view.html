@@ -7,25 +7,24 @@
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
 <style>
 article {
-	width: 777px;
+  width: 777px;
 }
 </style>
 </head>
 <body>
 <article>
-<!-- content begin -->
 <div id="content-categories">자유게시판</div>
 <div class="view-menu">
-	<div style="float: left;">
-		<input type="button" value="수정" class="goModify" />
-		<input type="button" value="삭제" class="goDelete" />
-	</div>
-	<div style="float: right;">
-		<input type="button" value="다음 글" title="23486" class="next-article" />
-		<input type="button" value="이전 글" title="23087" class="prev-article" />
-		<input type="button" value="목록" class="goList" />
-		<input type="button" value="새 글쓰기" class="goWrite" />
-	</div>
+  <div style="float: left;">
+    <input type="button" value="수정" class="goModify" />
+    <input type="button" value="삭제" class="goDelete" />
+  </div>
+  <div style="float: right;">
+    <input type="button" value="다음 글" title="23486" class="next-article" />
+    <input type="button" value="이전 글" title="23087" class="prev-article" />
+    <input type="button" value="목록" class="goList" />
+    <input type="button" value="새 글쓰기" class="goWrite" />
+  </div>
 </div>
 <table class="bbs-table">
 <tr>
@@ -34,19 +33,12 @@ article {
 </tr>
 </table>
 <div id="detail">
-    <div id="date-writer-hit">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
-    <div id="article-content" style="min-height: 100px;">
+  <div id="date-writer-hit">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
+  <div id="article-content" style="min-height: 100px;">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
-    </div>
-    <div id="file-list" style="text-align: right">
-	    <div id="attachfile450" class="attach-file">
-		    <a href="450" title="final-source.zip" class="download">final-source.zip</a>
-		    <a href="#" title="450">삭제</a>
-	    </div>
-    </div>
+  </div>
 </div>
-<!--  BBS list in detailed Article -->
 <table id="list-table" class="bbs-table">
 <tr>
   <th style="width: 60px;text-align: center;">NO</th>
@@ -54,23 +46,17 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <th style="width: 84px;text-align: center;">DATE</th>
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
-<!--  bbs list begin-->
 <tr>
   <td style="text-align: center;">
     <img src="../../../static/images/arrow.gif" alt="The article you are viewing" />
   </td>
-  <td>
-    <a href="#" title="23488" class="view-link">자바 웹 프로그래밍 2 최종 소스</a>
-    <img src="../../../static/images/attach.png" alt="attachment" />
-  </td>
+  <td><a href="#" title="23488" class="view-link">자바 웹 프로그래밍 2 최종 소스</a></td>
   <td style="text-align: center;">24 10 20</td>
   <td style="text-align: center;">2</td>
 </tr>
 <tr>
   <td style="text-align: center;">404</td>
-  <td>
-     <a href="#" title="23486" class="view-link">우분투 24.04에 자바 개발 환경</a>
-  </td>
+  <td><a href="#" title="23486" class="view-link">우분투 24.04에 자바 개발 환경</a></td>
   <td style="text-align: center;">24 07 15</td>
   <td style="text-align: center;">1</td>
 </tr>
@@ -165,32 +151,16 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
     <input type="hidden" name="page" value="1" />
     <input type="hidden" name="search" value="" />
   </form>
-  <form id="delForm" action="/bbs/chat/23466" method="post"><input type="hidden" name="_method" value="delete"/>
+  <form id="delForm" action="/bbs/chat/23466" method="post">
+    <input type="hidden" name="_method" value="delete"/>
     <input type="hidden" name="page" value="1" />
     <input type="hidden" name="search" value="" />
   </form>
-  <form id="modifyForm" action="/bbs/chat/23466/edit" method="get">
+  <form id="editForm" action="/bbs/chat/23466/edit" method="get">
     <input type="hidden" name="page" value="1" />
     <input type="hidden" name="search" value="" />
-  </form>
-  <form id="deleteAttachFileForm" action="/bbs/deleteAttachFile" method="post"><input type="hidden" name="_method" value="delete"/>
-    <input type="hidden" name="attachFileNo" />
-    <input type="hidden" name="articleNo" value="23466" />
-    <input type="hidden" name="boardCd" value="chat" />
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
-  </form>
-  <form id="downForm" action="/data" method="post">
-    <input type="hidden" name="filename" />
-    <input type="hidden" name="fileno" />
-  </form>
-  <form id="modifyCommentForm" action="/bbs/chat/23466?page=1&amp;search=" method="post"><input type="hidden" name="_method" value="put"/>
-    <input type="hidden" name="memo" />
-  </form>
-  <form id="deleteCommentForm" action="/comments/23466/" method="post"><input type="hidden" name="_method" value="delete"/>
   </form>
 </div>
-<!-- content end -->
 </article>
 </body>
 </html>
