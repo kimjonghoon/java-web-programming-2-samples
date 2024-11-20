@@ -5,6 +5,11 @@
 <meta name="Description" content="List" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+<style>
+article {
+	width: 777px;
+}
+</style>
 </head>
 
 <body>
@@ -30,8 +35,8 @@
 <tr>
   <td style="text-align: center;">405</td>
   <td>
-    <a href="#" title="23488" class="view-link">Java Web Programming 2 최종 소스</a>
-    <img src="../../../static/images/attach.png" alt="첨부파일" />
+    <a href="#" title="23488" class="view-link">자바 웹 프로그래밍 2 최종 소스</a>
+    <img src="../../../static/images/attach.png" alt="attachment" />
   </td>
   <td style="text-align: center;">24 10 20</td>
   <td style="text-align: center;">2</td>
@@ -97,17 +102,19 @@
 <!--  bbs list end -->
 </table>
 <div id="paging">
-  <span class="bbs-strong">1</span>
-  <a href="#" title="2">[ 2 ]</a>
-  <a href="#" title="3">[ 3 ]</a>
-  <a href="#" title="4">[ 4 ]</a>
-  <a href="#" title="5">[ 5 ]</a>
-  <a href="#" title="6">[ 6 ]</a>
-  <a href="#" title="7">[ 7 ]</a>
-  <a href="#" title="8">[ 8 ]</a>
-  <a href="#" title="9">[ 9 ]</a>
-  <a href="#" title="10">[ 10 ]</a>
-  <a href="#" title="11">[다음]</a>
+  <a href="#" title="1">[처음]</a>
+  <a href="#" title="10">[이전]</a>
+  <span class="bbs-strong">11</span>
+  <a href="#" title="12">[ 12 ]</a>
+  <a href="#" title="13">[ 13 ]</a>
+  <a href="#" title="14">[ 14 ]</a>
+  <a href="#" title="15">[ 15 ]</a>
+  <a href="#" title="16">[ 16 ]</a>
+  <a href="#" title="17">[ 17 ]</a>
+  <a href="#" title="18">[ 18 ]</a>
+  <a href="#" title="19">[ 19 ]</a>
+  <a href="#" title="20">[ 20 ]</a>
+  <a href="#" title="21">[다음]</a>
   <a href="#" title="41">[마지막]</a>
 </div>
 <div id="list-menu">
@@ -116,22 +123,22 @@
 <form id="searchForm" method="get">
   <input type="hidden" name="page" value="1" />
   <div id="search">
-    <input type="text" name="searchWord" size="15" maxlength="30" />
+    <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" />
   </div>
 </form>
 <div id="form-group">
   <form id="listForm" method="get">
     <input type="hidden" name="page" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="viewForm" action="/bbs/chat/" method="get">
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="writeForm" action="/bbs/chat/new" method="get">
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
 </div>
 <!-- content end -->

@@ -5,6 +5,11 @@
 <meta name="Description" content="New Post" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+<style>
+article {
+  width: 777px;
+}
+</style>
 </head>
 <body>
 <article>
@@ -42,11 +47,11 @@
 <div id="form-group" style="display: none">
   <form id="viewForm" action="/bbs/chat/23488" method="get">
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="listForm" action="/bbs/chat" method="get">
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <div id="title-empty" title="제목이 비었습니다!"></div>
   <div id="content-empty" title="내용이 비었습니다!"></div>

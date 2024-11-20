@@ -1,22 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <title>게시글 보기</title>
 <meta name="Keywords" content="View details" />
 <meta name="Description" content="View details" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+<style>
+article {
+	width: 777px;
+}
+</style>
 </head>
 <body>
 <article>
 <!-- content begin -->
 <div id="content-categories">자유게시판</div>
 <div class="view-menu">
-	<div class="fl" style="float:left;">
+	<div style="float: left;">
 		<input type="button" value="수정" class="goModify" />
 		<input type="button" value="삭제" class="goDelete" />
 	</div>
-	<div class="fr">
+	<div style="float: right;">
 		<input type="button" value="다음 글" title="23486" class="next-article" />
 		<input type="button" value="이전 글" title="23087" class="prev-article" />
 		<input type="button" value="목록" class="goList" />
@@ -25,15 +29,22 @@
 </div>
 <table class="bbs-table">
 <tr>
-  <th style="width: 47px;text-align: left;vertical-align: top;font-size: 1em;">TITLE</th>
-  <th style="text-align: left;color: #555;font-size: 1em;" id="bbs-title">git fetch origin</th>
+  <th style="width: 50px;text-align: left;vertical-align: top;font-size: 15px;">TITLE</th>
+  <th style="text-align: left;color: #555;font-size: 15px;" id="bbs-title">자바 웹 프로그래밍 2 최종 소스</th>
 </tr>
 </table>
 <div id="detail">
-    <div id="date-writer-hit">edited 2024. 7. 15. 오후 8:18:39 by lex hit 4</div>
-    <div id="article-content" style="min-height: 100px;">git reset --hard origin/main
+    <div id="date-writer-hit">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
+    <div id="article-content" style="min-height: 100px;">
+자바 웹 프로그래밍 2 예제<br />
+https://github.com/kimjonghoon/java-web-programming-2-samples
     </div>
-    <div id="file-list" style="text-align: right"> </div>
+    <div id="file-list" style="text-align: right">
+	    <div id="attachfile450" class="attach-file">
+		    <a href="450" title="final-source.zip" class="download">final-source.zip</a>
+		    <a href="#" title="450">삭제</a>
+	    </div>
+    </div>
 </div>
 <!--  BBS list in detailed Article -->
 <table id="list-table" class="bbs-table">
@@ -43,90 +54,91 @@
   <th style="width: 84px;text-align: center;">DATE</th>
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
+<!--  bbs list begin-->
 <tr>
-  <td style="text-align: center;">405</td>
-  <td>
-	<a href="#" title="23488">Knocking' on Heaven's Door.smi</a>
-	<img src="../../../static/images/attach.png" alt="첨부파일" style="vertical-align: middle;" />
+  <td style="text-align: center;">
+    <img src="../../../static/images/arrow.gif" alt="The article you are viewing" />
   </td>
-  <td style="text-align: center;">24. 10. 20.</td>
+  <td>
+    <a href="#" title="23488" class="view-link">자바 웹 프로그래밍 2 최종 소스</a>
+    <img src="../../../static/images/attach.png" alt="attachment" />
+  </td>
+  <td style="text-align: center;">24 10 20</td>
   <td style="text-align: center;">2</td>
 </tr>
 <tr>
   <td style="text-align: center;">404</td>
   <td>
-    <a href="#" title="23486">amazon ssh connect</a>
-    <span class="bbs-strong">[1]</span>
+     <a href="#" title="23486" class="view-link">우분투 24.04에 자바 개발 환경</a>
   </td>
-  <td style="text-align: center;">24. 7. 15.</td>
+  <td style="text-align: center;">24 07 15</td>
   <td style="text-align: center;">1</td>
 </tr>
 <tr>
-  <td style="text-align: center;">
-    <img src="../../../static/images/arrow.gif" alt="현재 페이지" />
-  </td>
+  <td style="text-align: center;">403</td>
   <td>
-    <a href="#" title="23466">git fetch origin</a>
-    <span class="bbs-strong">[5]</span>
+    <a href="#" title="23466" class="view-link">스프링 자바 기반 설정</a>
   </td>
-  <td style="text-align: center;">24. 7. 15.</td>
-  <td style="text-align: center;">4</td>
+  <td style="text-align: center;">24 07 15</td>
+  <td style="text-align: center;">3</td>
 </tr>
 <tr>
   <td style="text-align: center;">402</td>
-  <td><a href="#" title="23087">lsb_release -a</a></td>
-  <td style="text-align: center;">24. 4. 22.</td>
+  <td><a href="#" title="23087" class="view-link">다음 글, 이전 글 기능 수정</a></td>
+  <td style="text-align: center;">24 04 22</td>
   <td style="text-align: center;">3</td>
 </tr>
 <tr>
   <td style="text-align: center;">401</td>
-  <td><a href="#" title="23086">ffmpeg: Xvid</a></td>
-  <td style="text-align: center;">24. 4. 16.</td>
+  <td><a href="#" title="23086" class="view-link">페이징 처리</a></td>
+  <td style="text-align: center;">24 04 16</td>
   <td style="text-align: center;">2</td>
 </tr>
 <tr>
   <td style="text-align: center;">400</td>
-  <td><a href="#" title="23059">sudo e2fsck -cfpv /dev/sdb</a></td>
-  <td style="text-align: center;">24. 4. 8.</td>
+  <td><a href="#" title="23059" class="view-link">간단한 Spring MyBatis 예제</a></td>
+  <td style="text-align: center;">24 04 08</td>
   <td style="text-align: center;">1</td>
 </tr>
 <tr>
   <td style="text-align: center;">399</td>
-  <td><a href="#" title="23053">database: article 복구 방법</a></td>
-  <td style="text-align: center;">24. 4. 2.</td>
+  <td><a href="#" title="23053" class="view-link">윈도에서 책 에제 테스트 방법</a></td>
+  <td style="text-align: center;">24 04 02</td>
   <td style="text-align: center;">2</td>
 </tr>
 <tr>
   <td style="text-align: center;">398</td>
-  <td><a href="#" title="22400">tail -f /home/kim/tomcat/logs/catalina.2024-02-09.log</a></td>
-  <td style="text-align: center;">24. 2. 9.</td>
+  <td><a href="#" title="22400" class="view-link">자바 9 모듈</a></td>
+  <td style="text-align: center;">24 02 09</td>
   <td style="text-align: center;">0</td>
 </tr>
 <tr>
   <td style="text-align: center;">397</td>
-  <td><a href="#" title="19746">database: oracle 중복 데이터 일괄 삭제</a></td>
-  <td style="text-align: center;">22. 11. 18.</td>
+  <td><a href="#" title="19746" class="view-link">우분투에 MariaDB 설치</a></td>
+  <td style="text-align: center;">22 11 18</td>
   <td style="text-align: center;">0</td>
 </tr>
 <tr>
   <td style="text-align: center;">396</td>
-  <td><a href="#" title="19212">database: How to recover data on Oracle</a></td>
-  <td style="text-align: center;">22. 8. 17.</td>
+  <td><a href="#" title="19212" class="view-link">스프링 MVC에서 Thymeleaf 레이아웃 사용</a></td>
+  <td style="text-align: center;">22 08 17</td>
   <td style="text-align: center;">0</td>
 </tr>
 </table>
 <div id="paging">
-  <span class="bbs-strong">1</span>
-  <a href="#" title="2">[ 2 ]</a>
-  <a href="#" title="3">[ 3 ]</a>
-  <a href="#" title="4">[ 4 ]</a>
-  <a href="#" title="5">[ 5 ]</a>
-  <a href="#" title="6">[ 6 ]</a>
-  <a href="#" title="7">[ 7 ]</a>
-  <a href="#" title="8">[ 8 ]</a>
-  <a href="#" title="9">[ 9 ]</a>
-  <a href="#" title="10">[ 10 ]</a>
-  <a href="#" title="11">[다음]</a>
+  <a href="#" title="1">[처음]</a>
+  <a href="#" title="10">[이전]</a>
+  <span class="bbs-strong">11</span>
+  <a href="#" title="12">[ 12 ]</a>
+  <a href="#" title="13">[ 13 ]</a>
+  <a href="#" title="14">[ 14 ]</a>
+  <a href="#" title="15">[ 15 ]</a>
+  <a href="#" title="16">[ 16 ]</a>
+  <a href="#" title="17">[ 17 ]</a>
+  <a href="#" title="18">[ 18 ]</a>
+  <a href="#" title="19">[ 19 ]</a>
+  <a href="#" title="20">[ 20 ]</a>
+  <a href="#" title="21">[다음]</a>
   <a href="#" title="41">[마지막]</a>
 </div>
 <div id="list-menu">
@@ -135,51 +147,50 @@
 <form id="searchForm" action="/bbs/chat" method="get">
   <input type="hidden" name="page" value="1" />
   <div id="search">
-    <input type="text" name="searchWord" size="15" maxlength="30" />
+    <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" />
   </div>
 </form>
 <div id="form-group" style="display: none">
   <form id="listForm" action="/bbs/chat" method="get">
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="viewForm" action="/bbs/chat/" method="get">
     <input type="hidden" name="page" value="1" id="viewForm-page" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="writeForm" action="/bbs/chat/new" method="get">
     <input type="hidden" name="articleNo" value="23466" />
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="delForm" action="/bbs/chat/23466" method="post"><input type="hidden" name="_method" value="delete"/>
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="modifyForm" action="/bbs/chat/23466/edit" method="get">
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="deleteAttachFileForm" action="/bbs/deleteAttachFile" method="post"><input type="hidden" name="_method" value="delete"/>
     <input type="hidden" name="attachFileNo" />
     <input type="hidden" name="articleNo" value="23466" />
     <input type="hidden" name="boardCd" value="chat" />
     <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="searchWord" value="" />
+    <input type="hidden" name="search" value="" />
   </form>
   <form id="downForm" action="/data" method="post">
     <input type="hidden" name="filename" />
     <input type="hidden" name="fileno" />
   </form>
-  <form id="modifyCommentForm" action="/bbs/chat/23466?page=1&amp;searchWord=" method="post"><input type="hidden" name="_method" value="put"/>
+  <form id="modifyCommentForm" action="/bbs/chat/23466?page=1&amp;search=" method="post"><input type="hidden" name="_method" value="put"/>
     <input type="hidden" name="memo" />
   </form>
   <form id="deleteCommentForm" action="/comments/23466/" method="post"><input type="hidden" name="_method" value="delete"/>
   </form>
 </div>
 <!-- content end -->
-
 </article>
 </body>
 </html>
