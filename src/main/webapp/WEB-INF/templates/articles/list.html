@@ -8,6 +8,7 @@
 <style>
 article {
   width: 777px;
+  margin: 0 auto;
 }
 </style>
 </head>
@@ -117,18 +118,34 @@ article {
     <input type="submit" value="검색" />
   </div>
 </form>
+<form id="writeForm" action="/bbs/chat" method="post">
+<table id="write-form" class="bbs-table">
+<caption>새 글쓰기</caption>
+<tr>
+  <td>제목</td>
+  <td><input type="text" name="title" id="title" style="width: 90%" /></td>
+</tr>
+<tr>
+  <td colspan="2">
+    <textarea id="writeForm-ta" name="content" rows="10" cols="50">
+	</textarea>
+  </td>
+</tr>
+<tr>
+  <td colspan="2">
+    <input type="submit" value="전송" />
+  </td>
+</tr>
+</table>
+</form>
 <div id="form-group">
   <form id="listForm" method="get">
     <input type="hidden" name="page" />
-    <input type="hidden" name="search" value="" />
+    <input type="hidden" name="search" value="${param.search }" />
   </form>
   <form id="viewForm" action="/bbs/chat/" method="get">
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
-  </form>
-  <form id="writeForm" action="/bbs/chat/new" method="get">
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
+    <input type="hidden" name="page" value="${param.page }" />
+    <input type="hidden" name="search" value="${param.search }" />
   </form>
 </div>
 </article>

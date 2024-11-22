@@ -8,6 +8,7 @@
 <style>
 article {
   width: 777px;
+  margin: 0 auto;
 }
 </style>
 </head>
@@ -23,7 +24,6 @@ article {
     <input type="button" value="다음 글" title="23486" class="next-article" />
     <input type="button" value="이전 글" title="23087" class="prev-article" />
     <input type="button" value="목록" class="goList" />
-    <input type="button" value="새 글쓰기" class="goWrite" />
   </div>
 </div>
 <table class="bbs-table">
@@ -39,6 +39,25 @@ article {
 https://github.com/kimjonghoon/java-web-programming-2-samples
   </div>
 </div>
+<form id="editForm">
+<table class="bbs-table">
+<caption>수정</caption>
+<tr>
+  <td>제목</td>
+  <td><input name="title" type="text" id="title" value="웹 프로그래밍 2 최종 소스" style="width: 90%" /></td>
+</tr>
+<tr>
+  <td colspan="2">
+<textarea id="modifyForm-ta" name="content" rows="10" style="width: 100%">
+자바 웹 프로그래밍 2 예제<br />
+https://github.com/kimjonghoon/java-web-programming-2-samples
+</textarea>
+  </td>
+</tr>
+<tr>
+  <td colspan="2"><input type="submit" value="전송" /></td>
+</table>
+</form>
 <table id="list-table" class="bbs-table">
 <tr>
   <th style="width: 60px;text-align: center;">NO</th>
@@ -123,10 +142,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <a href="#" title="21">[다음]</a>
   <a href="#" title="41">[마지막]</a>
 </div>
-<div id="list-menu">
-  <input type="button" value="새 글쓰기" />
-</div>
-<form id="searchForm" action="/bbs/chat" method="get">
+<form id="searchForm" action="/bbs/chat" method="get" style="margin-top: 15px;">
   <input type="hidden" name="page" value="1" />
   <div id="search">
     <input type="text" name="search" size="15" maxlength="30" />
@@ -135,26 +151,12 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 </form>
 <div id="form-group" style="display: none">
   <form id="listForm" action="/bbs/chat" method="get">
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
+    <input type="hidden" name="page" value="${param.page }" />
+    <input type="hidden" name="search" value="${param.search }" />
   </form>
   <form id="viewForm" action="/bbs/chat/" method="get">
-    <input type="hidden" name="page" value="1" id="viewForm-page" />
-    <input type="hidden" name="search" value="" />
-  </form>
-  <form id="writeForm" action="/bbs/chat/new" method="get">
-    <input type="hidden" name="articleNo" value="23466" />
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
-  </form>
-  <form id="delForm" action="/bbs/chat/23466" method="post">
-    <input type="hidden" name="_method" value="delete"/>
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
-  </form>
-  <form id="editForm" action="/bbs/chat/23466/edit" method="get">
-    <input type="hidden" name="page" value="1" />
-    <input type="hidden" name="search" value="" />
+    <input type="hidden" name="page" value="${param.page }" />
+    <input type="hidden" name="search" value="${param.search }" />
   </form>
 </div>
 </article>

@@ -268,6 +268,12 @@ article > ol > li {
 	width: 100%;
 	margin: 0.7em 0 0 0;
 }
+.bbs-table caption {
+  color: #555;
+  font-size: 15px;
+  font-weight: bold;
+	text-align: left;  
+}
 .bbs-table th {
 	color: #92B91C;
 	border-top: 1px solid #92B91C;
