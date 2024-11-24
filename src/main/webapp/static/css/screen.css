@@ -268,10 +268,10 @@ article > ol > li {
 	width: 100%;
 	margin: 0.7em 0 0 0;
 }
-.bbs-table caption {
-  color: #555;
-  font-size: 15px;
-  font-weight: bold;
+.bbs-table > caption {
+	color: #555;
+	font-size: 15px;
+	font-weight: bold;
 	text-align: left;  
 }
 .bbs-table th {
@@ -309,9 +309,6 @@ article > ol > li {
 	color: #FFA500;
 	font-weight: bold;
 }
-.view-menu {
-	height: 22px;
-}
 #write-form td {
 	border: none;
 }
@@ -334,17 +331,8 @@ article > ol > li {
 	color: #555;
 	text-align: right;
 }
-#article-content {
-	color: #333;
-}
-#search {
-	text-align: center;
-}
-.attach-file {
-	font-size: 12px;
-	line-height: 1.3;
-}
-#article-content {
+#post-content {
 	font-size: 15px;
 	color: #333;
+	min-height: 100px;
 }

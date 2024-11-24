@@ -11,6 +11,19 @@ article {
   margin: 0 auto;
 }
 </style>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+$(document).ready(function() {
+	$('#new-post-btn').click(function() {
+		var $form = $('#writeForm');
+		if ($form.is(':hidden') === true) {
+			$form.show();
+		} else {
+			$form.hide();
+		}
+	});
+});
+</script>
 </head>
 <body>
 <article>
@@ -108,17 +121,17 @@ article {
   <a href="#" title="21">[다음]</a>
   <a href="#" title="41">[마지막]</a>
 </div>
-<div id="list-menu">
-  <input type="button" value="새 글쓰기" id="write-btn" />
+<div>
+  <input type="button" value="새 글쓰기" id="new-post-btn" />
 </div>
 <form id="searchForm" method="get">
   <input type="hidden" name="page" value="1" />
-  <div id="search">
+  <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" />
   </div>
 </form>
-<form id="writeForm" action="/bbs/chat" method="post">
+<form id="writeForm" action="/bbs/chat" method="post" style="display: none;">
 <table id="write-form" class="bbs-table">
 <caption>새 글쓰기</caption>
 <tr>
