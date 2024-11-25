@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>목록</title>
+<title th:text="${boardName}">목록</title>
 <meta name="Keywords" content="List" />
 <meta name="Description" content="List" />
 <link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
@@ -27,15 +27,15 @@ $(document).ready(function() {
 </head>
 <body>
 <article>
-<div id="content-categories">자유게시판</div>
+<div id="content-categories" th:text="${boardName}">자유게시판</div>
 <div style="text-align: right;">
-    <select id="numPerPage">
-        <option value="">페이지당 게시글 수</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-    </select>
+  <select id="numPerPage">
+    <option value="">페이지당 게시글 수</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+    <option value="100">100</option>
+  </select>
 </div>
 <table class="bbs-table">
 <tr>
@@ -44,12 +44,13 @@ $(document).ready(function() {
   <th style="width: 84px;text-align: center;">DATE</th>
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
-<tr>
-  <td style="text-align: center;">405</td>
-  <td><a href="#" title="23488">자바 웹 프로그래밍 2 최종 소스</a></td>
-  <td style="text-align: center;">24 10 20</td>
-  <td style="text-align: center;">2</td>
+<tr th:each="article : ${articles}" th:class="${articleStat.odd} ? 'odd'">
+  <td style="text-align: center;"th:text="${article.articleNo}">405</td>
+  <td><a href="#" title="23488" th:text="${article.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
+  <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(article.regdate,df)}">24 10 20</td>
+  <td style="text-align: center;" th:text="${article.hit}">2</td>
 </tr>
+<!--/*-->
 <tr>
   <td style="text-align: center;">404</td>
   <td><a href="#" title="23486">우분투 24.04에 자바 개발 환경</a></td>
@@ -104,10 +105,13 @@ $(document).ready(function() {
   <td style="text-align: center;">22 08 17</td>
   <td style="text-align: center;">0</td>
 </tr>
+<!--*/-->
 </table>
 <div id="paging">
-  <a href="#" title="1">[처음]</a>
-  <a href="#" title="10">[이전]</a>
+  <th:block th:if="${prevPage} &gt; 0">
+	<a href="#" title="1" th:text="#{first.page}">[처음]</a>
+	<a href="#" title="10" th:title="${prevPage}" th:text="#{prev.page}">[이전]</a>
+  </th:block>
   <span class="bbs-strong">11</span>
   <a href="#" title="12">[ 12 ]</a>
   <a href="#" title="13">[ 13 ]</a>
@@ -118,8 +122,10 @@ $(document).ready(function() {
   <a href="#" title="18">[ 18 ]</a>
   <a href="#" title="19">[ 19 ]</a>
   <a href="#" title="20">[ 20 ]</a>
-  <a href="#" title="21">[다음]</a>
-  <a href="#" title="41">[마지막]</a>
+  <th:block th:if="${nexPage} &gt; 0">
+	  <a href="#" title="21" th:title="${nextPage}" th:text="#{next.page}">[다음]</a>
+	  <a href="#" title="41" th:title="${totalPage}" th:text="#{final.page}">[마지막]</a>
+  </th:block>
 </div>
 <div>
   <input type="button" value="새 글쓰기" id="new-post-btn" />
@@ -128,10 +134,10 @@ $(document).ready(function() {
   <input type="hidden" name="page" value="1" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
-    <input type="submit" value="검색" />
+    <input type="submit" value="검색" th:value="#{search}" />
   </div>
 </form>
-<form id="writeForm" action="/bbs/chat" method="post" style="display: none;">
+<form id="writeForm" action="/bbs/${boardCd}" method="post" style="display: none;">
 <table id="write-form" class="bbs-table">
 <caption>새 글쓰기</caption>
 <tr>
@@ -140,13 +146,12 @@ $(document).ready(function() {
 </tr>
 <tr>
   <td colspan="2">
-    <textarea id="writeForm-ta" name="content" rows="10" cols="50">
-	</textarea>
+    <textarea id="writeForm-ta" name="content" rows="10" cols="50"></textarea>
   </td>
 </tr>
 <tr>
   <td colspan="2">
-    <input type="submit" value="전송" />
+    <input type="submit" value="전송" th:value="#{submit}" />
   </td>
 </tr>
 </table>
@@ -156,7 +161,7 @@ $(document).ready(function() {
     <input type="hidden" name="page" />
     <input type="hidden" name="search" value="${param.search }" />
   </form>
-  <form id="viewForm" action="/bbs/chat/" method="get">
+  <form id="viewForm" action="/bbs/${boardCd}/" method="get">
     <input type="hidden" name="page" value="${param.page }" />
     <input type="hidden" name="search" value="${param.search }" />
   </form>
