@@ -110,10 +110,9 @@ $(document).ready(function() {
 <div id="paging">
   <a href="#" title="1" th:if="${prevPage} &gt; 0" th:text="#{first.page}">[처음]</a>
   <a href="#" title="10" th:if="${prevPage} &gt; 0" th:title="${prevPage}" th:text="#{prev.page}">[이전]</a>
-  <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page}" th:inline="none">[ ${page} ]</a>
+  <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page}" th:inline="none">[ 11 ]</a>
   <!--/*-->
-  <span class="bbs-strong">11</span>
-  <a href="#" title="12">[ 12 ]</a>
+  <span class="bbs-strong">12</span>
   <a href="#" title="13">[ 13 ]</a>
   <a href="#" title="14">[ 14 ]</a>
   <a href="#" title="15">[ 15 ]</a>

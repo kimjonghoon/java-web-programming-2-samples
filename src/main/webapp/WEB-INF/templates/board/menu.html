@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Board</h1>
+<ul>
+	<li><a href="#" th:href="@{/board/get-started}">게시판 시작하기</a></li>
+</ul>
+</th:block>
+</body>
+</html>

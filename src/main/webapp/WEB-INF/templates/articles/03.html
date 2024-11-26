@@ -1,0 +1,921 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Bulletin Board System</title>
+<meta name="Keywords" content="Thymeleaf,jwp2samples,thymeleaf-spring6,jetty plugin,Java-based Configuration,Prototype,Thymeleaf base layout,css positioning,tomcat,how to deploy app to tomcat,ROOT.xml,mvn clean compile war:inplace,mvn clean jetty:run,i18n,homepage,MessageSource,Bean Validation,Sign Up,Login,Change Password,Bulletin Board System" />
+<meta name="Description" content="This article covers examples for Thymeleaf, Spring, Spring Security, Mybatis Spring, i18n, MessageSource and Bean Validation." />
+<link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
+<script src="../../../static/js/prettify.js"></script>
+<script src="../../../static/js/run_prettify.js"></script>
+</head>
+
+<body>
+
+<article id="board-get-started">
+<h1>4 게시판</h1>
+
+<h2>RESTful URL</h2>
+
+<p>
+REST 프로그램이 아니더라도, RESTful URL을 따르면 더 좋은 프로그램이 된다.<br />
+게시판 URL을 다음처럼 정했다.<br />
+</p>
+
+<pre style="border: 2px dotted grey;padding: 0.3em;">목록:		GET /bbs/chat?page=1&amp;search=
+내용보기:	GET /bbs/chat/54?page=1&amp;search=
+등록:		POST /bbs/chat
+수정:		PUT /bbs/chat/54
+삭제:		DELETE /bbs/chat/54?page=1&amp;search=
+</pre>
+
+<p>
+게시판 관련 URL은 /bbs로 시작한다.<br />
+chat은 게시판 코드, 54는 게시글 고유번호다.<br />
+</p>
+
+<h2>프로토타입</h2>
+
+<p>
+화면은 목록을 보여주는 list.html과,
+게시글 내용을 보여주는 view.html이 필요하다.
+위 URL을 지키려면 list.html에 새 글을 등록할 수 있는 양식이 포함되어야 한다.
+또한 view.html에는 수정 양식이 포함되어야 한다.
+</p>
+
+<div class="filename">articles/list.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title&gt;목록&lt;/title&gt;
+&lt;meta name="Keywords" content="List" /&gt;
+&lt;meta name="Description" content="List" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/ko.css" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
+&lt;style&gt;
+article {
+  width: 777px;
+  margin: 0 auto;
+}
+&lt;/style&gt;
+&lt;script src="../../../static/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function() {
+  $('#new-post-btn').click(function() {
+    var $form = $('#writeForm');
+    if ($form.is(':hidden') === true) {
+      $form.show();
+    } else {
+      $form.hide();
+    }
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;article&gt;
+&lt;div id="content-categories"&gt;자유게시판&lt;/div&gt;
+&lt;div style="text-align: right;"&gt;
+  &lt;select id="numPerPage"&gt;
+    &lt;option value=""&gt;페이지당 게시글 수&lt;/option&gt;
+    &lt;option value="10"&gt;10&lt;/option&gt;
+    &lt;option value="20"&gt;20&lt;/option&gt;
+    &lt;option value="50"&gt;50&lt;/option&gt;
+    &lt;option value="100"&gt;100&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/div&gt;
+&lt;table class="bbs-table"&gt;
+&lt;tr&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;NO&lt;/th&gt;
+  &lt;th&gt;TITLE&lt;/th&gt;
+  &lt;th style="width: 84px;text-align: center;"&gt;DATE&lt;/th&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;HIT&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;405&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23488"&gt;자바 웹 프로그래밍 2 최종 소스&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 10 20&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;404&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23486"&gt;우분투 24.04에 자바 개발 환경&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;403&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23466"&gt;스프링 자바 기반 설정&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;402&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23087"&gt;다음 글, 이전 글 기능 수정&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 22&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;401&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23086"&gt;페이징 처리&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 16&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;400&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23059"&gt;간단한 Spring MyBatis 예제&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 08&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;399&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23053"&gt;윈도에서 책 에제 테스트 방법&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 02&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;398&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="22400"&gt;자바 9 모듈&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 02 09&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;397&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="19746"&gt;우분투에 MariaDB 설치&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;22 11 18&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;396&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="19212"&gt;스프링 MVC에서 Thymeleaf 레이아웃 사용&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;22 08 17&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div id="paging"&gt;
+  &lt;a href="#" title="1"&gt;[처음]&lt;/a&gt;
+  &lt;a href="#" title="10"&gt;[이전]&lt;/a&gt;
+  &lt;span class="bbs-strong"&gt;11&lt;/span&gt;
+  &lt;a href="#" title="12"&gt;[ 12 ]&lt;/a&gt;
+  &lt;a href="#" title="13"&gt;[ 13 ]&lt;/a&gt;
+  &lt;a href="#" title="14"&gt;[ 14 ]&lt;/a&gt;
+  &lt;a href="#" title="15"&gt;[ 15 ]&lt;/a&gt;
+  &lt;a href="#" title="16"&gt;[ 16 ]&lt;/a&gt;
+  &lt;a href="#" title="17"&gt;[ 17 ]&lt;/a&gt;
+  &lt;a href="#" title="18"&gt;[ 18 ]&lt;/a&gt;
+  &lt;a href="#" title="19"&gt;[ 19 ]&lt;/a&gt;
+  &lt;a href="#" title="20"&gt;[ 20 ]&lt;/a&gt;
+  &lt;a href="#" title="21"&gt;[다음]&lt;/a&gt;
+  &lt;a href="#" title="41"&gt;[마지막]&lt;/a&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;input type="button" value="새 글쓰기" id="new-post-btn" /&gt;
+&lt;/div&gt;
+&lt;form id="searchForm" method="get"&gt;
+  &lt;input type="hidden" name="page" value="1" /&gt;
+  &lt;div id="search"&gt;
+    &lt;input type="text" name="search" size="15" maxlength="30" /&gt;
+    &lt;input type="submit" value="검색" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+&lt;form id="writeForm" action="/bbs/chat" method="post" style="display: none;"&gt;
+&lt;table id="write-form" class="bbs-table"&gt;
+&lt;caption&gt;새 글쓰기&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;td&gt;제목&lt;/td&gt;
+  &lt;td&gt;&lt;input type="text" name="title" id="title" style="width: 90%" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+    &lt;textarea id="writeForm-ta" name="content" rows="10" cols="50"&gt;
+	&lt;/textarea&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+    &lt;input type="submit" value="전송" /&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;div id="form-group"&gt;
+  &lt;form id="listForm" method="get"&gt;
+    &lt;input type="hidden" name="page" /&gt;
+    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+  &lt;/form&gt;
+  &lt;form id="viewForm" action="/bbs/chat/" method="get"&gt;
+    &lt;input type="hidden" name="page" value="${param.page }" /&gt;
+    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+&lt;/article&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<div class="filename">articles/view.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title&gt;내용보기&lt;/title&gt;
+&lt;meta name="Keywords" content="View details" /&gt;
+&lt;meta name="Description" content="View details" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/ko.css" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
+&lt;style&gt;
+article {
+  width: 777px;
+  margin: 0 auto;
+}
+&lt;/style&gt;
+&lt;script src="../../../static/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function() {
+  $('#edit-post-btn').click(function() {
+    var $div = $('#detail');
+    var $form = $('#editForm');
+    if ($form.is(':hidden') === true) {
+      $form.show();
+      $div.hide();
+    } else {
+      $form.hide();
+      $div.show();
+    }
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;article&gt;
+&lt;div id="content-categories"&gt;자유게시판&lt;/div&gt;
+&lt;div style="height: 22px;"&gt;
+  &lt;div style="float: left;"&gt;
+    &lt;input type="button" value="수정" id="edit-post-btn" /&gt;
+    &lt;input type="button" value="삭제" id="del-post-btn" /&gt;
+  &lt;/div&gt;
+  &lt;div style="float: right;"&gt;
+    &lt;input type="button" value="다음 글" title="23486" id="next-post-btn" /&gt;
+    &lt;input type="button" value="이전 글" title="23087" id="prev-post-btn" /&gt;
+    &lt;input type="button" value="목록" id="list-btn" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="detail"&gt;
+&lt;table class="bbs-table"&gt;
+&lt;tr&gt;
+  &lt;th style="width: 50px;text-align: left;vertical-align: top;font-size: 15px;"&gt;TITLE&lt;/th&gt;
+  &lt;th style="text-align: left;color: #555;font-size: 15px;" id="post-title"&gt;자바 웹 프로그래밍 2 최종 소스&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div id="date-writer-hit"&gt;edited 24 07 15 오후 8:18:39 by hoon, hit 4&lt;/div&gt;
+&lt;div id="post-content"&gt;
+자바 웹 프로그래밍 2 예제&lt;br /&gt;
+https://github.com/kimjonghoon/java-web-programming-2-samples
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;form id="editForm" style="display: none;"&gt;
+&lt;table id="write-form" class="bbs-table"&gt;
+&lt;caption&gt;수정&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;td&gt;제목&lt;/td&gt;
+  &lt;td&gt;&lt;input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" style="width: 90%" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+&lt;textarea id="editForm-ta" name="content" rows="10" style="width: 100%"&gt;
+자바 웹 프로그래밍 2 예제&lt;br /&gt;
+https://github.com/kimjonghoon/java-web-programming-2-samples
+&lt;/textarea&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;&lt;input type="submit" value="전송" /&gt;&lt;/td&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;div id="form-group" style="display: none"&gt;
+  &lt;form id="listForm" action="/bbs/chat" method="get"&gt;
+    &lt;input type="hidden" name="page" value="${param.page }" /&gt;
+    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+  &lt;/form&gt;
+  &lt;form id="viewForm" action="/bbs/chat/" method="get"&gt;
+    &lt;input type="hidden" name="page" value="${param.page }" /&gt;
+    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+&lt;/article&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<div class="filename">screen.css</div>
+<pre class="prettyprint">.bbs-table {
+  width: 100%;
+  margin: 0.7em 0 0 0;
+}
+.bbs-table > caption {
+  color: #555;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;  
+}
+.bbs-table th {
+  color: #92B91C;
+  border-top: 1px solid #92B91C;
+  border-bottom: 1px solid #92B91C;
+}
+.bbs-table td {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid silver;
+  line-height: 1.45;
+}
+.bbs-table td a {
+  color: #555;
+  text-decoration: none;
+}
+.bbs-table td a:hover {
+  color: #555;
+  text-decoration: underline;
+}
+#paging {
+  text-align: center;
+  font-size: 14px;
+}
+#paging > a {
+  color: #555;
+  text-decoration: none;
+}
+#paging > a:hover {
+  color: #555;
+  text-decoration: underline;
+}
+.bbs-strong {
+  color: #FFA500;
+  font-weight: bold;
+}
+#write-form td {
+  border: none;
+}
+#write-form textarea {
+  width: 99%;
+}
+#content-categories {
+  margin: 0;
+  padding-top: 10px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 15px;
+}
+#date-writer-hit {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #555;
+  text-align: right;
+}
+#post-content {
+  font-size: 15px;
+  color: #333;
+  min-height: 100px;
+}
+</pre>
+
+<p>
+articles/list.html<br />
+<img src="../../../static/images/bbs-list-prototype.png" th:src="@{/static/images/bbs-list-prototype.png}" class="browser-output" alt="게시판 목록 프로토타입" />
+</p>
+
+<p>
+새 글쓰기 버튼 클릭<br />
+<img src="../../../static/images/bbs-list-prototype2.png" th:src="@{/static/images/bbs-list-prototype2.png}" class="browser-output" alt="게시판 목록 프로토타입" />
+</p>
+
+<p>
+articles/view.html<br />
+<img src="../../../static/images/bbs-view-prototype.png" th:src="@{/static/images/bbs-view-prototype.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+</p>
+
+<p>
+수정 버튼 클릭<br />
+<img src="../../../static/images/bbs-view-prototype2.png" th:src="@{/static/images/bbs-view-prototype2.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+</p>
+
+<h2>데이터베이스 스키마</h2>
+
+<pre style="border: 2px dotted grey;padding: 0.3em;">create table board (
+  boardcd varchar2(20),
+  boardnm varchar2(40) NOT NULL,
+  boardnm_ko varchar2(40),
+  constraint PK_BOARD PRIMARY KEY(boardcd)
+);
+create table article (
+  articleno number,
+  boardcd varchar2(20),
+  title varchar2(200) NOT NULL,
+  content clob NOT NULL,
+  username varchar2(60),
+  hit number,
+  regdate date,
+  constraint PK_ARTICLE PRIMARY KEY(articleno),
+  constraint FK_ARTICLE FOREIGN KEY(boardcd) REFERENCES board(boardcd)
+);
+create sequence SEQ_ARTICLE
+  increment by 1
+  start with 1;
+create table views (
+  no number,
+  articleno number,
+  ip varchar(60),
+  yearmonthdayhour char(10),
+  constraint PK_VIEWS PRIMARY KEY(no),
+  constraint UNIQUE_VIEWS UNIQUE(articleno, ip, yearmonthdayhour)
+);
+create sequence SEQ_VIEWS
+  increment by 1
+  start with 1;
+-- for test records  
+insert into board values ('chat', 'Chat', '자유게시판');
+commit;
+</pre>
+
+<h2>빈 디자인</h2>
+
+<div class="filename">Board.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+public class Board {
+  private String boardCd;
+  private String boardNm;
+  private String boardNm_ko;
+
+  public String getBoardCd() {
+    return boardCd;
+  }
+  public void setBoardCd(String boardCd) {
+    this.boardCd = boardCd;
+  }
+  public String getBoardNm() {
+    return boardNm;
+  }
+  public void setBoardNm(String boardNm) {
+    this.boardNm = boardNm;
+  }
+  public String getBoardNm_ko() {
+    return boardNm_ko;
+  }
+  public void setBoardNm_ko(String boardNm_ko) {
+    this.boardNm_ko = boardNm_ko;
+  }
+}
+</pre>
+
+<div class="filename">Article.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+import java.util.Date;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+public class Article {
+  private Integer articleNo;
+  private String boardCd;
+
+  @NotNull
+  @Size(min = 1, max = 100, message = "{bbs.title.validation.error}")
+  private String title;
+
+  @NotNull
+  @Size(min = 2, message = "{bbs.content.validation.error}")
+  private String content;
+
+  private String username;
+  private int hit;
+  private Date regdate;
+
+  public Integer getArticleNo() {
+    return articleNo;
+  }
+  public void setArticleNo(Integer articleNo) {
+    this.articleNo = articleNo;
+  }
+  public String getBoardCd() {
+    return boardCd;
+  }
+  public void setBoardCd(String boardCd) {
+    this.boardCd = boardCd;
+  }
+  public String getTitle() {
+    return title;
+  }
+  public void setTitle(String title) {
+    this.title = title.trim();
+  }
+  public String getContent() {
+    return content;
+  }
+  public void setContent(String content) {
+    this.content = content.trim();
+  }
+  public String getEmail() {
+    return email;
+  }
+  public void setUsername(String username) {
+    this.username = username;
+  }
+  public int getHit() {
+    return hit;
+  }
+  public void setHit(int hit) {
+    this.hit = hit;
+  }
+  public Date getRegdate() {
+    return regdate;
+  }
+  public void setRegdate(Date regdate) {
+    this.regdate = regdate;
+  }
+}
+</pre>
+
+<div class="filename">BoardService.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.method.P;
+
+public interface BoardService {
+  //게시판
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public Board getBoard(String boardCd);
+
+  //게시판 목록
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public List&lt;Board&gt; getBoards();
+
+  //게시판 생성
+  @PreAuthorize("hasRole('ADMIN')")
+  public void createBoard(Board board);
+
+  //게시판 수정
+  @PreAuthorize("hasRole('ADMIN')")
+  public void editBoard(Board board);
+
+  //목록
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public List&lt;Article&gt; getArticleList(HashMap&lt;String, String&gt; hashmap);
+
+  //총 레코드 수
+  public int getTotalRecord(String boardCd, String searchWord);
+
+  //글쓰기
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public int addArticle(Article article);
+
+  //글수정
+  @PreAuthorize("hasRole('ADMIN') or #article.email == principal.username")
+  public void editArticle(@P("article") Article article);
+
+  //글삭제
+  @PreAuthorize("hasRole('ADMIN') or #article.email == principal.username")
+  public void deleteArticle(@P("article") Article article);
+
+  //조회수 증가
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public void increaseHit(Integer articleNo, String ip, String yearMonthDayHour);
+
+  //상세보기
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public Article getArticle(int articleNo);
+
+  //다음 글
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public Article getNextArticle(int articleNo, String boardCd, String searchWord);
+
+  //이전 글
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public Article getPrevArticle(int articleNo, String boardCd, String searchWord);
+
+  //조회수
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public int getTotalViews(int articleNo);
+}
+</pre>
+
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import net.java_school.mybatis.BoardMapper;
+
+@Service
+public class BoardServiceImpl implements BoardService {
+  @Autowired
+  private BoardMapper boardMapper;
+
+  @Override
+  public Board getBoard(String boardCd) {
+    return boardMapper.selectOneBoard(boardCd);
+  }
+
+  @Override
+  public List&lt;Board&gt; getBoards() {
+    return boardMapper.selectAllBoard();
+  }
+
+  @Override
+  public void createBoard(Board board) {
+    boardMapper.insertBoard(board);
+  }
+
+  @Override
+  public void editBoard(Board board) {
+    boardMapper.updateBoard(board);
+  }
+
+  @Override
+  public List&lt;Article&gt; getArticleList(HashMap&lt;String, String&gt; hashmap) {
+    return boardMapper.selectListOfArticles(hashmap);
+  }
+
+  @Override
+  public int getTotalRecord(String boardCd, String searchWord) {
+    HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+    hashmap.put("boardCd", boardCd);
+    hashmap.put("searchWord", searchWord);
+
+    return boardMapper.selectCountOfArticles(hashmap);
+  }
+
+  @Override
+  public int addArticle(Article article) {
+    return boardMapper.insert(article);
+  }
+
+  @Override
+  public void editArticle(Article article) {
+    boardMapper.update(article);
+  }
+
+  @Override
+  public void deleteArticle(Article article) {
+    boardMapper.delete(article.getArticleNo());
+  }
+
+  @Override
+  public void increaseHit(Integer articleNo, String ip, String yearMonthDayHour) {
+    HashMap&lt;String, String&gt; map = new HashMap&lt;&gt;();
+    map.put("articleNo", articleNo.toString());
+    map.put("ip", ip);
+    map.put("yearMonthDayHour", yearMonthDayHour);
+
+    boardMapper.insertOneViews(map);
+  }
+
+  @Override
+  public Article getArticle(int articleNo) {
+    return boardMapper.selectOne(articleNo);
+  }
+
+  @Override
+  public Article getNextArticle(int articleNo, String boardCd, String searchWord) {
+    HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+    Integer no = articleNo;
+    hashmap.put("articleNo", no.toString());
+    hashmap.put("boardCd", boardCd);
+    hashmap.put("searchWord", searchWord);
+
+    return boardMapper.selectNextOne(hashmap);
+  }
+
+  @Override
+  public Article getPrevArticle(int articleNo, String boardCd, String searchWord) {
+    HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+    Integer no = articleNo;
+    hashmap.put("articleNo", no.toString());
+    hashmap.put("boardCd", boardCd);
+    hashmap.put("searchWord", searchWord);
+
+    return boardMapper.selectPrevOne(hashmap);
+  }
+
+  @Override
+  public int getTotalViews(int articleNo) {
+    return boardMapper.selectCountOfViews(articleNo);
+  }
+}
+</pre>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+
+&lt;!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;
+
+&lt;mapper namespace="net.java_school.mapper.BoardMapper"&gt;
+  &lt;select id="selectOneBoard" resultType="net.java_school.board.Board"&gt;
+    SELECT * FROM board WHERE boardcd = #{boardCd}
+  &lt;/select&gt;
+
+  &lt;select id="selectAllBoard" resultType="net.java_school.board.Board"&gt;
+    SELECT * FROM board order by boardcd
+  &lt;/select&gt;
+
+  &lt;update id="updateBoard" parameterType="net.java_school.board.Board"&gt;
+    UPDATE board SET boardnm = #{boardNm}, boardnm_ko = #{boardNm_ko}
+    WHERE boardcd = #{boardCd}
+  &lt;/update&gt;
+
+  &lt;insert id="insertBoard" parameterType="net.java_school.board.Board"&gt;
+    INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
+  &lt;/insert&gt;
+
+  &lt;update id="update" parameterType="net.java_school.board.Article"&gt;
+    UPDATE article 
+    SET title = #{title}, content = #{content} 
+    WHERE articleno = #{articleNo}
+  &lt;/update&gt;
+
+  &lt;delete id="delete" parameterType="int"&gt;
+    DELETE FROM article WHERE articleno = #{articleNo}
+  &lt;/delete&gt;
+
+  &lt;select id="selectCountOfViews" parameterType="int" resultType="int"&gt;
+    SELECT count(*) FROM views 
+    WHERE articleno = #{articleNo}
+  &lt;/select&gt;
+
+  &lt;select id="selectNextOne" parameterType="hashmap" resultType="net.java_school.board.Article"&gt;
+    SELECT articleno, title
+    FROM
+      (SELECT rownum r,a.*
+      FROM
+        (SELECT articleno, title FROM article 
+        WHERE 
+          boardCd = #{boardCd} 
+          AND articleno &gt; #{articleNo}
+          &lt;if test="search != null and search != ''"&gt;
+          AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
+          &lt;/if&gt; 
+        ORDER BY articleno) 
+      a)
+    WHERE r = 1
+  &lt;/select&gt;
+  
+  &lt;select id="selectPrevOne" parameterType="hashmap" resultType="net.java_school.board.Article"&gt;
+    SELECT articleno, title
+    FROM
+      (SELECT rownum r,a.*
+       FROM
+       (SELECT articleno, title FROM article 
+        WHERE 
+          boardCd = #{boardCd} 
+          AND articleno &lt; #{articleNo}
+          &lt;if test="search != null and search != ''"&gt;
+          AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
+          &lt;/if&gt; 
+        ORDER BY articleno DESC)
+      a)
+    WHERE r = 1
+  &lt;/select&gt;	
+  
+  &lt;select id="selectOne" parameterType="int" resultType="net.java_school.board.Article"&gt;
+    SELECT articleno, title, content, username, regdate
+    FROM article
+    WHERE articleno = #{articleNo}
+  &lt;/select&gt;
+  
+  &lt;insert id="insertOneViews" parameterType="hashmap"&gt;
+    INSERT INTO views values (seq_views.nextval, #{articleNo}, #{ip}, #{yearMonthDayHour})
+  &lt;/insert&gt;
+  
+  &lt;insert id="insert" parameterType="net.java_school.board.Article" useGeneratedKeys="true"&gt;
+    &lt;selectKey keyProperty="articleNo" resultType="int" order="BEFORE"&gt;
+      SELECT seq_article.nextval FROM dual
+    &lt;/selectKey&gt;
+    INSERT INTO article (articleno, boardcd, title, content, username, regdate)
+    VALUES (#{articleNo}, #{boardCd}, #{title}, #{content}, #{username}, sysdate)
+  &lt;/insert&gt;
+  
+  &lt;select id="selectCountOfArticles" parameterType="hashmap" resultType="int"&gt;
+    SELECT count(*) FROM article 
+    WHERE boardcd = #{boardCd}
+      &lt;if test="search != null and search != ''"&gt;
+      AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
+      &lt;/if&gt;
+  &lt;/select&gt;
+  
+  &lt;select id="selectListOfArticles" parameterType="hashmap" resultType="net.java_school.board.Article"&gt;
+    SELECT articleno, title, regdate, hit
+      FROM (
+        SELECT rownum R,A.* 
+        FROM (
+          SELECT a.articleno, a.title, a.regdate, count(distinct(v.no)) hit
+          FROM 
+            article a left join views v on a.articleno = v.articleno
+          WHERE
+            a.boardcd = #{boardCd}
+            &lt;if test="search != null and search != ''"&gt;
+            AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
+            &lt;/if&gt;
+          GROUP BY a.articleno, title, a.regdate
+          ORDER BY articleno DESC
+        ) A
+      )
+    WHERE R BETWEEN #{start} AND #{end}
+  &lt;/select&gt;	
+&lt;/mapper&gt;
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3>관리자</h3>
+
+<p>
+ADMIN 권한 사용자만 사용할 수 있는 회원, 게시판 관리 기능을 구현한다.<br />
+</p>
+
+<div class="filename">회원 관리에 필요한 페이지</div>
+
+<ul>
+	<li>articles/admin/users.html</li>
+	<li>articles/admin/editAccount.html</li>
+	<li>users/admin/users.html</li>
+	<li>users/admin/editAccount.html</li>
+	<li>users/admin/menu.html</li>
+</ul>
+
+<div class="filename">게시판 관리에 필요한 페이지</div>
+
+<ul>
+	<li>articles/admin/boards.html</li>
+	<li>users/admin/boards.html</li>
+</ul>
+
+<p>
+</p>
+</article>
+
+
+</body>
+</html>

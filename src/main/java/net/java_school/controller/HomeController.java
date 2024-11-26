@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 public class HomeController {
 
 	@GetMapping
-	public String index() {
+	public String index(Model model) {
+	  int[] pages = {11,12,13,14,15,16,17,18,19,20};
+    model.addAttribute("pages", pages);
 		return "index";
 	}
 	@GetMapping("{lang:en|ko}")
@@ -17,7 +19,7 @@ public class HomeController {
 		model.addAttribute("lang", lang);
 		return lang + "/index";
 	}
-	@GetMapping(value={"{chapter:thymeleaf|spring-security}", "{chapter:thymeleaf|spring-security}/{section}"})
+	@GetMapping(value={"{chapter:thymeleaf|spring-security|board}", "{chapter:thymeleaf|spring-security|board}/{section}"})
 	public String getSection(@PathVariable("chapter") String chapter, @PathVariable(value="section", required=false) String section) {
 		if (section != null) {
 			return chapter + "/" + section;
@@ -26,7 +28,7 @@ public class HomeController {
 		}
 	}
 	
-	@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security}", "{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}"})
+	@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security|board}", "{lang:en|ko}/{chapter:thymeleaf|spring-security|board}/{section}"})
 	public String getSectionByLang(@PathVariable("lang") String lang, @PathVariable("chapter") String chapter, @PathVariable(value="section", required=false) String section, Model model) {
 		model.addAttribute("lang", lang);
 		if (section != null)

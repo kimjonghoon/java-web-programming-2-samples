@@ -403,7 +403,14 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 
 <h1>3장 Bulletin Board</h1>
 
-</article>
+<h3>테스트</h3>
+<h4 th:text="${param.page}">테스트</h4>
+<th:block th:each="page : ${pages}">
+<a href="#" title="12" th:title="${page}" th:text="${page} == ${param.page} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
+</th:block>
+
+<a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page} ? ${page} : ' [ ' + ${page} + ' ] '"></a>
+</article>'
 
 </body>
 </html>
