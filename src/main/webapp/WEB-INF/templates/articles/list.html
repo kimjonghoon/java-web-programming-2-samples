@@ -10,6 +10,14 @@ article {
   width: 777px;
   margin: 0 auto;
 }
+#paging a {
+  color: #555;
+  text-decoration: none;
+}
+#paging a:hover {
+  color: #555;
+  text-decoration: underline;
+}
 </style>
 <script src="../../../static/js/jquery.js"></script>
 <script>
@@ -110,9 +118,15 @@ $(document).ready(function() {
 <div id="paging">
   <a href="#" title="1" th:if="${prevPage} &gt; 0" th:text="#{first.page}">[처음]</a>
   <a href="#" title="10" th:if="${prevPage} &gt; 0" th:title="${prevPage}" th:text="#{prev.page}">[이전]</a>
-  <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page}" th:inline="none">[ 11 ]</a>
+  <th:block th:each="page : ${pages}">
+    <th:block th:if="${page} == ${param.page[0]}"> 
+	  <span class="bbs-strong" th:text="${page}">11</span>
+    </th:block>
+    <th:block th:unless="${page} == ${param.page[0]}"> 
+      <a href="#" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
+    </th:block>
+  </th:block>
   <!--/*-->
-  <span class="bbs-strong">12</span>
   <a href="#" title="13">[ 13 ]</a>
   <a href="#" title="14">[ 14 ]</a>
   <a href="#" title="15">[ 15 ]</a>

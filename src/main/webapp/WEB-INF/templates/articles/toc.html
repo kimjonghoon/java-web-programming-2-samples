@@ -404,12 +404,38 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 <h1>3장 Bulletin Board</h1>
 
 <h3>테스트</h3>
-<h4 th:text="${param.page}">테스트</h4>
+
 <th:block th:each="page : ${pages}">
-<a href="#" title="12" th:title="${page}" th:text="${page} == ${param.page} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
+  <th:block th:if="${page} == ${param.page[0]}"> 
+	<span class="bbs-strong" th:text="${page}">11</span>
+  </th:block>
+  <th:block th:unless="${page} == ${param.page[0]}"> 
+  <a href="#" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
+  </th:block>
 </th:block>
 
+
+<!--/*-->
+<a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
+
+
+<th:block th:each="page : ${pages}">
+<a href="#" title="12" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
+</th:block>
+
+
 <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page} ? ${page} : ' [ ' + ${page} + ' ] '"></a>
+
+
+<th:block th:each="page : ${pages}">
+  <span class="bbs-strong" th:text="${page}"></span>
+  <span th:text="${param.page}"></span>
+  <span th:text="${page} == ${param.page[0]} ? 'true' : 'false'"></span>
+  <p th:text="${page} == ${param.page[0]} ? ${page} : 'test'"> [ 12 ] </p>
+</th:block>
+
+<!--*/-->
+
 </article>'
 
 </body>
