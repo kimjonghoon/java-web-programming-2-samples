@@ -30,6 +30,14 @@ $(document).ready(function() {
       $form.hide();
     }
   });
+	$('#paging a').click(function(e) {
+		e.preventDefault();
+		var page = this.title;
+		$('#listForm input[name*=page]').val(page);
+		$('#listForm').submit();
+	});
+
+
 });
 </script>
 </head>
@@ -171,7 +179,7 @@ $(document).ready(function() {
 <div id="form-group">
   <form id="listForm" method="get">
     <input type="hidden" name="page" />
-    <input type="hidden" name="search" value="${param.search }" />
+    <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
   <form id="viewForm" action="/bbs/${boardCd}/" method="get">
     <input type="hidden" name="page" value="${param.page }" />

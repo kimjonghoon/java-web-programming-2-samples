@@ -24,7 +24,7 @@ REST 프로그램이 아니더라도, RESTful URL을 따르면 더 좋은 프로
 </p>
 
 <pre style="border: 2px dotted grey;padding: 0.3em;">목록:		GET /bbs/chat?page=1&amp;search=
-내용보기:	GET /bbs/chat/54?page=1&amp;search=
+내용:		GET /bbs/chat/54?page=1&amp;search=
 등록:		POST /bbs/chat
 수정:		PUT /bbs/chat/54
 삭제:		DELETE /bbs/chat/54?page=1&amp;search=
@@ -38,10 +38,8 @@ chat은 게시판 코드, 54는 게시글 고유번호다.<br />
 <h2>프로토타입</h2>
 
 <p>
-화면은 목록을 보여주는 list.html과,
-게시글 내용을 보여주는 view.html이 필요하다.
-위 URL을 지키려면 list.html에 새 글을 등록할 수 있는 양식이 포함되어야 한다.
-또한 view.html에는 수정 양식이 포함되어야 한다.
+목록 페이지 list.html에 새 글 등록 양식을,
+글 내용 페이지 view.html에 수정 양식을 포함시켰다.<br />
 </p>
 
 <div class="filename">articles/list.html</div>
@@ -310,7 +308,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   width: 100%;
   margin: 0.7em 0 0 0;
 }
-.bbs-table > caption {
+.bbs-table &gt; caption {
   color: #555;
   font-size: 15px;
   font-weight: bold;
@@ -339,11 +337,11 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   text-align: center;
   font-size: 14px;
 }
-#paging > a {
+#paging &gt; a {
   color: #555;
   text-decoration: none;
 }
-#paging > a:hover {
+#paging &gt; a:hover {
   color: #555;
   text-decoration: underline;
 }
@@ -399,6 +397,228 @@ articles/view.html<br />
 수정 버튼 클릭<br />
 <img src="../../../static/images/bbs-view-prototype2.png" th:src="@{/static/images/bbs-view-prototype2.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
 </p>
+
+<p>
+title 속성값에 게시글 번호를 부여했다.<br />
+프로토타입에 자바스크립트를 완성한다.<br />
+</p>
+
+
+<pre class="prettyprint">$(document).ready(function() {
+  $('#new-post-btn').click(function() {
+    var $form = $('#writeForm');
+    if ($form.is(':hidden') === true) {
+      $form.show();
+    } else {
+      $form.hide();
+    }
+  });
+  $('#paging a').click(function(e) {
+    e.preventDefault();
+    var page = this.title;
+    $('#listForm input[name*=page]').val(page);
+    $('#listForm').submit();
+  });
+  $('.view-link').click(function(e){
+    e.preventDefault();
+    var articleNo = this.title;
+    var action = $('#viewForm').attr('action');
+    action += articleNo;
+    $('#viewForm').attr('action', action);
+    $('#viewForm').submit();
+  });
+  $('#numPerPage').change(function() {
+    var numPerPage = $('#numPerPage option:selected').val();
+    if (numPerPage) {
+      createCookie('numPerPage', numPerPage, '30');
+      $('#listForm input[name*=page]').val('1');
+      $('#listForm').submit();
+    }
+  });
+  $('#searchForm').submit(function() {
+    var $searchWord = $('#searchForm input[name*=searchWord]').val();
+    $searchWord = $.trim($searchWord);
+    $('#searchForm input[name*=searchWord]').val($searchWord);
+    $('#searchForm').submit();
+  });
+  $('#writeForm').submit(function() {
+    var title = $('#writeForm input[name*=title]').val();
+    var content = $('#writeForm-ta').val();
+    title = $.trim(title);
+    content = $.trim(content);
+    if (title.length === 0) {
+      alert('제목이 비었습니다!');
+      $('#writeForm input[name*=title]').val('');
+      return false;
+    }
+    if (content.length === 0) {
+      alert('내용이 비었습니다!');
+      $('#writeForm-ta').val('');
+      return false;
+    }
+    $('#writeForm input[name*=title]').val(title);
+    $('#writeForm-ta').val(content);
+  });
+  $('#goList').click(function() {
+    $('#listForm').submit();
+  });
+  $('#goView').click(function() {
+    $('#viewForm').submit();
+  });
+});
+
+function createCookie(name, value, days) {
+  var newCookie = name + "=" + escape(value);
+  if (days) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    newCookie += "; expires=" + expires.toGMTString();
+  }
+  document.cookie = newCookie;
+}
+</pre>
+
+<pre class="prettyprint">$(document).ready(function () {
+  $('#edit-post-btn').click(function() {
+    var $div = $('#detail');
+    var $form = $('#editForm');
+    if ($form.is(':hidden') === true) {
+      $form.show();
+      $div.hide();
+    } else {
+      $form.hide();
+      $div.show();
+    }
+  });
+  $('title').empty();
+  var title = $('#bbs-title').html();
+  $('title').append(title);
+  $('#file-list a.download').click(function (e) {
+    e.preventDefault();
+    var filename = this.title;
+    var fileno = $(this).attr('href');
+      $('#downForm input[name*=filename]').val(filename);
+      $('#downForm input[name*=fileno]').val(fileno);
+      $('#downForm').submit();
+  });
+  $('#file-list a:not(.download)').click(function (e) {
+    e.preventDefault();
+    var chk = confirm('정말로 삭제하겠습니까?');
+    if (chk === true) {
+      var attachFileNo = this.title;
+      $('#deleteAttachFileForm input[name*=attachFileNo]').val(attachFileNo);
+      $('#deleteAttachFileForm').submit();
+    }
+  });
+  //Modify Button
+  $('.goModify').click(function () {
+    $('#modifyForm').submit();
+  });
+  //Del Button
+  $('.goDelete').click(function () {
+    var chk = confirm('정말로 삭제하겠습니까?');
+    if (chk === true) {
+      $('#delForm').submit();
+    }
+  });
+  //Next Article Button
+  $('.next-article').click(function () {
+    var articleNo = this.title;
+    var action = $('#viewForm').attr('action');
+    action += articleNo;
+    $('#viewForm').attr('action', action);
+    var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+    if (parseInt(articleNo) &gt; parseInt(firstItemNo)) {
+      $('#viewForm-page').val(${param.page - 1});
+    }
+    $('#viewForm').submit();
+  });
+  //Prev Article Button
+  $('.prev-article').click(function () {
+    var articleNo = this.title;
+    var action = $('#viewForm').attr('action');
+    action += articleNo;
+    $('#viewForm').attr('action', action);
+    var lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
+    if (parseInt(articleNo) &lt; parseInt(lastItemNo)) {
+      $('#viewForm-page').val(${param.page + 1});
+    }
+    $('#viewForm').submit();
+  });
+  //List Button
+  $('.goList').click(function () {
+    $('#listForm').submit();
+  });
+  //Write Button
+  $('.goWrite').click(function () {
+    $('#writeForm').submit();
+  });
+  //Title Link in view.jsp
+  $('#list-table a').click(function (e) {
+    e.preventDefault();
+    var articleNo = this.title;
+    var action = $('#viewForm').attr('action');
+    action += articleNo;
+    $('#viewForm').attr('action', action);
+    $('#viewForm').submit();
+  });
+  //Paging
+  $('#paging a').click(function (e) {
+    e.preventDefault();
+    var page = this.title;
+    $('#listForm input[name*=page]').val(page);
+    $('#listForm').submit();
+  });
+  //Write Button on Search Button
+  $('#list-menu &gt; input').click(function () {
+    $('#writeForm').submit();
+  });
+  $('#searchForm').submit(function() {
+    var $searchWord = $('#searchForm input[name*=searchWord]').val();
+    $searchWord = $.trim($searchWord);
+    $('#searchForm input[name*=searchWord]').val($searchWord);
+    $('#searchForm').submit();
+  });
+  $("#addCommentForm").submit(function (event) {
+    event.preventDefault();
+    var $form = $(this);
+    var memo = $('#addComment-ta').val();
+    memo = $.trim(memo);
+    if (memo.length === 0) {
+      $('#addComment-ta').val('');
+      return false;
+    }
+    var dataToBeSent = $form.serialize();
+    var url = $form.attr("action");
+    var posting = $.post(url, dataToBeSent);
+    posting.done(function () {
+      displayComments();
+      $('#addComment-ta').val('');
+    });
+  });    
+  $('#modifyForm').submit(function() {
+    var title = $('#modifyForm input[name*=title]').val();
+    var content = $('#modifyForm-ta').val();
+    title = $.trim(title);
+    content = $.trim(content);
+    if (title.length === 0) {
+      alert('제목이 비었습니다!');
+      $('#modifyForm input[name*=title]').val('');
+      return false;
+    }
+    if (content.length === 0) {
+      alert('내용이 비었습니다!');
+      $('#modifyForm-ta').val('');
+      return false;
+    }
+    $('#modifyForm input[name*=title]').val(title);
+    $('#modifyForm-ta').val(content);
+  });
+  $('#goView').click(function(){
+    $('#viewForm').submit();
+  });
+});
+</pre>
 
 <h2>데이터베이스 스키마</h2>
 
