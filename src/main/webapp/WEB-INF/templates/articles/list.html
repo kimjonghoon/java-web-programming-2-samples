@@ -22,23 +22,70 @@ article {
 <script src="../../../static/js/jquery.js"></script>
 <script>
 $(document).ready(function() {
-  $('#new-post-btn').click(function() {
-    var $form = $('#writeForm');
-    if ($form.is(':hidden') === true) {
-      $form.show();
-    } else {
-      $form.hide();
-    }
-  });
+	$('#new-post-btn').click(function() {
+		var $form = $('#writeForm');
+		if ($form.is(':hidden') === true) {
+			$form.show();
+		} else {
+			$form.hide();
+		}
+	});
 	$('#paging a').click(function(e) {
 		e.preventDefault();
 		var page = this.title;
 		$('#listForm input[name*=page]').val(page);
 		$('#listForm').submit();
 	});
-
-
+	$('.bbs-table td a').click(function(e) {
+		e.preventDefault();
+		var articleNo = this.title;
+		var action = $('#viewForm').attr('action');
+		action += articleNo;
+		$('#viewForm').attr('action',action);
+		$('#viewForm').submit();
+	});
+	$('#numPerPage').change(function() {
+		var numPerPage = $('#numPerPage option:selected').val();
+		if (numPerPage) {
+			createCookie('numPerPage', numPerPage, '30');
+			$('#listForm input[name*=page]').val('1');
+			$('#listForm').submit();
+		}
+	});
+	$('#searchForm').submit(function() {
+		var $search = $('#searchForm input[name*=search]').val();
+		$search = $.trim($search);
+		$('#searchForm input[name*=search]').val($search);
+		$('#searchForm').submit();
+	});
+	$('#writeForm').submit(function() {
+		var title = $('#writeForm input[name*=title]').val();
+		title = $.trim(title);
+		var content = $('#writeForm-ta').val();
+		content = $.trim(content);
+		if (title.length === 0) {
+			alert('제목이 비었습니다!');
+			$('#writeForm input[name*=title]').val('');
+			return false;
+		}
+		if (content.length === 0) {
+			alert('내용이 비었습니다!');
+			$('#writeForm-ta').val('');
+			return false;
+		}
+		$('#writeForm input[name*=title]').val(title);
+		$('#writeForm-ta').val(content);
+	});
 });
+function createCookie(name, value, days) {
+  var newCookie = name + "=" + escape(value);
+  if (days) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    newCookie += "; expires=" + expires.toGMTString();
+  }
+  document.cookie = newCookie;
+}
 </script>
 </head>
 <body>
@@ -151,7 +198,7 @@ $(document).ready(function() {
   <input type="button" value="새 글쓰기" id="new-post-btn" />
 </div>
 <form id="searchForm" method="get">
-  <input type="hidden" name="page" value="1" />
+  <input type="hidden" name="page" value="1" th:value="${param.page }" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" th:value="#{search}" />
@@ -181,9 +228,9 @@ $(document).ready(function() {
     <input type="hidden" name="page" />
     <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
-  <form id="viewForm" action="/bbs/${boardCd}/" method="get">
-    <input type="hidden" name="page" value="${param.page }" />
-    <input type="hidden" name="search" value="${param.search }" />
+  <form id="viewForm" action="/bbs/chat/" th:action="/bbs/${boardCd}/" method="get">
+    <input type="hidden" name="page" value="1" th:value="${param.page }" />
+    <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
 </div>
 </article>
