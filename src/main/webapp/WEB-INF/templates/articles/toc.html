@@ -403,8 +403,13 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 
 <h1>3장 Bulletin Board</h1>
 
-<h3>테스트</h3>
+<h3>page 파라미터 테스트</h3>
 
+<p>
+page 파라미터를 반드시 전달해야 테스트 할 수 있다.
+</p>
+
+<!--/*-->
 <th:block th:each="page : ${pages}">
   <th:block th:if="${page} == ${param.page[0]}"> 
 	<span class="bbs-strong" th:text="${page}">11</span>
@@ -414,18 +419,13 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
   </th:block>
 </th:block>
 
-
-<!--/*-->
 <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
-
 
 <th:block th:each="page : ${pages}">
 <a href="#" title="12" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
 </th:block>
 
-
 <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page} ? ${page} : ' [ ' + ${page} + ' ] '"></a>
-
 
 <th:block th:each="page : ${pages}">
   <span class="bbs-strong" th:text="${page}"></span>
@@ -433,10 +433,48 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
   <span th:text="${page} == ${param.page[0]} ? 'true' : 'false'"></span>
   <p th:text="${page} == ${param.page[0]} ? ${page} : 'test'"> [ 12 ] </p>
 </th:block>
-
 <!--*/-->
 
-</article>'
+<h3>HiddenHttpMethodFilter 테스트</h3>
 
+<pre>
+SQL> desc board
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BOARDCD                                   NOT NULL VARCHAR2(20)
+ BOARDNM                                   NOT NULL VARCHAR2(40)
+ BOARDNM_KO                                         VARCHAR2(40)
+</pre>
+
+<form id="testForm" th:action="@{/toc}" method="post" th:method="PUT">
+<table id="write-form" class="bbs-table">
+<caption>게시판 수정</caption>
+<tr>
+  <td>게시판 코드</td>
+  <td><input type="text" name="boardCd" id="title" style="width: 90%" /></td>
+</tr>
+<tr>
+  <td>게시판 영어 이름</td>
+  <td><input type="text" name="boardNm" id="title" style="width: 90%" /></td>
+</tr>
+<tr>
+  <td>게시판 한글 이름</td>
+  <td><input type="text" name="boardNm_Ko" id="title" style="width: 90%" /></td>
+</tr>
+<tr>
+  <td colspan="2">
+    <input type="submit" value="전송" th:value="#{submit}" />
+  </td>
+</tr>
+</table>
+
+
+
+
+
+
+
+
+</article>
 </body>
 </html>
