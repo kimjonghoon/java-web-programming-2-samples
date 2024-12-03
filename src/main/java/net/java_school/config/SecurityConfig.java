@@ -6,7 +6,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +38,6 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((authorize) -> authorize
-				.requestMatchers(HttpMethod.PUT, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/board/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/spring-security/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/thymeleaf/**").permitAll()
@@ -48,6 +46,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/users/signUp").permitAll()
 				.requestMatchers(HttpMethod.GET, "/en/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/ko/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()

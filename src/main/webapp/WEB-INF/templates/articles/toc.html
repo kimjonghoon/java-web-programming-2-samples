@@ -409,7 +409,7 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 page 파라미터를 반드시 전달해야 테스트 할 수 있다.
 </p>
 
-<!--/*-->
+
 <th:block th:each="page : ${pages}">
   <th:block th:if="${page} == ${param.page[0]}"> 
 	<span class="bbs-strong" th:text="${page}">11</span>
@@ -418,7 +418,7 @@ page 파라미터를 반드시 전달해야 테스트 할 수 있다.
   <a href="#" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
   </th:block>
 </th:block>
-
+<!--/*-->
 <a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
 
 <th:block th:each="page : ${pages}">
@@ -446,20 +446,20 @@ SQL> desc board
  BOARDNM_KO                                         VARCHAR2(40)
 </pre>
 
-<form id="testForm" th:action="@{/}" method="post" th:method="PUT">
+<form id="testForm" th:action="@{/}" th:method="PATCH">
 <table id="write-form" class="bbs-table">
 <caption>게시판 수정</caption>
 <tr>
   <td>게시판 코드</td>
-  <td><input type="text" name="boardCd" id="title" style="width: 90%" /></td>
+  <td><input type="text" name="boardCd" style="width: 90%" /></td>
 </tr>
 <tr>
   <td>게시판 영어 이름</td>
-  <td><input type="text" name="boardNm" id="title" style="width: 90%" /></td>
+  <td><input type="text" name="boardNm" style="width: 90%" /></td>
 </tr>
 <tr>
   <td>게시판 한글 이름</td>
-  <td><input type="text" name="boardNm_Ko" id="title" style="width: 90%" /></td>
+  <td><input type="text" name="boardNm_ko" style="width: 90%" /></td>
 </tr>
 <tr>
   <td colspan="2">

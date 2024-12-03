@@ -20,9 +20,8 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
 	}
-	
 	@Override
 	protected Filter[] getServletFilters() {
 		return new Filter[] { new HiddenHttpMethodFilter() };
-	}
+	}	
 }
