@@ -39,6 +39,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((authorize) -> authorize
+				.requestMatchers(HttpMethod.PUT, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/board/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/spring-security/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/thymeleaf/**").permitAll()

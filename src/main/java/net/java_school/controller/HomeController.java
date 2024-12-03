@@ -1,18 +1,33 @@
 package net.java_school.controller;
 
+import net.java_school.board.Board;
+import net.java_school.board.BoardService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 
 @Controller
 public class HomeController {
 
+	@Autowired
+	private BoardService boardService;
+
 	@GetMapping
 	public String index(Model model) {
 	  int[] pages = {11,12,13,14,15,16,17,18,19,20};
     model.addAttribute("pages", pages);
 		return "index";
+	}
+	@PutMapping
+	public String editBoard(@ModelAttribute(name="board") Board board) {
+		System.out.println(board.getBoardNm());
+		boardService.editBoard(board);
+		return "redirect:/";
 	}
 	@GetMapping("{lang:en|ko}")
 	public String indexByLang(@PathVariable("lang") String lang, Model model) {

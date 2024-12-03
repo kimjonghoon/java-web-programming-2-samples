@@ -85,7 +85,7 @@
         INSERT INTO views values (seq_views.nextval, #{articleNo}, #{ip}, #{yearMonthDayHour})
     </insert>
 	
-    <insert id="insert" parameterType="Article" useGeneratedKeys="true">
+    <insert id="insert" parameterType="net.java_school.board.Article" useGeneratedKeys="true">
         <selectKey keyProperty="articleNo" resultType="int" order="BEFORE">
             SELECT seq_article.nextval FROM dual
         </selectKey>

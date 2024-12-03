@@ -27,7 +27,7 @@ import org.springframework.validation.Validator;
 @Configuration
 @EnableWebMvc
 @MapperScan("net.java_school.mapper")
-@ComponentScan("net.java_school.controller, net.java_school.user")
+@ComponentScan("net.java_school.controller,net.java_school.user,net.java_school.board")
 public class MvcWebConfig implements WebMvcConfigurer {
 
 	@Autowired
