@@ -25,10 +25,9 @@ public class HomeController {
 		return "index";
 	}
 	@PatchMapping("/")
-	public String editBoard(@RequestParam(name="page", defaultValue="11") Integer page, @ModelAttribute(name="board") Board board) {
-		System.out.println(board.getBoardNm());
+	public String editBoard(@RequestParam(name="page", defaultValue="1") Integer page, @RequestParam(name="search", defaultValue="") String search, @ModelAttribute(name="board") Board board) {
 		boardService.editBoard(board);
-		return "redirect:/?page=" + page;
+		return "redirect:/?page=" + page + "&search=" + search;
 	}
 	@GetMapping("{lang:en|ko}")
 	public String indexByLang(@PathVariable("lang") String lang, Model model) {

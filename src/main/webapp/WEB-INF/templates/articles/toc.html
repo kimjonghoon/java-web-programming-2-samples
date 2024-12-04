@@ -437,8 +437,7 @@ page 파라미터를 반드시 전달해야 테스트 할 수 있다.
 
 <h3>HiddenHttpMethodFilter 테스트</h3>
 
-<pre>
-SQL> desc board
+<pre>SQL&gt; desc board
  Name                                      Null?    Type
  ----------------------------------------- -------- ----------------------------
  BOARDCD                                   NOT NULL VARCHAR2(20)
@@ -447,19 +446,21 @@ SQL> desc board
 </pre>
 
 <form id="testForm" th:action="@{/}" th:method="PATCH">
+<input type="hidden" name="page" value="${param.page}" />
+<input type="hidden" name="search" value="${param.search}" />
 <table id="write-form" class="bbs-table">
 <caption>게시판 수정</caption>
 <tr>
   <td>게시판 코드</td>
-  <td><input type="text" name="boardCd" style="width: 90%" /></td>
+  <td><input type="text" name="boardCd" style="width: 90%" th:value="chat" /></td>
 </tr>
 <tr>
   <td>게시판 영어 이름</td>
-  <td><input type="text" name="boardNm" style="width: 90%" /></td>
+  <td><input type="text" name="boardNm" style="width: 90%" th:value="Chat" /></td>
 </tr>
 <tr>
   <td>게시판 한글 이름</td>
-  <td><input type="text" name="boardNm_ko" style="width: 90%" /></td>
+  <td><input type="text" name="boardNm_ko" style="width: 90%" th:value="자유토론" /></td>
 </tr>
 <tr>
   <td colspan="2">

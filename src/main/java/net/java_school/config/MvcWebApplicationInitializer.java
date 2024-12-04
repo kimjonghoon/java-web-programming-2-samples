@@ -1,6 +1,7 @@
 package net.java_school.config;
 
 import jakarta.servlet.Filter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -22,6 +23,6 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 	}
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[] { new HiddenHttpMethodFilter() };
+		return new Filter[] { new HiddenHttpMethodFilter(), new CharacterEncodingFilter()};
 	}	
 }
