@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
+import java.net.URLEncoder;
 
 @Controller
 public class HomeController {
@@ -21,12 +22,17 @@ public class HomeController {
 	@GetMapping("/")
 	public String index(Model model) {
 	  int[] pages = {11,12,13,14,15,16,17,18,19,20};
-    model.addAttribute("pages", pages);
+		model.addAttribute("pages", pages);
 		return "index";
 	}
 	@PatchMapping("/")
-	public String editBoard(@RequestParam(name="page", defaultValue="1") Integer page, @RequestParam(name="search", defaultValue="") String search, @ModelAttribute(name="board") Board board) {
+	public String editBoard(@RequestParam(name="page", defaultValue="1") Integer page, 
+			@RequestParam(name="search", defaultValue="") String search, 
+			@ModelAttribute(name="board") Board board) throws Exception {
+				
 		boardService.editBoard(board);
+		search = URLEncoder.encode(search, "UTF-8");
+
 		return "redirect:/?page=" + page + "&search=" + search;
 	}
 	@GetMapping("{lang:en|ko}")

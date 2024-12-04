@@ -12,9 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
@@ -28,7 +26,7 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
 		builder.jdbcAuthentication().dataSource(dataSource).passwordEncoder(this.passwordEncoder());
