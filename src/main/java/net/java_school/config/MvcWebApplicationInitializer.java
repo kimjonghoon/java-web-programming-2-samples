@@ -23,6 +23,9 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 	}
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[] { new HiddenHttpMethodFilter(), new CharacterEncodingFilter()};
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+		encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setForceEncoding(true);
+		return new Filter[] { new HiddenHttpMethodFilter(), encodingFilter};
 	}	
 }

@@ -446,8 +446,8 @@ page 파라미터를 반드시 전달해야 테스트 할 수 있다.
 </pre>
 
 <form id="testForm" th:action="@{/}" th:method="PATCH">
-<input type="hidden" name="page" value="${param.page}" />
-<input type="hidden" name="search" value="${param.search}" />
+<input type="hidden" name="page" th:value="${param.page}" />
+<input type="hidden" name="search" th:value="${param.search}" />
 <table id="write-form" class="bbs-table">
 <caption>게시판 수정</caption>
 <tr>
