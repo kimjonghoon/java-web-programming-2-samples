@@ -36,13 +36,15 @@ $(document).ready(function() {
 		$('#listForm input[name*=page]').val(page);
 		$('#listForm').submit();
 	});
-	$('.bbs-table td a').click(function(e) {
+	$('.bbs-table tr td:nth-child(2) a').click(function(e) {
 		e.preventDefault();
 		var articleNo = this.title;
 		var action = $('#viewForm').attr('action');
 		action += articleNo;
 		$('#viewForm').attr('action',action);
-		$('#viewForm').submit();
+		//$('#viewForm').submit();
+		alert(action);
+		$('#viewForm').attr('action') = "";
 	});
 	$('#numPerPage').change(function() {
 		var numPerPage = $('#numPerPage option:selected').val();
@@ -110,7 +112,7 @@ function createCookie(name, value, days) {
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
 <tr th:each="article : ${articles}" th:class="${articleStat.odd} ? 'odd'">
-  <td style="text-align: center;"th:text="${article.articleNo}">405</td>
+  <td style="text-align: center;" th:text="${article.articleNo}">405</td>
   <td><a href="#" title="23488" th:text="${article.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
   <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(article.regdate,df)}">24 10 20</td>
   <td style="text-align: center;" th:text="${article.hit}">2</td>
