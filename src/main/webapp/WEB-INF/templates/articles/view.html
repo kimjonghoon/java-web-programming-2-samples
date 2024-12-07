@@ -12,7 +12,7 @@ article {
 }
 </style>
 <script src="../../../static/js/jquery.js"></script>
-<script>
+<script th:inline="javascript">
 $(document).ready(function() {
 	$('#edit-post-btn').click(function() {
 		var $div = $('#detail');
@@ -25,7 +25,109 @@ $(document).ready(function() {
 			$div.show();
 		}
 	});
+	//title 바꾸기
+	$('title').empty();
+	var title = $('#post-title').html();
+	$('title').append(title);
+	//삭제 버튼
+	$('#del-post-btn').click(function() {
+		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
+		var chk = confirm(warning);
+		if (chk === true) {
+			$('#delForm').submit();
+		}
+	});
+	//다음 글 버튼
+	$('#next-post-btn').click(function() {
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+		if (parseInt($articleNo) > parseInt($firstItemNo)) {
+			$page = /*[[${param.page}]] - 1*/ 11 - 1;
+			$('#viewForm input[name*=page]').val($page);
+		}
+		$('#viewForm').submit();
+	});
+	//이전 글 버튼
+	$('#prev-post-btn').click(function() {
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
+		if (parseInt($articleNo) < parseInt($lastItemNo)) {
+			$page = /*[[${param.page}]] + 1*/ 11 + 1;
+			$('#viewForm input[name*=page]').val($page);
+		}
+		$('#viewForm').submit();
+	});
+	//목록 버튼
+	$('#list-btn').click(function() {
+		$('#listForm').submit();
+	});
+	//페이지당 게시글 수 선택박스
+	$('#numPerPage').change(function() {
+		var numPerPage = $('#numPerPage option:selected').val();
+		if (numPerPage) {
+			createCookie('numPerPage', numPerPage, '30');
+			$('#listForm input[name*=page]').val('1');
+			$('#listForm').submit();
+		}
+	});
+	//목록에서 제목
+	$('#list-table tr td:nth-child(2) a').click(function(e) {
+		e.preventDefault();
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$('#viewForm').submit();
+	});
+	//페이지 링크
+	$('#paging a').click(function(e) {
+		e.preventDefault();
+		$page = $(this).attr('title');
+		$('#listForm input[name*=page]').val($page);
+		$('#listForm').submit();
+	});
+	//검색 버튼
+	$('#searchForm').submit(function() {
+		$search = $('#searchForm input[name*=search]').val();
+		$search = $.trim($search);
+		$('#searchForm input[name*=search]').val($search);
+		$('#searchForm').submit();
+	});
+	//수정 양식 전송
+	$('#editForm').submit(function() {
+		var title = $('#editForm input[name*=title]').val();
+		title = $.trim(title);
+		if (title.length === 0) {
+			var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+			alert(warning);
+			return false;
+		}
+		var content = $('#editForm-ta').val();
+		content = $.trim(content);
+		if (content === 0) {
+			var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+			alert(warning);
+			return false;
+		}
+		$('#editForm input[name*=title]').val(title);
+		$('#editForm-ta').val(content);
+	});
 });
+function createCookie(name, value, days) {
+  var newCookie = name + "=" + escape(value);
+  if (days) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    newCookie += "; expires=" + expires.toGMTString();
+  }
+  document.cookie = newCookie;
+}
 </script>
 </head>
 <body>
@@ -37,8 +139,8 @@ $(document).ready(function() {
     <input type="button" value="삭제" id="del-post-btn" />
   </div>
   <div style="float: right;">
-    <input type="button" value="다음 글" title="23486" id="next-post-btn" />
-    <input type="button" value="이전 글" title="23087" id="prev-post-btn" />
+    <input type="button" value="다음 글" title="23489" id="next-post-btn" />
+    <input type="button" value="이전 글" title="13087" id="prev-post-btn" />
     <input type="button" value="목록" id="list-btn" />
   </div>
 </div>
@@ -55,7 +157,7 @@ $(document).ready(function() {
 https://github.com/kimjonghoon/java-web-programming-2-samples
   </div>
 </div>
-<form id="editForm" style="display: none;">
+<form id="editForm" method="post" style="display: none;">
 <table id="write-form" class="bbs-table">
 <caption>수정</caption>
 <tr>
@@ -74,7 +176,6 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <td colspan="2"><input type="submit" value="전송" /></td>
 </table>
 </form>
-<div id="content-categories">자유게시판</div>
 <div style="text-align: right;">
   <select id="numPerPage">
     <option value="">페이지당 게시글 수</option>
@@ -84,7 +185,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
     <option value="100">100</option>
   </select>
 </div>
-<table class="bbs-table">
+<table class="bbs-table" id="list-table">
 <tr>
   <th style="width: 60px;text-align: center;">NO</th>
   <th>TITLE</th>
@@ -168,14 +269,25 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <a href="#" title="21">[다음]</a>
   <a href="#" title="41">[마지막]</a>
 </div>
+<form id="searchForm" action="/bbs/chat" method="get">
+  <input type="hidden" name="page" value="1" th:value="${param.page }" />
+  <div style="text-align: center;">
+    <input type="text" name="search" size="15" maxlength="30" />
+    <input type="submit" value="검색" th:value="#{search}" />
+  </div>
+</form>
 <div id="form-group" style="display: none">
   <form id="listForm" action="/bbs/chat" method="get">
-    <input type="hidden" name="page" value="${param.page }" />
-    <input type="hidden" name="search" value="${param.search }" />
+    <input type="hidden" name="page" value="11" th:value="${param.page}" />
+    <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
   <form id="viewForm" action="/bbs/chat/" method="get">
-    <input type="hidden" name="page" value="${param.page }" />
-    <input type="hidden" name="search" value="${param.search }" />
+    <input type="hidden" name="page" value="11" th:value="${param.page}" />
+    <input type="hidden" name="search" value="test" th:value="${param.search}" />
+  </form>
+  <form id="delForm" action="/bbs/chat/52" method="post" th:method="DELETE">
+    <input type="hidden" name="page" value="11" th:value="${param.page}" />
+    <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>
 </div>
 </article>

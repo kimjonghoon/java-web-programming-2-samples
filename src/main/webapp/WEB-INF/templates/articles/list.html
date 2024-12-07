@@ -32,19 +32,17 @@ $(document).ready(function() {
 	});
 	$('#paging a').click(function(e) {
 		e.preventDefault();
-		var page = this.title;
-		$('#listForm input[name*=page]').val(page);
+		$page = $(this).attr('title');
+		$('#listForm input[name*=page]').val($page);
 		$('#listForm').submit();
 	});
-	$('.bbs-table tr td:nth-child(2) a').click(function(e) {
+	$('.bbs-table tr td:nth-child(2) > a').click(function(e) {
 		e.preventDefault();
-		var articleNo = this.title;
-		var action = $('#viewForm').attr('action');
-		action += articleNo;
-		$('#viewForm').attr('action',action);
-		//$('#viewForm').submit();
-		alert(action);
-		$('#viewForm').attr('action') = "";
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$('#viewForm').submit();
 	});
 	$('#numPerPage').change(function() {
 		var numPerPage = $('#numPerPage option:selected').val();
@@ -182,7 +180,7 @@ function createCookie(name, value, days) {
 	  <span class="bbs-strong" th:text="${page}">11</span>
     </th:block>
     <th:block th:unless="${page} == ${param.page[0]}"> 
-      <a href="#" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
+      <a href="#" title="12" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
     </th:block>
   </th:block>
   <!--/*-->
@@ -201,14 +199,14 @@ function createCookie(name, value, days) {
 <div>
   <input type="button" value="새 글쓰기" id="new-post-btn" />
 </div>
-<form id="searchForm" method="get">
+<form id="searchForm" action="/bbs/chat" method="get">
   <input type="hidden" name="page" value="1" th:value="${param.page }" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" th:value="#{search}" />
   </div>
 </form>
-<form id="writeForm" action="/bbs/${boardCd}" method="post" style="display: none;">
+<form id="writeForm" action="/bbs/chat" th:action="/bbs/${boardCd}" method="post" style="display: none;">
 <table id="write-form" class="bbs-table">
 <caption>새 글쓰기</caption>
 <tr>
