@@ -199,14 +199,14 @@ function createCookie(name, value, days) {
 <div>
   <input type="button" value="새 글쓰기" th:value="#{new.post.btn}" id="new-post-btn" />
 </div>
-<form id="searchForm" action="/bbs/chat" th:action="@{/bbs/${boardCd}}" method="get">
-  <input type="hidden" name="page" value="1" th:value="${param.page }" />
+<form id="searchForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
+  <input type="hidden" name="page" value="1" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" th:value="#{search}" />
   </div>
 </form>
-<form id="writeForm" action="/bbs/chat" th:action="/bbs/${boardCd}" method="post" style="display: none;">
+<form id="writeForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="post" style="display: none;">
 <table id="write-form" class="bbs-table">
 <caption>새 글쓰기</caption>
 <tr>

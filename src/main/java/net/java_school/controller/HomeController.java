@@ -22,7 +22,9 @@ public class HomeController {
 	@GetMapping("/")
 	public String index(Model model) {
 		int[] pages = {11,12,13,14,15,16,17,18,19,20};
+		String boardCd = "free";
 		model.addAttribute("pages", pages);
+		model.addAttribute("boardCd",boardCd);
 		return "index";
 	}
 	@PatchMapping("/")
