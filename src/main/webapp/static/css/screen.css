@@ -38,6 +38,9 @@ a:hover {
 article {
 	margin-top: 10px;
 }
+article img {
+	max-width: 100%;
+}
 article > h1 {
 	margin: 0;
 	padding: 0;
@@ -165,7 +168,7 @@ article > ol > li {
 	font-family: Verdana, sans-serif;
 	font-size: 12px;
 	position: relative;
-	top: 7px;
+	top: 11px;
 }
 #sidebar > ul {
 	border: 1px solid #DAEAAA;

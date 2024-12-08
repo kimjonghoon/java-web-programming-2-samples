@@ -95,25 +95,25 @@ function createCookie(name, value, days) {
 <div id="content-categories" th:text="${boardName}">자유게시판</div>
 <div style="text-align: right;">
   <select id="numPerPage">
-    <option value="">페이지당 게시글 수</option>
+    <option value="" th:text="#{number.per.page}">페이지당 게시글 수</option>
     <option value="10">10</option>
     <option value="20">20</option>
     <option value="50">50</option>
     <option value="100">100</option>
   </select>
 </div>
-<table class="bbs-table">
+<table class="bbs-table" id="list-table">
 <tr>
   <th style="width: 60px;text-align: center;">NO</th>
   <th>TITLE</th>
   <th style="width: 84px;text-align: center;">DATE</th>
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
-<tr th:each="article : ${articles}" th:class="${articleStat.odd} ? 'odd'">
-  <td style="text-align: center;" th:text="${article.articleNo}">405</td>
-  <td><a href="#" title="23488" th:text="${article.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
-  <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(article.regdate,df)}">24 10 20</td>
-  <td style="text-align: center;" th:text="${article.hit}">2</td>
+<tr th:each="post : ${posts}" th:class="${postStat.odd} ? 'odd'">
+  <td style="text-align: center;" th:text="${post.postNo}">405</td>
+  <td><a href="#" title="23488" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
+  <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(post.regdate,df)}">24 10 20</td>
+  <td style="text-align: center;" th:text="${post.hit}">2</td>
 </tr>
 <!--/*-->
 <tr>
@@ -197,9 +197,9 @@ function createCookie(name, value, days) {
   <a href="#" title="41" th:if="${nexPage} &gt; 0" th:title="${totalPage}" th:text="#{final.page}">[마지막]</a>
 </div>
 <div>
-  <input type="button" value="새 글쓰기" id="new-post-btn" />
+  <input type="button" value="새 글쓰기" th:value="#{new.post.btn}" id="new-post-btn" />
 </div>
-<form id="searchForm" action="/bbs/chat" method="get">
+<form id="searchForm" action="/bbs/chat" th:action="@{/bbs/${boardCd}}" method="get">
   <input type="hidden" name="page" value="1" th:value="${param.page }" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />

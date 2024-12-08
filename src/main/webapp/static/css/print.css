@@ -8,10 +8,6 @@ form {
 	margin: 0;
 	padding: 0;
 }
-pre {
-	white-space: pre-wrap;
-	hyphens: none;
-}
 .commandLine {
 	background: #eee;
 	padding: 0.25em;
@@ -19,6 +15,9 @@ pre {
 div.filename {
 	margin: 0.7em 0 0 0;
 	font-size: 0.9em;
+}
+img.browser-output {
+	border: 2px solid #eee; 
 }
 a:link {
 	color: #2C80D0;
@@ -35,27 +34,6 @@ a:active {
 a:hover {
 	color: #2C80D0;
 	text-decoration: underline;
-}
-article table {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	width: 100%;
-}
-article td {
-	padding: 5px 6px 3px 6px;
-	border: silver 1px solid;
-}
-article th {
-	padding: 5px 6px 3px 6px;
-	border: silver 1px solid;
-	text-align: left;
-	border: silver 1px solid;
-}
-article caption {
-	margin: 0;
-	padding: 0;
-	font-weight: bold;
-	text-align: left;
 }
 article > h1 {
 	margin: 0;
@@ -114,4 +92,76 @@ article > ul > li {
 }
 #footer {
 	display: none;
+}
+.bbs-table {
+	width: 100%;
+	margin: 0.7em 0 0 0;
+}
+.bbs-table > caption {
+	color: #555;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: left;  
+}
+.bbs-table th {
+	color: #92B91C;
+	border-top: 1px solid #92B91C;
+	border-bottom: 1px solid #92B91C;
+}
+.bbs-table td {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border-bottom: 1px solid silver;
+	line-height: 1.45;
+}
+.bbs-table td a {
+	color: #555;
+	text-decoration: none;
+}
+.bbs-table td a:hover {
+	color: #555;
+	text-decoration: underline;
+}
+#paging {
+	text-align: center;
+	font-size: 14px;
+}
+#paging > a {
+	color: #555;
+	text-decoration: none;
+}
+#paging > a:hover {
+	color: #555;
+	text-decoration: underline;
+}
+.bbs-strong {
+	color: #FFA500;
+	font-weight: bold;
+}
+#write-form td {
+	border: none;
+}
+#write-form textarea {
+	width: 99%;
+}
+#content-categories {
+	margin: 0;
+	padding-top: 10px;
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666;
+	margin-bottom: 15px;
+}
+#date-writer-hit {
+	display: block;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	color: #555;
+	text-align: right;
+}
+#post-content {
+	font-size: 15px;
+	color: #333;
+	min-height: 100px;
 }

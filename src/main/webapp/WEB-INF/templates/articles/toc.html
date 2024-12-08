@@ -394,21 +394,16 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 <pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\startup.bat</strong></pre>
 
 <p>
-<img src="../../../static/images/after-edit-logging-properties.png" th:src="@{/static/images/after-edit-logging-properties.png}" alt="logging.properties 편집 후 화면" />
+<img src="../../../static/images/logging_properties2.png" th:src="@{/static/images/logging_properties2.png}" alt="logging.properties 편집 후 화면" />
 </p>
 
 <th:block th:replace="~{thymeleaf/menu :: index}"></th:block>
 
 <th:block th:replace="~{spring-security/menu :: index}"></th:block>
 
-<h1>3장 Bulletin Board</h1>
+<h1>Thymeleaf Test for Bulletin Board</h1>
 
-<h3>page 파라미터 테스트</h3>
-
-<p>
-page 파라미터를 반드시 전달해야 테스트 할 수 있다.
-</p>
-
+<h2>Page links</h2>
 
 <th:block th:each="page : ${pages}">
   <th:block th:if="${page} == ${param.page[0]}"> 
@@ -435,17 +430,9 @@ page 파라미터를 반드시 전달해야 테스트 할 수 있다.
 </th:block>
 <!--*/-->
 
-<h3>HiddenHttpMethodFilter 테스트</h3>
+<h3>한글 테스트</h3>
 
-<pre>SQL&gt; desc board
- Name                                      Null?    Type
- ----------------------------------------- -------- ----------------------------
- BOARDCD                                   NOT NULL VARCHAR2(20)
- BOARDNM                                   NOT NULL VARCHAR2(40)
- BOARDNM_KO                                         VARCHAR2(40)
-</pre>
-
-<form id="testForm" th:action="@{/}" th:method="PATCH">
+<form id="testForm" th:action="@{/}" th:method="patch">
 <input type="hidden" name="page" th:value="${param.page}" />
 <input type="hidden" name="search" th:value="${param.search}" />
 <table id="write-form" class="bbs-table">
