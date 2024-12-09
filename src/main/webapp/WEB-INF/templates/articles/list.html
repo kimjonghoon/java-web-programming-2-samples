@@ -173,8 +173,8 @@ function createCookie(name, value, days) {
 <!--*/-->
 </table>
 <div id="paging">
-  <a href="#" title="1" th:if="${prevPage} &gt; 0" th:text="#{first.page}">[처음]</a>
-  <a href="#" title="10" th:if="${prevPage} &gt; 0" th:title="${prevPage}" th:text="#{prev.page}">[이전]</a>
+  <a href="#" title="1" th:if="${prevPage} &gt; 0" th:text="'[' + #{first.page} + ']'">[처음]</a>
+  <a href="#" title="10" th:if="${prevPage} &gt; 0" th:title="${prevPage}" th:text="'[' + #{prev.page} + ']'">[이전]</a>
   <th:block th:each="page : ${pages}">
     <th:block th:if="${page} == ${param.page[0]}"> 
 	  <span class="bbs-strong" th:text="${page}">11</span>
@@ -193,8 +193,8 @@ function createCookie(name, value, days) {
   <a href="#" title="19">[ 19 ]</a>
   <a href="#" title="20">[ 20 ]</a>
   <!--*/-->
-  <a href="#" title="21" th:if="${nexPage} &gt; 0" th:title="${nextPage}" th:text="#{next.page}">[다음]</a>
-  <a href="#" title="41" th:if="${nexPage} &gt; 0" th:title="${totalPage}" th:text="#{final.page}">[마지막]</a>
+  <a href="#" title="21" th:if="${nexPage} &gt; 0" th:title="${nextPage}" th:text="'[' + #{next.page} + ']'">[다음]</a>
+  <a href="#" title="41" th:if="${nexPage} &gt; 0" th:title="${totalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
 </div>
 <div>
   <input type="button" value="새 글쓰기" th:value="#{new.post.btn}" id="new-post-btn" />
