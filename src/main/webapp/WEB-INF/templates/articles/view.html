@@ -10,6 +10,14 @@ article {
   width: 777px;
   margin: 0 auto;
 }
+#paging a {
+  color: #555;
+  text-decoration: none;
+}
+#paging a:hover {
+  color: #555;
+  text-decoration: underline;
+}
 </style>
 <script src="../../../static/js/jquery.js"></script>
 <script th:inline="javascript">
@@ -132,53 +140,53 @@ function createCookie(name, value, days) {
 </head>
 <body>
 <article>
-<div id="content-categories">자유게시판</div>
+<div id="content-categories" th:text="${boardName}">자유게시판</div>
 <div style="height: 22px;">
   <div style="float: left;">
-    <input type="button" value="수정" id="edit-post-btn" />
-    <input type="button" value="삭제" id="del-post-btn" />
+    <input type="button" value="수정" th:value="${edit.post}" id="edit-post-btn" />
+    <input type="button" value="삭제" th:value="${del.post}" id="del-post-btn" />
   </div>
   <div style="float: right;">
-    <input type="button" value="다음 글" title="23489" id="next-post-btn" />
-    <input type="button" value="이전 글" title="13087" id="prev-post-btn" />
-    <input type="button" value="목록" id="list-btn" />
+    <input type="button" value="다음 글" th:value="${next.post}" title="23489" th:title="${nextPostNo}" id="next-post-btn" />
+    <input type="button" value="이전 글" th:value="${prev.post}" title="13087" th:title="${prevPostNo}" id="prev-post-btn" />
+    <input type="button" value="목록" th:value="#{list}" id="list-btn" />
   </div>
 </div>
 <div id="detail">
 <table class="bbs-table">
 <tr>
   <th style="width: 50px;text-align: left;vertical-align: top;font-size: 15px;">TITLE</th>
-  <th style="text-align: left;color: #555;font-size: 15px;" id="post-title">자바 웹 프로그래밍 2 최종 소스</th>
+  <th style="text-align: left;color: #555;font-size: 15px;" id="post-title" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</th>
 </tr>
 </table>
-<div id="date-writer-hit">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
-<div id="post-content">
+<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(post.regdate,df)} + ' by ' + ${post.username} + ', hit ' + ${post.hit}">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
+<div id="post-content" th:text="${post.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
   </div>
 </div>
-<form id="editForm" method="post" style="display: none;">
+<form id="editForm" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${post.postNo})" th:method="put" style="display: none;">
 <table id="write-form" class="bbs-table">
-<caption>수정</caption>
+<caption th:text="#{edit.post}">수정</caption>
 <tr>
-  <td>제목</td>
-  <td><input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" style="width: 90%" /></td>
+  <td th:text="${post.title}">제목</td>
+  <td><input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" th:value="${post.title}" style="width: 90%" /></td>
 </tr>
 <tr>
   <td colspan="2">
-<textarea id="editForm-ta" name="content" rows="10" style="width: 100%">
+<textarea id="editForm-ta" name="content" rows="10" style="width: 100%" th:text="${post.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </textarea>
   </td>
 </tr>
 <tr>
-  <td colspan="2"><input type="submit" value="전송" /></td>
+  <td colspan="2"><input type="submit" value="전송" th:value="${submit}" /></td>
 </table>
 </form>
 <div style="text-align: right;">
   <select id="numPerPage">
-    <option value="">페이지당 게시글 수</option>
+    <option value="" th:text="${number.per.page}">페이지당 게시글 수</option>
     <option value="10">10</option>
     <option value="20">20</option>
     <option value="50">50</option>
@@ -192,12 +200,13 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <th style="width: 84px;text-align: center;">DATE</th>
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
-<tr>
-  <td style="text-align: center;">405</td>
-  <td><a href="#" title="23488">자바 웹 프로그래밍 2 최종 소스</a></td>
-  <td style="text-align: center;">24 10 20</td>
-  <td style="text-align: center;">2</td>
+<tr th:each="post : ${posts}" th:class="${postStat.odd} ? 'odd'">
+  <td style="text-align: center;" th:text="${post.postNo}">405</td>
+  <td><a href="#" title="23488" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
+  <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(post.regdate,df)}">24 10 20</td>
+  <td style="text-align: center;" th:text="${post.hit}">2</td>
 </tr>
+<!--/*-->
 <tr>
   <td style="text-align: center;">404</td>
   <td><a href="#" title="23486">우분투 24.04에 자바 개발 환경</a></td>
@@ -252,12 +261,16 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <td style="text-align: center;">22 08 17</td>
   <td style="text-align: center;">0</td>
 </tr>
+<!--*/-->
 </table>
 <div id="paging">
-  <a href="#" title="1">[처음]</a>
-  <a href="#" title="10">[이전]</a>
-  <span class="bbs-strong">11</span>
-  <a href="#" title="12">[ 12 ]</a>
+  <a href="#" title="1" th:if="${prevPage &gt; 0" th:text="'[' + #{first.page} + ']'">[처음]</a>
+  <a href="#" title="10" th:if="${prevPage &gt; 0" th:title="${prevPage}" th:text="'[' + #{prev.page} + ']'">[이전]</a>
+  <th:block th:each="page : ${pages}">
+    <span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}">11</span>
+    <a href="#" title="12" th:unless="${page} == ${param.page[0]" th:title="${page}" th:text="' [ ' + ${page} + ' ] '">[ 12 ]</a>
+  </th:block>
+  <!--/*-->
   <a href="#" title="13">[ 13 ]</a>
   <a href="#" title="14">[ 14 ]</a>
   <a href="#" title="15">[ 15 ]</a>
@@ -266,10 +279,11 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <a href="#" title="18">[ 18 ]</a>
   <a href="#" title="19">[ 19 ]</a>
   <a href="#" title="20">[ 20 ]</a>
-  <a href="#" title="21">[다음]</a>
-  <a href="#" title="41">[마지막]</a>
+  <!--*/-->
+  <a href="#" title="21" th:if="${nextPage} &gt; 0" th:title="${nextPage}" th:text="'[' + #{next.page} + ']'">[다음]</a>
+  <a href="#" title="41" th:if="${nextPage} &gt; 0" th:title="${finalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
 </div>
-<form id="searchForm" action="/bbs/chat" method="get">
+<form id="searchForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
   <input type="hidden" name="page" value="1" th:value="${param.page }" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
@@ -277,15 +291,15 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   </div>
 </form>
 <div id="form-group" style="display: none">
-  <form id="listForm" action="/bbs/chat" method="get">
+  <form id="listForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
-  <form id="viewForm" action="/bbs/chat/" method="get">
+  <form id="viewForm" action="/bbs/chat/" th:action="@{/bbs/{boardCd}/(boardCd=${boardCd})}" method="get">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>
-  <form id="delForm" action="/bbs/chat/52" method="post" th:method="DELETE">
+  <form id="delForm" action="/bbs/chat/52" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${post.postNo})}" method="post" th:method="delete">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>

@@ -176,12 +176,8 @@ function createCookie(name, value, days) {
   <a href="#" title="1" th:if="${prevPage} &gt; 0" th:text="'[' + #{first.page} + ']'">[처음]</a>
   <a href="#" title="10" th:if="${prevPage} &gt; 0" th:title="${prevPage}" th:text="'[' + #{prev.page} + ']'">[이전]</a>
   <th:block th:each="page : ${pages}">
-    <th:block th:if="${page} == ${param.page[0]}"> 
-	  <span class="bbs-strong" th:text="${page}">11</span>
-    </th:block>
-    <th:block th:unless="${page} == ${param.page[0]}"> 
-      <a href="#" title="12" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
-    </th:block>
+    <span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}">11</span>
+    <a href="#" title="12" th:unless="${page} == ${param.page[0]}" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
   </th:block>
   <!--/*-->
   <a href="#" title="13">[ 13 ]</a>
@@ -194,7 +190,7 @@ function createCookie(name, value, days) {
   <a href="#" title="20">[ 20 ]</a>
   <!--*/-->
   <a href="#" title="21" th:if="${nexPage} &gt; 0" th:title="${nextPage}" th:text="'[' + #{next.page} + ']'">[다음]</a>
-  <a href="#" title="41" th:if="${nexPage} &gt; 0" th:title="${totalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
+  <a href="#" title="41" th:if="${nexPage} &gt; 0" th:title="${finalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
 </div>
 <div>
   <input type="button" value="새 글쓰기" th:value="#{write.new.post}" id="new-post-btn" />
@@ -230,7 +226,7 @@ function createCookie(name, value, days) {
     <input type="hidden" name="page" />
     <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
-  <form id="viewForm" action="/bbs/chat/" th:action="/bbs/${boardCd}/" method="get">
+  <form id="viewForm" action="/bbs/chat/" th:action="@{/bbs/{boardCd}/(boardCd=${boardCd})}" method="get">
     <input type="hidden" name="page" value="1" th:value="${param.page }" />
     <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
