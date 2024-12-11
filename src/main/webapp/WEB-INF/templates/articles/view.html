@@ -284,22 +284,22 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <a href="#" title="41" th:if="${nextPage} &gt; 0" th:title="${finalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
 </div>
 <form id="searchForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
-  <input type="hidden" name="page" value="1" th:value="${param.page }" />
+  <input type="hidden" name="page" value="1" />
   <div style="text-align: center;">
     <input type="text" name="search" size="15" maxlength="30" />
     <input type="submit" value="검색" th:value="#{search}" />
   </div>
 </form>
 <div id="form-group" style="display: none">
-  <form id="listForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
+  <form id="listForm" action="/bbs/chat" method="get" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>
-  <form id="viewForm" action="/bbs/chat/" th:action="@{/bbs/{boardCd}/(boardCd=${boardCd})}" method="get">
+  <form id="viewForm" action="/bbs/chat/" method="get" th:action="@{/bbs/{boardCd}/(boardCd=${boardCd})}">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>
-  <form id="delForm" action="/bbs/chat/52" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${post.postNo})}" method="post" th:method="delete">
+  <form id="delForm" action="/bbs/chat/52" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${post.postNo})}" th:method="delete">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>
