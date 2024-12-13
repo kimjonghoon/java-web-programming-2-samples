@@ -401,42 +401,16 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 
 <th:block th:replace="~{spring-security/menu :: index}"></th:block>
 
-<h1>Thymeleaf Test for Bulletin Board</h1>
+<h1>게시판 구현을 위한 타임리프 테스트</h1>
 
-<h2>Page links</h2>
+<h2>페이지 링크</h2>
 
 <th:block th:each="page : ${pages}">
   <span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}">11</span>
   <a href="#" th:unless="${page} == ${param.page[0]}" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
 </th:block>
 
-<!--/*-->
-<th:block th:each="page : ${pages}">
-  <th:block th:if="${page} == ${param.page[0]}"> 
-	<span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}">11</span>
-  </th:block>
-  <th:block th:unless="${page} == ${param.page[0]}"> 
-  <a href="#" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
-  </th:block>
-</th:block>
-
-<a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
-
-<th:block th:each="page : ${pages}">
-<a href="#" title="12" th:title="${page}" th:text="${page} == ${param.page[0]} ? ${page} : ' [ ' + ${page} + ' ] '"></a> 
-</th:block>
-
-<a href="#" title="12" th:each="page : ${pages}" th:title="${page}" th:text="${page} == ${param.page} ? ${page} : ' [ ' + ${page} + ' ] '"></a>
-
-<th:block th:each="page : ${pages}">
-  <span class="bbs-strong" th:text="${page}"></span>
-  <span th:text="${param.page}"></span>
-  <span th:text="${page} == ${param.page[0]} ? 'true' : 'false'"></span>
-  <p th:text="${page} == ${param.page[0]} ? ${page} : 'test'"> [ 12 ] </p>
-</th:block>
-<!--*/-->
-
-<h3>한글 테스트</h3>
+<h2>한글 테스트</h2>
 <form id="testForm" th:action="@{/}" th:method="patch">
 <input type="hidden" name="page" th:value="${param.page}" />
 <input type="hidden" name="search" th:value="${param.search}" />
@@ -462,13 +436,9 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 </table>
 </form>
 
-<form th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${postNo})}">
-</form>
+<h2>thymeleaf-extras-springsecurity6 테스트</h2>
 
-
-
-
-
+<input type="button" value="수정" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" />
 
 </article>
 </body>

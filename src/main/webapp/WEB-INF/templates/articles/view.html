@@ -143,13 +143,13 @@ function createCookie(name, value, days) {
 <div id="content-categories" th:text="${boardName}">자유게시판</div>
 <div style="height: 22px;">
   <div style="float: left;">
-    <input type="button" value="수정" th:value="${edit.post}" id="edit-post-btn" />
-    <input type="button" value="삭제" th:value="${del.post}" id="del-post-btn" />
+    <input type="button" value="수정" id="edit-post-btn" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:value="${edit.post}" />
+    <input type="button" value="삭제" id="del-post-btn" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:value="${del.post}" />
   </div>
   <div style="float: right;">
-    <input type="button" value="다음 글" th:value="${next.post}" title="23489" th:title="${nextPostNo}" id="next-post-btn" />
-    <input type="button" value="이전 글" th:value="${prev.post}" title="13087" th:title="${prevPostNo}" id="prev-post-btn" />
-    <input type="button" value="목록" th:value="#{list}" id="list-btn" />
+    <input type="button" value="다음 글" title="23489" id="next-post-btn" th:if="${nextPostNo} &gt; 0" th:value="${next.post}" th:title="${nextPostNo}" />
+    <input type="button" value="이전 글" title="13087" id="prev-post-btn" th:if="${prevPostNo} &gt; 0" th:value="${prev.post}" th:title="${prevPostNo}" />
+    <input type="button" value="목록" id="list-btn" th:value="#{list}" />
   </div>
 </div>
 <div id="detail">

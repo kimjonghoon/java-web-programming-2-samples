@@ -7,21 +7,18 @@
 </head>
 
 <body>
-
 <article>
-
 <h2 th:text="#{login}">로그인</h2>
-
 <div th:if="${param.error}" th:text="#{login.error}">사용자명과 패스워드가 유효하지 않습니다.</div>
 <form th:action="@{/login}" th:method="post">
-<table>
+<table style="width: 100%;margin: 10px 0;">
 <tr>
-    <td th:text="#{username}">사용자명</td>
-    <td><input type="text" name="username" placeholder="username" /></td>
+    <td style="border: 1px solid #c0c0c0;padding: 5px;" th:text="#{username}">사용자명</td>
+    <td style="border: 1px solid #c0c0c0;padding: 5px;"><input type="text" name="username" placeholder="username" /></td>
 </tr>
 <tr>
-    <td th:text="#{password}">패스워드</td>
-    <td><input type="password" name="password" placeholder="password" /></td>
+    <td style="border: 1px solid #c0c0c0;padding: 5px;" th:text="#{password}">패스워드</td>
+    <td style="border: 1px solid #c0c0c0;padding: 5px;"><input type="password" name="password" placeholder="password" /></td>
 </tr>
 </table>
 <div>
@@ -29,8 +26,6 @@
     <a href="#" th:href="@{/users/signUp}"><button type="button" th:text="#{sign.up}">회원가입</button></a>
 </div>
 </form>
-
 </article>
-
 </body>
 </html>
