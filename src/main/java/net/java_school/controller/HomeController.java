@@ -21,13 +21,15 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String index(Model model) {
+		/*
 		int[] pages = {11,12,13,14,15,16,17,18,19,20};
 		model.addAttribute("pages", pages);
 		String boardCd = "free";
 		Integer postNo = 52;
 		model.addAttribute("boardCd",boardCd);
 		model.addAttribute("postNo",postNo);
-		model.addAttribute("username","hannah");
+		*/
+		model.addAttribute("username","charles");
 		return "index";
 	}
 	@PatchMapping("/")

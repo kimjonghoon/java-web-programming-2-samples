@@ -8,24 +8,21 @@
 </head>
 
 <body>
-
 <article>
-
 <h3 th:text="#{sign.up}">회원가입</h3>
-
 <form id="signUpForm" th:action="@{/users/signUp}" th:method="post" th:object="${user}">
-<table>
+<table style="width: 100%;margin: 10px 0;">
 <tr>
-  <td th:text="#{username}">사용자명</td>
-  <td>
+  <td style="border: 1px solid #c0c0c0;padding: 5px;" th:text="#{username}">사용자명</td>
+  <td style="border: 1px solid #c0c0c0;padding: 5px;">
     <input type="text" th:field="*{username}"/><br />
     <span class="validationError" th:if="${#fields.hasErrors('username')}" 
         th:errors="*{username}">이름 에러</span>
   </td>
 </tr>
 <tr>
-  <td th:text="#{password}">패스워드</td>
-  <td>
+  <td style="border: 1px solid #c0c0c0;padding: 5px;" th:text="#{password}">패스워드</td>
+  <td style="border: 1px solid #c0c0c0;padding: 5px;">
     <input type="password" th:field="*{password}"/><br />
     <span class="validationError" th:if="${#fields.hasErrors('password')}"
         th:errors="*{password}">패스워드 에러</span>
@@ -36,8 +33,6 @@
   <input type="submit" th:value="#{submit}" value="전송" />
 </div>
 </form>
-
 </article>
-
 </body>
 </html>

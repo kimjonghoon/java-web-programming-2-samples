@@ -405,6 +405,7 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 
 <h2>페이지 링크</h2>
 
+<!--/*-->
 <th:block th:each="page : ${pages}">
   <span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}">11</span>
   <a href="#" th:unless="${page} == ${param.page[0]}" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"> [ 12 ] </a>
@@ -435,6 +436,7 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 </tr>
 </table>
 </form>
+<!--*/-->
 
 <h2>thymeleaf-extras-springsecurity6 테스트</h2>
 
