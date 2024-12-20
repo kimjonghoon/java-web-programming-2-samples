@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#extra {
+  margin-left: 0;
+}
+</style>
+</head>
+<body>
+<div id="extra" th:fragment="references">
+<ul>
+	<li class="sub-heading" th:text="${lang == 'ko'} ? _ : 'References')">참고자료</li>
+	<li><a href="#" th:href="@{http://java-school.net/jsp/BBS-Study}">Basic Concepts of BBS</a></li>
+	<li><a href="#" th:href="@{http://java-school.net/jsp-pjt/Dynamic-Web-Project-Set-Up}">BBS of Basic JSP</a></li>
+	<li><a href="#" th:href="@{http://java-school.net/en/blog/2017/basic-board}">Basic Board</a></li>
+	<li><a href="#" th:href="@{http://java-school.net/en/blog/2017/model2-board}">Model 2 Board</a></li>
+	<li><a href="#" th:href="@{http://java-school.net/en/blog/2017/model2-board-using-DBCP}">Oracle Model 2 Board using DBCP</a></li>
+	<li><a href="#" th:href="@{http://java-school.net/spring/spring-mvc-bbs}">BBS on Spring</a></li>
+</ul>
+</div>
+</body>
+</html>

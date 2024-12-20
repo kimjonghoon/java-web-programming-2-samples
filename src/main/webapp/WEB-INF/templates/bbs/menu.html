@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>BBS</h1>
+<ul>
+	<li th:each="board : ${boards}"><a href="#" th:href="@{/bbs/{boardCd}(boardCd=${board.boardCd})" th:text="${#locale.language == 'ko'} ? ${board.boardNm_ko} : ${board.boardNm}">공지 사항</a></li>
+	<!--/*-->
+	<li><a href="#">영화</a></li>
+	<li><a href="#">음악</a></li>
+	<li><a href="#">자유 토론</a></li>
+	<!--*/-->
+</ul>
+</th:block>
+</body>
+</html>
