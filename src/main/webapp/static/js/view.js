@@ -1,118 +1,106 @@
-$(document).ready(function () {
-  $('title').empty();
-  var title = $('#bbs-title').html();
-  $('title').append(title);
-  $('#file-list a.download').click(function (e) {
-    e.preventDefault();
-    var filename = this.title;
-    var fileno = $(this).attr('href');
-      $('#downForm input[name*=filename]').val(filename);
-      $('#downForm input[name*=fileno]').val(fileno);
-      $('#downForm').submit();
-  });
-  $('#file-list a:not(.download)').click(function (e) {
-    e.preventDefault();
-    var chk = confirm('정말로 삭제하겠습니까?');
-    if (chk === true) {
-      var attachFileNo = this.title;
-      $('#deleteAttachFileForm input[name*=attachFileNo]').val(attachFileNo);
-      $('#deleteAttachFileForm').submit();
-    }
-  });
-  //Modify Button
-  $('.goModify').click(function () {
-    $('#modifyForm').submit();
-  });
-  //Del Button
-  $('.goDelete').click(function () {
-    var chk = confirm('정말로 삭제하겠습니까?');
-    if (chk === true) {
-      $('#delForm').submit();
-    }
-  });
-  //Next Article Button
-  $('.next-article').click(function () {
-    var articleNo = this.title;
-    var action = $('#viewForm').attr('action');
-    action += articleNo;
-    $('#viewForm').attr('action', action);
-    var firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
-    if (parseInt(articleNo) > parseInt(firstItemNo)) {
-      $('#viewForm-page').val(${param.page - 1});
-    }
-    $('#viewForm').submit();
-  });
-  //Prev Article Button
-  $('.prev-article').click(function () {
-    var articleNo = this.title;
-    var action = $('#viewForm').attr('action');
-    action += articleNo;
-    $('#viewForm').attr('action', action);
-    var lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
-    if (parseInt(articleNo) < parseInt(lastItemNo)) {
-      $('#viewForm-page').val(${param.page + 1});
-    }
-    $('#viewForm').submit();
-  });
-  //List Button
-  $('.goList').click(function () {
-    $('#listForm').submit();
-  });
-  //Write Button
-  $('.goWrite').click(function () {
-    $('#writeForm').submit();
-  });
-  //Title Link in view.jsp
-  $('#list-table a').click(function (e) {
-    e.preventDefault();
-    var articleNo = this.title;
-    var action = $('#viewForm').attr('action');
-    action += articleNo;
-    $('#viewForm').attr('action', action);
-    $('#viewForm').submit();
-  });
-  //Paging
-  $('#paging a').click(function (e) {
-    e.preventDefault();
-    var page = this.title;
-    $('#listForm input[name*=page]').val(page);
-    $('#listForm').submit();
-  });
-  //Write Button on Search Button
-  $('#list-menu > input').click(function () {
-    $('#writeForm').submit();
-  });
-  $('#searchForm').submit(function() {
-    var $searchWord = $('#searchForm input[name*=searchWord]').val();
-    $searchWord = $.trim($searchWord);
-    $('#searchForm input[name*=searchWord]').val($searchWord);
-    $('#searchForm').submit();
-  });
-  $("#addCommentForm").submit(function (event) {
-    event.preventDefault();
-    var $form = $(this);
-    var memo = $('#addComment-ta').val();
-    memo = $.trim(memo);
-    if (memo.length === 0) {
-      $('#addComment-ta').val('');
-      return false;
-    }
-    var dataToBeSent = $form.serialize();
-    var url = $form.attr("action");
-    var posting = $.post(url, dataToBeSent);
-    posting.done(function () {
-      displayComments();
-      $('#addComment-ta').val('');
-    });
-  });    
-  var originWidth = $('#article-content > iframe').width();
-  var originHeight = $('#article-content > iframe').height();
-
-  var width = $('#detail').width();
-  var height = originHeight * width / originWidth;
-
-  $('#article-content > iframe').attr('width', width);
-  $('#article-content > iframe').attr('height', height);
-
-  $('#article-content > iframe').attr('allowFullScreen', '');
+$(document).ready(function() {
+	$('#edit-post-btn').click(function() {
+		var $div = $('#detail');
+		var $form = $('#editForm');
+		if ($form.is(':hidden') === true) {
+			$form.show();
+			$div.hide();
+		} else {
+			$form.hide();
+			$div.show();
+		}
+	});
+	//title 바꾸기
+	$('title').empty();
+	var title = $('#post-title').html();
+	$('title').append(title);
+	//삭제 버튼
+	$('#del-post-btn').click(function() {
+		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
+		var chk = confirm(warning);
+		if (chk === true) {
+			$('#delForm').submit();
+		}
+	});
+	//다음 글 버튼
+	$('#next-post-btn').click(function() {
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+		if (parseInt($articleNo) > parseInt($firstItemNo)) {
+			$page = /*[[${param.page}]] - 1*/ 11 - 1;
+			$('#viewForm input[name*=page]').val($page);
+		}
+		$('#viewForm').submit();
+	});
+	//이전 글 버튼
+	$('#prev-post-btn').click(function() {
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
+		if (parseInt($articleNo) < parseInt($lastItemNo)) {
+			$page = /*[[${param.page}]] + 1*/ 11 + 1;
+			$('#viewForm input[name*=page]').val($page);
+		}
+		$('#viewForm').submit();
+	});
+	//목록 버튼
+	$('#list-btn').click(function() {
+		$('#listForm').submit();
+	});
+	//페이지당 게시글 수 선택박스
+	$('#numberPerPage').change(function() {
+		var numberPerPage = $('#numberPerPage option:selected').val();
+		if (numberPerPage) {
+			createCookie('numberPerPage', numberPerPage, '30');
+			$('#listForm input[name*=page]').val('1');
+			$('#listForm').submit();
+		}
+	});
+	//목록에서 제목
+	$('#list-table tr td:nth-child(2) a').click(function(e) {
+		e.preventDefault();
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$('#viewForm').submit();
+	});
+	//페이지 링크
+	$('#paging a').click(function(e) {
+		e.preventDefault();
+		$page = $(this).attr('title');
+		$('#listForm input[name*=page]').val($page);
+		$('#listForm').submit();
+	});
+	//검색 버튼
+	$('#searchForm').submit(function() {
+		$search = $('#searchForm input[name*=search]').val();
+		$search = $.trim($search);
+		$('#searchForm input[name*=search]').val($search);
+		$('#searchForm').submit();
+	});
+	//수정 양식 전송
+	$('#editForm').submit(function() {
+		var title = $('#editForm input[name*=title]').val();
+		title = $.trim(title);
+		if (title.length === 0) {
+			var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+			alert(warning);
+			return false;
+		}
+		var content = $('#editForm-ta').val();
+		content = $.trim(content);
+		if (content === 0) {
+			var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+			alert(warning);
+			return false;
+		}
+		$('#editForm input[name*=title]').val(title);
+		$('#editForm-ta').val(content);
+	});
 });
