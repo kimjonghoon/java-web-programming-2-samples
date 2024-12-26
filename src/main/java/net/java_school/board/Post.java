@@ -5,8 +5,8 @@ import java.util.Date;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Article {
-	private Integer articleNo;
+public class Post {
+	private Integer postNo;
 	private String boardCd;
 
 	@NotNull
@@ -21,11 +21,11 @@ public class Article {
 	private int hit;
 	private Date regdate;
 
-	public Integer getArticleNo() {
-		return articleNo;
+	public Integer getPostNo() {
+		return postNo;
 	}
-	public void setArticleNo(Integer articleNo) {
-		this.articleNo = articleNo;
+	public void setPostNo(Integer articleNo) {
+		this.postNo = postNo;
 	}
 	public String getBoardCd() {
 		return boardCd;

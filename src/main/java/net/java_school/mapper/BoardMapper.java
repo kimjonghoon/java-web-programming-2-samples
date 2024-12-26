@@ -2,27 +2,30 @@ package net.java_school.mapper;
 
 import java.util.HashMap;
 import java.util.List;
-import net.java_school.board.Article;
+import net.java_school.board.Post;
 import net.java_school.board.Board;
 
 public interface BoardMapper {
+	//모든 게시판
+	public List<Board> selectAllBoards();
+
 	//게시판
 	public Board selectOneBoard(String boardCd);
 
-	//모든 게시판
-	public List<Board> selectAllBoard();
+	//총 레코드
+	public int selectCountOfPosts(HashMap<String, String> hashmap);
 
-	//게시판 생성
-	public void insertBoard(Board board);
+	//목록
+	public List<Post> selectListOfPosts(HashMap<String, String> hashmap);
 
 	//게시판 수정
 	public void updateBoard(Board board);
 
-	//목록
-	public List<Article> selectListOfArticles(HashMap<String, String> hashmap);
+/*
+	//게시판 생성
+	public void insertBoard(Board board);
 
-	//총 레코드
-	public int selectCountOfArticles(HashMap<String, String> hashmap);
+
 
 	//글쓰기
 	public int insert(Article article);
@@ -47,4 +50,5 @@ public interface BoardMapper {
 
 	//조회수 for 상세보기
 	public int selectCountOfViews(int articleNo);
+*/	
 }

@@ -5,19 +5,40 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.java_school.mapper.BoardMapper">
+    <select id="selectAllBoards" resultType="net.java_school.board.Board">
+        SELECT * FROM board order by boardcd
+    </select>
     <select id="selectOneBoard" resultType="net.java_school.board.Board">
         SELECT * FROM board WHERE boardcd = #{boardCd}
     </select>
-
-    <select id="selectAllBoard" resultType="net.java_school.board.Board">
-        SELECT * FROM board order by boardcd
+    <select id="selectCountOfPosts" parameterType="hashmap" resultType="int">
+        SELECT count(*) FROM post 
+        WHERE boardcd = #{boardCd}
+            <if test="search != null and search != ''">
+            AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
+            </if>
     </select>
-
+    <select id="selectListOfPosts" parameterType="hashmap" resultType="net.java_school.board.Post">
+        SELECT postno, title, regdate, hit
+        FROM (
+            SELECT rownum R,A.* 
+                FROM (
+                    SELECT postno, title, regdate, hit 
+                    FROM post
+                    WHERE boardcd = #{boardCd}
+                        <if test="search != null and search != ''">
+                        AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
+                        </if>
+                    ORDER BY postno DESC
+                ) A
+        )
+        WHERE R BETWEEN #{start} AND #{end}
+    </select>	
     <update id="updateBoard" parameterType="net.java_school.board.Board">
         UPDATE board SET boardnm = #{boardNm}, boardnm_ko = #{boardNm_ko}
         WHERE boardcd = #{boardCd}
     </update>
-
+<!--
     <insert id="insertBoard" parameterType="net.java_school.board.Board">
         INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
     </insert>
@@ -92,30 +113,5 @@
         INSERT INTO article (articleno, boardcd, title, content, username, regdate)
         VALUES (#{articleNo}, #{boardCd}, #{title}, #{content}, #{username}, sysdate)
     </insert>
-	
-    <select id="selectCountOfArticles" parameterType="hashmap" resultType="int">
-        SELECT count(*) FROM article 
-        WHERE boardcd = #{boardCd}
-            <if test="search != null and search != ''">
-            AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
-            </if>
-    </select>
-	
-    <select id="selectListOfArticles" parameterType="hashmap" resultType="net.java_school.board.Article">
-        SELECT articleno, title, regdate, hit
-        FROM (
-            SELECT rownum R,A.* 
-                FROM (
-                    SELECT a.articleno, a.title, a.regdate, count(distinct(v.no)) hit 
-                    FROM article a left join views v on a.articleno = v.articleno
-                    WHERE a.boardcd = #{boardCd}
-                        <if test="search != null and search != ''">
-                        AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
-                        </if>
-                    GROUP BY a.articleno, title, a.regdate
-                    ORDER BY articleno DESC
-                ) A
-        )
-        WHERE R BETWEEN #{start} AND #{end}
-    </select>	
+-->	
 </mapper>

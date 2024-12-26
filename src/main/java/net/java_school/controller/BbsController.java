@@ -1,46 +1,30 @@
 package net.java_school.controller;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.security.Principal;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
+import java.util.List;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import net.java_school.board.Article;
+import net.java_school.commons.Paginator;
+import net.java_school.commons.NumbersForPaging;
 import net.java_school.board.Board;
 import net.java_school.board.BoardService;
-import net.java_school.commons.NumbersForPaging;
-import net.java_school.commons.Paginator;
+import net.java_school.board.Post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.validation.Valid;
+import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("bbs")
 public class BbsController extends Paginator {
-	/*
+
 	@Autowired
 	private BoardService boardService;
 
@@ -59,56 +43,35 @@ public class BbsController extends Paginator {
 
 	@GetMapping("{boardCd}")
 	public String list(
-			@CookieValue(name="numPerPage", defaultValue="10") Integer numPerPage,
+			@CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
 			@PathVariable(name="boardCd") String boardCd,
 			@RequestParam(name="page", defaultValue="1") Integer page,
-			@RequestParam(name="searchWord", defaultValue="") String searchWord,
-			Locale locale,
-			Model model) {
+			@RequestParam(name="search", defaultValue="") String search,
+			Locale locale, Model model) {
 
-		int pagePerBlock = 10;
-
-		int totalRecord = boardService.getTotalRecord(boardCd, searchWord);
-
-		NumbersForPaging numbers = this.getNumbersForPaging(totalRecord, page, numPerPage, pagePerBlock);
-
-		HashMap<String, String> map = new HashMap<>();
-
-		map.put("boardCd", boardCd);
-		map.put("searchWord", searchWord);
-
-		Integer startRecord = (page - 1) * numPerPage + 1;
-		Integer endRecord = page * numPerPage;
-		map.put("start", startRecord.toString());
-		map.put("end", endRecord.toString());
-
-		List<Article> list = boardService.getArticleList(map);
-
-		Integer listItemNo = numbers.getListItemNo();
-		Integer prevPage = numbers.getPrevBlock();
-		Integer nextPage = numbers.getNextBlock();
-		Integer firstPage = numbers.getFirstPage();
-		Integer lastPage = numbers.getLastPage();
-		Integer totalPage = numbers.getTotalPage();
-
-		model.addAttribute("list", list);
-		model.addAttribute("listItemNo", listItemNo);
-		model.addAttribute("prevPage", prevPage);
-		model.addAttribute("nextPage", nextPage);
-		model.addAttribute("firstPage", firstPage);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("totalPage", totalPage);
-
-		String lang = locale.getLanguage();
 		List<Board> boards = boardService.getBoards();
+		String lang = locale.getLanguage();
 		String boardName = this.getBoardName(boardCd, lang);
+
+		int totalRecord = boardService.getTotalRecord(boardCd, search);
+		int pagePerBlock = 10;
+		NumbersForPaging numbers = this.getNumbersForPaging(totalRecord, page, numberPerPage, pagePerBlock);
+		
+		int start = (page - 1) * numberPerPage + 1;
+		int end = page * numberPerPage;
+		List<Post> posts = boardService.getPostList(boardCd, search, start, end);
+
 		model.addAttribute("boards", boards);
 		model.addAttribute("boardName", boardName);
-		model.addAttribute("boardCd", boardCd);
-
+		model.addAttribute("posts", posts);
+		model.addAttribute("prevPage", numbers.getPrevPage());
+		model.addAttribute("pages", numbers.getPages());
+		model.addAttribute("nextPage", numbers.getNextPage());
+		model.addAttribute("finalPage", numbers.getFinalPage());
+		model.addAttribute("listItemNo", numbers.getListItemNo());
 		return "bbs/list";
 	}
-
+/*
 	@GetMapping("{boardCd}/{articleNo}")
 	public String view(
 			@CookieValue(name="numPerPage", defaultValue="10") Integer numPerPage,

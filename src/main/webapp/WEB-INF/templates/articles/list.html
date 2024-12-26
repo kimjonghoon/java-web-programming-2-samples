@@ -121,8 +121,8 @@ article {
   <a href="#" title="19">[ 19 ]</a>
   <a href="#" title="20">[ 20 ]</a>
   <!--*/-->
-  <a href="#" title="21" th:if="${nexPage} &gt; 0" th:title="${nextPage}" th:text="'[' + #{next.page} + ']'">[다음]</a>
-  <a href="#" title="41" th:if="${nexPage} &gt; 0" th:title="${finalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
+  <a href="#" title="21" th:if="${nextPage} &gt; 0" th:title="${nextPage}" th:text="'[' + #{next.page} + ']'">[다음]</a>
+  <a href="#" title="41" th:if="${nextPage} &gt; 0" th:title="${finalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
 </div>
 <div>
   <input type="button" value="새 글쓰기" th:value="#{write.new.post}" id="new-post-btn" />
