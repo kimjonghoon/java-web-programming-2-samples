@@ -42,7 +42,44 @@ public class BoardServiceImpl implements BoardService {
 	public void editBoard(Board board) {
 		boardMapper.updateBoard(board);
 	}
+	
+	@Override
+	public int addPost(Post post) {
+		return boardMapper.insert(post);
+	}
+	
+	@Override
+	public void increaseHit(int postNo) {
+		boardMapper.updateHit(postNo);
+	}
 
+	@Override
+	public Post getPost(int postNo) {
+		return boardMapper.selectOne(postNo);
+	}
+	
+	@Override
+    public Integer getNextPostNo(int postNo, String boardCd, String search) {
+        HashMap<String, String> hashmap = new HashMap<>();
+        Integer no = postNo;
+        hashmap.put("postNo", no.toString());
+        hashmap.put("boardCd", boardCd);
+        hashmap.put("search", search);
+
+        return boardMapper.selectNextOne(hashmap);
+    }
+
+    @Override
+    public Integer getPrevPostNo(int postNo, String boardCd, String search) {
+        HashMap<String, String> hashmap = new HashMap<>();
+        Integer no = postNo;
+        hashmap.put("postNo", no.toString());
+        hashmap.put("boardCd", boardCd);
+        hashmap.put("search", search);
+
+        return boardMapper.selectPrevOne(hashmap);
+    }
+	
 /*
   @Override
   public void createBoard(Board board) {
@@ -64,10 +101,6 @@ public class BoardServiceImpl implements BoardService {
     return boardMapper.selectCountOfArticles(hashmap);
   }
 
-  @Override
-  public int addPost(Post post) {
-    return boardMapper.insert(post);
-  }
 
   @Override
   public void editPost(Post post) {
@@ -79,19 +112,5 @@ public class BoardServiceImpl implements BoardService {
     boardMapper.delete(post.getPostNo());
   }
 
-  @Override
-  public void increaseHit(int postNo) {
-    HashMap<String, String> map = new HashMap<>();
-    map.put("articleNo", articleNo.toString());
-    map.put("ip", ip);
-    map.put("yearMonthDayHour", yearMonthDayHour);
-
-    boardMapper.insertOneViews(map);
-  }
-
-  @Override
-  public Article getPost(int postNo) {
-    return boardMapper.selectOne(postNo);
-  }
 */  
 }

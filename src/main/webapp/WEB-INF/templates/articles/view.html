@@ -20,19 +20,126 @@ article {
 }
 </style>
 <script src="../../../static/js/jquery.js"></script>
-<script src="../../../static/js/view.js" th:inline="javascript"></script>
 </head>
 <body>
 <article>
+<script th:inline="javascript">
+$(document).ready(function() {
+	$('#edit-post-btn').click(function() {
+		var $div = $('#detail');
+		var $form = $('#editForm');
+		if ($form.is(':hidden') === true) {
+			$form.show();
+			$div.hide();
+		} else {
+			$form.hide();
+			$div.show();
+		}
+	});
+	//title 바꾸기
+	$('title').empty();
+	var title = $('#post-title').html();
+	$('title').append(title);
+	//삭제 버튼
+	$('#del-post-btn').click(function() {
+		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
+		var chk = confirm(warning);
+		if (chk === true) {
+			$('#delForm').submit();
+		}
+	});
+	//다음 글 버튼
+	$('#next-post-btn').click(function() {
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
+		if (parseInt($articleNo) > parseInt($firstItemNo)) {
+			$page = /*[[${param.page[0]} - 1]]*/ 11 - 1;
+			$('#viewForm input[name*=page]').val($page);
+		}
+		$('#viewForm').submit();
+	});
+	//이전 글 버튼
+	$('#prev-post-btn').click(function() {
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
+		if (parseInt($articleNo) < parseInt($lastItemNo)) {
+			$page = /*[[${param.page[0]} + 1]]*/ 11 + 1;
+			$('#viewForm input[name*=page]').val($page);
+		}
+		$('#viewForm').submit();
+	});
+	//목록 버튼
+	$('#list-btn').click(function() {
+		$('#listForm').submit();
+	});
+	//페이지당 게시글 수 선택박스
+	$('#numberPerPage').change(function() {
+		var numberPerPage = $('#numberPerPage option:selected').val();
+		if (numberPerPage) {
+			createCookie('numberPerPage', numberPerPage, '30');
+			$('#listForm input[name*=page]').val('1');
+			$('#listForm').submit();
+		}
+	});
+	//목록에서 제목
+	$('#list-table tr td:nth-child(2) a').click(function(e) {
+		e.preventDefault();
+		$articleNo = $(this).attr('title');
+		$action = $('#viewForm').attr('action');
+		$action += $articleNo;
+		$('#viewForm').attr('action',$action);
+		$('#viewForm').submit();
+	});
+	//페이지 링크
+	$('#paging a').click(function(e) {
+		e.preventDefault();
+		$page = $(this).attr('title');
+		$('#listForm input[name*=page]').val($page);
+		$('#listForm').submit();
+	});
+	//검색 버튼
+	$('#searchForm').submit(function() {
+		$search = $('#searchForm input[name*=search]').val();
+		$search = $.trim($search);
+		$('#searchForm input[name*=search]').val($search);
+		$('#searchForm').submit();
+	});
+	//수정 양식 전송
+	$('#editForm').submit(function() {
+		var title = $('#editForm input[name*=title]').val();
+		title = $.trim(title);
+		if (title.length === 0) {
+			var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+			alert(warning);
+			return false;
+		}
+		var content = $('#editForm-ta').val();
+		content = $.trim(content);
+		if (content === 0) {
+			var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+			alert(warning);
+			return false;
+		}
+		$('#editForm input[name*=title]').val(title);
+		$('#editForm-ta').val(content);
+	});
+});
+</script>
 <div id="content-categories" th:text="${boardName}">자유게시판</div>
 <div style="height: 22px;">
   <div style="float: left;">
-    <input type="button" value="수정" id="edit-post-btn" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:value="${edit.post}" />
-    <input type="button" value="삭제" id="del-post-btn" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:value="${del.post}" />
+    <input type="button" value="수정" id="edit-post-btn" th:if="${#authentication.name eq one.username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:value="#{edit.post}" />
+    <input type="button" value="삭제" id="del-post-btn" th:if="${#authentication.name eq one.username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:value="#{del.post}" />
   </div>
   <div style="float: right;">
-    <input type="button" value="다음 글" title="23489" id="next-post-btn" th:if="${nextPostNo} &gt; 0" th:value="${next.post}" th:title="${nextPostNo}" />
-    <input type="button" value="이전 글" title="13087" id="prev-post-btn" th:if="${prevPostNo} &gt; 0" th:value="${prev.post}" th:title="${prevPostNo}" />
+    <input type="button" value="다음 글" title="23489" id="next-post-btn" th:if="${nextPostNo} &gt; 0" th:value="#{next.post}" th:title="${nextPostNo}" />
+    <input type="button" value="이전 글" title="13087" id="prev-post-btn" th:if="${prevPostNo} &gt; 0" th:value="#{prev.post}" th:title="${prevPostNo}" />
     <input type="button" value="목록" id="list-btn" th:value="#{list}" />
   </div>
 </div>
@@ -40,25 +147,25 @@ article {
 <table class="bbs-table">
 <tr>
   <th style="width: 50px;text-align: left;vertical-align: top;font-size: 15px;">TITLE</th>
-  <th style="text-align: left;color: #555;font-size: 15px;" id="post-title" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</th>
+  <th style="text-align: left;color: #555;font-size: 15px;" id="post-title" th:text="${one.title}">자바 웹 프로그래밍 2 최종 소스</th>
 </tr>
 </table>
-<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(post.regdate,df)} + ' by ' + ${post.username} + ', hit ' + ${post.hit}">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
-<div id="post-content" th:text="${post.content}">
+<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(one.regdate,df)} + ' by ' + ${one.username} + ', hit ' + ${one.hit}">edited 24 07 15 오후 8:18:39 by hoon, hit 4</div>
+<div id="post-content" th:text="${one.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
   </div>
 </div>
-<form id="editForm" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${post.postNo})" th:method="put" style="display: none;">
+<form id="editForm" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${one.postNo})}" th:method="put" style="display: none;">
 <table id="write-form" class="bbs-table">
 <caption th:text="#{edit.post}">수정</caption>
 <tr>
-  <td th:text="${post.title}">제목</td>
-  <td><input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" th:value="${post.title}" style="width: 90%" /></td>
+  <td th:text="#{one.title}">제목</td>
+  <td><input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" th:value="${one.title}" style="width: 90%" /></td>
 </tr>
 <tr>
   <td colspan="2">
-<textarea id="editForm-ta" name="content" rows="10" style="width: 100%" th:text="${post.content}">
+<textarea id="editForm-ta" name="content" rows="10" style="width: 100%" th:text="${one.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </textarea>
@@ -70,7 +177,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 </form>
 <div style="text-align: right;">
   <select id="numberPerPage">
-    <option value="" th:text="${number.per.page}">페이지당 게시글 수</option>
+    <option value="" th:text="#{number.per.page}">페이지당 게시글 수</option>
     <option value="10">10</option>
     <option value="20">20</option>
     <option value="50">50</option>
@@ -85,7 +192,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
 <tr th:each="post : ${posts}" th:class="${postStat.odd} ? 'odd'">
-  <td style="text-align: center;" th:text="${listItemNo} - ${postStat.index}">405</td>
+  <td style="text-align: center;" th:utext="${one.postNo} == ${post.postNo} ? '<b>&gt;</b>' : ${listItemNo} - ${postStat.index}">405</td>
   <td><a href="#" title="23488" th:title="${post.postNo}" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
   <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(post.regdate,df)}">24 10 20</td>
   <td style="text-align: center;" th:text="${post.hit}">2</td>
@@ -148,11 +255,11 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 <!--*/-->
 </table>
 <div id="paging">
-  <a href="#" title="1" th:if="${prevPage &gt; 0" th:text="'[' + #{first.page} + ']'">[처음]</a>
-  <a href="#" title="10" th:if="${prevPage &gt; 0" th:title="${prevPage}" th:text="'[' + #{prev.page} + ']'">[이전]</a>
+  <a href="#" title="1" th:if="${prevPage} &gt; 0" th:text="'[' + #{first.page} + ']'">[처음]</a>
+  <a href="#" title="10" th:if="${prevPage} &gt; 0" th:title="${prevPage}" th:text="'[' + #{prev.page} + ']'">[이전]</a>
   <th:block th:each="page : ${pages}">
     <span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}">11</span>
-    <a href="#" title="12" th:unless="${page} == ${param.page[0]" th:title="${page}" th:text="' [ ' + ${page} + ' ] '">[ 12 ]</a>
+    <a href="#" title="12" th:unless="${page} == ${param.page[0]}" th:title="${page}" th:text="' [ ' + ${page} + ' ] '">[ 12 ]</a>
   </th:block>
   <!--/*-->
   <a href="#" title="13">[ 13 ]</a>
@@ -183,7 +290,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>
-  <form id="delForm" action="/bbs/chat/52" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${post.postNo})}" th:method="delete">
+  <form id="delForm" action="/bbs/chat/52" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${one.postNo})}" th:method="delete">
     <input type="hidden" name="page" value="11" th:value="${param.page}" />
     <input type="hidden" name="search" value="test" th:value="${param.search}" />
   </form>

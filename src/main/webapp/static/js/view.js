@@ -30,7 +30,7 @@ $(document).ready(function() {
 		$('#viewForm').attr('action',$action);
 		$firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');
 		if (parseInt($articleNo) > parseInt($firstItemNo)) {
-			$page = /*[[${param.page}]] - 1*/ 11 - 1;
+			$page = /*[[${param.page[0]} - 1]]*/ 11 - 1;
 			$('#viewForm input[name*=page]').val($page);
 		}
 		$('#viewForm').submit();
@@ -43,7 +43,7 @@ $(document).ready(function() {
 		$('#viewForm').attr('action',$action);
 		$lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');
 		if (parseInt($articleNo) < parseInt($lastItemNo)) {
-			$page = /*[[${param.page}]] + 1*/ 11 + 1;
+			$page = /*[[${param.page[0]} + 1]]*/ 11 + 1;
 			$('#viewForm input[name*=page]').val($page);
 		}
 		$('#viewForm').submit();

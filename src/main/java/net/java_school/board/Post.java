@@ -2,18 +2,18 @@ package net.java_school.board;
 
 import java.util.Date;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+//import jakarta.validation.constraints.NotNull;
+//import jakarta.validation.constraints.Size;
 
 public class Post {
 	private Integer postNo;
 	private String boardCd;
 
-	@NotNull
+	//@NotNull
 	//@Size(min = 1, max = 100, message = "{bbs.title.validation.error}")
 	private String title;
 
-	@NotNull
+	//@NotNull
 	//@Size(min = 2, message = "{bbs.content.validation.error}")
 	private String content;
 
@@ -24,7 +24,7 @@ public class Post {
 	public Integer getPostNo() {
 		return postNo;
 	}
-	public void setPostNo(Integer articleNo) {
+	public void setPostNo(Integer postNo) {
 		this.postNo = postNo;
 	}
 	public String getBoardCd() {

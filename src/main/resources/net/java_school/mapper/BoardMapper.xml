@@ -38,80 +38,68 @@
         UPDATE board SET boardnm = #{boardNm}, boardnm_ko = #{boardNm_ko}
         WHERE boardcd = #{boardCd}
     </update>
+	<insert id="insert" parameterType="net.java_school.board.Post" useGeneratedKeys="true">
+		<selectKey keyProperty="postNo" resultType="int" order="BEFORE">
+		SELECT post_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO post (postno, boardcd, title, content, username, regdate)
+		VALUES (#{postNo}, #{boardCd}, #{title}, #{content}, #{username}, sysdate)
+	</insert>
+    <update id="updateHit" parameterType="int">
+        UPDATE post SET hit = hit + 1 WHERE postno = #{postNo}
+    </update>
+	<select id="selectOne" parameterType="int" resultType="net.java_school.board.Post">
+		SELECT postno,title,content,username,hit,regdate
+		FROM 
+			post
+		WHERE 
+			postno = #{postNo}
+	</select>
+	<select id="selectNextOne" parameterType="hashmap" resultType="Integer">
+		SELECT postno
+		FROM
+			(SELECT rownum r,a.*
+			FROM
+				(SELECT postno
+				FROM post
+				WHERE
+					boardCd = #{boardCd}
+					AND postno &gt; #{postNo}
+				<if test="search != null and search != ''">
+					AND (title LIKE '%${search}%' OR content LIKE %${search}%')
+				</if>
+				ORDER BY postno)
+			a)
+		WHERE r = 1
+	</select>
+	<select id="selectPrevOne" parameterType="hashmap" resultType="Integer">
+		SELECT postno
+		FROM
+			(SELECT rownum r,a.*
+			FROM
+				(SELECT postno
+				FROM post
+				WHERE
+					boardCd = #{boardCd}
+					AND postno &lt; #{postNo}
+				<if test="search != null and search != ''">
+					AND (title LIKE '%${search}%' OR content LIKE %${search}%')
+				</if>
+				ORDER BY postno DESC)
+			a)
+		WHERE r = 1
+	</select>	
 <!--
     <insert id="insertBoard" parameterType="net.java_school.board.Board">
         INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
     </insert>
-
     <update id="update" parameterType="net.java_school.board.Article">
         UPDATE article 
         SET title = #{title}, content = #{content} 
         WHERE articleno = #{articleNo}
     </update>
-
     <delete id="delete" parameterType="int">
         DELETE FROM article WHERE articleno = #{articleNo}
     </delete>
-
-    <select id="selectCountOfViews" parameterType="int" resultType="int">
-        SELECT count(*) FROM views 
-        WHERE articleno = #{articleNo}
-    </select>
-
-    <select id="selectNextOne" parameterType="hashmap" resultType="net.java_school.board.Article">
-        SELECT articleno, title
-        FROM
-            (SELECT rownum r,a.*
-            FROM
-                (SELECT articleno, title 
-                FROM article 
-                WHERE 
-                    boardCd = #{boardCd} 
-                    AND articleno &gt; #{articleNo}
-                <if test="search != null and search != ''">
-                    AND (title LIKE '%${search}%' 	OR 	DBMS_LOB.INSTR(content, #{search}) > 0)
-                </if> 
-                ORDER BY articleno) 
-            a)
-        WHERE r = 1
-    </select>
-	
-    <select id="selectPrevOne" parameterType="hashmap" resultType="net.java_school.board.Article">
-        SELECT articleno, title
-        FROM
-            (SELECT rownum r,a.*
-            FROM
-                (SELECT articleno, title 
-                FROM article 
-                WHERE 
-                    boardCd = #{boardCd} 
-                    AND articleno &lt; #{articleNo}
-                <if test="search != null and search != ''">
-                    AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) > 0)
-                </if> 
-                ORDER BY articleno DESC)
-                a)
-        WHERE r = 1
-    </select>
-	
-    <select id="selectOne" parameterType="int" resultType="net.java_school.board.Article">
-        SELECT articleno,title,content,username,regdate
-		FROM 
-            article
-        WHERE 
-            articleno = #{articleNo}
-    </select>
-	
-    <insert id="insertOneViews" parameterType="hashmap">
-        INSERT INTO views values (seq_views.nextval, #{articleNo}, #{ip}, #{yearMonthDayHour})
-    </insert>
-	
-    <insert id="insert" parameterType="net.java_school.board.Article" useGeneratedKeys="true">
-        <selectKey keyProperty="articleNo" resultType="int" order="BEFORE">
-            SELECT seq_article.nextval FROM dual
-        </selectKey>
-        INSERT INTO article (articleno, boardcd, title, content, username, regdate)
-        VALUES (#{articleNo}, #{boardCd}, #{title}, #{content}, #{username}, sysdate)
-    </insert>
 -->	
 </mapper>
