@@ -38,12 +38,12 @@
         UPDATE board SET boardnm = #{boardNm}, boardnm_ko = #{boardNm_ko}
         WHERE boardcd = #{boardCd}
     </update>
-	<insert id="insert" parameterType="net.java_school.board.Post" useGeneratedKeys="true">
+	<insert id="insertPost" parameterType="net.java_school.board.Post" useGeneratedKeys="true">
 		<selectKey keyProperty="postNo" resultType="int" order="BEFORE">
 		SELECT post_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO post (postno, boardcd, title, content, username, regdate)
-		VALUES (#{postNo}, #{boardCd}, #{title}, #{content}, #{username}, sysdate)
+		INSERT INTO post (postno, boardcd, title, content, username, hit, regdate)
+		VALUES (#{postNo}, #{boardCd}, #{title}, #{content}, #{username}, 0, sysdate)
 	</insert>
     <update id="updateHit" parameterType="int">
         UPDATE post SET hit = hit + 1 WHERE postno = #{postNo}
@@ -66,7 +66,7 @@
 					boardCd = #{boardCd}
 					AND postno &gt; #{postNo}
 				<if test="search != null and search != ''">
-					AND (title LIKE '%${search}%' OR content LIKE %${search}%')
+					AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
 				</if>
 				ORDER BY postno)
 			a)
@@ -83,23 +83,24 @@
 					boardCd = #{boardCd}
 					AND postno &lt; #{postNo}
 				<if test="search != null and search != ''">
-					AND (title LIKE '%${search}%' OR content LIKE %${search}%')
+					AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
 				</if>
 				ORDER BY postno DESC)
 			a)
 		WHERE r = 1
 	</select>	
+	<update id="updatePost" parameterType="net.java_school.board.Post">
+		UPDATE post
+		SET title = #{title}, content = #{content} 
+		WHERE postno = #{postNo}
+	</update>
+	<delete id="deletePost" parameterType="int">
+		DELETE FROM post WHERE postno = #{postNo}
+	</delete>
+
 <!--
     <insert id="insertBoard" parameterType="net.java_school.board.Board">
         INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
     </insert>
-    <update id="update" parameterType="net.java_school.board.Article">
-        UPDATE article 
-        SET title = #{title}, content = #{content} 
-        WHERE articleno = #{articleNo}
-    </update>
-    <delete id="delete" parameterType="int">
-        DELETE FROM article WHERE articleno = #{articleNo}
-    </delete>
 -->	
 </mapper>

@@ -54,7 +54,7 @@ $(document).ready(function() {
 			$('#listForm input[name*=page]').val('1');
 			$('#listForm').submit();
 		}
-	});
+	});	
 	$('#searchForm').submit(function() {
 		var $search = $('#searchForm input[name*=search]').val();
 		$search = $.trim($search);
@@ -215,7 +215,7 @@ $(document).ready(function() {
 </table>
 </form>
 <div id="form-group">
-  <form id="listForm" method="get">
+  <form id="listForm" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
     <input type="hidden" name="page" />
     <input type="hidden" name="search" value="test" th:value="${param.search }" />
   </form>

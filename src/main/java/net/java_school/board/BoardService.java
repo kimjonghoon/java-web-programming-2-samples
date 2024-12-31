@@ -31,7 +31,7 @@ public interface BoardService {
 	public int addPost(Post post);
 	
 	//조회수 증가
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	public void increaseHit(int postNo);
 
 	//상세보기
@@ -44,19 +44,22 @@ public interface BoardService {
 
 	//이전 글 번호
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
-	public Integer getPrevPostNo(int postNo, String boardCd, String search);	
+	public Integer getPrevPostNo(int postNo, String boardCd, String search);
+	
+	//글수정
+	@PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
+	public void editPost(@P("post") Post post);
+
+	//글삭제
+	@PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
+	public void deletePost(@P("post") Post post);
+
 /*
   //게시판 생성
   @PreAuthorize("hasRole('ADMIN')")
   public void createBoard(Board board);
 
-  //글수정
-  @PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
-  public void editArticle(@P("post") Post post);
 
-  //글삭제
-  @PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
-  public void deleteArticle(@P("post") Post post);
 
 
 */

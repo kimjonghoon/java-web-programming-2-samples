@@ -78,15 +78,6 @@ $(document).ready(function() {
 	$('#list-btn').click(function() {
 		$('#listForm').submit();
 	});
-	//페이지당 게시글 수 선택박스
-	$('#numberPerPage').change(function() {
-		var numberPerPage = $('#numberPerPage option:selected').val();
-		if (numberPerPage) {
-			createCookie('numberPerPage', numberPerPage, '30');
-			$('#listForm input[name*=page]').val('1');
-			$('#listForm').submit();
-		}
-	});
 	//목록에서 제목
 	$('#list-table tr td:nth-child(2) a').click(function(e) {
 		e.preventDefault();
@@ -154,13 +145,15 @@ $(document).ready(function() {
 <div id="post-content" th:text="${one.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
-  </div>
+</div>
 </div>
 <form id="editForm" th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${one.postNo})}" th:method="put" style="display: none;">
+<input type="hidden" name="page" value="1" th:value="${param.page}" />
+<input type="hidden" name="search" value="" th:value="${param.search}" />
 <table id="write-form" class="bbs-table">
 <caption th:text="#{edit.post}">수정</caption>
 <tr>
-  <td th:text="#{one.title}">제목</td>
+  <td th:text="#{post.title}">제목</td>
   <td><input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" th:value="${one.title}" style="width: 90%" /></td>
 </tr>
 <tr>
@@ -172,18 +165,9 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   </td>
 </tr>
 <tr>
-  <td colspan="2"><input type="submit" value="전송" th:value="${submit}" /></td>
+  <td colspan="2"><input type="submit" value="전송" th:value="#{submit}" /></td>
 </table>
 </form>
-<div style="text-align: right;">
-  <select id="numberPerPage">
-    <option value="" th:text="#{number.per.page}">페이지당 게시글 수</option>
-    <option value="10">10</option>
-    <option value="20">20</option>
-    <option value="50">50</option>
-    <option value="100">100</option>
-  </select>
-</div>
 <table class="bbs-table" id="list-table">
 <tr>
   <th style="width: 60px;text-align: center;">NO</th>
@@ -192,7 +176,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   <th style="width: 60px;text-align: center;">HIT</th>
 </tr>
 <tr th:each="post : ${posts}" th:class="${postStat.odd} ? 'odd'">
-  <td style="text-align: center;" th:utext="${one.postNo} == ${post.postNo} ? '<b>&gt;</b>' : ${listItemNo} - ${postStat.index}">405</td>
+  <td style="text-align: center;" th:utext="${one.postNo} == ${post.postNo} ? '<b class=selected-item>&nbsp;</b>' : ${listItemNo} - ${postStat.index}">405</td>
   <td><a href="#" title="23488" th:title="${post.postNo}" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</a></td>
   <td style="text-align: center;" th:with="df=#{date.format}" th:text="${#calendars.format(post.regdate,df)}">24 10 20</td>
   <td style="text-align: center;" th:text="${post.hit}">2</td>

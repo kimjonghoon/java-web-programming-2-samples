@@ -165,3 +165,6 @@ article > ul > li {
 	color: #333;
 	min-height: 100px;
 }
+.selected-item {
+	background: #FFF url('../images/arrow.gif') no-repeat 5% 50%;
+}

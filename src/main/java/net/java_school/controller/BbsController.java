@@ -1,5 +1,6 @@
 package net.java_school.controller;
 
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.List;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,8 +46,7 @@ public class BbsController extends Paginator {
 	}
 
 	@GetMapping("{boardCd}")
-	public String list(
-			@CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
+	public String list(@CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
 			@PathVariable(name="boardCd") String boardCd,
 			@RequestParam(name="page", defaultValue="1") Integer page,
 			@RequestParam(name="search", defaultValue="") String search,
@@ -70,6 +72,7 @@ public class BbsController extends Paginator {
 		model.addAttribute("nextPage", numbers.getNextPage());
 		model.addAttribute("finalPage", numbers.getFinalPage());
 		model.addAttribute("listItemNo", numbers.getListItemNo());
+		
 		return "bbs/list";
 	}
 	
@@ -86,8 +89,7 @@ public class BbsController extends Paginator {
 	}
 	
 	@GetMapping("{boardCd}/{postNo}")
-	public String view(
-			@CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
+	public String view(@CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
 			@PathVariable(name="boardCd") String boardCd,
 			@PathVariable(name="postNo") Integer postNo,
 			@RequestParam(name="page", defaultValue="1") Integer page,
@@ -130,131 +132,52 @@ public class BbsController extends Paginator {
 		model.addAttribute("listItemNo", numbers.getListItemNo());
 		
 		return "bbs/view";
-	}	
-/*
-
-
-	@GetMapping("{boardCd}/new")
-	public String writeForm(
-			@PathVariable(name="boardCd") String boardCd,
-		    Locale locale,
-		    Model model) {
-
-		String lang = locale.getLanguage();
-		String boardName = this.getBoardName(boardCd, lang);
-		List<Board> boards = boardService.getBoards();
-
-		model.addAttribute("boardName", boardName);
-		model.addAttribute("article", new Article());
-		model.addAttribute("boards", boards);
-		model.addAttribute("boardCd", boardCd);
-
-		return "bbs/write";
 	}
-
-
-	@GetMapping("{boardCd}/{articleNo}/edit")
-	public String modifyForm(
+	
+	@PutMapping("{boardCd}/{postNo}")
+	public String editPost(Post post,
 			@PathVariable(name="boardCd") String boardCd,
-		    @PathVariable(name="articleNo") Integer articleNo,
-		    Locale locale,
-		    Model model) {
-
-		String lang = locale.getLanguage();
-		Article article = boardService.getArticle(articleNo);
-		String boardName = this.getBoardName(boardCd, lang);
-
-		model.addAttribute("article", article);
-		model.addAttribute("boardName", boardName);
-
-		List<Board> boards = boardService.getBoards();
-		model.addAttribute("boards", boards);
-		model.addAttribute("boardCd", boardCd);
-		model.addAttribute("articleNo", articleNo);
-
-		return "bbs/modify";
-	}
-
-	@PostMapping("{boardCd}/{articleNo}")
-	public String modify(
-			@Valid Article article,
-			BindingResult bindingResult,
-			@PathVariable(name="boardCd") String boardCd,
-			@PathVariable(name="articleNo") Integer articleNo,
+			@PathVariable(name="postNo") Integer postNo,
 			@RequestParam(name="page") Integer page,
-			@RequestParam(name="searchWord") String searchWord,
-			@RequestParam(name="attachFile", defaultValue="") MultipartFile attachFile,
-			Locale locale,
-			Model model) throws Exception {
+			@RequestParam(name="search") String search,
+			Locale locale, Model model) throws Exception {
 
-		if (bindingResult.hasErrors()) {
-			String boardName = this.getBoardName(article.getBoardCd(), locale.getLanguage());
-			model.addAttribute("boardName", boardName);
-			List<Board> boards = boardService.getBoards();
-			model.addAttribute("boards", boards);
-			model.addAttribute("boardCd", boardCd);
-			model.addAttribute("articleNo", articleNo);
+		post.setPostNo(postNo);
+		post.setBoardCd(boardCd);
+		String username = boardService.getPost(post.getPostNo()).getUsername();
+		post.setUsername(username);
 
-			return "bbs/modify";
-		}
+		boardService.editPost(post);
 
-		article.setArticleNo(articleNo);
-		article.setBoardCd(boardCd);
-		String email = boardService.getArticle(article.getArticleNo()).getEmail();
-		article.setEmail(email);
-
-		boardService.modifyArticle(article);
-
-		if (!attachFile.isEmpty()) {
-			AttachFile file = new AttachFile();
-			file.setFilename(attachFile.getOriginalFilename());
-			file.setFiletype(attachFile.getContentType());
-			file.setFilesize(attachFile.getSize());
-			file.setArticleNo(article.getArticleNo());
-			file.setEmail(article.getEmail());
-			boardService.addAttachFile(file);
-
-			File dir = new File(WebContants.UPLOAD_PATH + email);
-			if (!dir.exists()) dir.mkdirs();
-
-			Path path = Paths.get(WebContants.UPLOAD_PATH + email);
-
-			try (InputStream inputStream = attachFile.getInputStream()) {
-				Files.copy(inputStream, path.resolve(attachFile.getOriginalFilename()),
-						StandardCopyOption.REPLACE_EXISTING);
-			}
-		}
-
-		searchWord = URLEncoder.encode(searchWord, "UTF-8");
+		search = URLEncoder.encode(search, "UTF-8");
 
 		return "redirect:/bbs/"
 			+ boardCd
 			+ "/"
-			+ articleNo
+			+ postNo
 			+ "?page="
 			+ page
-			+ "&searchWord="
-			+ searchWord;
+			+ "&search="
+			+ search;
 	}
 
-	@DeleteMapping("/{boardCd}/{articleNo}")
-	public String deleteArticle(
+	@DeleteMapping("/{boardCd}/{postNo}")
+	public String deletePost(
 			@PathVariable(name="boardCd") String boardCd,
-		    @PathVariable(name="articleNo") Integer articleNo,
+		    @PathVariable(name="postNo") Integer postNo,
 		    @RequestParam(name="page") Integer page,
-		    @RequestParam(name="searchWord") String searchWord) throws Exception {
+		    @RequestParam(name="search") String search) throws Exception {
 
-		Article article = boardService.getArticle(articleNo);
-		boardService.removeArticle(article);
+		Post post = boardService.getPost(postNo);
+		boardService.deletePost(post);
 
-		searchWord = URLEncoder.encode(searchWord, "UTF-8");
+		search = URLEncoder.encode(search, "UTF-8");
 
 		return "redirect:/bbs/"
 			+ boardCd
 			+ "?page="
 			+ page
-			+ "&searchWord="
-			+ searchWord;
+			+ "&search="
+			+ search;
 	}
-	*/
 }

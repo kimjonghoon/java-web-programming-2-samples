@@ -45,7 +45,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public int addPost(Post post) {
-		return boardMapper.insert(post);
+		return boardMapper.insertPost(post);
 	}
 	
 	@Override
@@ -80,6 +80,16 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.selectPrevOne(hashmap);
     }
 	
+	@Override
+	public void editPost(Post post) {
+		boardMapper.updatePost(post);
+	}
+	
+	@Override
+	public void deletePost(Post post) {
+		boardMapper.deletePost(post.getPostNo());
+	}
+	
 /*
   @Override
   public void createBoard(Board board) {
@@ -102,15 +112,7 @@ public class BoardServiceImpl implements BoardService {
   }
 
 
-  @Override
-  public void editPost(Post post) {
-    boardMapper.update(post);
-  }
 
-  @Override
-  public void deletePost(Post post) {
-    boardMapper.delete(post.getPostNo());
-  }
 
 */  
 }

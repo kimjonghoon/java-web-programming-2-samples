@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
-<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${#locale.language == 'ko'} ? _ : 'View the Post'">내용보기</title>
 <meta name="Keywords" th:content="${#locale.language == 'ko'} ? '내용보기' : 'View the post'" />
 <meta name="Description" th:content="${#locale.language == 'ko'} ? '내용보기' : 'View the post'" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
-<script th:src="@{/static/js/cookie.js}"></script>
 </head>
 <body>
 

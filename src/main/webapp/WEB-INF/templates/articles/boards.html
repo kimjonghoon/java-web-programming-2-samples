@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Boards</title>
+<meta name="Keywords" content="Boards" />
+<meta name="Description" content="Boards" />
+<link rel="stylesheet" media="screen" href="../../../static/css/en.css" />
+<link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+<style>
+article {
+	width: 830px;
+	margin: 0 auto; 
+}
+</style>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+$(document).ready(function() {
+});
+</script>
+</head>
+<body>
+<article>
+<h3>Boards</h3>
+<div>
+<table class="bbs-table" style="width: 50%;float: left;">
+<tr>
+	<th style="text-align: left">No</th>
+	<th style="text-align: left">Code</th>
+	<th style="text-align: left">Name</th>
+	<th style="text-align: left">Name_ko</th>
+</tr>
+<tr>
+	<td>2</td>
+	<td><a href="#">chat</a></td>
+	<td>Chat</td>
+	<td>자유 토론</td>
+</tr>
+<tr>
+	<td>1</td>
+	<td><a href="#">notice</a></td>
+	<td>Notice</td>
+	<td>공지</td>
+</tr>
+</table>
+
+<div style="width: 49%;float: right;">
+	<form id="editBoardForm">
+	<table class="bbs-table">
+	<caption>edit Board</caption>
+	<tr>
+		<td>Code</td>
+		<td><input type="text" name="username" value="chat" disabled /></td>
+	</tr>
+	<tr>
+		<td>Name</td>
+		<td><input type="text" name="name" value="Chat" /></td>
+	</tr>
+	<tr>
+		<td>Name_ko</td>
+		<td><input type="text" name="name_ko" value="자유 토론" /></td>
+	</tr>
+	<tr>
+		<td cols="2" style="border: none;"><input type="submit" value="Submit" /></td>
+	</tr>
+	</table>
+	</form>
+	
+	<form id="newBoardForm">
+	<table class="bbs-table">
+	<caption>New Board</caption>
+	<tr>
+		<td>Code</td>
+		<td><input type="text" name="username" /></td>
+	</tr>
+	<tr>
+		<td>Name</td>
+		<td><input type="text" name="name" /></td>
+	</tr>
+	<tr>
+		<td>Name_ko</td>
+		<td><input type="text" name="name_ko" /></td>
+	</tr>
+	<tr>
+		<td cols="2" style="border: none;"><input type="submit" value="Submit" /></td>
+	</tr>
+	</table>
+	</form>
+</div>
+
+</article>
+
+</body>
+</html>

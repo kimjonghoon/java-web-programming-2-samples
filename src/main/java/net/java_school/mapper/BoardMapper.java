@@ -22,7 +22,7 @@ public interface BoardMapper {
 	public void updateBoard(Board board);
 
 	//새 글쓰기
-	public int insert(Post post);
+	public int insertPost(Post post);
 
 	//조회수 증가
 	public void updateHit(int postNo);
@@ -36,16 +36,18 @@ public interface BoardMapper {
 	//이전 글 번호
 	public Integer selectPrevOne(HashMap<String, String> hashmap);
 
+	//글수정
+	public void updatePost(Post post);
+
+	//글삭제
+	public void deletePost(int postNo);
+
 /*
 	//게시판 생성
 	public void insertBoard(Board board);
 
 
-	//글수정
-	public void update(Article article);
 
-	//글삭제
-	public void delete(int articleNo);
 
 
 
