@@ -3,16 +3,40 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.java_school.mapper.UserMapper">
-  <insert id="insert" parameterType="net.java_school.user.User">
-    INSERT INTO users(username, password) VALUES (#{username}, #{password})
-  </insert>
-  <insert id="insertAuthority">
-    INSERT INTO authorities VALUES (#{username}, #{authority})
-  </insert>
-  <update id="updatePassword">
-    UPDATE users SET password=#{newPassword} WHERE username=#{username}
-  </update>
-  <select id="selectPassword">
-    SELECT password FROM users WHERE username=#{username}
-  </select>
+	<insert id="insert" parameterType="net.java_school.user.User">
+		INSERT INTO users(username, password) VALUES (#{username}, #{password})
+	</insert>
+	
+	<insert id="insertAuthority">
+		INSERT INTO authorities VALUES (#{username}, #{authority})
+	</insert>
+	
+	<update id="updatePassword">
+		UPDATE users SET password=#{newPassword} WHERE username=#{username}
+	</update>
+	
+	<select id="selectPassword">
+		SELECT password FROM users WHERE username=#{username}
+	</select>
+	
+    <select id="selectAll" parameterType="hashmap" resultMap="UserResult">
+		SELECT username
+		FROM users
+		<if test="search != null and search != ''">
+		WHERE username LIKE '%' || #{search} || '%'
+		</if>
+		ORDER BY username ASC
+    </select>
+	
+	<resultMap id="UserResult" type="User">
+        <id property="username" column="username" />
+        <collection property="authorities" javaType="ArrayList" column="username" ofType="string" select="selectAuthoritiesOfUser" />
+    </resultMap>
+	
+	<select id="selectAuthoritiesOfUser" resultType="string">
+        SELECT authority
+        FROM authorities
+        WHERE username = #{username}
+    </select>
+	
 </mapper>

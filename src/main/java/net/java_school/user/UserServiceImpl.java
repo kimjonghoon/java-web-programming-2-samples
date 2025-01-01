@@ -35,5 +35,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String getPassword(String username) {
 		return userMapper.selectPassword(username);
+	}
+	
+	@Override
+	public List<User> getAllUser(HashMap<String, String> hashmap) {
+		return userMapper.selectAll(hashmap);
 	}	
 }

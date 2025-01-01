@@ -1,5 +1,7 @@
 package net.java_school.user;
 
+import java.util.List;
+
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -14,4 +16,7 @@ public interface UserService {
 
 	@PreAuthorize("hasRole('ADMIN') or #username == principal.username")
 	public String getPassword(@P("username") String username);
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public List<User> getUsers(HashMap<String, String> hashmap);	
 }
