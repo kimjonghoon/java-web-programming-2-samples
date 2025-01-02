@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Admin</h1>
+<ul>
+	<li><a href="#" th:href="@{/admin}">Users</a></li>
+	<li><a href="#" th:href="@{/admin/boards}">Boards</a></li>
+</ul>
+</th:block>
+</body>
+</html>
