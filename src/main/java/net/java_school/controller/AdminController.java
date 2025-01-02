@@ -1,35 +1,20 @@
 package net.java_school.controller;
 
-import java.security.Principal;
-import java.util.List;
+import org.springframework.stereotype.Controller;
 
-import net.java_school.board.Board;
-import net.java_school.board.BoardService;
-import net.java_school.user.User;
-import net.java_school.user.UserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 @RequestMapping("admin")
 public class AdminController {
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private BoardService boardService;
-	
-	@GetMapping("users")
-	public List<User> getUsers(@RequestParam(name="search", defaultValue="") String search) {
-		List<User> users = userService.getUsers(search);
-		return users;
+	@GetMapping
+	public String boards() {
+		return "admin/boards";
 	}
 
+	@GetMapping("users")
+	public String users() {
+		return "admin/users";
+	}
 }

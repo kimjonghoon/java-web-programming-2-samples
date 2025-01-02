@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+|
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1 th:text="#{user}">회원</h1>
+<ul sec:authorize="isAnonymous()">
+	<li><a href="#" th:href="@{/user/login}" th:text="#{login}">로그인</a></li>
+	<li><a href="#" th:href="@{/user/signUp}" th:text="#{sign.up}">회원가입</a></li>
+</ul>
+<ul sec:authorize="isAuthenticated()">
+	<li><a href="#" th:href="@{/user/editAccount}" th:text="#{edit.my.account}">내 정보 수정</a></li>
+	<li><a href="#" th:href="@{/user/changePassword}" th:text="#{change.password}">비밀번호 변경</a></li>
+</ul>
+</th:block>
+</body>
+</html>

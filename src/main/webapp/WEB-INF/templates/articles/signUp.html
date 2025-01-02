@@ -10,7 +10,7 @@
 <body>
 <article>
 <h3 th:text="#{sign.up}">회원가입</h3>
-<form id="signUpForm" th:action="@{/users/signUp}" th:method="post" th:object="${user}">
+<form id="signUpForm" th:action="@{/user/signUp}" th:method="post" th:object="${user}">
 <table style="width: 100%;margin: 10px 0;">
 <tr>
   <td style="border: 1px solid #c0c0c0;padding: 5px;" th:text="#{username}">사용자명</td>

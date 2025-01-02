@@ -36,23 +36,35 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((authorize) -> authorize
+				.requestMatchers(HttpMethod.DELETE, "/boards/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.PATCH, "/boards/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.PUT, "/boards/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.POST, "/boards/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/boards/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.PATCH, "/users/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/board/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/spring-security/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/thymeleaf/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/users/welcome").permitAll()
-				.requestMatchers(HttpMethod.POST, "/users/signUp").permitAll()
-				.requestMatchers(HttpMethod.GET, "/users/signUp").permitAll()
+				.requestMatchers(HttpMethod.GET, "/user/welcome").permitAll()
+				.requestMatchers(HttpMethod.POST, "/user/signUp").permitAll()
+				.requestMatchers(HttpMethod.GET, "/user/signUp").permitAll()
 				.requestMatchers(HttpMethod.GET, "/en/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/ko/**").permitAll()
-				.requestMatchers(HttpMethod.POST, "/").permitAll()
+				//.requestMatchers(HttpMethod.POST, "/").permitAll() //테스트
 				.requestMatchers(HttpMethod.GET, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
 				.anyRequest().authenticated()
 			)
-			.formLogin(form -> form.loginPage("/users/login").permitAll().loginProcessingUrl("/login"))
+			.formLogin(form -> form.loginPage("/user/login").permitAll().loginProcessingUrl("/login"))
 			.logout((logout) -> logout.logoutSuccessUrl("/"))
 			.httpBasic(withDefaults());
+			
 		return http.build();
 	}
 }

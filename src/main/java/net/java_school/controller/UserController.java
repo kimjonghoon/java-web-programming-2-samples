@@ -14,52 +14,53 @@ import net.java_school.user.UserService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("users")
-public class UsersController {
+@RequestMapping("user")
+public class UserController {
 
 	@Autowired
 	private UserService userService;
 	
 	@GetMapping("login")
 	public String login() {
-		return "users/login";
+		return "user/login";
 	}
 	
 	@GetMapping("signUp")
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
-		return "users/signUp";
+		return "user/signUp";
 	}
 	
 	@PostMapping("signUp")
 	public String signup(@Valid User user, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "users/signUp";
+			return "user/signUp";
 		}
 		String authority = "ROLE_USER";
 		userService.addUser(user);
 		userService.addAuthority(user.getUsername(), authority);
-		return "redirect:/users/welcome";
+		return "redirect:/user/welcome";
 	}
 	
 	@GetMapping("welcome")
 	public String welcome() {
-		return "users/welcome";
+		return "user/welcome";
 	}
 
 	@GetMapping("editAccount")
 	public String editAccount() {
-		return "users/editAccount";
+		return "user/editAccount";
 	}
 
 	@GetMapping("changePassword")
 	public String changePassword() {
-		return "users/changePassword";
+		return "user/changePassword";
 	}
+	
 	@PostMapping("changePassword")
 	public String changePassword(@RequestParam("currentPassword") String currentPassword, @RequestParam("newPassword") String newPassword, Principal principal) {
 		String username = principal.getName();
 		userService.changePassword(currentPassword, newPassword, username);
-		return "redirect:/users/changePassword?change=done";
+		return "redirect:/user/changePassword?change=done";
 	}
 }

@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/en.css" />
 <style>
 #sidebar {
 	margin-left: 0;
@@ -10,8 +11,8 @@
 <th:block th:fragment="index" id="sidebar">
 <h1>Admin</h1>
 <ul>
-	<li><a href="#" th:href="@{/admin}">Users</a></li>
-	<li><a href="#" th:href="@{/admin/boards}">Boards</a></li>
+	<li><a href="#" th:href="@{/admin}">Boards</a></li>
+	<li><a href="#" th:href="@{/admin/users}">Users</a></li>
 </ul>
 </th:block>
 </body>
