@@ -1,8 +1,12 @@
 package net.java_school.user;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import net.java_school.mapper.UserMapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<User> getAllUser(HashMap<String, String> hashmap) {
-		return userMapper.selectAll(hashmap);
+	public List<User> getUsers(String search) {
+		return userMapper.selectAll(search);
 	}	
 }

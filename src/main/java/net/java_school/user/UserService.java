@@ -18,5 +18,5 @@ public interface UserService {
 	public String getPassword(@P("username") String username);
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<User> getUsers(HashMap<String, String> hashmap);	
+	public List<User> getUsers(String search);	
 }
