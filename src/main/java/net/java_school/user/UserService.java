@@ -9,14 +9,23 @@ public interface UserService {
 
 	public int addUser(User user);
 
-	public int addAuthority(String username, String authority);
+	public int addBasicAuthority(String username);
 
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	public int changePassword(String currentPassword, String newPassword, String username);
+	public int changePassword(String username, String password);
 
 	@PreAuthorize("hasRole('ADMIN') or #username == principal.username")
 	public String getPassword(@P("username") String username);
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public List<User> getUsers(String search);
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<User> getUsers(String search);	
+	public int deleteAuthority(String username, String authority);
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public int addAuthority(String username, String authority);
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public int deleteUser(String username);	
 }

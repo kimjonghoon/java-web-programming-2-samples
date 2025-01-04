@@ -21,7 +21,7 @@ function showListItems() {
 			var trs = '<tr class="data-row">'
 						+ '<td>' + i + '</td>'
 						+ '<td>' + '<a href="#">' + item.username + '</a></td>'
-						+ '<td>' + item.roles + '</td>'
+						+ '<td>' + item.authorities + '</td>'
                     + '</tr>'
             $('#list-table').append(trs);
             console.log(item);
@@ -31,18 +31,18 @@ function showListItems() {
 $(document).ready(function() {
 	$('#list-table tr td:nth-child(2) > a').click(function(e) {
 		e.preventDefault();
-		$('#roles').empty();
+		$('#authorities').empty();
 		var username = $(this).text();
-		var roles = $(this).parent().next().text();
-		var arr = roles.split(",");
-		var role_del = ""
+		var authorities = $(this).parent().next().text();
+		var arr = authorities.split(",");
+		var authorities_del = ""
 		for (var idx in arr) {
-			role_del += arr[idx] + ' <a href="#" title="' + arr[idx] + '" class="del-role-link">x</a> ';
+			authorities_del += arr[idx] + ' <a href="#" title="' + arr[idx] + '" class="del-auth-link">x</a> ';
 		}
 		$('#changePasswordForm input[name*=username]').val(username);
-		$('#addRolesForm input[name*=username]').val(username);
+		$('#addAuthorityForm input[name*=username]').val(username);
 		$('#deleteAccountForm input[name*=username]').val(username);
-		$('#roles').append(role_del);
+		$('#authorities').append(authorities_del);
 	});
 });
 </script>
@@ -56,8 +56,9 @@ $(document).ready(function() {
 <tr>
 	<th style="text-align: left;">No</th>
 	<th style="text-align: left;">Username</th>
-	<th style="text-align: left;">Roles</th>
+	<th style="text-align: left;">Authorities</th>
 </tr>
+<!--/*-->
 <tr class="data-row">
 	<td>2</td>
 	<td><a href="#" title="ROLE_USER,ROLE_ADMIN">rachel</a></td>
@@ -68,6 +69,7 @@ $(document).ready(function() {
 	<td><a href="#" title="ROLE_USER">phoebe</a></td>
 	<td>ROLE_USER</td>
 </tr>
+<!--*/-->
 </table>
 
 <div style="width: 49%;float: right;">
@@ -90,23 +92,23 @@ $(document).ready(function() {
 	</table>
 	</form>
 
-	<form id="addRolesForm">
+	<form id="addAuthorityForm">
 	<table class="bbs-table">
-	<caption>Add Roles</caption>
+	<caption>Add Authority</caption>
 	<tr>
 		<td>Username</td>
 		<td><input type="text" name="username" disabled /></td>
 	</tr>
 	<tr>
-		<td>Roles</td>
-		<td id="roles"></td>
+		<td>Del Authority</td>
+		<td id="authorities"></td>
 	</tr>
 	<tr>
-		<td>Add Role</td>
+		<td>Add Authority</td>
 		<td>
-			<select name="role">
-				<option value="ROLE_USER" selected="selected">USER</option>
-				<option value="ROLE_ADMIN">ADMIN</option>
+			<select name="authority">
+				<option value="ROLE_USER">ROLE_USER</option>
+				<option value="ROLE_ADMIN">ROLE_ADMIN</option>
 			</select>
 			<input type="submit" value="Submit" />
 		</td>
@@ -127,11 +129,6 @@ $(document).ready(function() {
 	</table>
 	</form>
 </div>
-
-<form id="deleteRoleForm" action="/admin/users/" th:method="delete">
-<input type="hidden" name="role" />
-</form>
-
 </article>
 
 </body>

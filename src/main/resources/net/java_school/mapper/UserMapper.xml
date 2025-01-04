@@ -7,16 +7,16 @@
 		INSERT INTO users(username, password) VALUES (#{username}, #{password})
 	</insert>
 	
-	<insert id="insertAuthority">
-		INSERT INTO authorities VALUES (#{username}, #{authority})
+	<insert id="insertBasicAuthority">
+		INSERT INTO authorities VALUES (#{username}, 'ROLE_USER')
 	</insert>
 	
 	<update id="updatePassword">
-		UPDATE users SET password=#{newPassword} WHERE username=#{username}
+		UPDATE users SET password = #{password} WHERE username = #{username}
 	</update>
 	
 	<select id="selectPassword">
-		SELECT password FROM users WHERE username=#{username}
+		SELECT password FROM users WHERE username = #{username}
 	</select>
 	
 	<select id="selectAll" parameterType="string" resultMap="UserResult">
@@ -39,4 +39,15 @@
 		WHERE username = #{username}
 	</select>
 	
+	<delete id="deleteAuthority">
+		DELETE authorities WHERE username = #{username} and authority = #{authority}
+	</delete>
+
+	<insert id="insertAuthority">
+		INSERT INTO authorities VALUES (#{username}, #{authority})
+	</insert>
+
+	<delete id="delete">
+		DELETE users WHERE username = #{username}
+	</delete>	
 </mapper>

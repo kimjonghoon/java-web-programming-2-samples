@@ -1,17 +1,24 @@
 package net.java_school.controller;
 
+import jakarta.validation.Valid;
+
+import java.security.Principal;
+
+import net.java_school.user.User;
+import net.java_school.user.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.security.Principal;
-import net.java_school.user.User;
-import net.java_school.user.UserService;
-import jakarta.validation.Valid;
+
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Controller
 @RequestMapping("user")
@@ -19,6 +26,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@GetMapping("login")
 	public String login() {
@@ -36,9 +46,9 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "user/signUp";
 		}
-		String authority = "ROLE_USER";
+		user.setPassword(this.bcryptPasswordEncoder.encode(user.getPassword()));
 		userService.addUser(user);
-		userService.addAuthority(user.getUsername(), authority);
+		userService.addBasicAuthority(user.getUsername());
 		return "redirect:/user/welcome";
 	}
 	
@@ -60,7 +70,11 @@ public class UserController {
 	@PostMapping("changePassword")
 	public String changePassword(@RequestParam("currentPassword") String currentPassword, @RequestParam("newPassword") String newPassword, Principal principal) {
 		String username = principal.getName();
-		userService.changePassword(currentPassword, newPassword, username);
+		String dbPassword = userService.getPassword(username);
+		boolean check = this.bcryptPasswordEncoder.matches(currentPassword, dbPassword);
+		if (check == false) throw new AccessDeniedException("The password is incorrect!");
+		String password = this.bcryptPasswordEncoder.encode(newPassword);
+		userService.changePassword(username, password);
 		return "redirect:/user/changePassword?change=done";
 	}
 }

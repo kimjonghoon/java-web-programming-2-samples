@@ -12,7 +12,6 @@ public class AdminController {
 	public String boards() {
 		return "admin/boards";
 	}
-
 	@GetMapping("users")
 	public String users() {
 		return "admin/users";

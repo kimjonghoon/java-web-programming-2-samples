@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -63,7 +64,7 @@ public class SecurityConfig {
 			)
 			.formLogin(form -> form.loginPage("/user/login").permitAll().loginProcessingUrl("/login"))
 			.logout((logout) -> logout.logoutSuccessUrl("/"))
-			.httpBasic(withDefaults());
+			.httpBasic(withDefaults()).csrf(AbstractHttpConfigurer::disable);
 			
 		return http.build();
 	}
