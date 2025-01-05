@@ -17,7 +17,10 @@ $(document).ready(function() {
 	$('#changePasswordForm').submit(function(e) {
 		e.preventDefault();
         var username = $('#changePasswordForm input[name*=username]').val();
+		if (!username) return;
 		var pw = $('#changePasswordForm input[name*=password]').val();
+		pw = pw.trim();
+		if(!pw) return;
 		var data = {
 			"password": pw,
 		};
@@ -35,7 +38,7 @@ $(document).ready(function() {
                 console.log('pw change success!');
 				$('#changePasswordForm input[name*=password]').val('');				
             },
-			error: function(xhr, status, error) {
+			error: function (xhr, status, error) {
 				console.log('error!');
 				console.log(xhr.statusText);
 			}
@@ -44,23 +47,32 @@ $(document).ready(function() {
 	$('#addAuthorityForm').submit(function(e) {
 		e.preventDefault();
         var username = $('#addAuthorityForm input[name*=username]').val();
-		var authority = $('#addAuthorityForm input[name*=authority]').val();
+		if (!username) return;
+		var authority = $('#dropDownAuthority').val();
+		var auth_dels = $('#authorities').text();
+		var chk = auth_dels.indexOf(authority);
+		if (chk != -1) return;
 		var url = "/users/" + username + "/" + authority;
-        $.ajax({
-            url: url,
-            type: 'PUT',
-            data: data,
-            success: function () {
-                console.log('authority add success!');
-            },
-            error: function () {
-                alert('error!');
-            }		
+		$.ajax({
+			url: url,
+			type: 'POST',
+			success: function () {
+				console.log('authority add success!');
+				var addlink = ' <a href="#" title="' + authority + '" class="del-auth-link">' + authority + ' x</a> ';
+				if(authority === 'ROLE_ADMIN') $('#authorities').prepend(addlink);
+				else $('#authorities').append(addlink);
+				showListItems();
+			},
+			error: function (xhr, status, error) {
+				console.log('error!');
+				console.log(xhr.statusText);
+			}
 		});
 	});
 	$('#deleteAccountForm').submit(function(e) {
 		e.preventDefault();
         var username = $('#deleteAccountForm input[name*=username]').val();
+		if (!username) return;
 		var url = "/users/" + username;
         $.ajax({
             url: url,
@@ -90,7 +102,7 @@ $(document).on('click', '#list-table', function (e) {
 		var authorities_del = ""
 		for (var idx in arr) {
 			if (arr[idx] != '')
-				authorities_del += ' <a href="#" title="' + arr[idx] + '" class="del-auth-link">' + arr[idx].substring(5) + ' x</a> ';
+				authorities_del += ' <a href="#" title="' + arr[idx] + '" class="del-auth-link">' + arr[idx] + ' x</a> ';
 		}
 		$('#changePasswordForm input[name*=username]').val(username);
 		$('#addAuthorityForm input[name*=username]').val(username);
@@ -103,6 +115,7 @@ $(document).on('click', '#authorities', function (e) {
 		e.preventDefault();
 		var authority = $(e.target).attr('title');
         var username = $('#addAuthorityForm input[name*=username]').val();
+		if (!username) return;
 		var url = "/users/" + username + "/" + authority;
         $.ajax({
             url: url,

@@ -45,6 +45,7 @@ public class RestUsersController {
 		if (password != null) {
 			userService.changePassword(username, this.bcryptPasswordEncoder.encode(password));
 		}
+		//users 테이블을 컬럼을 추가한다면, email, full name, address ...등을 같은 로직으로 추가할 수 있다.
 	}
 	@DeleteMapping("{username}/{authority}")
 	public void deleteAuthority(@PathVariable(name="username") String username,
