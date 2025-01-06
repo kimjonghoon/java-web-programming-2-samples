@@ -52,7 +52,7 @@ public class BbsController extends Paginator {
 			@RequestParam(name="search", defaultValue="") String search,
 			Locale locale, Model model) {
 
-		List<Board> boards = boardService.getBoards();
+		List<Board> boards = boardService.getBoards(null);
 		String lang = locale.getLanguage();
 		String boardName = this.getBoardName(boardCd, lang);
 
@@ -105,7 +105,7 @@ public class BbsController extends Paginator {
 		ret = boardService.getPrevPostNo(postNo, boardCd, search);
 		if (ret != null) prevPostNo = ret.intValue();
 		
-		List<Board> boards = boardService.getBoards();
+		List<Board> boards = boardService.getBoards(null);
 		
 		String lang = locale.getLanguage();
 		String boardName = this.getBoardName(boardCd, lang);

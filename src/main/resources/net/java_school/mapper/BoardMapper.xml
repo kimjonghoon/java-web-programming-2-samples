@@ -5,8 +5,12 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.java_school.mapper.BoardMapper">
-    <select id="selectAllBoards" resultType="net.java_school.board.Board">
-        SELECT * FROM board order by boardcd
+    <select id="selectAllBoards" parameterType="string" resultType="net.java_school.board.Board">
+        SELECT * FROM board
+		<if test="search != null and search != ''">
+		WHERE (boardCd LIKE '%' || #{search} || '%') OR (boardNm LIKE '%' || #{search} || '%') OR (boardNm_ko LIKE '%' || #{search} || '%')
+		</if>
+		order by boardcd
     </select>
     <select id="selectOneBoard" resultType="net.java_school.board.Board">
         SELECT * FROM board WHERE boardcd = #{boardCd}
@@ -98,9 +102,18 @@
 		DELETE FROM post WHERE postno = #{postNo}
 	</delete>
 
-<!--
     <insert id="insertBoard" parameterType="net.java_school.board.Board">
         INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
     </insert>
--->	
+
+    <update id="updateBoardName" parameterType="string">
+        UPDATE board SET boardNm = #{boardNm} WHERE boardCd = #{boardCd}
+    </update>
+
+    <update id="updateBoardKorName" parameterType="string">
+        UPDATE board SET boardNm_ko = #{boardNm_ko} WHERE boardCd = #{boardCd}
+    </update>
+    <delete id="deleteBoard" parameterType="string">
+        DELETE board WHERE boardCd = #{boardCd}
+    </delete>
 </mapper>

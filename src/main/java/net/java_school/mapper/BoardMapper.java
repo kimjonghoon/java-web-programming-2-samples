@@ -2,12 +2,15 @@ package net.java_school.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+
 import net.java_school.board.Post;
 import net.java_school.board.Board;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface BoardMapper {
 	//모든 게시판
-	public List<Board> selectAllBoards();
+	public List<Board> selectAllBoards(@Param("search") String search);
 
 	//게시판
 	public Board selectOneBoard(String boardCd);
@@ -42,17 +45,15 @@ public interface BoardMapper {
 	//글삭제
 	public void deletePost(int postNo);
 
-/*
 	//게시판 생성
 	public void insertBoard(Board board);
 
+	//게시판 이름 변경
+	public void updateBoardName(@Param("boardCd") String boardCd, @Param("boardNm") String boardNm);
 
-
-
-
-
-
-	//조회수 for 상세보기
-	public int selectCountOfViews(int articleNo);
-*/	
+	//게시판 한글 이름 변경
+	public void updateBoardKorName(@Param("boardCd") String boardCd, @Param("boardNm_ko") String boardNm_ko);
+	
+	//게시판 삭제(게시글 없는 게시판만 삭제할 수 있음)
+	public void deleteBoard(@Param("boardCd") String boardCd);
 }

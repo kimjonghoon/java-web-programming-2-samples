@@ -22,7 +22,7 @@ $(document).ready(function() {
 <h3>Boards</h3>
 
 <div style="width: 50%;float: left;">
-<table class="bbs-table">
+<table id="list-table" class="bbs-table">
 <tr>
 	<th style="text-align: left">No</th>
 	<th style="text-align: left">Code</th>
@@ -52,21 +52,18 @@ $(document).ready(function() {
 <div style="width: 49%;float: right;">
 	<form id="editBoardForm">
 	<table class="bbs-table">
-	<caption>edit Board</caption>
+	<caption>Edit Board</caption>
 	<tr>
 		<td>Code</td>
-		<td><input type="text" name="username" value="chat" disabled /></td>
+		<td><input type="text" name="boardCd" style="width: 135px;" disabled /></td>
 	</tr>
 	<tr>
 		<td>Name</td>
-		<td><input type="text" name="name" value="Chat" /></td>
+		<td><input type="text" name="boardNm" style="width: 135px;" /> <input type="button" id="name-btn" value="Submit" /></td>
 	</tr>
 	<tr>
 		<td>Name_ko</td>
-		<td><input type="text" name="name_ko" value="자유 토론" /></td>
-	</tr>
-	<tr>
-		<td cols="2" style="border: none;"><input type="submit" value="Submit" /></td>
+		<td><input type="text" name="boardNm_ko" style="width: 135px;" /> <input type="button" id="ko-name-btn" value="Submit" /></td>
 	</tr>
 	</table>
 	</form>
@@ -76,18 +73,28 @@ $(document).ready(function() {
 	<caption>New Board</caption>
 	<tr>
 		<td>Code</td>
-		<td><input type="text" name="username" /></td>
+		<td><input type="text" name="boardCd" style="width: 135px;" /></td>
 	</tr>
 	<tr>
 		<td>Name</td>
-		<td><input type="text" name="name" /></td>
+		<td><input type="text" name="boardNm" style="width: 135px;" /></td>
 	</tr>
 	<tr>
 		<td>Name_ko</td>
-		<td><input type="text" name="name_ko" /></td>
+		<td><input type="text" name="boardNm_ko" style="width: 135px;" /></td>
 	</tr>
 	<tr>
 		<td cols="2" style="border: none;"><input type="submit" value="Submit" /></td>
+	</tr>
+	</table>
+	</form>
+
+	<form id="deleteBoardForm">
+	<table class="bbs-table">
+	<caption>Delete Board</caption>
+	<tr>
+		<td>Code</td>
+		<td><input type="text" name="boardCd" style="width: 135px;" /> <input type="submit" value="Submit" /></td>
 	</tr>
 	</table>
 	</form>

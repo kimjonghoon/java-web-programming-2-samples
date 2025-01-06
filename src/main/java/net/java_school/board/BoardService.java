@@ -9,7 +9,7 @@ import org.springframework.security.access.method.P;
 public interface BoardService {
 	//게시판 목록
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	public List<Board> getBoards();
+	public List<Board> getBoards(String search);
 
 	//게시판 정보
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
@@ -54,13 +54,19 @@ public interface BoardService {
 	@PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
 	public void deletePost(@P("post") Post post);
 
-/*
-  //게시판 생성
-  @PreAuthorize("hasRole('ADMIN')")
-  public void createBoard(Board board);
+	//게시판 생성
+	@PreAuthorize("hasRole('ADMIN')")
+	public void createBoard(Board board);
 
+	//게시판 이름 변경
+	@PreAuthorize("hasRole('ADMIN')")
+	public void changeBoardName(String boardCd, String boardNm);
 
-
-
-*/
+	//게시판 한글 이름 변경
+	@PreAuthorize("hasRole('ADMIN')")
+	public void changeBoardKorName(String boardCd, String boardNm_ko);
+	
+	//게시판 삭제
+	@PreAuthorize("hasRole('ADMIN')")
+	public void deleteBoard(String boardCd);
 }

@@ -14,8 +14,8 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 
 	@Override
-	public List<Board> getBoards() {
-		return boardMapper.selectAllBoards();
+	public List<Board> getBoards(String search) {
+		return boardMapper.selectAllBoards(search);
 	}
 	@Override
 	public Board getBoard(String boardCd) {
@@ -90,29 +90,22 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deletePost(post.getPostNo());
 	}
 	
-/*
-  @Override
-  public void createBoard(Board board) {
-    boardMapper.insertBoard(board);
-  }
+	@Override
+	public void createBoard(Board board) {
+		boardMapper.insertBoard(board);
+	}
 
+	@Override
+	public void changeBoardName(String boardCd, String boardNm) {
+		boardMapper.updateBoardName(boardCd, boardNm);
+	}
 
-  @Override
-  public List<Post> getPostList(HashMap<String, String> hashmap) {
-    return boardMapper.selectListOfArticles(hashmap);
-  }
-
-  @Override
-  public int getTotalRecord(String boardCd, String search) {
-    HashMap<String, String> hashmap = new HashMap<>();
-    hashmap.put("boardCd", boardCd);
-    hashmap.put("searchWord", searchWord);
-
-    return boardMapper.selectCountOfArticles(hashmap);
-  }
-
-
-
-
-*/  
+	@Override
+	public void changeBoardKorName(String boardCd, String boardNm_ko) {
+		boardMapper.updateBoardKorName(boardCd, boardNm_ko);
+	}
+	@Override
+	public void deleteBoard(String boardCd) {
+		boardMapper.deleteBoard(boardCd);
+	}
 }
