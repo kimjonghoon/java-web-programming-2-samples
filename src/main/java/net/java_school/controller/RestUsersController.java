@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
-@RequestMapping(path = "users", produces = "application/json")
+@RequestMapping("users")
 public class RestUsersController {
 
 	@Autowired
@@ -38,7 +38,7 @@ public class RestUsersController {
 		List<User> users = userService.getUsers(search);
 		return users;
 	}
-	@PatchMapping(path = "{username}", consumes = "application/json")
+	@PatchMapping("{username}")
 	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void patchUser(@PathVariable(name="username") String username, @RequestBody User user) {
 		String password = user.getPassword();

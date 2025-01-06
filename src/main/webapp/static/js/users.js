@@ -1,22 +1,23 @@
-function showListItems() {
-    var url = '/users';
-    $.getJSON(url, function (data) {
-		$('#list-table .data-row').empty();
-        $.each(data, function (i, item) {
+function showListItems(search) {
+	if (search == null) search = '';
+	var url = '/users?search=' + search;
+	$.getJSON(url, function (data) {
+		$('#list-table .data-row').remove();
+		$.each(data, function (i, item) {
 			var trs = '<tr class="data-row">'
-						+ '<td>' + (i+1) + '</td>'
-						+ '<td>' + '<a href="#" class=username>' + item.username + '</a></td>'
-						+ '<td>' + item.authorities + '</td>'
-                    + '</tr>'
-            $('#list-table').append(trs);
-        });
-    });
+				+ '<td>' + (i+1) + '</td>'
+				+ '<td>' + '<a href="#" class=username>' + item.username + '</a></td>'
+				+ '<td>' + item.authorities + '</td>'
+				+ '</tr>'
+			$('#list-table').append(trs);
+		});
+	});
 }
 $(document).ready(function() {
-	showListItems();
+	//showListItems();
 	$('#changePasswordForm').submit(function(e) {
 		e.preventDefault();
-        var username = $('#changePasswordForm input[name*=username]').val();
+		var username = $('#changePasswordForm input[name*=username]').val();
 		if (!username) return;
 		var pw = $('#changePasswordForm input[name*=password]').val();
 		pw = pw.trim();
@@ -27,17 +28,16 @@ $(document).ready(function() {
 		var jsonString = JSON.stringify(data);
 		var url = "/users/" + username;
 		var method = "PATCH";
-		
-        $.ajax({
-            url: url,
-            type: method,
-            data: jsonString,
+		$.ajax({
+			url: url,
+			type: method,
+			data: jsonString,
 			contentType: "application/json; charset=utf-8",
 			dataType: "json",
-            success: function () {
-                console.log('pw change success!');
+			success: function () {
+				console.log('pw change success!');
 				$('#changePasswordForm input[name*=password]').val('');				
-            },
+			},
 			error: function (xhr, status, error) {
 				console.log('error!');
 				console.log(xhr.statusText);
@@ -46,7 +46,7 @@ $(document).ready(function() {
 	});
 	$('#addAuthorityForm').submit(function(e) {
 		e.preventDefault();
-        var username = $('#addAuthorityForm input[name*=username]').val();
+		var username = $('#addAuthorityForm input[name*=username]').val();
 		if (!username) return;
 		var authority = $('#dropDownAuthority').val();
 		var auth_dels = $('#authorities').text();
@@ -61,7 +61,7 @@ $(document).ready(function() {
 				var addlink = ' <a href="#" title="' + authority + '" class="del-auth-link">' + authority + ' x</a> ';
 				if(authority === 'ROLE_ADMIN') $('#authorities').prepend(addlink);
 				else $('#authorities').append(addlink);
-				showListItems();
+				showListItems(username);
 			},
 			error: function (xhr, status, error) {
 				console.log('error!');
@@ -71,25 +71,31 @@ $(document).ready(function() {
 	});
 	$('#deleteAccountForm').submit(function(e) {
 		e.preventDefault();
-        var username = $('#deleteAccountForm input[name*=username]').val();
+		var username = $('#deleteAccountForm input[name*=username]').val();
 		if (!username) return;
 		var url = "/users/" + username;
-        $.ajax({
-            url: url,
-            type: 'DELETE',
-            success: function () {
-                console.log('delete account success!');
-				showListItems();
+		$.ajax({
+			url: url,
+			type: 'DELETE',
+			success: function () {
+				console.log('delete account success!');
+				showListItems(username);
 				$('#changePasswordForm input[name*=username]').val('');
 				$('#addAuthorityForm input[name*=username]').val('');
 				$('#deleteAccountForm input[name*=username]').val('');
 				$('#authorities').empty();
-            },
-            error: function (xhr, status, error) {
+			},
+			error: function (xhr, status, error) {
 				console.log('error!');
 				console.log(xhr.statusText);
-            }		
+			}		
 		});
+	});
+	$('#searchForm').submit(function(e) {
+		e.preventDefault();
+		var search = $('#searchForm input[name*=search]').val();
+		showListItems(search);
+		$('#searchForm input[name*=search]').val('');
 	});
 });
 $(document).on('click', '#list-table', function (e) {
@@ -114,16 +120,16 @@ $(document).on('click', '#authorities', function (e) {
 	if ($(e.target).is('.del-auth-link')) {
 		e.preventDefault();
 		var authority = $(e.target).attr('title');
-        var username = $('#addAuthorityForm input[name*=username]').val();
+		var username = $('#addAuthorityForm input[name*=username]').val();
 		if (!username) return;
 		var url = "/users/" + username + "/" + authority;
-        $.ajax({
-            url: url,
-            type: 'DELETE',
-            success: function () {
+		$.ajax({
+			url: url,
+			type: 'DELETE',
+			success: function () {
 				$(e.target).empty();
-                showListItems();
-            },
+				showListItems(username);
+			},
 			error: function(xhr, status, error) {
 				console.log('error!');
 				console.log(xhr.statusText);

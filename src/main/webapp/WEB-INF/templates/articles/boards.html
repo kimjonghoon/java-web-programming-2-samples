@@ -20,14 +20,16 @@ $(document).ready(function() {
 <body>
 <article>
 <h3>Boards</h3>
-<div>
-<table class="bbs-table" style="width: 50%;float: left;">
+
+<div style="width: 50%;float: left;">
+<table class="bbs-table">
 <tr>
 	<th style="text-align: left">No</th>
 	<th style="text-align: left">Code</th>
 	<th style="text-align: left">Name</th>
 	<th style="text-align: left">Name_ko</th>
 </tr>
+<!--/*-->
 <tr>
 	<td>2</td>
 	<td><a href="#">chat</a></td>
@@ -40,8 +42,13 @@ $(document).ready(function() {
 	<td>Notice</td>
 	<td>공지</td>
 </tr>
+<!--*/-->
 </table>
-
+<form id="searchForm" style="margin-top: 10px;text-align: center;">
+	<input type="text" name="search" style="width: 120px;" />
+	<input type="submit" value="Search" />
+</form>
+</div>
 <div style="width: 49%;float: right;">
 	<form id="editBoardForm">
 	<table class="bbs-table">

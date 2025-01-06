@@ -51,8 +51,8 @@ $(document).ready(function() {
 
 <article>
 <h3>Users</h3>
-
-<table id="list-table" class="bbs-table" style="width: 49%;float: left;">
+<div style="width: 49%;float: left;">
+<table id="list-table" class="bbs-table">
 <tr>
 	<th style="text-align: left;">No</th>
 	<th style="text-align: left;">Username</th>
@@ -71,6 +71,13 @@ $(document).ready(function() {
 </tr>
 <!--*/-->
 </table>
+<form id="searchForm">
+<div style="margin-top: 10px;text-align: center;" >
+	<input type="text" name="search" style="width: 100px;" />
+	<input type="submit" value="Search" />
+</div>
+</form>
+</div>
 
 <div style="width: 49%;float: right;">
 	<form id="changePasswordForm">
