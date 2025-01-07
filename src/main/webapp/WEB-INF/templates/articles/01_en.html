@@ -7,7 +7,6 @@
 <link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
-<script src="../../../static/js/prettify.js"></script>
 <script src="../../../static/js/run_prettify.js"></script>
 </head>
 
@@ -3375,13 +3374,12 @@ public String getSectionByLang(@PathVariable("lang") String lang,
 구글에서 제공하는, 코드를 이쁘게 보여주는, 자바스크립트를 사용하겠다.<br />
 https://github.com/googlearchive/code-prettify<br />
 https://github.com/googlearchive/code-prettify/blob/master/docs/getting_started.md<br />
-다운로드한 후 압축을 풀고, prettify.css 파일은 /static/css에, prettify.js와 run_prettify.js는 /static/js 폴더에 넣는다.<br />
+다운로드한 후 압축을 풀고, prettify.css 파일은 /static/css에, run_prettify.js는 /static/js 폴더에 넣는다.<br />
 사용법은 다음과 같다.<br />
 내용에 코드가 있는 HTML 파일의 헤더에 다음을 추가한다.<br />
 </p>
 
 <pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="prettify.css" /&gt;
-&lt;script type="text/javascript" src="prettify.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="run_prettify.js"&gt;&lt;/script&gt;
 </pre>
 

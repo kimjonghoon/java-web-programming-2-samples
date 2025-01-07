@@ -59,7 +59,6 @@ public class SecurityConfig {
 				//.requestMatchers(HttpMethod.POST, "/").permitAll() //테스트
 				.requestMatchers(HttpMethod.GET, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin(form -> form.loginPage("/user/login").permitAll().loginProcessingUrl("/login"))

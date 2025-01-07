@@ -41,9 +41,9 @@ $(document).ready(function() {
 	});
 	$('.bbs-table tr td:nth-child(2) > a').click(function(e) {
 		e.preventDefault();
-		$articleNo = $(this).attr('title');
+		$postNo = $(this).attr('title');
 		$action = $('#viewForm').attr('action');
-		$action += $articleNo;
+		$action += $postNo;
 		$('#viewForm').attr('action',$action);
 		$('#viewForm').submit();
 	});

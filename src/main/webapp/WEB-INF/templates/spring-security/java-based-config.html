@@ -7,7 +7,6 @@
 <meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/02 :: meta[@name='Description']} : ~{articles/02_en :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
-<script th:src="@{/static/js/prettify.js}"></script>
 <script th:src="@{/static/js/run_prettify.js}"></script>
 </head>
 <body>
