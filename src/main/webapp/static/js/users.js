@@ -1,6 +1,6 @@
 function showListItems(search) {
 	if (search == null) search = '';
-	var url = '/users?search=' + search;
+	var url = link + 'users?search=' + search;
 	$.getJSON(url, function (data) {
 		$('#list-table .data-row').remove();
 		$.each(data, function (i, item) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
 			"password": pw,
 		};
 		var jsonString = JSON.stringify(data);
-		var url = "/users/" + username;
+		var url = link + "users/" + username;
 		var method = "PATCH";
 		$.ajax({
 			url: url,
@@ -52,7 +52,7 @@ $(document).ready(function() {
 		var auth_dels = $('#authorities').text();
 		var chk = auth_dels.indexOf(authority);
 		if (chk != -1) return;
-		var url = "/users/" + username + "/" + authority;
+		var url = link + "users/" + username + "/" + authority;
 		$.ajax({
 			url: url,
 			type: 'POST',
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var username = $('#deleteAccountForm input[name*=username]').val();
 		if (!username) return;
-		var url = "/users/" + username;
+		var url = link + "users/" + username;
 		$.ajax({
 			url: url,
 			type: 'DELETE',
@@ -122,7 +122,7 @@ $(document).on('click', '#authorities', function (e) {
 		var authority = $(e.target).attr('title');
 		var username = $('#addAuthorityForm input[name*=username]').val();
 		if (!username) return;
-		var url = "/users/" + username + "/" + authority;
+		var url = link + "users/" + username + "/" + authority;
 		$.ajax({
 			url: url,
 			type: 'DELETE',

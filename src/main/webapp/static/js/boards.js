@@ -1,6 +1,6 @@
 function showListItems(search) {
 	if (search == null) search = '';
-	var url = '/boards?search=' + search;
+	var url = link + 'boards?search=' + search;
 	$.getJSON(url, function (data) {
 		$('#list-table .data-row').remove();
 		$.each(data, function (i, item) {
@@ -31,7 +31,7 @@ $(document).ready(function() {
 			"boardNm": boardNm,
 		};
 		var jsonString = JSON.stringify(data);
-		var url = "/boards/" + boardCd;
+		var url = link + "boards/" + boardCd;
 		var method = "PATCH";
 		$.ajax({
 			url: url,
@@ -60,7 +60,7 @@ $(document).ready(function() {
 			"boardNm_ko": boardNm_ko,
 		};
 		var jsonString = JSON.stringify(data);
-		var url = "/boards/" + boardCd;
+		var url = link + "boards/" + boardCd;
 		var method = "PATCH";
 		$.ajax({
 			url: url,
@@ -93,7 +93,7 @@ $(document).ready(function() {
 			"boardNm_ko": boardNm_ko,
 		};
 		var jsonString = JSON.stringify(data);
-		var url = "/boards";
+		var url = link + "boards";
 		var method = "POST";
 		$.ajax({
 			url: url,
@@ -118,7 +118,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var boardCd = $('#deleteBoardForm input[name*=boardCd]').val();
 		if (!boardCd) return;
-		var url = "/boards/" + boardCd;
+		var url = link + "boards/" + boardCd;
 		var method = "DELETE";
 		$.ajax({
 			url: url,
