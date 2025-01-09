@@ -10,11 +10,11 @@ function showListItems(search) {
 				+ '<td>' + item.authorities + '</td>'
 				+ '</tr>'
 			$('#list-table').append(trs);
+			//console.log(item);
 		});
 	});
 }
 $(document).ready(function() {
-	//showListItems();
 	$('#changePasswordForm').submit(function(e) {
 		e.preventDefault();
 		var username = $('#changePasswordForm input[name*=username]').val();

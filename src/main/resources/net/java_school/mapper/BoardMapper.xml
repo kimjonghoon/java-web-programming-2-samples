@@ -8,11 +8,11 @@
     <select id="selectAllBoards" parameterType="string" resultType="net.java_school.board.Board">
         SELECT * FROM board
 		<if test="search != null and search != ''">
-		WHERE (boardCd LIKE '%' || #{search} || '%') OR (boardNm LIKE '%' || #{search} || '%') OR (boardNm_ko LIKE '%' || #{search} || '%')
+		WHERE boardCd LIKE '%' || #{search} || '%' OR boardNm LIKE '%' || #{search} || '%' OR boardNm_ko LIKE '%' || #{search} || '%'
 		</if>
 		order by boardcd
     </select>
-    <select id="selectOneBoard" resultType="net.java_school.board.Board">
+    <select id="selectOneBoard" parameterType="string" resultType="net.java_school.board.Board">
         SELECT * FROM board WHERE boardcd = #{boardCd}
     </select>
     <select id="selectCountOfPosts" parameterType="hashmap" resultType="int">
@@ -54,10 +54,8 @@
     </update>
 	<select id="selectOne" parameterType="int" resultType="net.java_school.board.Post">
 		SELECT postno,title,content,username,hit,regdate
-		FROM 
-			post
-		WHERE 
-			postno = #{postNo}
+		FROM post
+		WHERE postno = #{postNo}
 	</select>
 	<select id="selectNextOne" parameterType="hashmap" resultType="Integer">
 		SELECT postno
@@ -67,7 +65,7 @@
 				(SELECT postno
 				FROM post
 				WHERE
-					boardCd = #{boardCd}
+					boardcd = #{boardCd}
 					AND postno &gt; #{postNo}
 				<if test="search != null and search != ''">
 					AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
@@ -84,7 +82,7 @@
 				(SELECT postno
 				FROM post
 				WHERE
-					boardCd = #{boardCd}
+					boardcd = #{boardCd}
 					AND postno &lt; #{postNo}
 				<if test="search != null and search != ''">
 					AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
@@ -101,15 +99,12 @@
 	<delete id="deletePost" parameterType="int">
 		DELETE FROM post WHERE postno = #{postNo}
 	</delete>
-
     <insert id="insertBoard" parameterType="net.java_school.board.Board">
         INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
     </insert>
-
     <update id="updateBoardName" parameterType="string">
         UPDATE board SET boardNm = #{boardNm} WHERE boardCd = #{boardCd}
     </update>
-
     <update id="updateBoardKorName" parameterType="string">
         UPDATE board SET boardNm_ko = #{boardNm_ko} WHERE boardCd = #{boardCd}
     </update>

@@ -13,7 +13,7 @@ public interface BoardMapper {
 	public List<Board> selectAllBoards(@Param("search") String search);
 
 	//게시판
-	public Board selectOneBoard(String boardCd);
+	public Board selectOneBoard(@Param("boardCd") String boardCd);
 
 	//총 레코드
 	public int selectCountOfPosts(HashMap<String, String> hashmap);
