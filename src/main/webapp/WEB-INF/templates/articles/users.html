@@ -13,23 +13,8 @@ article {
 </style>
 <script src="../../../static/js/jquery.js"></script>
 <script>
-function showListItems() {
-    var url = '/admin/users';
-    $.getJSON(url, function (data) {
-		$('#list-table .data-row').empty();
-        $.each(data, function (i, item) {
-			var trs = '<tr class="data-row">'
-						+ '<td>' + i + '</td>'
-						+ '<td>' + '<a href="#">' + item.username + '</a></td>'
-						+ '<td>' + item.authorities + '</td>'
-                    + '</tr>'
-            $('#list-table').append(trs);
-            console.log(item);
-        });
-    });
-}
 $(document).ready(function() {
-	$('#list-table tr td:nth-child(2) > a').click(function(e) {
+	$('.username').click(function(e) {
 		e.preventDefault();
 		$('#authorities').empty();
 		var username = $(this).text();
@@ -64,12 +49,12 @@ var link = /*[[@{/}]]*/'/';
 <!--/*-->
 <tr class="data-row">
 	<td>2</td>
-	<td><a href="#" title="ROLE_USER,ROLE_ADMIN">rachel</a></td>
+	<td><a href="#" class="username">rachel</a></td>
 	<td>ROLE_USER,ROLE_ADMIN</td>
 </tr>
 <tr class="data-row">
 	<td>1</td>
-	<td><a href="#" title="ROLE_USER">phoebe</a></td>
+	<td><a href="#" class="username">phoebe</a></td>
 	<td>ROLE_USER</td>
 </tr>
 <!--*/-->

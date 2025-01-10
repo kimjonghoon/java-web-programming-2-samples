@@ -43,6 +43,6 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public int deleteUser(String username) {
-		return userMapper.delete(username);
+		return userMapper.updateEnabledToZero(username);
 	}	
 }

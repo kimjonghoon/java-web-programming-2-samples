@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,16 +47,19 @@ public class RestUsersController {
 		//users 테이블을 컬럼을 추가한다면, email, full name, address ...등을 같은 로직으로 추가할 수 있다.
 	}
 	@DeleteMapping("{username}/{authority}")
+	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void deleteAuthority(@PathVariable(name="username") String username,
 			@PathVariable(name="authority") String authority) {
 		userService.deleteAuthority(username, authority);
 	}
 	@PostMapping("{username}/{authority}")
+	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void addAuthority(@PathVariable(name="username") String username,
 			@PathVariable(name="authority") String authority) {
 		userService.addAuthority(username, authority);
 	}
 	@DeleteMapping("{username}")
+	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable(name="username") String username) {
 		userService.deleteUser(username);
 	}
