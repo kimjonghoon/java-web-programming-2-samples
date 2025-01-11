@@ -98,6 +98,7 @@ $(document).ready(function() {
 		$('#searchForm input[name*=search]').val('');
 	});
 });
+/*
 $(document).on('click', '#list-table', function (e) {
 	if ($(e.target).is('.username')) {
 		e.preventDefault();
@@ -116,6 +117,24 @@ $(document).on('click', '#list-table', function (e) {
 		$('#authorities').append(authorities_del);
 	}
 });
+*/
+$(document).on('click', '.username', function (e) {
+	e.preventDefault();
+	$('#authorities').empty();
+	var username = $(e.target).text();
+	var authorities = $(e.target).parent().next().text();
+	var arr = authorities.split(",");
+	var authorities_del = ""
+	for (var idx in arr) {
+		if (arr[idx] != '')
+			authorities_del += ' <a href="#" title="' + arr[idx] + '" class="del-auth-link">' + arr[idx] + ' x</a> ';
+	}
+	$('#changePasswordForm input[name*=username]').val(username);
+	$('#addAuthorityForm input[name*=username]').val(username);
+	$('#deleteAccountForm input[name*=username]').val(username);
+	$('#authorities').append(authorities_del);
+});
+/*
 $(document).on('click', '#authorities', function (e) {
 	if ($(e.target).is('.del-auth-link')) {
 		e.preventDefault();
@@ -127,7 +146,7 @@ $(document).on('click', '#authorities', function (e) {
 			url: url,
 			type: 'DELETE',
 			success: function () {
-				$(e.target).empty();
+				$(e.target).remove();
 				showListItems(username);
 			},
 			error: function(xhr, status, error) {
@@ -136,4 +155,24 @@ $(document).on('click', '#authorities', function (e) {
 			}
 		});		
 	}
+});
+*/
+$(document).on('click', '.del-auth-link', function (e) {
+	e.preventDefault();
+	var authority = $(e.target).attr('title');
+	var username = $('#addAuthorityForm input[name*=username]').val();
+	if (!username) return;
+	var url = link + "users/" + username + "/" + authority;
+	$.ajax({
+		url: url,
+		type: 'DELETE',
+		success: function () {
+			$(e.target).remove();
+			showListItems(username);
+		},
+		error: function(xhr, status, error) {
+			console.log('error!');
+			console.log(xhr.statusText);
+		}
+	});		
 });

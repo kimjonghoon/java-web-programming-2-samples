@@ -14,19 +14,22 @@ article {
 <script src="../../../static/js/jquery.js"></script>
 <script>
 $(document).ready(function() {
-});
+	$('.board-code').click(function(e) {
+		e.preventDefault();
+		var boardCd = $(this).text();
+		$('#editBoardForm input[name*=boardCd]').val(boardCd);
+		$('#deleteBoardForm input[name*=boardCd]').val(boardCd);
+	});
+});	
 </script>
 </head>
 <body>
 <article>
 <script th:inline="javascript">
 var link = /*[[@{/}]]*/'';
-if (link === '/') link = '';
-if (link === '') link = '/';
 </script>
 <h3>Boards</h3>
-
-<div style="width: 50%;float: left;">
+<div style="width: 49%;float: left;">
 <table id="list-table" class="bbs-table">
 <tr>
 	<th style="text-align: left">No</th>
@@ -36,14 +39,14 @@ if (link === '') link = '/';
 </tr>
 <!--/*-->
 <tr>
-	<td>2</td>
-	<td><a href="#">chat</a></td>
+	<td>1</td>
+	<td><a href="#" class="board-code">chat</a></td>
 	<td>Chat</td>
 	<td>자유 토론</td>
 </tr>
 <tr>
-	<td>1</td>
-	<td><a href="#">notice</a></td>
+	<td>2</td>
+	<td><a href="#" class="board-code">notice</a></td>
 	<td>Notice</td>
 	<td>공지</td>
 </tr>
@@ -64,15 +67,21 @@ if (link === '') link = '/';
 	</tr>
 	<tr>
 		<td>Name</td>
-		<td><input type="text" name="boardNm" style="width: 135px;" /> <input type="button" id="name-btn" value="Submit" /></td>
+		<td>
+			<input type="text" name="boardNm" style="width: 135px;" />
+			<input type="button" id="name-btn" value="Submit" />
+		</td>
 	</tr>
 	<tr>
 		<td>Name_ko</td>
-		<td><input type="text" name="boardNm_ko" style="width: 135px;" /> <input type="button" id="ko-name-btn" value="Submit" /></td>
+		<td>
+			<input type="text" name="boardNm_ko" style="width: 135px;" />
+			<input type="button" id="ko-name-btn" value="Submit" />
+		</td>
 	</tr>
 	</table>
 	</form>
-	
+
 	<form id="newBoardForm">
 	<table class="bbs-table">
 	<caption>New Board</caption>
@@ -99,7 +108,10 @@ if (link === '') link = '/';
 	<caption>Delete Board</caption>
 	<tr>
 		<td>Code</td>
-		<td><input type="text" name="boardCd" style="width: 135px;" /> <input type="submit" value="Submit" /></td>
+		<td>
+			<input type="text" name="boardCd" style="width: 135px;" />
+			<input type="submit" value="Submit" />
+		</td>
 	</tr>
 	</table>
 	</form>

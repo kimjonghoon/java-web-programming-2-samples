@@ -136,6 +136,7 @@ $(document).ready(function() {
 		});
 	});	
 });
+/*
 $(document).on('click', '#list-table', function (e) {
 	if ($(e.target).is('.board-code')) {
 		e.preventDefault();
@@ -143,4 +144,11 @@ $(document).on('click', '#list-table', function (e) {
 		$('#editBoardForm input[name*=boardCd]').val(boardCd);
 		$('#deleteBoardForm input[name*=boardCd]').val(boardCd);
 	}
+});
+*/
+$(document).on('click', '.board-code', function (e) {
+	e.preventDefault();
+	var boardCd = $(e.target).text();
+	$('#editBoardForm input[name*=boardCd]').val(boardCd);
+	$('#deleteBoardForm input[name*=boardCd]').val(boardCd);
 });
