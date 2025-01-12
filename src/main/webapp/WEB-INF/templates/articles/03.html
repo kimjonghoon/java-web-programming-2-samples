@@ -12,8 +12,9 @@
 
 <body>
 
-<article id="restful-url">
-<h1>4 게시판</h1>
+<article id="get-started">
+
+<h1>게시판</h1>
 
 <h2>게시판 URL</h2>
 
@@ -30,7 +31,7 @@
 </pre>
 </article>
 
-<article id="bbs-prototype">
+<article id="prototype">
 <h2>프로토타입</h2>
 
 <p>
@@ -491,7 +492,7 @@ list.html과 view.html의 자바스크립트를 담는 script 블록을 article 
 </p>
 
 <p>
-<img src="../images/bbs-list-prototype.png" class="browser-output" alt="게시판 목록 프로토타입" />
+<img src="../../../static/images/bbs-list-prototype.png" th:src="@{/static/images/bbs-list-prototype.png}" class="browser-output" alt="게시판 목록 프로토타입" />
 </p>
 
 <p>
@@ -500,7 +501,7 @@ list.html과 view.html의 자바스크립트를 담는 script 블록을 article 
 </p>
 
 <p>
-<img src="../images/bbs-list-prototype2.png" class="browser-output" alt="게시판 목록 프로토타입" />
+<img src="../../../static/images/bbs-list-prototype2.png" th:src="@{/static/images/bbs-list-prototype2.png}" class="browser-output" alt="게시판 목록 프로토타입" />
 </p>
 
 <p>
@@ -508,7 +509,7 @@ list.html과 view.html의 자바스크립트를 담는 script 블록을 article 
 </p>
 
 <p>
-<img src="../images/bbs-view-prototype.png" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+<img src="../../../static/images/bbs-view-prototype.png" th:src="@{/static/images/bbs-view-prototype.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
 </p>
 
 <p>
@@ -517,7 +518,7 @@ list.html과 view.html의 자바스크립트를 담는 script 블록을 article 
 </p>
 
 <p>
-<img src="../images/bbs-view-prototype2.png" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+<img src="../../../static/images/bbs-view-prototype2.png" th:src="@{/static/images/bbs-view-prototype2.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
 </p>
 </article>
 
@@ -572,7 +573,7 @@ createCooke 함수는 $(document).ready(function() { .. }); 밖에 둔다.<br />
 <p>
 목록 테이블에서 제목을 클릭했을 때 동작하는 자바스크립트를 $(document).ready(function() { .. }); 안에 
 작성한다.<br />
-https://api.jquery.com/nth-child-selector/<br />
+
 </p>
 
 <pre class="prettyprint">$('.bbs-table tr td:nth-child(2) a').click(function(e) {
@@ -683,7 +684,6 @@ title.empty.warning의 값이 <span style="background: #eee">제목이 비었습
 주석 뒤와 세미콜론 앞에 쓴 모든 내용을 무시한다.(이경우 "제목이 비었습니다!")<br />
 그리고 실행 결과는 주석으로 감싸지 않았을 때와 같다.<br />
 이 코드는 정적 방식으로 파일을 열 때도 완벽하게 실행된다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#javascript-inlining<br />
 </p>
 
 <p>
@@ -739,7 +739,7 @@ $('title').append(title);
 삭제 버튼을 클릭했을 때 DELETE /bbs/chat/52?page=11&amp;search= 를 요청하도록 코드를 추가한다.<br />
 </p>
 
-<pre class="prettyprint">$('#del-post-btn').click(function () {
+<pre class="prettyprint" th:inline="none">$('#del-post-btn').click(function () {
   var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하겠습니까?";    
   var chk = confirm(warning);
   if (chk === true) {
@@ -764,7 +764,7 @@ $('title').append(title);
 다음 글 버튼을 클릭했을 때 동작하는 코드 추가한다.<br />
 </p>
 
-<pre class="prettyprint">$('#next-post-btn').click(function () {
+<pre class="prettyprint" th:inline="none">$('#next-post-btn').click(function () {
   $postNo = $(this).attr('title');
   $action = $('#viewForm').attr('action');
   $action += $postNo;
@@ -784,14 +784,14 @@ $('title').append(title);
 </p>
 
 <p>
-<img src="../images/next-post-page-calculate.png" class="browser-output" alt="다음 글 버튼 클릭했을 때 현재 페이지 계산" />
+<img src="../../../static/images/next-post-page-calculate.png" th:src="@{/static/images/next-post-page-calculate.png}" class="browser-output" alt="다음 글 버튼 클릭했을 때 현재 페이지 계산" />
 </p>
 
 <p>
 이전 글 버튼을 클릭했을 때 동작하는 코드한다.<br />
 </p>
 
-<pre class="prettyprint">$('#prev-post-btn').click(function () {
+<pre class="prettyprint" th:inline="none">$('#prev-post-btn').click(function () {
   $postNo = $(this).attr('title');
   $action = $('#viewForm').attr('action');
   $action += $postNo;
@@ -810,7 +810,7 @@ $('title').append(title);
 </p>
 
 <p>
-<img src="../images/prev-post-page-calculate.png" class="browser-output" alt="이전 글 버튼 클릭했을 때 현재 페이지 계산" />
+<img src="../../../static/images/prev-post-page-calculate.png" th:src="@{/static/images/prev-post-page-calculate.png}" class="browser-output" alt="이전 글 버튼 클릭했을 때 현재 페이지 계산" />
 </p>
 
 <h4>목록 버튼을 클릭했을 때 동작하는 코드</h4>
@@ -902,7 +902,7 @@ createCookie() 함수는 list.html에서 작성한 함수와 같다.<br />
   $('#edityForm-ta').val(content);
 });
 </pre>
-<article>
+</article>
 
 <article id="thymeleaf-test">
 <h2>게시판 구현을 위한 타임리프 테스트</h2>
@@ -950,7 +950,7 @@ http://localhost:8080?page=11로 홈페이지를 요청한다.
 </p>
 
 <p>
-<img src="../images/thymeleaf-test-page-links.png" alt="페이지 링크 생성 테스트" />
+<img src="../../../static/images/thymeleaf-test-page-links.png" th:src="@{/static/images/thymeleaf-test-page-links.png}" alt="페이지 링크 생성 테스트" />
 </p>
 
 <p>
@@ -1022,7 +1022,6 @@ protected Filter[] getServletFilters() {
 <p>
 다음 임포트 문이 필요하다.<br />
 import org.springframework.web.filter.HiddenHttpMethodFilter;<br />
-https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet/container-config.html<br />
 </p>
 
 <h3>한글 테스트</h3>
@@ -1255,7 +1254,6 @@ thymeleaf-extras-springsecurity의 #authentication과 #authorization 객체를 �
 #authentication은 Spring Security 인증 객체(org.springframework.security.core.Authentication 인터페이스를 구현하는 객체)를 표현한다.<br />
 #authorization은 권한 부여를 확인하는 메서드를 가진 유틸리티 객체다.<br />
 toc.html에 다음을 추가한다.<br />
-https://github.com/thymeleaf/thymeleaf-extras-springsecurity<br />
 </p>
 
 <pre class="prettyprint">&lt;input type="button" value="수정" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" /&gt;</pre>
@@ -1290,8 +1288,10 @@ commit;
 </p>
 </article>
 
-<article id="thymeleaf-code">
-<h2>타임리프 코드 작업</h2>
+<article id="thymeleaf-coding">
+
+<h2>타임리프 코딩</h2>
+
 <p>
 게시판 핵심 로직을 타임리프로 구현하는 테스트를 했으니, 이제 뷰에 예상되는 변수와 게시판 로직을 입혀 완성해 보자.<br />
 </p>
@@ -1301,7 +1301,7 @@ commit;
 <h4>목록 페이지 title</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-title.png" class="browser-output" alt="목록 페이지 title" />
+<img src="../../../static/images/bbs-list-prototype-title.png" th:src="@{/static/images/bbs-list-prototype-title.png}" class="browser-output" alt="목록 페이지 title" />
 </p>
 
 <pre class="prettyprint">&lt;title <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/title&gt;
@@ -1314,7 +1314,7 @@ boardName에는, 사용자의 로케일에 따라, 게시판 영어 이름 또�
 <h4>목록 테이블 위 게시판 이름</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-board-name.png" class="browser-output" alt="목록 게시판" />
+<img src="../../../static/images/bbs-list-prototype-board-name.png" th:src="@{/static/images/bbs-list-prototype-board-name.png}" class="browser-output" alt="목록 게시판" />
 </p>
 
 <pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/div&gt;
@@ -1323,7 +1323,7 @@ boardName에는, 사용자의 로케일에 따라, 게시판 영어 이름 또�
 <h4>페이지당 게시글 수</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-num-per-page.png" class="browser-output" alt="페이지당 레코드 수" />
+<img src="../../../static/images/bbs-list-prototype-num-per-page.png" th:src="@{/static/images/bbs-list-prototype-num-per-page.png}" class="browser-output" alt="페이지당 레코드 수" />
 </p>
 
 <pre class="prettyprint">&lt;option value="" <strong>th:text="#{number.per.page}</strong>"&gt;페이지당 게시글 수&lt;/option&gt;
@@ -1339,7 +1339,7 @@ boardName에는, 사용자의 로케일에 따라, 게시판 영어 이름 또�
 <h4>목록 테이블</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-list-table.png" class="browser-output" alt="목록 테이블" />
+<img src="../../../static/images/bbs-list-prototype-list-table.png" th:src="@{/static/images/bbs-list-prototype-list-table.png}" class="browser-output" alt="목록 테이블" />
 </p>
 
 <pre class="prettyprint">&lt;table class="bbs-table" id="list-table"&gt;
@@ -1395,7 +1395,6 @@ th:each를 사용할 때, 타임리프는 반복 작업의 상태를 추적하�
 
 <p>
 목록 테이블에서 홀 수 번째 tr에는 class="odd"가 붙는다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#keeping-iteration-status<br />
 </p>
 
 <p>
@@ -1418,21 +1417,17 @@ listItemNo는 목록 테이블의 행에 붙이는 숫자다.<br />
 열거형 데이터를 다루지 않더라도 지역 변수를 선언할 수 있다.<br />
 타임리프는 th:with 속성을 사용하여 지역 변수를 선언하는 방법을 제공한다.<br />
 목록 테이블에선, 메시지소스 프로퍼티에 있는 날짜 포맷을 지역 변수로 선언한 후 지역 변수를 사용해 날짜를 표현하고 있다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#local-variables<br />
 </p>
 
 <p>
 타임리프는 일반적인 작업을 수행하는 데 도움이 되는 유틸리티 객체를 제공한다.<br />
 #calendars는 java.util.Calendar 객체와 관련된 기능을 제공하는 유틸리티 객체다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#expression-utility-objects<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#calendars<br />
 </p>
 
 <p>
 &lt;!--/*--&gt;와 &lt;!--*/--&gt;으로 감싸는,
 파서 레벨 주석<sup>parser-level-comment</sup> 블록은 타임리프가 파싱할 때 제거된다.<br />
 목록 테이블에서 파서 레벨 주석을 사용한 이유는, 정적으로 문서를 열 때 디자인을 유지하기 위해서다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#thymeleaf-parser-level-comment-blocks<br />
 </p>
 
 <p>
@@ -1448,7 +1443,7 @@ https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#thymeleaf-parser
 <h4>페이지 이동 링크</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-paging.png" class="browser-output" alt="페이지 링크" />
+<img src="../../../static/images/bbs-list-prototype-paging.png" th:src="@{/static/images/bbs-list-prototype-paging.png}" class="browser-output" alt="페이지 링크" />
 </p>
 
 <pre class="prettyprint">&lt;div id="paging"&gt;
@@ -1508,24 +1503,20 @@ article {
 <p>
 조건이 충족되는 경우에만 프레그먼트가 보여야 할 때, th:if를 사용한다.<br />
 th:if의 조건식에서는 &lt; 대신 &amp;lt;를, &gt; 대신 &amp;gt;를 사용한다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#comparators-and-equality<br />
 </p>
 
 <p>
 th:if와 반대인 th:unless는 조건이 충족되지 않는 경우에만 프레그먼트를 보여야 할 때 사용한다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#conditional-evaluation<br />
 </p>
 
 <p>
 타임리프 파싱 과정에서 th:block은 사라지지만, th:block의 속성이 실행한 내용은 사라지지 않는다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#synthetic-thblock-tag<br />
 </p>
 
 <p>
 타임리프에서 param은 요청 파라미터를 검색하기 위한 것이다.<br />
 요청 파라미터 값을 다른 값과 비교할 때, th:if="${page} == ${param.page<strong>[0]</strong>}"처럼 인덱스를 명시해야 한다.<br />
 ${param.page}는 요청 파라미터 값을 갖는 String[]이기 때문이다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#web-context-namespaces-for-requestsession-attributes-etc.<br />
 </p>
 
 <p>
@@ -1557,7 +1548,7 @@ final.page = 마지막
 <h4>새 글쓰기 버튼</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-new-post-btn.png" class="browser-output" alt="새 글쓰기 버튼" />
+<img src="../../../static/images/bbs-list-prototype-new-post-btn.png" th:src="@{/static/images/bbs-list-prototype-new-post-btn.png}" class="browser-output" alt="새 글쓰기 버튼" />
 </p>
 
 <pre class="prettyprint">&lt;input type="button" value="새 글쓰기" <strong>th:value="#{write.new.post}"</strong> id="new-post-btn" /&gt;
@@ -1574,7 +1565,7 @@ final.page = 마지막
 <h4>새 글쓰기</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-new-form.png" class="browser-output" alt="새 글쓰기 폼" />
+<img src="../../../static/images/bbs-list-prototype-new-form.png" th:src="@{/static/images/bbs-list-prototype-new-form.png}" class="browser-output" alt="새 글쓰기 폼" />
 </p>
 
 <pre class="prettyprint">&lt;form id="writeForm" action="/bbs/chat" <strong>th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}"</strong> method="post" style="display: none;"&gt;
@@ -1604,7 +1595,6 @@ final.page = 마지막
 링크에 변수를 포함시킬 수 있다.<br />
 하지만 @{/bbs/${boardCd}} 이런 식은 아니다.<br />
 boardCd 변수 값이 chat 이라면, @{/bbs/{boardCd}(boardCd=${boardCd})} 링크는 타임리프 파싱을 거치면 /bbs/chat이 된다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf#link-urls<br />
 </p>
 
 <p>
@@ -1621,7 +1611,7 @@ submit은 프로퍼티 파일에 있다.<br />
 <h4>검색</h4>
 
 <p>
-<img src="../images/bbs-list-prototype-search-form.png" class="browser-output" alt="검색 폼" />
+<img src="../../../static/images/bbs-list-prototype-search-form.png" th:src="@{/static/images/bbs-list-prototype-search-form.png}" class="browser-output" alt="검색 폼" />
 </p>
 
 <pre class="prettyprint">&lt;form id="searchForm" action="/bbs/chat" th:action="<strong>@{/bbs/{boardCd}(boardCd=${boardCd})}</strong>" method="get"&gt;
@@ -1663,7 +1653,7 @@ search를 메시지소스 프로퍼티 파일에 추가한다.<br />
 
 <h4>게시판 이름과 수정, 삭제, 다음 글, 이전 글, 목록 버튼</h4>
 <p>
-<img src="../images/bbs-view-prototype-boardname-viewmenu.png" class="browser-output" alt="게시판 이름과 내용보기 화면 메뉴" />
+<img src="../../../static/images/bbs-view-prototype-boardname-viewmenu.png" th:src="@{/static/images/bbs-view-prototype-boardname-viewmenu.png}" class="browser-output" alt="게시판 이름과 내용보기 화면 메뉴" />
 </p>
 
 <pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/div&gt;
@@ -1707,7 +1697,7 @@ list = 목록
 <h4>게시글 상세 내용</h4>
 
 <p>
-<img src="../images/bbs-view-prototype-detail.png" class="browser-output" alt="게시글 제목,내용,날짜,소유자" />
+<img src="../../../static/images/bbs-view-prototype-detail.png" th:src="@{/static/images/bbs-view-prototype-detail.png}" class="browser-output" alt="게시글 제목,내용,날짜,소유자" />
 </p>
 
 <pre class="prettyprint">&lt;div id="detail"&gt;
@@ -1733,14 +1723,10 @@ detail.date.format을 메시지소스 프로퍼티 파일에 추가
 
 <pre class="prettyprint">detail.date.format = yyyy.MM.dd HH:mm:ss aaa</pre>
 
-<p>
-https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html<br />
-</p>
-
 <h4>수정 폼</h4>
 
 <p>
-<img src="../images/bbs-view-prototype-edit-form.png" class="browser-output" alt="수정 양식" />
+<img src="../../../static/images/bbs-view-prototype-edit-form.png" th:src="@{/static/images/bbs-view-prototype-edit-form.png}" class="browser-output" alt="수정 양식" />
 </p>
 
 <pre class="prettyprint">&lt;form id="editForm" <strong>th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${one.postNo})}"</strong> <strong>th:method="put"</strong> style="display: none;"&gt;
@@ -1769,7 +1755,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 <h4>목록 테이블</h4>
 
 <p>
-<img src="../images/bbs-view-prototype-list-table.png" class="browser-output" alt="목록 테이블" />
+<img src="../../../static/images/bbs-view-prototype-list-table.png" th:src="@{/static/images/bbs-view-prototype-list-table.png}" class="browser-output" alt="목록 테이블" />
 </p>
 
 <pre class="prettyprint">&lt;table class="bbs-table" id="list-table"&gt;
@@ -1818,13 +1804,13 @@ screen.css와 print.css 파일에 다음을 추가한다.<br />
 </pre>
 
 <p>
-<img src="../images/arrow.gif" alt="selected item image" /> 이미지는 프로토타입에서 사용했다.
+<img src="../../../static/images/arrow.gif" th:src="@{/static/images/arrow.gif}" alt="selected item image" /> 이미지는 프로토타입에서 사용했다.
 </p>
 
 <h4>페이지 링크</h4>
 
 <p>
-<img src="../images/bbs-view-prototype-page-links.png" class="browser-output" alt="페이지 링크" />
+<img src="../../../static/images/bbs-view-prototype-page-links.png" th:src="@{/static/images/bbs-view-prototype-page-links.png}" class="browser-output" alt="페이지 링크" />
 </p>
 
 <pre class="prettyprint">&lt;div id="paging"&gt;
@@ -1852,7 +1838,7 @@ screen.css와 print.css 파일에 다음을 추가한다.<br />
 <h4>검색</h4>
 
 <p>
-<img src="../images/bbs-view-prototype-search.png" class="browser-output" alt="검색" />
+<img src="../../../static/images/bbs-view-prototype-search.png" th:src="@{/static/images/bbs-view-prototype-search.png}" class="browser-output" alt="검색" />
 </p>
 
 <pre class="prettyprint">&lt;form id="searchForm" action="/bbs/chat" method="get"
@@ -1920,7 +1906,7 @@ screen.css와 print.css 파일에 다음을 추가한다.<br />
 </p>
 
 <p>
-<img src="../images/bbs-menu.png" alt="게시판 메뉴 화면" />
+<img src="../../../static/images/bbs-menu.png" th:src="@{/static/images/bbs-menu.png}" alt="게시판 메뉴 화면" />
 </p>
 
 <p>
@@ -1957,7 +1943,7 @@ screen.css와 print.css 파일에 다음을 추가한다.<br />
 </p>
 
 <p>
-<img src="../images/bbs-refs.png" alt="게시판 참고자료 화면" />
+<img src="../../../static/images/bbs-refs.png" th:src="@{/static/images/bbs-refs.png}" alt="게시판 참고자료 화면" />
 </p>
 
 <p>
@@ -1986,7 +1972,7 @@ list.html에 있는 쿠키 생성 함수를 따로 떼어 파일로 만든다.
 </pre>
 </article>
 
-<article id="database">
+<article id="database-design">
 <h2>데이터베이스 설계</h2>
 
 <p>
@@ -2027,8 +2013,9 @@ POST_SEQ 시퀀스는 post 테이블의 postno 컬럼 값을 위해 사용할 �
 </p>
 </article>
 
-<article id="beans">
-<h2>빈 디자인</h2>
+<article id="beans-design">
+
+<h2>빈 설계</h2>
 
 <p>
 게시판의 기능을 모두 나열해 보자.<br />
@@ -2160,6 +2147,7 @@ public class Post {
 </article>
 
 <article id="implement">
+
 <h2>구현</h2>
 
 <h3>목록보기</h3>
@@ -2541,22 +2529,22 @@ public class BbsController <strong>extends Paginator</strong> {
 
 <p>
 목록 테스트<br />
-<img src="../images/list-test.png" class="browser-output" alt="목록 페이지 테스트" />
+<img src="../../../static/images/list-test.png" th:src="@{/static/images/list-test.png}" class="browser-output" alt="목록 페이지 테스트" />
 </p>
 
 <p>
 페이징 테스트<br />
-<img src="../images/list-test-paging.png" class="browser-output" alt="목록 페이지 페이징 테스트" />
+<img src="../../../static/images/list-test-paging.png" th:src="@{/static/images/list-test-paging.png}" class="browser-output" alt="목록 페이지 페이징 테스트" />
 </p>
 
 <p>
 검색 테스트<br />
-<img src="../images/list-test-search.png" class="browser-output" alt="목록 페이지 검색 테스트" />
+<img src="../../../static/images/list-test-search.png" th:src="@{/static/images/list-test-search.png}" class="browser-output" alt="목록 페이지 검색 테스트" />
 </p>
 
 <p>
 페이지당 게시글 수 테스트<br />
-<img src="../images/list-test-number-per-page.png" class="browser-output" alt="목록 페이지 페이지당 게시글 수 테스트" />
+<img src="../../../static/images/list-test-number-per-page.png" th:src="@{/static/images/list-test-number-per-page.png}" class="browser-output" alt="목록 페이지 페이지당 게시글 수 테스트" />
 </p>
 
 <p>
@@ -2579,7 +2567,6 @@ selectKey 엘리먼트라는 대안을 제공한다.<br />
 selectKey 엘리먼트의 keyProperty 프로퍼티는 selectKey 구문이 반환한 키 값을 설정할 속성을 지정한다.<br />
 order 프로퍼티는 BEFORE 또는 AFTER를 값으로 가질 있다. BEFORE로 설정하면 selectKey 문이 먼저 실행하고 keyProperty를 설정한 다음 INSERT 문이 실행한다.
 AFTER로 설정하면 INSERT문이 실행한 다음 selectKey 문이 실행한다.<br />
-https://mybatis.org/mybatis-3/sqlmap-xml.html
 </p>
 
 <div class="filename">BoardMapper.java</div>
@@ -2813,7 +2800,7 @@ public String view(
 </pre>
 
 <p>
-<img src="../images/selected-item.png" alt="읽고 있는 게시글 강조" />
+<img src="../../../static/images/selected-item.png" th:src="@{/static/images/selected-item.png}" alt="읽고 있는 게시글 강조" />
 </p>
 
 <p>
@@ -3105,7 +3092,7 @@ $(document).ready(function() {
 </p>
 
 <p>
-<img src="../images/users-prototype.png" class="browser-output" alt="관리자 화면 중 회원 관리 프로토타입" />
+<img src="../../../static/images/users-prototype.png" th:src="@{/static/images/users-prototype.png}" class="browser-output" alt="관리자 화면 중 회원 관리 프로토타입" />
 </p>
 
 <p>
@@ -3258,7 +3245,7 @@ var link = /*[[@{/}]]*/'';
 </pre>
 
 <p>
-<img src="../images/boards-prototype.png" class="browser-output" alt="관리자 화면 중 게시판 관리 프로토타입" />
+<img src="../../../static/images/boards-prototype.png" th:src="@{/static/images/boards-prototype.png}" class="browser-output" alt="관리자 화면 중 게시판 관리 프로토타입" />
 </p>
 
 <p>
@@ -3354,6 +3341,12 @@ refs.html 파일을 만들지 않고, 참고 문서가 차지하지 공간을 co
 }
 </pre>
 
+<h3>핸들러 요청 페이지 작성</h3>
+
+<p>
+컨트롤러의 핸들러가 요청하는 페이지를 작성한다.
+</p>
+
 <div class="filename">admin/users.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
 &lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
@@ -3396,6 +3389,8 @@ refs.html 파일을 만들지 않고, 참고 문서가 차지하지 공간을 co
 &lt;/html&gt;
 </pre>
 
+<h3>시큐리티 설정 클래스 편집</h3>
+
 <p>
 다음 요청은 ROLE_ADMIN 권한을 가진 사용자만이 접근할 수 있도록,
 아래를 참고해 스프링 시큐리티 설정 클래스를 편집한다.<br />
@@ -3424,6 +3419,8 @@ csrf 토큰을 전달하면 403 에러를 발생한다.<br />
 <pre class="prettyprint">.httpBasic(withDefaults()).csrf(AbstractHttpConfigurer::disable);
 </pre>
 
+<h3>jackson-databind 의존성 추가</h3>
+
 <p>
 JSON 객체를 사용하기 위해 다음을 의존성에 추가한다.<br />
 </p>
@@ -3437,8 +3434,9 @@ JSON 객체를 사용하기 위해 다음을 의존성에 추가한다.<br />
 &lt;/dependency&gt;
 </pre>
 
+<h3>1차 테스트</h3>
+
 <p>
-1차 테스트<br />
 컴파일하고 서버를 시작한 후, ROLE_ADMIN 권한을 가진 사용자로 로그인한다.<br />
 상단에 Administrator 버튼이 클릭하고 게시판 관리 페이지로 이동한다.<br />
 </p>
@@ -3466,6 +3464,8 @@ users.html에는 정적 테스트를 위해 아래 코드만 유지한다.<br />
   });
 });
 </pre>
+
+<h3>회원 관리 서버측 구현</h3>
 
 <p>
 users.html 페이지와 통신하는 컨트롤러인, RestUsersController를 작성해 보자.<br />
@@ -3632,8 +3632,11 @@ public int updateEnabledToZero(@Param("username") String username);
 회원관리 페이지가 보이면, 자바스크립트를 완성시켜 보자.<br />
 </p>
 
+<h3>회원 관리 자바스크립트 구현</h3>
+
+<h4>검색 기능</h4>
+
 <p>
-검색 기능을 구현한다.<br />
 검색어를 입력하지 않고 검색 버튼을 누르면, 서버로부터 모든 회원 정보를 가져와 목록 테이블에 채운다.<br />
 </p>
 
@@ -3669,11 +3672,11 @@ public int updateEnabledToZero(@Param("username") String username);
 </p>
 
 <p>
-<img src="../images/users-search.png" class="browser-output" alt="search 버튼 클릭 전" />
+<img src="../../../static/images/users-search.png" th:src="@{/static/images/users-search.png}" class="browser-output" alt="search 버튼 클릭 전" />
 </p>
 
 <p>
-<img src="../images/users-search2.png" class="browser-output" alt="search 버튼 클릭 후" />
+<img src="../../../static/images/users-search2.png" th:src="@{/static/images/users-search2.png}" class="browser-output" alt="search 버튼 클릭 후" />
 </p>
 
 <p>
@@ -3702,14 +3705,13 @@ $(document).on('click', '<em>이벤트를 일으키는 엘리먼트</em>', funct
 });
 </pre>
 
-
 <p>
 새로 고침을 누른 후, 검색 버튼을 클릭한다.<br />
 목록 테이블에서 사용자명을 클릭한다.<br />
 </p>
 
 <p>
-<img src="../images/users-username.png" class="browser-output" alt="list table username click" />
+<img src="../../../static/images/users-username.png" th:src="@{/static/images/users-username.png}" class="browser-output" alt="list table username click" />
 </p>
 
 <h4>비밀번호 변경</h4>
@@ -3750,7 +3752,7 @@ $(document).on('click', '<em>이벤트를 일으키는 엘리먼트</em>', funct
 </pre>
 
 <p>
-<img src="../images/users-pw.png" class="browser-output" alt="change password" />
+<img src="../../../static/images/users-pw.png" th:src="@{/static/images/users-pw.png}" class="browser-output" alt="change password" />
 </p>
 
 <p>
@@ -3758,11 +3760,11 @@ $(document).on('click', '<em>이벤트를 일으키는 엘리먼트</em>', funct
 </p>
 
 <p>
-<img src="../images/edge-developer-tools.png" alt="Edge developer-tools open" />
+<img src="../../../static/images/edge-developer-tools.png" th:src="@{/static/images/edge-developer-tools.png}" alt="Edge developer-tools open" />
 </p>
 
 <p>
-<img src="../images/edge-developer-tools-console.png" alt="Edge developer-tools console" />
+<img src="../../../static/images/edge-developer-tools-console.png" th:src="@{/static/images/edge-developer-tools-console.png}" alt="Edge developer-tools console" />
 </p>
 
 <h4>권한 삭제</h4>
@@ -3788,13 +3790,12 @@ $(document).on('click', '<em>이벤트를 일으키는 엘리먼트</em>', funct
 });
 </pre>
 
-
 <p>
-<img src="../images/users-del-auth.png" class="browser-output" alt="delete authority before" />
+<img src="../../../static/images/users-del-auth.png" th:src="@{/static/images/users-del-auth.png}" class="browser-output" alt="delete authority before" />
 </p>
 
 <p>
-<img src="../images/users-del-auth2.png" class="browser-output" alt="delete authority after" />
+<img src="../../../static/images/users-del-auth2.png" th:src="@{/static/images/users-del-auth2.png}" class="browser-output" alt="delete authority after" />
 </p>
 
 <h4>권한 추가</h4>
@@ -3831,11 +3832,11 @@ $(document).ready(function() {..} 함수 안에 다음 함수를 추가한다.<b
 </pre>
 
 <p>
-<img src="../images/users-add-auth.png" class="browser-output" alt="add authority before" />
+<img src="../../../static/images/users-add-auth.png" th:src="@{/static/images/users-add-auth.png}" class="browser-output" alt="add authority before" />
 </p>
 
 <p>
-<img src="../images/users-add-auth2.png" class="browser-output" alt="add authority after" />
+<img src="../../../static/images/users-add-auth2.png" th:src="@{/static/images/users-add-auth2.png}" class="browser-output" alt="add authority after" />
 </p>
 
 <h4>계정 삭제</h4>
@@ -3870,21 +3871,22 @@ enabled 필드의 값이 0인 사용자는 로그인할 수 없다.<br />
 </pre>
 
 <p>
-<img src="../images/users-del-account.png" class="browser-output" alt="delete account before" />
+<img src="../../../static/images/users-del-account.png" th:src="@{/static/images/users-del-account.png}" class="browser-output" alt="delete account before" />
 </p>
 
 <p>
-<img src="../images/users-del-account2.png" class="browser-output" alt="delete account after" />
+<img src="../../../static/images/users-del-account2.png" th:src="@{/static/images/users-del-account2.png}" class="browser-output" alt="delete account after" />
 </p>
 
-<h3>게시판 관리</h3>
-
+<h3>게시판 관리 RESTful URL</h3>
 
 <pre style="border: 2px dotted grey;padding: 0.3em;">목록	GET	/boards?search=
 생성	POST	/boards
 수정	PATCH	/boards/chat
 삭제	DELETE	/boards/chat
 </pre>
+
+<h3>게시판 관리 서버 구현</h3>
 
 <div class="filename">RestBoardsController.java</div>
 <pre class="prettyprint">package net.java_school.controller;
@@ -4018,6 +4020,8 @@ public void deleteBoard(@Param("boardCd") String boardCd);
 게시판 관리 페이지로 이동한 후, static/js/boards.js 파일에 자바스크립트를 완성해 나간다.<br />
 </p>
 
+<h3>게시판 관리 자바스크립트 구현</h3>
+
 <h4>Search</h4>
 
 <pre class="prettyprint">function showListItems(search) {
@@ -4059,15 +4063,15 @@ $(document).ready(function() {
 </pre>
 
 <p>
-<img src="../images/boards-search.png" class="browser-output" alt="처음 게시판 관리 페이지 요청" />
+<img src="../../../static/images/boards-search.png" th:src="@{/static/images/boards-search.png}" class="browser-output" alt="처음 게시판 관리 페이지 요청" />
 </p>
 
 <p>
-<img src="../images/boards-search1.png" class="browser-output" alt="검색어 입력없이 검색 버튼 클릭" />
+<img src="../../../static/images/boards-search1.png" th:src="@{/static/images/boards-search1.png}" class="browser-output" alt="검색어 입력없이 검색 버튼 클릭" />
 </p>
 
 <p>
-<img src="../images/boards-search2.png" class="browser-output" alt="게시판 코드 클릭 " />
+<img src="../../../static/images/boards-search2.png" th:src="@{/static/images/boards-search2.png}" class="browser-output" alt="게시판 코드 클릭 " />
 </p>
 
 <h4>Edit Board</h4>
@@ -4137,11 +4141,11 @@ $(document).ready(function() {
 </pre>
 
 <p>
-<img src="../images/boards-edit.png" class="browser-output" alt="게시판 한글 이름 변경" />
+<img src="../../../static/images/boards-edit.png" th:src="@{/static/images/boards-edit.png}" class="browser-output" alt="게시판 한글 이름 변경" />
 </p>
 
 <p>
-<img src="../images/boards-edit2.png" class="browser-output" alt="게시판 한글 이름 변경 성공 " />
+<img src="../../../static/images/boards-edit2.png" th:src="@{/static/images/boards-edit2.png}" class="browser-output" alt="게시판 한글 이름 변경 성공 " />
 </p>
 
 <h4>New Board</h4>
@@ -4189,11 +4193,11 @@ $(document).ready(function() {
 </pre>
 
 <p>
-<img src="../images/boards-new.png" class="browser-output" alt="새 게시판 생성" />
+<img src="../../../static/images/boards-new.png" th:src="@{/static/images/boards-new.png}" class="browser-output" alt="새 게시판 생성" />
 </p>
 
 <p>
-<img src="../images/boards-new2.png" class="browser-output" alt="새 게시판 생성 성공 " />
+<img src="../../../static/images/boards-new2.png" th:src="@{/static/images/boards-new2.png}" class="browser-output" alt="새 게시판 생성 성공 " />
 </p>
 
 <h4>Delete Board</h4>
@@ -4228,11 +4232,11 @@ $(document).ready(function() {
 </pre>
 
 <p>
-<img src="../images/boards-del.png" class="browser-output" alt="게시판 삭제" />
+<img src="../../../static/images/boards-del.png" th:src="@{/static/images/boards-del.png}" class="browser-output" alt="게시판 삭제" />
 </p>
 
 <p>
-<img src="../images/boards-del2.png" class="browser-output" alt="새 게시판 삭제 성공 " />
+<img src="../../../static/images/boards-del2.png" th:src="@{/static/images/boards-del2.png}" class="browser-output" alt="새 게시판 삭제 성공 " />
 </p>
 </article>
 

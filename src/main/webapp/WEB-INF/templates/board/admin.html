@@ -2,7 +2,7 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="${#locale.language == 'ko'} ? _ : 'Get Started'">게시판 개발 시작</title>
+<title th:text="${#locale.language == 'ko'} ? _ : 'Admin'">관리자</title>
 <meta name="Keywords" th:replace="${#locale.language == 'ko'} ? ~{articles/03 :: meta[@name='Keywords']} : ~{articles/03_en :: meta[@name='Keywords']}" />
 <meta name="Description" th:replace="${#locale.language == 'ko'} ? ~{articles/03 :: meta[@name='Description']} : ~{articles/03_en :: meta[@name='Description']}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
@@ -18,7 +18,7 @@
   <a th:href="@{/en/board/get-started}">english</a>
 </div>
 
-<section th:replace="${#locale.language == 'ko'} ? ~{articles/03 :: #get-started} : ~{articles/03_en :: #get-started}"></section>
+<section th:replace="${#locale.language == 'ko'} ? ~{articles/03 :: #admin} : ~{articles/03_en :: #admin}"></section>
 
 <aside th:replace="${#locale.language == 'ko'} ? ~{board/menu :: index} : ~{board/menu_en :: index}">"></aside>
 
