@@ -12,45 +12,38 @@
 
 <body>
 
-<article id="board-get-started">
-<h1>4 게시판</h1>
+<article id="get-started">
 
-<h2>RESTful URL</h2>
+<h1>Bulletin Board System</h1>
+
+<h2>RESTful URLs for BBS</h2>
 
 <p>
-REST 프로그램이 아니더라도, RESTful URL을 따르면 더 좋은 프로그램이 된다.<br />
-게시판 URL을 다음처럼 정했다.<br />
+The bulletin board URL starts with /bbs. 
+In the /bbs/chat/54 URL, chat is the bulletin board code 
+and 54 is the unique post number.
 </p>
 
-<pre style="border: 2px dotted grey;padding: 0.3em;">목록:		GET /bbs/chat?page=1&amp;search=
-내용보기:	GET /bbs/chat/54?page=1&amp;search=
-등록:		POST /bbs/chat
-수정:		PUT /bbs/chat/54
-삭제:		DELETE /bbs/chat/54?page=1&amp;search=
+<pre style="border: 2px dotted grey;padding: 0.3em;">List		GET /bbs/chat?page=1&amp;search=
+Details		GET /bbs/chat/54?page=1&amp;search=
+New		POST /bbs/chat
+Edit		PUT /bbs/chat/54?page=1&amp;search=
+Delete		DELETE /bbs/chat/54?page=1&amp;search=
 </pre>
+</article>
 
-<p>
-게시판 관련 URL은 /bbs로 시작한다.<br />
-chat은 게시판 코드, 54는 게시글 고유번호다.<br />
-</p>
+<article id="prototype">
 
-<h2>프로토타입</h2>
-
-<p>
-화면은 목록을 보여주는 list.html과,
-게시글 내용을 보여주는 view.html이 필요하다.
-위 URL을 지키려면 list.html에 새 글을 등록할 수 있는 양식이 포함되어야 한다.
-또한 view.html에는 수정 양식이 포함되어야 한다.
-</p>
+<h2>Prototype</h2>
 
 <div class="filename">articles/list.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
 &lt;head&gt;
-&lt;title&gt;목록&lt;/title&gt;
+&lt;title&gt;자유게시판&lt;/title&gt;
 &lt;meta name="Keywords" content="List" /&gt;
 &lt;meta name="Description" content="List" /&gt;
-&lt;link rel="stylesheet" media="screen" href="../../../static/css/ko.css" /&gt;
 &lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/ko.css" /&gt;
 &lt;style&gt;
 article {
   width: 777px;
@@ -58,7 +51,10 @@ article {
 }
 &lt;/style&gt;
 &lt;script src="../../../static/js/jquery.js"&gt;&lt;/script&gt;
-&lt;script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;article&gt;
+&lt;script th:inline="javascript"&gt;
 $(document).ready(function() {
   $('#new-post-btn').click(function() {
     var $form = $('#writeForm');
@@ -70,12 +66,9 @@ $(document).ready(function() {
   });
 });
 &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;article&gt;
 &lt;div id="content-categories"&gt;자유게시판&lt;/div&gt;
 &lt;div style="text-align: right;"&gt;
-  &lt;select id="numPerPage"&gt;
+  &lt;select id="numberPerPage"&gt;
     &lt;option value=""&gt;페이지당 게시글 수&lt;/option&gt;
     &lt;option value="10"&gt;10&lt;/option&gt;
     &lt;option value="20"&gt;20&lt;/option&gt;
@@ -83,7 +76,7 @@ $(document).ready(function() {
     &lt;option value="100"&gt;100&lt;/option&gt;
   &lt;/select&gt;
 &lt;/div&gt;
-&lt;table class="bbs-table"&gt;
+&lt;table class="bbs-table" id="list-table"&gt;
 &lt;tr&gt;
   &lt;th style="width: 60px;text-align: center;"&gt;NO&lt;/th&gt;
   &lt;th&gt;TITLE&lt;/th&gt;
@@ -170,7 +163,7 @@ $(document).ready(function() {
 &lt;div&gt;
   &lt;input type="button" value="새 글쓰기" id="new-post-btn" /&gt;
 &lt;/div&gt;
-&lt;form id="searchForm" method="get"&gt;
+&lt;form id="searchForm" action="/bbs/chat" method="get"&gt;
   &lt;input type="hidden" name="page" value="1" /&gt;
   &lt;div id="search"&gt;
     &lt;input type="text" name="search" size="15" maxlength="30" /&gt;
@@ -187,7 +180,7 @@ $(document).ready(function() {
 &lt;tr&gt;
   &lt;td colspan="2"&gt;
     &lt;textarea id="writeForm-ta" name="content" rows="10" cols="50"&gt;
-	&lt;/textarea&gt;
+    &lt;/textarea&gt;
   &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -200,11 +193,11 @@ $(document).ready(function() {
 &lt;div id="form-group"&gt;
   &lt;form id="listForm" method="get"&gt;
     &lt;input type="hidden" name="page" /&gt;
-    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+    &lt;input type="hidden" name="search" value="test" th:value="${param.search }" /&gt;
   &lt;/form&gt;
   &lt;form id="viewForm" action="/bbs/chat/" method="get"&gt;
-    &lt;input type="hidden" name="page" value="${param.page }" /&gt;
-    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+    &lt;input type="hidden" name="page" value="1" th:value="${param.page }" /&gt;
+    &lt;input type="hidden" name="search" value="test" th:value="${param.search }" /&gt;
   &lt;/form&gt;
 &lt;/div&gt;
 &lt;/article&gt;
@@ -227,7 +220,10 @@ article {
 }
 &lt;/style&gt;
 &lt;script src="../../../static/js/jquery.js"&gt;&lt;/script&gt;
-&lt;script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;article&gt;
+&lt;script th:inline="javascript"&gt;
 $(document).ready(function() {
   $('#edit-post-btn').click(function() {
     var $div = $('#detail');
@@ -242,9 +238,6 @@ $(document).ready(function() {
   });
 });
 &lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;article&gt;
 &lt;div id="content-categories"&gt;자유게시판&lt;/div&gt;
 &lt;div style="height: 22px;"&gt;
   &lt;div style="float: left;"&gt;
@@ -252,8 +245,8 @@ $(document).ready(function() {
     &lt;input type="button" value="삭제" id="del-post-btn" /&gt;
   &lt;/div&gt;
   &lt;div style="float: right;"&gt;
-    &lt;input type="button" value="다음 글" title="23486" id="next-post-btn" /&gt;
-    &lt;input type="button" value="이전 글" title="23087" id="prev-post-btn" /&gt;
+    &lt;input type="button" value="다음 글" title="23489" id="next-post-btn" /&gt;
+    &lt;input type="button" value="이전 글" title="13087" id="prev-post-btn" /&gt;
     &lt;input type="button" value="목록" id="list-btn" /&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -270,12 +263,14 @@ $(document).ready(function() {
 https://github.com/kimjonghoon/java-web-programming-2-samples
   &lt;/div&gt;
 &lt;/div&gt;
-&lt;form id="editForm" style="display: none;"&gt;
+&lt;form id="editForm" method="post" style="display: none;"&gt;
+&lt;input type="hidden" name="page" value="1" /&gt;
+&lt;input type="hidden" name="search" value="" /&gt;
 &lt;table id="write-form" class="bbs-table"&gt;
 &lt;caption&gt;수정&lt;/caption&gt;
 &lt;tr&gt;
   &lt;td&gt;제목&lt;/td&gt;
-  &lt;td&gt;&lt;input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" style="width: 90%" /&gt;&lt;/td&gt;
+  &lt;td&gt;&lt;input name="title" type="text" value="웹 프로그래밍 2 최종 소스" style="width: 90%" /&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td colspan="2"&gt;
@@ -289,14 +284,109 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   &lt;td colspan="2"&gt;&lt;input type="submit" value="전송" /&gt;&lt;/td&gt;
 &lt;/table&gt;
 &lt;/form&gt;
+&lt;table class="bbs-table" id="list-table"&gt;
+&lt;tr&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;NO&lt;/th&gt;
+  &lt;th&gt;TITLE&lt;/th&gt;
+  &lt;th style="width: 84px;text-align: center;"&gt;DATE&lt;/th&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;HIT&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;405&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23488"&gt;자바 웹 프로그래밍 2 최종 소스&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 10 20&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;404&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23486"&gt;우분투 24.04에 자바 개발 환경&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;403&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23466"&gt;스프링 자바 기반 설정&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;402&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23087"&gt;다음 글, 이전 글 기능 수정&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 22&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;401&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23086"&gt;페이징 처리&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 16&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;400&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23059"&gt;간단한 Spring MyBatis 예제&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 08&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;399&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23053"&gt;윈도에서 책 에제 테스트 방법&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 04 02&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;398&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="22400"&gt;자바 9 모듈&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 02 09&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;397&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="19746"&gt;우분투에 MariaDB 설치&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;22 11 18&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;396&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="19212"&gt;스프링 MVC에서 Thymeleaf 레이아웃 사용&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;22 08 17&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div id="paging"&gt;
+  &lt;a href="#" title="1"&gt;[처음]&lt;/a&gt;
+  &lt;a href="#" title="10"&gt;[이전]&lt;/a&gt;
+  &lt;span class="bbs-strong"&gt;11&lt;/span&gt;
+  &lt;a href="#" title="12"&gt;[ 12 ]&lt;/a&gt;
+  &lt;a href="#" title="13"&gt;[ 13 ]&lt;/a&gt;
+  &lt;a href="#" title="14"&gt;[ 14 ]&lt;/a&gt;
+  &lt;a href="#" title="15"&gt;[ 15 ]&lt;/a&gt;
+  &lt;a href="#" title="16"&gt;[ 16 ]&lt;/a&gt;
+  &lt;a href="#" title="17"&gt;[ 17 ]&lt;/a&gt;
+  &lt;a href="#" title="18"&gt;[ 18 ]&lt;/a&gt;
+  &lt;a href="#" title="19"&gt;[ 19 ]&lt;/a&gt;
+  &lt;a href="#" title="20"&gt;[ 20 ]&lt;/a&gt;
+  &lt;a href="#" title="21"&gt;[다음]&lt;/a&gt;
+  &lt;a href="#" title="41"&gt;[마지막]&lt;/a&gt;
+&lt;/div&gt;
+&lt;form id="searchForm" action="/bbs/chat" method="get"&gt;
+  &lt;input type="hidden" name="page" value="1" /&gt;
+  &lt;div style="text-align: center;"&gt;
+    &lt;input type="text" name="search" size="15" maxlength="30" /&gt;
+    &lt;input type="submit" value="검색" th:value="#{search}" /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
 &lt;div id="form-group" style="display: none"&gt;
   &lt;form id="listForm" action="/bbs/chat" method="get"&gt;
-    &lt;input type="hidden" name="page" value="${param.page }" /&gt;
-    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+    &lt;input type="hidden" name="page" value="11" th:value="${param.page}" /&gt;
+    &lt;input type="hidden" name="search" value="test" th:value="${param.search}" /&gt;
   &lt;/form&gt;
   &lt;form id="viewForm" action="/bbs/chat/" method="get"&gt;
-    &lt;input type="hidden" name="page" value="${param.page }" /&gt;
-    &lt;input type="hidden" name="search" value="${param.search }" /&gt;
+    &lt;input type="hidden" name="page" value="11" th:value="${param.page}" /&gt;
+    &lt;input type="hidden" name="search" value="test" th:value="${param.search}" /&gt;
+  &lt;/form&gt;
+  &lt;form id="delForm" action="/bbs/chat/52" method="post" th:method="DELETE"&gt;
+    &lt;input type="hidden" name="page" value=""11 th:value="${param.page}" /&gt;
+    &lt;input type="hidden" name="search" value="test" th:value="${param.search}" /&gt;
   &lt;/form&gt;
 &lt;/div&gt;
 &lt;/article&gt;
@@ -304,12 +394,21 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 &lt;/html&gt;
 </pre>
 
-<div class="filename">screen.css</div>
+<p>
+list.html과 view.html의 자바스크립트를 담는 script 블록을 article 시작 태그 바로 다음에 둔 것은
+타임리프 인라인 자바스크립트 코드를 사용하기 때문이다.
+인라인 자바스크립트는 src 속성을 사용, 분리하면 작동하지 않는다.
+</p>
+
+<p>
+게시판 관련 스타일을 screen.css와 print.css에 추가한다.<br />
+</p>
+
 <pre class="prettyprint">.bbs-table {
   width: 100%;
   margin: 0.7em 0 0 0;
 }
-.bbs-table > caption {
+.bbs-table &gt; caption {
   color: #555;
   font-size: 15px;
   font-weight: bold;
@@ -338,11 +437,11 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   text-align: center;
   font-size: 14px;
 }
-#paging > a {
+#paging &gt; a {
   color: #555;
   text-decoration: none;
 }
-#paging > a:hover {
+#paging &gt; a:hover {
   color: #555;
   text-decoration: underline;
 }
@@ -380,64 +479,605 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 </pre>
 
 <p>
-articles/list.html<br />
-<img src="../images/bbs-list-prototype.png" class="browser-output" alt="게시판 목록 프로토타입" />
+탐색기에서 list.html 페이지를 열어본다.<br />
 </p>
 
 <p>
-새 글쓰기 버튼 클릭<br />
-<img src="../images/bbs-list-prototype2.png" class="browser-output" alt="게시판 목록 프로토타입" />
+<img src="../../../static/images/bbs-list-prototype.png" th:src="@{/static/images/bbs-list-prototype.png}" class="browser-output" alt="게시판 목록 프로토타입" />
 </p>
 
 <p>
-articles/view.html<br />
-<img src="../images/bbs-view-prototype.png" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+새 글쓰기 버튼은 토글로 구현했다.<br />
+클릭하면 글쓰기 양식이 보이고, 다시 클릭하면 양식이 보이지 않는다.<br />
 </p>
 
 <p>
-수정 버튼 클릭<br />
-<img src="../images/bbs-view-prototype2.png" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+<img src="../../../static/images/bbs-list-prototype2.png" th:src="@{/static/images/bbs-list-prototype2.png}" class="browser-output" alt="게시판 목록 프로토타입" />
 </p>
 
-<h2>데이터베이스 스키마</h2>
+<p>
+탐색기에서 view.html 파일을 열어 확인한다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype.png" th:src="@{/static/images/bbs-view-prototype.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+</p>
+
+<p>
+수정 버튼 역시 토글로 구현했다.<br />
+수정 버튼을 클릭하면 수정 양식이 보이고, 다시 클릭하면 보이지 않는다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype2.png" th:src="@{/static/images/bbs-view-prototype2.png}" class="browser-output" alt="게시판 내용보기 화면 프로토타입" />
+</p>
+</article>
+
+<article id="javascript">
+
+<h2>자바스크립트</h2>
+
+<p>
+list.html과 view.html 페이지에서 글로벌 속성 title에 게시글 번호를 할당했다.<br />
+프로토타입에 자바스크립트를 완성할 수 있다.<br />
+</p>
+
+<p>
+페이지당 게시글 수 선택박스에서 항목이 선택되었을 때 작동하는 자바스크립트를 $(document).ready(function() { .. }); 안에 다음처럼 구현한다.
+</p>
+
+<div class="filename">list.html</div>
+<pre class="prettyprint">$(document).ready(function() {
+  $('#new-post-btn').click(function() {
+    var $form = $('#writeForm');
+    if ($form.is(':hidden') === true) {
+      $form.show();
+    } else {
+      $form.hide();
+    }
+  });
+  // 페이지당 게시글 수
+  $('#numberPerPage').change(function() {
+    var numberPerPage = $('#numberPerPage option:selected').val();
+    if (numberPerPage) {
+      createCookie('numberPerPage', numberPerPage, '30'); //30일
+      $('#listForm input[name*=page]').val('1');
+      $('#listForm').submit();
+    }
+  });
+});
+function createCookie(name, value, days) {
+  var newCookie = name + "=" + escape(value);
+  if (days) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    newCookie += "; expires=" + expires.toGMTString();
+  }
+  document.cookie = newCookie;
+}
+</pre>
+
+<p>
+createCooke 함수는 $(document).ready(function() { .. }); 밖에 둔다.<br />
+</p>
+
+<p>
+목록 테이블에서 제목을 클릭했을 때 동작하는 자바스크립트를 $(document).ready(function() { .. }); 안에 
+작성한다.<br />
+
+</p>
+
+<pre class="prettyprint">$('.bbs-table tr td:nth-child(2) a').click(function(e) {
+  e.preventDefault();
+  $postNo = $(this).attr('title');
+  $action = $('#viewForm').attr('action');
+  $action += $postNo;
+  $('#viewForm').attr('action', $action);
+  $('#viewForm').submit();
+});
+</pre>
+
+<p>
+테이블에서 각 행의 두 번째 셀의 링크가 클릭됐을 때 동작하는 함수다.<br />
+링크의 글로벌 속성 title에서 값을 얻어와 viewForm의 action에 값을 추가한다.<br />
+프로토타입 테스트에선 웹 브라우저 주소창에 
+file:///C:/bbs/chat/23486?page=1&amp;search=test
+처럼 보이게 된다.<br />
+</p>
+
+<p>
+페이지 이동 링크를 클릭했을 때 동작하는 자바스크립트를
+$(document).ready(function() { .. }); 안에 작성한다.<br />
+</p>
+
+<pre class="prettyprint">$('#paging a').click(function(e) {
+  e.preventDefault();
+  $page = $(this).attr('title');
+  $('#listForm input[name*=page]').val($page);
+  $('#listForm').submit();
+});
+</pre>
+
+<p>
+새 글쓰기 버튼은 이미 구현했다.<br />
+</p>
+
+<p>
+검색 버튼을 클릭했을 때 동작하는 자바스크립트를 
+$(document).ready(function() { .. }); 안에 작성한다.<br />
+</p>
+
+<pre class="prettyprint">$('#searchForm').submit(function() {
+  $search = $('#searchForm input[name*=search]').val();
+  $search = $.trim($search);
+  $('#searchForm input[name*=search]').val($search);
+  $('#searchForm').submit();
+});
+</pre>
+
+<p>
+새 글쓰기 양식을 작성한 후 전송 버튼을 클릭했을 때 동작하는 자바스크립트를 작성한다.<br />
+</p>
+
+<pre class="prettyprint">$('#writeForm').submit(function() {
+  var title = $('#writeForm input[name*=title]').val();
+  title = $.trim(title);
+  var content = $('#writeForm-ta').val();
+  content = $.trim(content);
+  if (title.length === 0) {
+    var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+    alert(warning);
+    $('#writeForm input[name*=title]').val('');
+    return false;
+  }
+  if (content.length === 0) {
+    var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+    alert(warning);
+    $('#writeForm-ta').val('');
+    return false;
+  }
+  $('#writeForm input[name*=title]').val(title);
+  $('#writeForm-ta').val(content);
+});
+</pre>
+
+<p>
+타임리프는 엘리먼트의 속성으로 거의 모든 일을 할 수 있지만, 그럼에도 바로 그 자리에 출력을 원할 때가 있다.<br />
+그럴 때 사용하는 것이 인라이닝<sup>Inlining</sup>이다.<br />
+다음 두 코드를 비교해 보자.<br />
+</p>
+
+<pre class="prettyprint">&lt;p&gt;12.07.(토) 06:50 현재 - <strong>[[${weather}]]</strong>&lt;/p&gt;</pre>
+
+<pre class="prettyprint">&lt;p&gt;12.07.(토) 06:50 현재 - <strong>&lt;span th:text="${weather}"&gt;</strong>-3.9℃ 체감(-3.9℃)<strong>&lt;/span&gt;</strong>&lt;/p&gt;</pre>
+
+<p>
+&lt;script&gt; 블록에서 사용하는 자바스크립트 인라이닝은 몇 가지 특징이 있다.<br />
+자바스크립트 인라이닝을 사용하려면 &lt;script&gt; 블록에 th:inline="javascript"을 추가해야 한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;script <strong>th:inline="javascript"</strong>&gt;
+..
+&lt;/script&gt;
+</pre>
+
+<p>
+자바스크립트 인라인은 텍스트를 출력할 때 이를 따옴표로 묶고 내용을 이스케이프하여 출력한다.<br />
+예제 코드 var warning = /*[[#{title.empty.warning}]]*/;에서 프로퍼티 파일에
+title.empty.warning의 값이 <span style="background: #eee">제목이 비었습니다!</span>이면 아래처럼 보인다.
+</p>
+
+<pre class="prettyprint">var warning = <strong>"</strong>제목이 비었습니다!<strong>"</strong>;</pre>
+
+<p>
+자바스크립트 인라인 메커니즘은 주석으로 감싼 자바스크립트 인라인을 지능적으로 처리한다.<br />
+예제의 <span style="background: #eee">var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";</span> 코드에서 
+주석 뒤와 세미콜론 앞에 쓴 모든 내용을 무시한다.(이경우 "제목이 비었습니다!")<br />
+그리고 실행 결과는 주석으로 감싸지 않았을 때와 같다.<br />
+이 코드는 정적 방식으로 파일을 열 때도 완벽하게 실행된다.<br />
+</p>
+
+<p>
+서버에서 실행할 때를 위해 메시지 프로퍼터 파일에 다음을 추가한다.
+</p>
+
+<div class="filename">messages_en.properties</div>
+<pre class="prettyprint">title.empty.warning=The title is empty!
+content.empty.warning=The content is empty!
+</pre>
+
+<div class="filename">messages_ko.properties</div>
+<pre class="prettyprint">title.empty.warning=제목이 비었습니다!
+content.empty.warning=내용이 비었습니다!
+</pre>
+
+<p>
+view.html에 필요한 자바스크립트를 작성해 보자.<br />
+</p>
+
+<pre class="prettyprint">$(document).ready(function () {
+  $('#edit-post-btn').click(function() {
+    var $div = $('#detail');
+    var $form = $('#editForm');
+    if ($form.is(':hidden') === true) {
+      $form.show();
+      $div.hide();
+    } else {
+      $form.hide();
+      $div.show();
+    }
+  });
+  
+  //TODO
+  
+});
+</pre>
+
+<p>
+페이지 title 엘리먼트 내용을 게시글의 제목으로 변경한다.<br />
+</p>
+
+<pre class="prettyprint">$('title').empty();
+var title = $('#post-title').html();
+$('title').append(title);
+</pre>
+
+<p>
+수정 버튼을 클릭했을 때 수정 양식이 보이는 코드는 이미 추가했다.<br />
+</p>
+
+<p>
+삭제 버튼을 클릭했을 때 DELETE /bbs/chat/52?page=11&amp;search= 를 요청하도록 코드를 추가한다.<br />
+</p>
+
+<pre class="prettyprint" th:inline="none">$('#del-post-btn').click(function () {
+  var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하겠습니까?";    
+  var chk = confirm(warning);
+  if (chk === true) {
+    $('#delForm').submit();
+  }
+});
+</pre>
+
+<p>
+메시지 프로퍼티 파일에 삭제 확인 메시지 추가<br />
+</p>
+
+<div class="filename">messages_en.properties</div>
+<pre class="prettyprint">delete.confirm = Are you sure you want to delete this item?
+</pre>
+
+<div class="filename">messages_ko.properties</div>
+<pre class="prettyprint">delete.confirm = 정말로 삭제하겠습니까?
+</pre>
+
+<p>
+다음 글 버튼을 클릭했을 때 동작하는 코드 추가한다.<br />
+</p>
+
+<pre class="prettyprint" th:inline="none">$('#next-post-btn').click(function () {
+  $postNo = $(this).attr('title');
+  $action = $('#viewForm').attr('action');
+  $action += $postNo;
+  $('#viewForm').attr('action', $action);
+  <strong>$firstItemNo = $('#list-table tr:nth-child(2) td:nth-child(2) a').attr('title');</strong>
+  <strong>if (parseInt($postNo) &gt; parseInt($firstItemNo)) {</strong>
+    <strong>$page = /*[[${param.page[0]} - 1]]*/ 11 - 1;</strong>
+    <strong>$('#viewForm input[name*=page]').val($page);</strong>
+  <strong>}</strong>
+  $('#viewForm').submit();
+});
+</pre>
+
+<p>
+강조된 부분이 필요한 이유는, 다음 글 버튼을 계속 눌렀을 때 현재 페이지를 다시 계산해야 하는 경우가 생기기 때문이다.<br />
+아래 그림처럼, 목록 테이블의 첫 번째 글보다 다음 글의 글 번호가 크다면 페이지를 1 감소시킨다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/next-post-page-calculate.png" th:src="@{/static/images/next-post-page-calculate.png}" class="browser-output" alt="다음 글 버튼 클릭했을 때 현재 페이지 계산" />
+</p>
+
+<p>
+이전 글 버튼을 클릭했을 때 동작하는 코드한다.<br />
+</p>
+
+<pre class="prettyprint" th:inline="none">$('#prev-post-btn').click(function () {
+  $postNo = $(this).attr('title');
+  $action = $('#viewForm').attr('action');
+  $action += $postNo;
+  $('#viewForm').attr('action', $action);
+  <strong>$lastItemNo = $('#list-table tr:last-child td:nth-child(2) a').attr('title');</strong>
+  <strong>if (parseInt($postNo) &lt; parseInt($lastItemNo)) {</strong>
+    <strong>$page = /*[[${param.page[0]} + 1]]*/ 11 + 1;</strong>
+    <strong>$('#viewForm input[name*=page]').val($page);</strong>
+  <strong>}</strong>
+  $('#viewForm').submit();
+});
+</pre>
+
+<p>
+아래 그럼처럼, 목록 테이블의 마지막 글보다 이전 글 번호가 작다면 페이지를 1 증가시킨다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/prev-post-page-calculate.png" th:src="@{/static/images/prev-post-page-calculate.png}" class="browser-output" alt="이전 글 버튼 클릭했을 때 현재 페이지 계산" />
+</p>
+
+<h4>목록 버튼을 클릭했을 때 동작하는 코드</h4>
+
+<pre class="prettyprint">$('#list-btn').click(function () {
+  $('#listForm').submit();
+});
+</pre>
+
+<h4>페이지당 게시글 수 선택박스에서 값을 선택했을 때 동작하는 코드</h4>
+
+<pre class="prettyprint">$('#numberPerPage').change(function() {
+  var numberPerPage = $('#numberPerPage option:selected').val();
+  if (numberPerPage) {
+    createCookie('numberPerPage', numberPerPage, '30');
+    $('#listForm input[name*=page].val('1');
+    $('#listForm').submit();
+  }
+});
+</pre>
+
+<p>
+createCookie() 함수는 list.html에서 작성한 함수와 같다.<br />
+</p>
+
+<pre class="prettyprint">function createCookie(name, value, days) {
+  var newCookie = name + "=" + escape(value);
+  if (days) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    newCookie += "; expires=" + expires.toGMTString();
+  }
+  document.cookie = newCookie;
+}
+</pre>
+
+<h4>목록 테이블에서 제목을 클릭했을 때 동작하는 코드</h4>
+
+<pre class="prettyprint">$('#list-table tr td:nth-child(2) a').click(function(e) {
+  e.preventDefault();
+  $postNo = $(this).attr('title');
+  $action = $('#viewForm').attr('action');
+  $action += $postNo;
+  $('#viewForm').attr('action',$action);
+  $('#viewForm').submit();
+});
+</pre>
+
+<h4>페이지 이동 링크를 클릭했을 때 동작하는 코드</h4>
+
+<pre class="prettyprint">$('#paging a').click(function(e) {
+  e.preventDefault();
+  $page = $(this).attr('title');
+  $('#listForm input[name*=page]').val($page);
+  $('#listForm').submit();
+});
+</pre>
+
+<h4>검색 버튼 클릭했을 때 동작하는 코드</h4>
+	
+<pre class="prettyprint">$('#searchForm').submit(function() {
+  $search = $('#searchForm input[name*=search]').val();
+  $search = $.trim($search);
+  $('#searchForm input[name*=search]').val($search);
+  $('#searchForm').submit();
+});
+</pre>
+
+<h4>수정 양식을 작성한 후 전송 버튼을 눌렀을 때 동작하는 코드</h4>
+	
+<pre class="prettyprint">$('#editForm').submit(function() {
+  var title = $('#editForm input[name*=title]').val();
+  title = $.trim(title);
+  if (title.length === 0) {
+    var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+    alert(warning);
+    $('#editForm input[name*=title]').val('');
+    return false;
+  }
+  var content = $('#editForm-ta').val();
+  content = $.trim(content);
+  if (content.length === 0) {
+    var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+    alert(warning);
+    $('#editForm-ta').val('');
+    return false;
+  }
+  $('#editForm input[name*=title]').val(title);
+  $('#edityForm-ta').val(content);
+});
+</pre>
+</article>
+
+<article id="thymeleaf-test">
+<h2>게시판 구현을 위한 타임리프 테스트</h2>
+
+<p>
+게시판 화면으로 게시글 리스트와 페이징 처리를 위한 숫자가 전달된다.<br />
+이를 타임리프을 사용하는 환경에서 출력하는 연습을 해 보자.<br />
+빠른 테스트를 위해 홈페이지를 사용한다.<br />
+</p>
+
+<p>
+HomeController의 홈페이지 핸들러를 다음과 같이 수정한다.<br />
+</p>
+
+<pre class="prettyprint">@GetMapping("/")
+public String index(<strong>Model model</strong>) {
+  <strong>int[] pages = {11,12,13,14,15,16,17,18,19,20};</strong>
+  <strong>model.addAttribute("pages", pages);</strong>
+  return "index";
+}
+</pre>
+
+<p>
+다음 임포트 문이 필요하다.<br />
+import org.springframework.ui.Model;<br />
+</p>
+
+<p>
+홈페이지 본문에 해당하는 toc.html 파일을 열고 마지막에 다음을 추가한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;h1&gt;게시판 구현을 위한 타임리프 테스트&lt;/h1&gt;
+&lt;h2&gt;페이지 링크&lt;/h2&gt;
+
+&lt;th:block th:each="page : ${pages}"&gt;
+  &lt;span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}"&gt;11&lt;/span&gt;
+  &lt;a href="#" th:unless="${page} == ${param.page[0]}" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"&gt; [ 12 ] &lt;/a&gt;
+&lt;/th:block&gt;
+</pre>
+
+<p>
+홈페이지 요청 시 페이지를 전달하지 않으면 에러를 만나게 되니,
+http://localhost:8080?page=11로 홈페이지를 요청한다.
+홈페이지 하단에 아래처럼 출력되는 것을 확인한다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/thymeleaf-test-page-links.png" th:src="@{/static/images/thymeleaf-test-page-links.png}" alt="페이지 링크 생성 테스트" />
+</p>
+
+<p>
+페이지 소스 보기로 보면 타임리프가 실행한 결과를 페이지 소스 보기로 보면 아래와 같다.<br />
+</p>
+
+<pre class="prettyprint">&lt;span class="bbs-strong"&gt;11&lt;/span&gt;
+&lt;a href="#" title="12"&gt; [ 12 ] &lt;/a&gt;
+&lt;a href="#" title="13"&gt; [ 13 ] &lt;/a&gt;
+&lt;a href="#" title="14"&gt; [ 14 ] &lt;/a&gt;
+&lt;a href="#" title="15"&gt; [ 15 ] &lt;/a&gt;
+&lt;a href="#" title="16"&gt; [ 16 ] &lt;/a&gt;
+&lt;a href="#" title="17"&gt; [ 17 ] &lt;/a&gt;
+&lt;a href="#" title="18"&gt; [ 18 ] &lt;/a&gt;
+&lt;a href="#" title="19"&gt; [ 19 ] &lt;/a&gt;
+&lt;a href="#" title="20"&gt; [ 20 ] &lt;/a&gt;
+</pre>
+
+<h3>HiddenHttpMethodFilter 필터</h3>
+
+<p>
+폼<sup>Form</sup>을 사용해 PUT, PATCH, DELETE 방식의 요청을 할 수 없다.<br />
+&lt;form method="PUT"&gt; .. &lt;/form&gt;<br />
+&lt;form method="PATCH"&gt; .. &lt;/form&gt;<br />
+&lt;form method="DELETE"&gt; .. &lt;/form&gt;<br />
+처럼 만들어 데이터를 전송하면 서버는 이를 해석하도록 만들어져 있지 않다.<br />  
+</p>
+
+<p>
+HiddenHttpMethodFilter 필터는 RESTful URL을 지키면서 뒷단을 예전 방식으로 구현할 수 있게 해 준다.<br />
+이 필터는, 스프링이 POST 요청을 파라미터 값으로 PUT, PATCH, DELETE 방식 요청으로 매핑하게 한다.<br />
+HiddenHttpMethodFilter 필터를 사용하는 환경에서 PUT 방식 요청을 하려면 아래처럼 폼을 구성해야 한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;form <strong>method="post"</strong>&gt;
+&lt;input type="hidden" <strong>name="_method" value="put"</strong> /&gt;
+&lt;/form&gt;
+</pre>
+
+<p>
+타임리프는 다음 form을 
+</p>
+
+<pre class="prettyprint">&lt;form <strong>th:method="put"</strong>&gt;
+&lt;/form&gt;
+</pre>
+
+<p>
+아래처럼 바꿔준다.<br />
+</p>
+
+<pre class="prettyprint">&lt;form <strong>method="post"</strong>&gt;
+<strong>&lt;input type="hidden" name="_csrf" value="JaiETNDe...57E"/&gt;</strong>
+<strong>&lt;input type="hidden" name="_method" value="put"/&gt;</strong>
+&lt;/form&gt;
+</pre>
+
+<p>
+HiddenHttpMethodFilter 필터를 스프링에 추가한다.<br />
+</p>
+
+<div class="filename">MvcWebApplicationInitializer.java</div>
+<pre class="prettyprint">@Override
+protected Filter[] getServletFilters() {
+  return new Filter[] { new HiddenHttpMethodFilter() };
+}
+</pre>
+
+<p>
+다음 임포트 문이 필요하다.<br />
+import org.springframework.web.filter.HiddenHttpMethodFilter;<br />
+</p>
+
+<h3>한글 테스트</h3>
+
+<p>
+HiddenHttpMethodFilter 필터가 잘 동작하는지와 함께 시스템이 한글을 제대로 처리하는 지 테스트 해 보자.<br />
+<span style="background: #eee;">|chat|Chat|자유게시판|</span> 레코드를 <span style="background: #eee;">|chat|Chat|자유토론|</span>으로 바꾸는 테스트다.<br />
+toc.html 파일의 마지막에 다음 폼을 추가한다.<br />
+</p>
+
+<div class="filename">toc.html</div>
+<pre class="prettyprint">&lt;h3&gt;한글 테스트&lt;/h3&gt;
+&lt;form id="testForm" th:action="@{/}" th:method="patch"&gt;
+&lt;input type="hidden" name="page" th:value="${param.page}" /&gt;
+&lt;input type="hidden" name="search" th:value="${param.search}" /&gt;
+&lt;table id="write-form" class="bbs-table"&gt;
+&lt;caption&gt;게시판 수정&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;td&gt;게시판 코드&lt;/td&gt;
+  &lt;td&gt;&lt;input type="text" name="boardCd" style="width: 90%" th:value="chat" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;게시판 영어 이름&lt;/td&gt;
+  &lt;td&gt;&lt;input type="text" name="boardNm" style="width: 90%" th:value="Chat" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;게시판 한글 이름&lt;/td&gt;
+  &lt;td&gt;&lt;input type="text" name="boardNm_ko" style="width: 90%" th:value="자유토론" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+    &lt;input type="submit" value="전송" th:value="#{submit}" /&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+</pre>
+
+<p>
+스프링 시큐리티 설정 클래스에서 요청 매핑에 다음을 추가한다.<br />
+PATCH가 아니다!<br />
+</p>
+
+<pre class="prettyprint">.requestMatchers(HttpMethod.<strong>POST</strong>, "/").permitAll()</pre>
+
+<p>
+게시판을 위한 데이터베이스 디자인 과정이 필요하지만
+우선 테스트를 위해 board 테이블과 Board 클래스만 작성한다.
+--board 테이블과 Board 클래스는 게시판 프로그램에서 그대로 쓰인다--
+</p>
+
+<p>
+sqlplus web2/programming2로 접속해 다음을 실행한다.<br />
+</p>
 
 <pre style="border: 2px dotted grey;padding: 0.3em;">create table board (
   boardcd varchar2(20),
   boardnm varchar2(40) NOT NULL,
   boardnm_ko varchar2(40),
-  constraint PK_BOARD PRIMARY KEY(boardcd)
+  constraint BOARD_PK PRIMARY KEY(boardcd)
 );
-create table article (
-  articleno number,
-  boardcd varchar2(20),
-  title varchar2(200) NOT NULL,
-  content clob NOT NULL,
-  username varchar2(60),
-  hit number,
-  regdate date,
-  constraint PK_ARTICLE PRIMARY KEY(articleno),
-  constraint FK_ARTICLE FOREIGN KEY(boardcd) REFERENCES board(boardcd)
-);
-create sequence SEQ_ARTICLE
-  increment by 1
-  start with 1;
-create table views (
-  no number,
-  articleno number,
-  ip varchar(60),
-  yearmonthdayhour char(10),
-  constraint PK_VIEWS PRIMARY KEY(no),
-  constraint UNIQUE_VIEWS UNIQUE(articleno, ip, yearmonthdayhour)
-);
-create sequence SEQ_VIEWS
-  increment by 1
-  start with 1;
--- for test records  
+-- for test records
 insert into board values ('chat', 'Chat', '자유게시판');
 commit;
 </pre>
-
-<h2>빈 디자인</h2>
 
 <div class="filename">Board.java</div>
 <pre class="prettyprint">package net.java_school.board;
@@ -468,35 +1108,994 @@ public class Board {
 }
 </pre>
 
-<div class="filename">Article.java</div>
+<p>
+boardCD 필드는 게시판 코드,
+boardNm 필드는 게시판 영어 이름,
+boardNm_ko 필드는 게시판 한글 이름을 의미한다.<br />
+</p>
+
+<p>
+게시판과 관련된 모든 데이터베이스 관련 메소드를 정의하는 BoardMapper 인터페이스를 만들고,
+테스트에 필요한 메소드를 추가한다.<br />
+</p>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">package net.java_school.mapper;
+
+import net.java_school.board.Board;
+
+public interface BoardMapper {
+  public void updateBoard(Board board);
+}
+</pre>
+
+<p>
+UserMapper.xml 파일과 같은 위치에, BoardMapper.xml 파일을 아래처럼 만든다.<br /> 
+</p>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;
+
+&lt;mapper namespace="net.java_school.mapper.BoardMapper"&gt;
+  &lt;update id="updateBoard" parameterType="net.java_school.board.Board"&gt;
+    UPDATE board SET boardnm = #{boardNm}, boardnm_ko = #{boardNm_ko}
+    WHERE boardcd = #{boardCd}
+  &lt;/update&gt;
+&lt;/mapper&gt;
+</pre>
+
+<p>
+서비스 인터페이스와 그 구현 클래스를 작성한다.<br />
+게시판 수정 메소드인 editBoard() 메소드는 관리자만 수행하도록 메소드 보안을 나중에 추가해 줄 것이지만
+한글 테스트에선 추가하지 않는다.<br />
+</p>
+
+<div class="filename">BoardServce.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+public interface BoardService {
+  public void editBoard(Board board);
+}
+</pre>
+
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import net.java_school.mybatis.BoardMapper;
+
+@Service
+public class BoardServiceImpl implements BoardService {
+
+  @Autowired
+  private BoardMapper boardMapper;
+
+  @Override
+  public void editBoard(Board board) {
+    boardMapper.updateBoard(board);
+  }
+}
+</pre>
+
+<p>
+HomeController 클래스에 아래 핸들러를 추가한다.<br />
+이 핸들러는 PATCH / 요청을 핸들링한다.<br />
+</p>
+
+<div class="filename">HomeController.java</div>
+<pre class="prettyprint">@PatchMapping("/")
+public String editBoard(@RequestParam(name="page", defaultValue="1") Integer page, 
+    @RequestParam(name="search", defaultValue="") String search, 
+    @ModelAttribute(name="board") Board board) throws Exception {
+  boardService.editBoard(board);
+  search = URLEncoder.encode(search, "UTF-8");
+  return "redirect:/?page=" + page + "&amp;search=" + search;
+}
+</pre>
+
+<p>
+매퍼 스캔 설정은 이미 되어 있다.<br />
+</p>
+
+<p>
+서비스와 그 구현 클래스 빈 컨테이너에 등록하도록 @ComponentScan 애너테이션에 net.java_school.board 패키지를 추가한다.<br />
+</p>
+
+<div class="filename">MvcWebConfig.java</div>
+<pre class="prettyprint">@Configuration
+@EnableWebMvc
+@MapperScan("<strong>net.java_school.mapper</strong>")
+@ComponentScan("net.java_school.controller,net.java_school.user,<strong>net.java_school.board</strong>")
+public class MvcWebConfig implements WebMvcConfigurer {
+ //...생략...
+}
+</pre>
+
+<p>
+컴파일하고 톰캣을 실행한 후, 
+주소창에 <span style="background: #eee">http://localhost:8080?page=11&amp;search=테스트</span>를 입력하고 엔터를 친다.<br />
+게시판 변경 폼의 전송 버튼을 클릭한다.<br />
+명령 프롬프트에서 sqlplus web/programming2로 접속하고
+select * from board; 문을 실행해, 게시판 한글 이름이 "자유토론"으로 바뀌었는지 확인한다.<br />
+"자유토론"으로 바뀌었으면 캐릭터 인코딩 관련 설정이 따로 필요없다.<br />
+"자유토론"으로 바뀌었지만 주소창에서 http://localhost:8080?page=11&amp;search=처럼 
+search=다음에 테스트가 빠져 있다면, 
+홈 컨트롤러의 PATCH / 요청 핸들러에서 search 파라미터 값을 UTF-8로 인코딩하는 다음 코드가 있는지 
+확인한다.<br />
+<span style="background: #eee">search = URLEncoder.encode(search, "UTF-8");</span><br />
+이 코드가 필요한 이유는 톰캣의 쿼리 스트링의 디폴트 캐릭터 인코딩이 ISO-8859-1이기 때문이다.<br />
+파리미터 값을 인코딩했음에도 search= 다음에 테스트가 보이지 않으면 톰캣 server.xml 파일을 열고 
+&lt;Connector port="8080"... 엘리먼트를 찾아 URIEncoding="UTF-8"을 속성에 추가한다.<br />
+</p>
+
+<p>
+"자유토론"이 인서트되었고,
+주소창에 <span style="background: #eee">search=테스트</span>가 보이면 게시판 개발 준비가 된 것이다.<br />
+</p>
+
+<h3>thymeleaf-extras-springsecurity</h3>
+
+<p>
+사용자가 게시글의 주인이거나 관리자만 화면에서 수정과 삭제 버튼을 볼 수 있게 하려면,<br /> 
+thymeleaf-extras-springsecurity의 #authentication과 #authorization 객체를 적절히 사용할 수 있어야 한다.<br />
+#authentication은 Spring Security 인증 객체(org.springframework.security.core.Authentication 인터페이스를 구현하는 객체)를 표현한다.<br />
+#authorization은 권한 부여를 확인하는 메서드를 가진 유틸리티 객체다.<br />
+toc.html에 다음을 추가한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;input type="button" value="수정" th:if="${#authentication.name eq username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}" /&gt;</pre>
+
+<p>
+테스트를 위해 홈컨트롤러에서 username을 전달하도록 홈페이지 핸들러를 수정한다.
+</p>
+
+<pre class="prettyprint">@GetMapping("/")
+public String index(Model model) {
+  /*
+  int[] pages = {11,12,13,14,15,16,17,18,19,20};
+  model.addAttribute("pages", pages);
+  */
+  <strong>model.addAttribute("username","charles");</strong>//charles는 자신이 가입한 이름으로 수정
+  return "index";
+}
+</pre>
+
+<p>
+관리자 테스트를 위해서 회원가입을 통해 admin/1111로 가입하고,
+sqlplus web/programming2로 접속해 관리자 권한을 부여한다.
+</p>
+
+<pre class="commandLine">insert into authorities values ('admin','ROLE_ADMIN');
+commit;
+</pre>
+
+<p>
+로그인하지 않고 http://localhost:8080 주소에 방문하면 수정 버튼이 보이지 않는다.
+가입된 일반회원(charles)로 로그인하고, 컨트롤러에서 username의 이름으로 charles을 전달하면, 수정 버튼이 보인다. 로그아웃 후 관리자로 로그인(admin/1111)해도 수정 버튼이 보인다.<br />
+</p>
+</article>
+
+<article id="thymeleaf-coding">
+
+<h2>타임리프 코딩</h2>
+
+<p>
+게시판 핵심 로직을 타임리프로 구현하는 테스트를 했으니, 이제 뷰에 예상되는 변수와 게시판 로직을 입혀 완성해 보자.<br />
+</p>
+
+<h3>list.html</h3>
+
+<h4>목록 페이지 title</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-title.png" th:src="@{/static/images/bbs-list-prototype-title.png}" class="browser-output" alt="목록 페이지 title" />
+</p>
+
+<pre class="prettyprint">&lt;title <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/title&gt;
+</pre>
+
+<p>
+boardName에는, 사용자의 로케일에 따라, 게시판 영어 이름 또는 게시판 한글 이름이 할당된다.<br />
+</p>
+
+<h4>목록 테이블 위 게시판 이름</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-board-name.png" th:src="@{/static/images/bbs-list-prototype-board-name.png}" class="browser-output" alt="목록 게시판" />
+</p>
+
+<pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/div&gt;
+</pre>
+
+<h4>페이지당 게시글 수</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-num-per-page.png" th:src="@{/static/images/bbs-list-prototype-num-per-page.png}" class="browser-output" alt="페이지당 레코드 수" />
+</p>
+
+<pre class="prettyprint">&lt;option value="" <strong>th:text="#{number.per.page}</strong>"&gt;페이지당 게시글 수&lt;/option&gt;
+</pre>
+
+<p>
+메시지소스 프로퍼티 파일에 numer.per.page 추가한다.<br />
+</p>
+
+<pre class="prettyprint">number.per.page = Number of posts per page</pre>
+<pre class="prettyprint">number.per.page = 페이지당 게시글 수</pre>
+
+<h4>목록 테이블</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-list-table.png" th:src="@{/static/images/bbs-list-prototype-list-table.png}" class="browser-output" alt="목록 테이블" />
+</p>
+
+<pre class="prettyprint">&lt;table class="bbs-table" id="list-table"&gt;
+&lt;tr&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;NO&lt;/th&gt;
+  &lt;th&gt;TITLE&lt;/th&gt;
+  &lt;th style="width: 84px;text-align: center;"&gt;DATE&lt;/th&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;HIT&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr <strong>th:each="post : ${posts}"</strong> <strong>th:class="${postStat.odd} ? 'odd'"</strong>&gt;
+  &lt;td style="text-align: center;" th:text="<strong>${listItemNo} - ${post.postNo}</strong>"&gt;405&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23488" <strong>th:title="${post.postNo}"</strong> th:text="<strong>${post.title}</strong>"&gt;자바 웹 프로그래밍 2 최종 소스&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;" <strong>th:with="df=#{date.format}"</strong> <strong>th:text="${#calendars.format(post.regdate,df)}"</strong>&gt;24 10 20&lt;/td&gt;
+  &lt;td style="text-align: center;" th:text="<strong>${post.hit}</strong>"&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+<strong>&lt;!--/*--&gt;</strong>
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;404&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23486"&gt;우분투 24.04에 자바 개발 환경&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;!-- 생략 --&gt;
+
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;396&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="19212"&gt;스프링 MVC에서 Thymeleaf 레이아웃 사용&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;22 08 17&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+<strong>&lt;!--*/--&gt;</strong>
+&lt;/table&gt;
+</pre>
+
+<p>
+post : ${posts}는 ${posts}의 각 요소를 post라는 지역 변수를 사용해, th:each가 있는 프레그먼트를 반복한다.<br />
+목록 테이블에서 th:each가 있는 프레그먼트는 tr 태그이기에 tr 태그가 posts 크기만큼 반복되고 tr안의 td의 내용은  지역 변수의 내용으로 채워진다.<br />
+th:each를 사용할 때, 타임리프는 반복 작업의 상태를 추적하는 데 유용한 상태 변수를 제공한다.<br />
+사용자가 상태 변수 이름을 지정하지 않으면, 타임리프는 지역 변수 post 다음에 Stat을 붙인 이름으로 상태 변수를 생성한다.<br />
+</p>
+
+<ul>
+	<li>postStat.index: 0부터 시작</li>
+	<li>postStat.count: 1부터 시작</li>
+	<li>postStat.size: posts 변수의 요소 총 수</li>
+	<li>postStat.current: 현재 요소</li>
+	<li>postStat.even: 현재 요소가 짝수 번째면 true</li>
+	<li>postStat.odd: 현재 요소가 홀수 번째면 true</li>
+	<li>postStat.first: 현재 요소가 첫 번째면 true</li>
+	<li>postStat.last: 현재 요소가 마지막 번째면 true</li>
+</ul>
+
+<p>
+목록 테이블에서 홀 수 번째 tr에는 class="odd"가 붙는다.<br />
+</p>
+
+<p>
+listItemNo는 목록 테이블의 행에 붙이는 숫자다.<br />
+데이터베이스에서 가져온 숫자가 아니고, totalRecord - (page - 1) * numberPerPage로 계산된다.<br />
+</p>
+
+<p>
+목록 테이블 tr의 지역 변수 post로 접근할 수 있는 데이터는 다음과 같다.<br />
+</p>
+
+<ul>
+	<li>postNo(고유번호)</li>
+	<li>title(제목)</li>
+	<li>regdate(registration date, 등록날짜)</li>
+	<li>hit(조회수)</li>
+</ul>
+
+<p>
+열거형 데이터를 다루지 않더라도 지역 변수를 선언할 수 있다.<br />
+타임리프는 th:with 속성을 사용하여 지역 변수를 선언하는 방법을 제공한다.<br />
+목록 테이블에선, 메시지소스 프로퍼티에 있는 날짜 포맷을 지역 변수로 선언한 후 지역 변수를 사용해 날짜를 표현하고 있다.<br />
+</p>
+
+<p>
+타임리프는 일반적인 작업을 수행하는 데 도움이 되는 유틸리티 객체를 제공한다.<br />
+#calendars는 java.util.Calendar 객체와 관련된 기능을 제공하는 유틸리티 객체다.<br />
+</p>
+
+<p>
+&lt;!--/*--&gt;와 &lt;!--*/--&gt;으로 감싸는,
+파서 레벨 주석<sup>parser-level-comment</sup> 블록은 타임리프가 파싱할 때 제거된다.<br />
+목록 테이블에서 파서 레벨 주석을 사용한 이유는, 정적으로 문서를 열 때 디자인을 유지하기 위해서다.<br />
+</p>
+
+<p>
+게시글 제목을 클릭했을 때 사용하는 폼을 편집한다.
+</p>
+
+<pre class="prettyprint">&lt;form id="listForm" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get"&gt;
+&lt;input type="hidden" name="page" /&gt;
+&lt;input type="hidden" name="search" value="test" th:value="${param.search }" /&gt;
+&lt;/form&gt;
+</pre>
+
+<h4>페이지 이동 링크</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-paging.png" th:src="@{/static/images/bbs-list-prototype-paging.png}" class="browser-output" alt="페이지 링크" />
+</p>
+
+<pre class="prettyprint">&lt;div id="paging"&gt;
+  &lt;a href="#" title="1" <strong>th:if="${prevPage} &amp;gt; 0"</strong> <strong>th:text="'[' + #{first.page} + ']'"</strong>&gt;[처음]&lt;/a&gt;
+  &lt;a href="#" title="10" <strong>th:if="${prevPage} &amp;gt; 0"</strong> <strong>th:title="${prevPage}"</strong> <strong>th:text="'[' + #{prev.page} + ']'"</strong>&gt;[이전]&lt;/a&gt;
+  <strong>&lt;th:block</strong> <strong>th:each="page : ${pages}"</strong>&gt;
+    &lt;span class="bbs-strong" <strong>th:if="${page} == ${param.page[0]}"</strong> <strong>th:text="${page}"</strong>&gt;11&lt;/span&gt;
+    &lt;a href="#" title="12" <strong>th:unless="${page} == ${param.page[0]}"</strong> <strong>th:title="${page}"</strong> <strong>th:text="' [ ' + ${page} + ' ] '"</strong>&gt; [ 12 ] &lt;/a&gt;
+  <strong>&lt;/th:block&gt;</strong>
+  <strong>&lt;!--/*--&gt;</strong>
+  &lt;a href="#" title="13"&gt;[ 13 ]&lt;/a&gt;
+  &lt;a href="#" title="14"&gt;[ 14 ]&lt;/a&gt;
+  &lt;a href="#" title="15"&gt;[ 15 ]&lt;/a&gt;
+  &lt;a href="#" title="16"&gt;[ 16 ]&lt;/a&gt;
+  &lt;a href="#" title="17"&gt;[ 17 ]&lt;/a&gt;
+  &lt;a href="#" title="18"&gt;[ 18 ]&lt;/a&gt;
+  &lt;a href="#" title="19"&gt;[ 19 ]&lt;/a&gt;
+  &lt;a href="#" title="20"&gt;[ 20 ]&lt;/a&gt;
+  <strong>&lt;!--*/--&gt;</strong>
+  &lt;a href="#" title="21" th:if="<strong>${nextPage} &amp;gt; 0"</strong> <strong>th:title="${nextPage}"</strong> <strong>th:text="'[' + #{next.page} + ']'"</strong>&gt;[다음]&lt;/a&gt;
+  &lt;a href="#" title="41" th:if="<strong>${nextage} &amp;gt; 0"</strong> <strong>th:title="${finalPage}"</strong> <strong>th:text="'[' + #{final.page} + ']'"</strong>&gt;[마지막]&lt;/a&gt;
+&lt;/div&gt;
+</pre>
+
+<p>
+타임리프 파싱을 거치면 스타일이 적용되지만 서버없이 파일을 열면 링크가 #paging의 자식이 아니기에 스타일이 적용되지 않는다.
+정적으로 파일을 열 때를 위해 list.html 파일의 style 블록에 아래 강조한 부분을 추가한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;style&gt;
+article {
+  width: 777px;
+  margin: 0 auto;
+}
+<strong>#paging a {</strong>
+  <strong>color: #555;</strong>
+  <strong>text-decoration: none;</strong>
+<strong>}</strong>
+<strong>#paging a:hover {</strong>
+  <strong>color: #555;</strong>
+  <strong>text-decoration: underline;</strong>
+<strong>}</strong>
+&lt;/style&gt;
+</pre>
+
+<p>
+페이징을 위해선 목록에 다음 숫자가 전달된다.<br />
+</p>
+
+<ul>
+	<li>[이전]의 페이지 번호: prevPage</li>
+	<li>현재 페이지에서 보여야 할 페이지 번호들(프로토타입에서 [11] ~ [20]에 해당): pages</li>
+	<li>[다음]의 페이지 번호: nextPage</li>
+	<li>마지막 페이지 번호: finalPage</li>
+</ul>
+
+<p>
+조건이 충족되는 경우에만 프레그먼트가 보여야 할 때, th:if를 사용한다.<br />
+th:if의 조건식에서는 &lt; 대신 &amp;lt;를, &gt; 대신 &amp;gt;를 사용한다.<br />
+</p>
+
+<p>
+th:if와 반대인 th:unless는 조건이 충족되지 않는 경우에만 프레그먼트를 보여야 할 때 사용한다.<br />
+</p>
+
+<p>
+타임리프 파싱 과정에서 th:block은 사라지지만, th:block의 속성이 실행한 내용은 사라지지 않는다.<br />
+</p>
+
+<p>
+타임리프에서 param은 요청 파라미터를 검색하기 위한 것이다.<br />
+요청 파라미터 값을 다른 값과 비교할 때, th:if="${page} == ${param.page<strong>[0]</strong>}"처럼 인덱스를 명시해야 한다.<br />
+${param.page}는 요청 파라미터 값을 갖는 String[]이기 때문이다.<br />
+</p>
+
+<p>
+메시지소스 프로퍼터 파일에 다음을 추가한다.
+</p>
+
+<pre class="prettyprint">first.page = First
+prev.page = Prev
+next.page = Next
+final.page = Final
+</pre>
+
+<pre class="prettyprint">first.page = 처음
+prev.page = 이전
+next.page = 다음
+final.page = 마지막
+</pre>
+
+<p>
+페이지 이동 링크를 클릭했을 때 사용하는 폼을 편집한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;form id="listForm" <strong>th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}"</strong> method="get"&gt;
+&lt;input type="hidden" name="page" /&gt;
+&lt;input type="hidden" name="search" value="test" <strong>th:value="${param.search }"</strong> /&gt;
+&lt;/form&gt;
+</pre>
+
+<h4>새 글쓰기 버튼</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-new-post-btn.png" th:src="@{/static/images/bbs-list-prototype-new-post-btn.png}" class="browser-output" alt="새 글쓰기 버튼" />
+</p>
+
+<pre class="prettyprint">&lt;input type="button" value="새 글쓰기" <strong>th:value="#{write.new.post}"</strong> id="new-post-btn" /&gt;
+</pre>
+
+<p>
+메시지소스 프로퍼티 파일에 new.post.btn을 추가한다.<br />
+</p>
+
+<pre class="prettyprint">write.new.post = New</pre>
+
+<pre class="prettyprint">write.new.post = 새 글쓰기</pre>
+
+<h4>새 글쓰기</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-new-form.png" th:src="@{/static/images/bbs-list-prototype-new-form.png}" class="browser-output" alt="새 글쓰기 폼" />
+</p>
+
+<pre class="prettyprint">&lt;form id="writeForm" action="/bbs/chat" <strong>th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}"</strong> method="post" style="display: none;"&gt;
+&lt;table id="write-form" class="bbs-table"&gt;
+&lt;caption <strong>th:text="#{write.new.post}"</strong>&gt;새 글쓰기&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;td <strong>th:text="#{post.title}"</strong>&gt;제목&lt;/td&gt;
+  &lt;td&gt;
+    &lt;input type="text" name="title" style="width: 90%" /&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+    &lt;textarea id="writeForm-ta" name="content" rows="10" cols="50"&gt;&lt;/textarea&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+    &lt;input type="submit" value="전송" <strong>th:value="#{submit}"</strong> /&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+</pre>
+
+<p>
+링크에 변수를 포함시킬 수 있다.<br />
+하지만 @{/bbs/${boardCd}} 이런 식은 아니다.<br />
+boardCd 변수 값이 chat 이라면, @{/bbs/{boardCd}(boardCd=${boardCd})} 링크는 타임리프 파싱을 거치면 /bbs/chat이 된다.<br />
+</p>
+
+<p>
+post.title을 메시지소스 프로퍼티 파일에 추가한다.<br />
+submit은 프로퍼티 파일에 있다.<br />
+</p>
+
+<pre class="prettyprint">post.title = Title
+</pre>
+
+<pre class="prettyprint">post.title = 제목
+</pre>
+
+<h4>검색</h4>
+
+<p>
+<img src="../../../static/images/bbs-list-prototype-search-form.png" th:src="@{/static/images/bbs-list-prototype-search-form.png}" class="browser-output" alt="검색 폼" />
+</p>
+
+<pre class="prettyprint">&lt;form id="searchForm" action="/bbs/chat" th:action="<strong>@{/bbs/{boardCd}(boardCd=${boardCd})}</strong>" method="get"&gt;
+  &lt;input type="hidden" name="page" value="1" /&gt;
+  &lt;div style="text-align: center;"&gt;
+    &lt;input type="text" name="search" size="15" maxlength="30" /&gt;
+    &lt;input type="submit" value="검색" <strong>th:value="#{search}"</strong> /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</pre>
+
+<p>
+search를 메시지소스 프로퍼티 파일에 추가한다.<br />
+</p>
+
+
+<pre class="prettyprint">search = Search
+</pre>
+
+<pre class="prettyprint">search = 검색
+</pre>
+
+<p>
+페이지 이동 링크를 클릭했을 때 사용하는 폼을 편집한다.<br />
+게시글 제목을 클릭했을 때 사용하는 폼을 편집한다.<br />
+</p>
+
+<pre class="prettyprint">&lt;form id="listForm" <strong>th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}"</strong> method="get"&gt;
+&lt;input type="hidden" name="page" /&gt;
+&lt;input type="hidden" name="search" value="test" <strong>th:value="${param.search }"</strong> /&gt;
+&lt;/form&gt;
+&lt;form id="viewForm" action="/bbs/chat/" <strong>th:action="@{/bbs/{boardCd}/(boardCd=${boardCd})}"</strong> method="get"&gt;
+&lt;input type="hidden" name="page" value="1" <strong>th:value="${param.page }"</strong> /&gt;
+&lt;input type="hidden" name="search" value="test" <strong>th:value="${param.search }"</strong> /&gt;
+&lt;/form&gt;
+</pre>
+
+<h3>view.html</h3>
+
+<h4>게시판 이름과 수정, 삭제, 다음 글, 이전 글, 목록 버튼</h4>
+<p>
+<img src="../../../static/images/bbs-view-prototype-boardname-viewmenu.png" th:src="@{/static/images/bbs-view-prototype-boardname-viewmenu.png}" class="browser-output" alt="게시판 이름과 내용보기 화면 메뉴" />
+</p>
+
+<pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/div&gt;
+&lt;div style="height: 22px;"&gt;
+  &lt;div style="float: left;"&gt;
+    &lt;input type="button" value="수정" <strong>th:if="${#authentication.name eq one.username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}"</strong> <strong>th:value="#{edit.post}"</strong> id="edit-post-btn" /&gt;
+    &lt;input type="button" value="삭제" <strong>th:if="${#authentication.name eq one.username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}"</strong> <strong>th:value="#{del.post}"</strong> id="del-post-btn" /&gt;
+  &lt;/div&gt;
+  &lt;div style="float: right;"&gt;
+    &lt;input type="button" value="다음 글" <strong>th:if="${nextPostNo} &gt; 0"</strong> <strong>th:value="#{next.post}"</strong> title="23489" <strong>th:title="${nextPostNo}"</strong> id="next-post-btn" /&gt;
+    &lt;input type="button" value="이전 글" <strong>th:if="${prevPostNo} &gt; 0"</strong> <strong>th:value="#{prev.post}"</strong> title="13087" <strong>th:title="${prevPostNo}"</strong> id="prev-post-btn" /&gt;
+    &lt;input type="button" value="목록" <strong>th:value="#{list}"</strong> id="list-btn" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>
+one은 게시글을 나타낸다.<br />
+상세보기 페이지에서 볼 게시글을 post 이름으로 전달받으면,
+목록 테이블에서 사용하는 지역 변수 post와 구별할 수 없게 된다.<br />
+</p>
+
+<p>
+edit.post, del.post, next.post, prev.post, list를 메시지소스 프로퍼티 파일에 추가한다.<br />
+</p>
+
+<pre class="prettyprint">edit.post = Edit
+del.post = Del
+next.post = Next Post
+prev.post = Prev Post
+list = List
+</pre>
+
+<pre class="prettyprint">edit.post = 수정
+del.post = 삭제
+next.post = 다음 글
+prev.post = 이전 글
+list = 목록
+</pre>
+
+<h4>게시글 상세 내용</h4>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype-detail.png" th:src="@{/static/images/bbs-view-prototype-detail.png}" class="browser-output" alt="게시글 제목,내용,날짜,소유자" />
+</p>
+
+<pre class="prettyprint">&lt;div id="detail"&gt;
+&lt;table class="bbs-table"&gt;
+&lt;tr&gt;
+  &lt;th style="width: 50px;text-align: left;vertical-align: top;font-size: 15px;"&gt;TITLE&lt;/th&gt;
+  &lt;th style="text-align: left;color: #555;font-size: 15px;" id="post-title" <strong>th:text="${one.title}"</strong>&gt;자바 웹 프로그래밍 2 최종 소스&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div id="date-writer-hit" <strong>th:with="df=#{detail.date.format}"</strong> <strong>th:text="'edited ' + ${#calendars.format(one.regdate,df)} + ' by ' + ${one.username} + ', hit ' + ${one.hit}"</strong>&gt;edited 24 07 15 오후 8:18:39 by hoon, hit 4&lt;/div&gt;
+&lt;div id="post-content" <strong>th:text="${one.content}"</strong>&gt;
+자바 웹 프로그래밍 2 예제&lt;br /&gt;
+https://github.com/kimjonghoon/java-web-programming-2-samples
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>
+detail.date.format을 메시지소스 프로퍼티 파일에 추가
+</p>
+
+<pre class="prettyprint">detail.date.format = MMM d, yyyy HH:mm:ss aaa</pre>
+
+<pre class="prettyprint">detail.date.format = yyyy.MM.dd HH:mm:ss aaa</pre>
+
+<h4>수정 폼</h4>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype-edit-form.png" th:src="@{/static/images/bbs-view-prototype-edit-form.png}" class="browser-output" alt="수정 양식" />
+</p>
+
+<pre class="prettyprint">&lt;form id="editForm" <strong>th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${one.postNo})}"</strong> <strong>th:method="put"</strong> style="display: none;"&gt;
+&lt;input type="hidden" name="page" value="1" <strong>th:value="${param.page}"</strong> /&gt;
+&lt;input type="hidden" name="search" value="" <strong>th:value="${param.search}"</strong> /&gt;
+&lt;table id="write-form" class="bbs-table"&gt;
+&lt;caption <strong>th:text="#{edit.post}"</strong>&gt;수정&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;td <strong>th:text="#{post.title}"</strong>&gt;제목&lt;/td&gt;
+  &lt;td&gt;&lt;input name="title" type="text" id="editForm-input" value="웹 프로그래밍 2 최종 소스" <strong>th:value="${one.title}"</strong> style="width: 90%" /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;
+&lt;textarea id="editForm-ta" name="content" rows="10" style="width: 100%" <strong>th:text="${one.content}"</strong>&gt;
+자바 웹 프로그래밍 2 예제&lt;br /&gt;
+https://github.com/kimjonghoon/java-web-programming-2-samples
+&lt;/textarea&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td colspan="2"&gt;&lt;input type="submit" value="전송" <strong>th:value="#{submit}"</strong> /&gt;&lt;/td&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+</pre>
+
+<h4>목록 테이블</h4>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype-list-table.png" th:src="@{/static/images/bbs-view-prototype-list-table.png}" class="browser-output" alt="목록 테이블" />
+</p>
+
+<pre class="prettyprint">&lt;table class="bbs-table" id="list-table"&gt;
+&lt;tr&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;NO&lt;/th&gt;
+  &lt;th&gt;TITLE&lt;/th&gt;
+  &lt;th style="width: 84px;text-align: center;"&gt;DATE&lt;/th&gt;
+  &lt;th style="width: 60px;text-align: center;"&gt;HIT&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr <strong>th:each="post : ${posts}"</strong> <strong>th:class="${postStat.odd} ? 'odd'"</strong>&gt;
+  &lt;td style="text-align: center;" <strong>th:utext="${one.postNo} == ${post.postNo} ? '&lt;b&gt;&gt;&lt;/b&gt;' : ${listItemNo} - ${postStat.index}"</strong>&gt;405&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23488" <strong>th:title="${post.postNo}"</strong> <strong>th:text="${post.title}"</strong>&gt;자바 웹 프로그래밍 2 최종 소스&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;" <strong>th:with="df=#{date.format}"</strong> <strong>th:text="${#calendars.format(post.regdate,df)}"</strong>&gt;24 10 20&lt;/td&gt;
+  &lt;td style="text-align: center;" <strong>th:text="${post.hit}"</strong>&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+<strong>&lt;!--/*--&gt;</strong>
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;404&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23486"&gt;우분투 24.04에 자바 개발 환경&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;!-- 생략--&gt;
+
+&lt;tr&gt;
+  &lt;td style="text-align: center;"&gt;396&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="19212"&gt;스프링 MVC에서 Thymeleaf 레이아웃 사용&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;22 08 17&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+<strong>&lt;!--*/--&gt;</strong>
+&lt;/table&gt;
+</pre>
+
+<p>
+th:utext="${one.postNo} == ${post.postNo} ? '&lt;b&gt;&gt;&lt;/b&gt;' : ${listItemNo} - ${postStat.index}"에서
+&gt; 대신 프로토타입처럼 이미지를 보이려면,
+'&lt;b&gt;&gt;&lt;/b&gt;'을 '&lt;b class=selected-item&gt;&nbsp;&lt;/b&gt;' 변경하고,
+screen.css와 print.css 파일에 다음을 추가한다.<br />
+</p>
+
+<pre class="prettyprint">.selected-item {
+  background: #FFF url('../images/arrow.gif') no-repeat 5% 50%;
+}
+</pre>
+
+<p>
+<img src="../../../static/images/arrow.gif" th:src="@{/static/images/arrow.gif}" alt="selected item image" /> 이미지는 프로토타입에서 사용했다.
+</p>
+
+<h4>페이지 링크</h4>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype-page-links.png" th:src="@{/static/images/bbs-view-prototype-page-links.png}" class="browser-output" alt="페이지 링크" />
+</p>
+
+<pre class="prettyprint">&lt;div id="paging"&gt;
+  &lt;a href="#" title="1" <strong>th:if="${prevPage} &gt; 0"</strong> <strong>th:text="'[' + #{first.page} + ']'"</strong>&gt;[처음]&lt;/a&gt;
+  &lt;a href="#" title="10" <strong>th:if="${prevPage} &gt; 0"</strong> <strong>th:title="${prevPage}" th:text="'[' + #{prev.page} + ']'"</strong>&gt;[이전]&lt;/a&gt;
+  <strong>&lt;th:block th:each="page : ${pages}"&gt;</strong>
+    <strong>&lt;span class="bbs-strong" th:if="${page} == ${param.page[0]}" th:text="${page}"&gt;11&lt;/span&gt;</strong>
+    <strong>&lt;a href="#" title="12" th:unless="${page} == ${param.page[0]}" th:title="${page}" th:text="' [ ' + ${page} + ' ] '"&gt;[ 12 ]&lt;/a&gt;</strong>
+  <strong>&lt;/th:block&gt;</strong>
+  <strong>&lt;!--/*--&gt;</strong>
+  &lt;a href="#" title="13"&gt;[ 13 ]&lt;/a&gt;
+  &lt;a href="#" title="14"&gt;[ 14 ]&lt;/a&gt;
+  &lt;a href="#" title="15"&gt;[ 15 ]&lt;/a&gt;
+  &lt;a href="#" title="16"&gt;[ 16 ]&lt;/a&gt;
+  &lt;a href="#" title="17"&gt;[ 17 ]&lt;/a&gt;
+  &lt;a href="#" title="18"&gt;[ 18 ]&lt;/a&gt;
+  &lt;a href="#" title="19"&gt;[ 19 ]&lt;/a&gt;
+  &lt;a href="#" title="20"&gt;[ 20 ]&lt;/a&gt;
+  <strong>&lt;!--*/--&gt;</strong>
+  &lt;a href="#" title="21" <strong>th:if="${nextPage} &gt; 0"</strong> <strong>th:title="${nextPage}" th:text="'[' + #{next.page} + ']'"</strong>&gt;[다음]&lt;/a&gt;
+  &lt;a href="#" title="41" <strong>th:if="${nextPage} &gt; 0"</strong> <strong>th:title="${finalPage}" th:text="'[' + #{final.page} + ']'"</strong>&gt;[마지막]&lt;/a&gt;
+&lt;/div&gt;
+</pre>
+
+<h4>검색</h4>
+
+<p>
+<img src="../../../static/images/bbs-view-prototype-search.png" th:src="@{/static/images/bbs-view-prototype-search.png}" class="browser-output" alt="검색" />
+</p>
+
+<pre class="prettyprint">&lt;form id="searchForm" action="/bbs/chat" method="get"
+    <strong>th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}"</strong>&gt;
+  &lt;input type="hidden" name="page" value="1" /&gt;
+  &lt;div style="text-align: center;"&gt;
+    &lt;input type="text" name="search" size="15" maxlength="30" /&gt;
+    &lt;input type="submit" value="검색" <strong>th:value="#{search}"</strong> /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+</pre>
+
+<h4>목록, 내용보기, 삭제 폼</h4>
+<pre class="prettyprint">&lt;div id="form-group" style="display: none"&gt;
+  &lt;form id="listForm" action="/bbs/chat" method="get"
+      <strong>th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}"</strong>&gt;
+    &lt;input type="hidden" name="page" value="11" <strong>th:value="${param.page}"</strong> /&gt;
+    &lt;input type="hidden" name="search" value="test" <strong>th:value="${param.search }"</strong> /&gt;
+  &lt;/form&gt;
+  &lt;form id="viewForm" action="/bbs/chat/" method="get"
+      <strong>th:action="@{/bbs/{boardCd}/(boardCd=${boardCd})}"</strong>&gt;
+    &lt;input type="hidden" name="page" value="11" <strong>th:value="${param.page}"</strong> /&gt;
+    &lt;input type="hidden" name="search" value="test" <strong>th:value="${param.search}"</strong> /&gt;
+  &lt;/form&gt;
+  &lt;form id="delForm" action="/bbs/chat/52"
+      <strong>th:action="@{/bbs/{boardCd}/{postNo}(boardCd=${boardCd},postNo=${one.postNo})}"</strong> 
+      <strong>th:method="delete"</strong>&gt;
+    &lt;input type="hidden" name="page" value="11" <strong>th:value="${param.page}"</strong> /&gt;
+    &lt;input type="hidden" name="search" value="test" <strong>th:value="${param.search}"</strong> /&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</pre>
+
+<p>
+게시판 서브 메뉴 프로토타입을 작성한다.<br />
+</p>
+
+<div class="filename">/bbs/menu.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;link rel="stylesheet" media="all" href="../../../static/css/screen.css" /&gt;
+&lt;style&gt;
+#sidebar {
+  margin-left: 0;
+}
+&lt;/style&gt;
+&lt;body&gt;
+&lt;th:block th:fragment="index" id="sidebar"&gt;
+&lt;h1&gt;BBS&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li th:each="board : ${boards}"&gt;&lt;a href="#" th:href="@{/bbs/{boardCd}(boardCd=${board.boardCd},page='1')}" th:text="${#locale.language == 'ko'} ? ${board.boardNm_ko} : ${board.boardNm}"&gt;공지 사항&lt;/a&gt;&lt;/li&gt;
+  &lt;!--/*--&gt;
+  &lt;li&gt;&lt;a href="#"&gt;영화&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;음악&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;자유 토론&lt;/a&gt;&lt;/li&gt;
+  &lt;!--*/--&gt;
+&lt;/ul&gt;
+&lt;/th:block&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+서버없이 웹 브라우저로 열면 다음과 같다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/bbs-menu.png" th:src="@{/static/images/bbs-menu.png}" alt="게시판 메뉴 화면" />
+</p>
+
+<p>
+게시판 화면에서 오른쪽에 위치할 참고자료를 작성한다.<br />
+</p>
+
+<div class="filename">/bbs/refs.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;link rel="stylesheet" media="all" href="../../../static/css/screen.css" /&gt;
+&lt;style&gt;
+#extra {
+  margin-left: 0;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id="extra" th:fragment="references"&gt;
+&lt;ul&gt;
+  &lt;li class="sub-heading" th:text="${#locale.language == 'ko'} ? _ : 'References'"&gt;참고자료&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{http://java-school.net/jsp/BBS-Study}" th:text="${#locale.language == 'ko'} ? _ : 'Basic Concepts of BBS'"&gt;게시판 기본 개념&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{http://java-school.net/blog/2017/basic-board}" th:text="${#locale.language == 'ko'} ? _ : 'Basic Board'"&gt;기본 게시판&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{http://java-school.net/blog/2017/model2-board}" th:text="${#locale.language == 'ko'} ? _ : 'Model 2 Board'"&gt;모델 2 게시판&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{http://java-school.net/blog/2017/model2-board-using-DBCP}" th:text="${#locale.language == 'ko'} ? _ : 'Oracle Model 2 Board using DBCP'"&gt;DBCP를 사용하는 오라클 모델 2 게시판&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{http://java-school.net/blog/2017/board-using-oracle-hierarchical-query}" th:text="${#locale.language == 'ko'} ? _ : 'Board using Oracle hierarchical query'"&gt;오라클 계층형 쿼리를 사용하는 게시판&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+서버없이 웹 브라우저로 열면 다음과 같다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/bbs-refs.png" th:src="@{/static/images/bbs-refs.png}" alt="게시판 참고자료 화면" />
+</p>
+
+<p>
+commons/mainmenu.html,
+commons/mainmenu_ko.html,
+commons/mainmenu_en.html에 
+게시판 링크를 추가한다.
+</p>
+
+<pre class="prettyprint">&lt;li&gt;&lt;a th:href="@{/bbs/chat(page='1')}"&gt;BBS&lt;/a&gt;&lt;/li&gt;</pre>
+
+<p>
+list.html에 있는 쿠키 생성 함수를 따로 떼어 파일로 만든다.
+</p>
+
+<div class="filename">cookie.js</div>
+<pre class="prettyprint">function createCookie(name, value, days) {
+  var newCookie = name + "=" + escape(value);
+  if (days) {
+    var expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    newCookie += "; expires=" + expires.toGMTString();
+  }
+  document.cookie = newCookie;
+}
+</pre>
+</article>
+
+<article id="database-design">
+<h2>데이터베이스 설계</h2>
+
+<p>
+board는 게시판, post는 게시글 테이블이다.<br />
+board 테이블은 한글 테스트를 위해 이미 만들었다.<br />
+</p>
+
+<pre style="border: 2px dotted grey;padding: 0.3em;">create table board (
+  boardcd varchar2(20),
+  boardnm varchar2(40) NOT NULL,
+  boardnm_ko varchar2(40),
+  constraint BOARD_PK PRIMARY KEY(boardcd)
+);
+</pre>
+
+<p>
+sqlplus web/programming2로 접속해 다음을 실행한다.<br />
+</p>
+
+<pre style="border: 2px dotted grey;padding: 0.3em;">create table post (
+  postno number,
+  boardcd varchar2(20),
+  title varchar2(200) NOT NULL,
+  content varchar2(4000) NOT NULL,
+  username varchar2(60),
+  hit number,
+  regdate date,
+  constraint POST_PK PRIMARY KEY(postno),
+  constraint POST_Fi FOREIGN KEY(boardcd) REFERENCES board(boardcd)
+);
+create sequence POST_SEQ
+  increment by 1
+  start with 1;
+</pre>
+
+<p>
+POST_SEQ 시퀀스는 post 테이블의 postno 컬럼 값을 위해 사용할 것이다.<br />
+</p>
+</article>
+
+<article id="beans-design">
+
+<h2>빈 설계</h2>
+
+<p>
+게시판의 기능을 모두 나열해 보자.<br />
+</p>
+
+<p>
+일반 사용자 입장에서 본 게시판 기능<br />
+</p>
+
+<ul>
+	<li>목록보기</li>
+	<li>상세보기</li>
+	<li>수정하기</li>
+	<li>삭제하기</li>
+</ul>
+
+<p>
+관리자 입장에서 본 게시판 기능<br />
+</p>
+
+<ul>
+	<li>모든 게시판 보기</li>
+	<li>게시판 생성하기</li>
+	<li>게시판 수정하기</li>
+	<li>게시판 삭제하기</li>
+</ul>
+
+<p>
+post 테이블의 boardcd 컬럼은 board 테이블의 boardcd 컬럼을 참조하기에,
+게시글의 존재하는 게시판은 삭제할 수 없다.<br />
+</p>
+
+<p>
+게시판을 나타내는 Board 클래스는 테스트를 위해 이미 만들었다.<br />
+</p>
+
+<div class="filename">Board.java</div>
+<pre class="prettyprint">package net.java_school.board;
+
+public class Board {
+  private String boardCd;
+  private String boardNm;
+  private String boardNm_ko;
+
+  public String getBoardCd() {
+    return boardCd;
+  }
+  public void setBoardCd(String boardCd) {
+    this.boardCd = boardCd;
+  }
+  public String getBoardNm() {
+    return boardNm;
+  }
+  public void setBoardNm(String boardNm) {
+    this.boardNm = boardNm;
+  }
+  public String getBoardNm_ko() {
+    return boardNm_ko;
+  }
+  public void setBoardNm_ko(String boardNm_ko) {
+    this.boardNm_ko = boardNm_ko;
+  }
+}
+</pre>
+
+<p>
+게시글을 나타내는 Post 클래스을 아래처럼 생성한다.<br />
+빈 유효성 검사는 하지 않겠다. 이유는 다음에 설명
+</p>
+
+<div class="filename">Post.java</div>
 <pre class="prettyprint">package net.java_school.board;
 
 import java.util.Date;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
-public class Article {
-  private Integer articleNo;
+public class Post {
+  private Integer postNo;
   private String boardCd;
-
-  @NotNull
-  @Size(min = 1, max = 100, message = "{bbs.title.validation.error}")
   private String title;
-
-  @NotNull
-  @Size(min = 2, message = "{bbs.content.validation.error}")
   private String content;
-
   private String username;
   private int hit;
   private Date regdate;
 
-  public Integer getArticleNo() {
-    return articleNo;
+  public Integer getPostNo() {
+    return postNo;
   }
-  public void setArticleNo(Integer articleNo) {
-    this.articleNo = articleNo;
+  public void setPostNo(Integer postNo) {
+    this.postNo = postNo;
   }
   public String getBoardCd() {
     return boardCd;
@@ -516,8 +2115,8 @@ public class Article {
   public void setContent(String content) {
     this.content = content.trim();
   }
-  public String getEmail() {
-    return email;
+  public String getUsername() {
+    return username;
   }
   public void setUsername(String username) {
     this.username = username;
@@ -536,413 +2135,2101 @@ public class Article {
   }
 }
 </pre>
+</article>
+
+<article id="implement">
+
+<h2>구현</h2>
+
+<h3>목록보기</h3>
+
+<p>
+사용자가 목록을 요청할 때 작동해야 하는 논리를 다음과 같다.<br />
+</p>
+
+<ul>
+	<li>서브 메뉴를 위해 모든 게시판 레코드를 구한다.</li>
+	<li>게시판 이름(boardName)을 구한다.--게시판 이름은 로케일에 따라 영어 또는 한글 게시판 이름이다--</li>
+	<li>게시판 코드와 search 파라미터를 사용해 총 레코드 수를 구한다.</li>
+	<li>총 레코드 수, page 파라미터, numberPerPage 쿠키, pagePerBlock으로 page 파라미터 값이 의미하는 현재 페이지에서 페이징 처리에 필요한 숫자를 구한다.</li>
+	<li>page 파라미터가 의미하는 현재 페이지에서 목록 테이블을 채울 List&lt;Post&gt;를 구한다.</li>
+</ul>
+
+<p>
+pagePerBlock은 프로토타입 화면 하단 페이지 이동 링크에서 [처음][이전][다음][마지막]을 뺀--11 12 13 14 15 16 17 18 19 20--
+이동 링크 수를 결정한다. 변수값을 쿠키나 파라미터로 사용자가 지정하도록 두지 않고, 10으로 고정하기로 한다.<br />
+</p>
+
+<p>
+모든 게시판 레코드, 게시판 이름, 총 레코드 수, List&lt;Post&gt;를 구하는 코드는 데이터베이스와 관련있다.<br />
+매퍼 파일에 이를 위한 코드를 추가한다.<br />
+</p>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;select <strong>id="selectAllBoards"</strong> parameterType="string" resultType="net.java_school.board.Board"&gt;
+  SELECT * FROM board
+  &lt;if test="search != null and search != ''"&gt;
+  WHERE boardCd LIKE '%' || #{search} || '%' OR boardNm LIKE '%' || #{search} || '%' OR boardNm_ko LIKE '%' || #{search} || '%'
+  &lt;/if&gt;
+  order by boardcd
+&lt;/select&gt;
+&lt;select <strong>id="selectOneBoard"</strong> parameterType="string" resultType="net.java_school.board.Board"&gt;
+  SELECT * FROM board WHERE boardcd = #{boardCd}
+&lt;/select&gt;
+&lt;select <strong>id="selectCountOfPosts"</strong> parameterType="hashmap" resultType="int"&gt;
+  SELECT count(*) FROM post 
+  WHERE boardcd = #{boardCd}
+    &lt;if test="search != null and search != ''"&gt;
+    AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
+    &lt;/if&gt;
+&lt;/select&gt;
+&lt;select <strong>id="selectListOfPosts"</strong> parameterType="hashmap" resultType="net.java_school.board.Post"&gt;
+  SELECT postno, title, regdate, hit
+    FROM (
+      SELECT rownum R,A.* 
+      FROM (
+        SELECT postno, title, regdate, hit
+        FROM 
+          post
+        WHERE
+          boardcd = #{boardCd}
+          &lt;if test="search != null and search != ''"&gt;
+          AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
+          &lt;/if&gt;
+        ORDER BY postno DESC
+      ) A
+    )
+  WHERE R BETWEEN #{start} AND #{end}
+&lt;/select&gt;
+</pre>
+
+<p>
+테스트 데이터를 인서트하고 쿼리문을 테스트 해 보자.<br />
+SQL*PLUS에 접속한 다음 쿼리를--사용자 michael을 자신의 환경에 맞게 수정--실행한다.<br />
+</p>
+
+<pre class="prettyprint">insert into post values (post_seq.nextval,'chat','test','test test','michael',0,sysdate);
+</pre>
+
+<p>
+쿼리문은 /를 입력 후 엔터를 치면 계속해서 인서트가 실행된다.<br />
+100번 이상 반복 후 commit;을 실행한다.<br />
+</p>
+
+<p>
+SQL*PLUS에 접속된 상태에서, 다음 쿼리를 실행한다.<br />
+</p>
+
+<pre class="prettyprint">SELECT postno, title, regdate, hit
+FROM (
+  SELECT rownum R,A.* 
+    FROM (
+      SELECT postno, title, regdate, hit 
+      FROM post
+      WHERE boardcd = 'chat'
+        AND (title LIKE '%test%' OR content LIKE '%test%')
+      ORDER BY postno DESC
+    ) A
+)
+WHERE R BETWEEN 1 AND 10;
+</pre>
+
+<p>
+WHERE R BETWEEN 1 AND 10;을 WHERE R BETWEEN 11 AND 20;으로 바꾸고 테스트해 본다.<br />
+복잡한 쿼리는, SQL*PLUS에서 테스트를 통해 옳바르게 쿼리 결과가 출력되는 것을 확인한 후 진행해가는 게 좋다.<br />
+</p>
+
+<p>
+서비스 계층에 필요한 메소드를 추가한다.<br />
+게시판 수정 메소드는 테스트를 위해 이미 추가했다.<br />
+@PreAuthorize("hasRole('ADMIN')") 앞 주석을 푼다면, 한글 테스트가 더는 실행되지 않게 된다.<br />
+</p>
+
+<p>
+매퍼 인터페이스에 다음을 추가한다.<br />
+</p>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">public List&lt;Board&gt; selectAllBoards(@Param("search") String search);
+public Board selectOneBoard(@Param("boardCd") String boardCd);
+public int selectCountOfPosts(HashMap&lt;String, String&gt; hashmap);
+public List&lt;Post&gt; selectListOfPosts(HashMap&lt;String, String&gt; hashmap);
+</pre>
+
+<p>
+다음 임포트 문이 필요하다.<br />
+import java.util.HashMap;<br />
+import java.util.List;<br />
+import net.java_school.board.Post;<br />
+import net.java_school.board.Board;<br />
+import org.apache.ibatis.annotations.Param;<br />
+</p>
 
 <div class="filename">BoardService.java</div>
-<pre class="prettyprint">package net.java_school.board;
+<pre class="prettyprint">@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public List&lt;Board&gt; getBoards(String search);
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public Board getBoard(String boardCd);
+public int getTotalRecord(String boardCd, String search);
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public List&lt;Post&gt; getPostList(String boardCd, String search, int start, int end);
+</pre>
 
-import java.util.HashMap;
-import java.util.List;
+<p>
+다음 임포트 문이 필요하다.<br />
+import java.util.List;<br />
+import org.springframework.security.access.prepost.PreAuthorize;<br />
+@PreAuthorize("hasAnyRole('ADMIN','USER')") 애너테이션은, 
+ROLE_USER 이나 ROLE_ADMIN 권한을 가진 사용자만이 이 메소드를 실행할 수 있게 한다.<br />
+</p>
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.access.method.P;
+<p>
+BoardSerivceImpl 클래스에 다음 메소드를 추가한다.<br />
+</p>
 
-public interface BoardService {
-  //게시판
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public Board getBoard(String boardCd);
-
-  //게시판 목록
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public List&lt;Board&gt; getBoards();
-
-  //게시판 생성
-  @PreAuthorize("hasRole('ADMIN')")
-  public void createBoard(Board board);
-
-  //게시판 수정
-  @PreAuthorize("hasRole('ADMIN')")
-  public void editBoard(Board board);
-
-  //목록
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public List&lt;Article&gt; getArticleList(HashMap&lt;String, String&gt; hashmap);
-
-  //총 레코드 수
-  public int getTotalRecord(String boardCd, String searchWord);
-
-  //글쓰기
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public int addArticle(Article article);
-
-  //글수정
-  @PreAuthorize("hasRole('ADMIN') or #article.email == principal.username")
-  public void editArticle(@P("article") Article article);
-
-  //글삭제
-  @PreAuthorize("hasRole('ADMIN') or #article.email == principal.username")
-  public void deleteArticle(@P("article") Article article);
-
-  //조회수 증가
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public void increaseHit(Integer articleNo, String ip, String yearMonthDayHour);
-
-  //상세보기
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public Article getArticle(int articleNo);
-
-  //다음 글
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public Article getNextArticle(int articleNo, String boardCd, String searchWord);
-
-  //이전 글
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public Article getPrevArticle(int articleNo, String boardCd, String searchWord);
-
-  //조회수
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
-  public int getTotalViews(int articleNo);
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">@Override
+public List&lt;Board&gt; getBoards(String search) {
+  return boardMapper.selectAllBoards(search);
 }
+@Override
+public Board getBoard(String boardCd) {
+  return boardMapper.selectOneBoard(boardCd);
+}
+@Override
+public int getTotalRecord(String boardCd, String searchWord) {
+  HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+  hashmap.put("boardCd", boardCd);
+  hashmap.put("search", search);
+  return boardMapper.selectCountOfPosts(hashmap);
+}
+@Override
+public List&lt;Post&gt; getPostList(String boardCd, String search, Integer start, Integer end) {
+  HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+  hashmap.put("boardCd", boardCd);
+  hashmap.put("search", search);
+  hashmap.put("start", start.toString());
+  hashmap.put("end", end.toString());
+  return boardMapper.selectListOfPosts(hashmap);
+}
+</pre>
+
+<p>
+다음 임포트 문이 필요하다.<br />
+import java.util.HashMap;<br />
+import java.util.List;<br />
+</p>
+
+<p>
+페이징 처리는 자주 쓰이는 논리이니 재사용 여부가 확실하다.<br />
+BbsController 클래스를 편집하기 전에 페이징 처리에 필요하는 클래스를 먼저 생성한다.<br />
+</p>
+
+<p>
+NumbersForPaging 클래스는 페이징 처리를 위한 숫자들을 담는 용도로 사용한다.<br />
+</p>
+
+<div class="filename">NumbersForPaging.java</div>
+<pre class="prettyprint">package net.java_school.commons;
+
+public class NumbersForPaging {
+  private int prevPage;//[이전]
+  private int[] pages;//페이지 이동 링크 배열
+  private int nextPage;//[다음]
+  private int finalPage;//[마지막]
+  private int listItemNo;//목록 테이블 아이템 번호
+
+  public int getPrevPage() {
+    return prevPage;
+  }
+  public void setPrevPage(int prevPage) {
+    this.prevPage = prevPage;
+  }
+  public int[] getPages() {
+    return pages;
+  }
+  public void setPages(int[] pages) {
+    this.pages = pages;
+  }
+  public int getNextPage() {
+    return nextPage;
+  }
+  public void setNextPage(int nextPage) {
+    this.nextPage = nextPage;
+  }
+  public int getFinalPage() {
+    return finalPage;
+  }
+  public void setFinalPage(int finalPage) {
+    this.finalPage = finalPage;
+  }
+  public int getListItemNo() {
+    return listItemNo;
+  }
+  public void setListItemNo(int listItemNo) {
+    this.listItemNo = listItemNo;
+  }
+}
+</pre>
+
+<p>
+Paginator 클래스는, 
+페이징에 필요한 숫자를 산출하여 NumbersForPaging 객체에 담고 이를 반환하는 메소드를 가진다.<br />
+</p>
+
+<div class="filename">Paginator.java</div>
+<pre class="prettyprint">package net.java_school.commons;
+
+public class Paginator {
+
+  public NumbersForPaging getNumbersForPaging(int totalRecord, int page, int numberPerPage, int pagePerBlock) {
+    int totalPage = totalRecord / numberPerPage;
+    if (totalRecord % numberPerPage != 0) {
+      totalPage++;
+    }
+    int totalBlock = totalPage / pagePerBlock;
+    if (totalPage % pagePerBlock != 0) {
+      totalBlock++;
+    }
+    int block = page / pagePerBlock;
+    if (page % pagePerBlock != 0) {
+      block++;
+    }
+    int firstPage = (block - 1) * pagePerBlock + 1;
+    int lastPage = block * pagePerBlock;
+    if (block &gt;= totalBlock) {
+      lastPage = totalPage;
+    }
+	int length = lastPage - firstPage + 1;
+    int[] pages = new int[length];
+    for (int i = 0, j = firstPage; i &lt;= length; i++, j++) {
+	  pages[i] = j;
+	  if (j == lastPage) break;
+    }
+    int prevPage = 0;
+    if (block &gt; 1) {
+      prevPage = firstPage - 1;
+    }
+    int nextPage = 0;
+    if (block &lt; totalBlock) {
+      nextPage = lastPage + 1;
+    }
+    int listItemNo = totalRecord - (page - 1) * numberPerPage;
+    NumbersForPaging numbers = new NumbersForPaging();
+    numbers.setPrevPage(prevPage);
+    numbers.setPages(pages);
+    numbers.setNextPage(nextPage);
+    numbers.setFinalPage(totalPage);
+    numbers.setListItemNo(listItemNo);
+    return numbers;
+  }
+}
+</pre>
+
+<p>
+BbsController 클래스가 Paginator 클래스를 상속하도록 수정하고,
+게시판 이름과 목록을 위한 메소드를 추가한다.<br />
+</p>
+
+<div class="filename">BbsController.java</div>
+<pre class="prettyprint">package net.java_school.controller;
+
+@Controller
+@RequestMapping("bbs")
+public class BbsController <strong>extends Paginator</strong> {
+	
+  @Autowired
+  private BoardService boardService;
+
+  private String getBoardName(String boardCd, String lang) {
+    Board board = boardService.getBoard(boardCd);
+
+    switch (lang) {
+      case "en":
+        return board.getBoardNm();
+      case "ko":
+        return board.getBoardNm_ko();
+      default:
+        return board.getBoardNm();
+    }
+  }
+
+  @GetMapping("{boardCd}")
+  public String list(
+      @CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
+      @PathVariable(name="boardCd") String boardCd,
+      @RequestParam(name="page", defaultValue="1") Integer page,
+      @RequestParam(name="search", defaultValue="") String search,
+      Locale locale, Model model) {
+    //서브 메뉴의 게시판 링크
+    List&lt;Board&gt; boards = boardService.getBoards();
+    String lang = locale.getLanguage();//게시판 이름
+    String boardName = this.getBoardName(boardCd, lang);
+    int totalRecord = boardService.getTotalRecord(boardCd, search);//총 레코드 수
+    int pagePerBlock = 10;
+    NumbersForPaging numbers = this.getNumbersForPaging(totalRecord, page, numberPerPage, pagePerBlock);
+    //목록 테이블을 채울 List&lt;Post&gt;  
+    int start = (page - 1) * numberPerPage + 1;
+    int end = page * numberPerPage;
+    List&lt;Post&gt; posts = boardService.getPostList(boardCd, search, start, end);
+    //산출한 데이터를 뷰에 전달
+    model.addAttribute("boards", boards);
+    model.addAttribute("boardName", boardName);
+    model.addAttribute("posts", posts);
+    model.addAttribute("prevPage", numbers.getPrevPage());
+    model.addAttribute("pages", numbers.getPages());
+    model.addAttribute("nextPage", numbers.getNextPage());
+    model.addAttribute("finalPage", numbers.getFinalPage());
+    model.addAttribute("listItemNo", numbers.getListItemNo());
+    return "bbs/list";
+  }
+  
+  //..게시판 수정 메소드 생략..
+  
+}
+</pre>
+
+<p>
+한글 테스트를 위해 구현한 게시판 수정 메소드는 생략했다.<br />
+</p>
+
+<p>
+컨트롤러 핸들러가 데이터를 전달하는 페이지를 작성한다.<br />
+</p>
+
+<div class="filename">/bbs/list.html</div>
+<pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
+&lt;html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title th:text="${#locale.language == 'ko'} ? _ : 'List of Posts'"&gt;글 목록&lt;/title&gt;
+&lt;meta name="Keywords" th:content="${#locale.language == 'ko'} ? '글 목록' : 'List of Posts'" /&gt;
+&lt;meta name="Description" th:content="${#locale.language == 'ko'} ? '글 목록' : 'List of Posts'" /&gt;
+&lt;link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" /&gt;
+&lt;script th:src="@{/static/js/cookie.js}"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
+&lt;div id="i18n"&gt;&lt;/div&gt;
+&lt;section th:replace="~{articles/list :: article}"&gt;&lt;/section&gt;
+&lt;aside th:replace="~{bbs/menu :: index}"&gt;&lt;/aside&gt;
+&lt;footer th:replace="~{bbs/refs :: references}"&gt;&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+목록 테스트<br />
+<img src="../../../static/images/list-test.png" th:src="@{/static/images/list-test.png}" class="browser-output" alt="목록 페이지 테스트" />
+</p>
+
+<p>
+페이징 테스트<br />
+<img src="../../../static/images/list-test-paging.png" th:src="@{/static/images/list-test-paging.png}" class="browser-output" alt="목록 페이지 페이징 테스트" />
+</p>
+
+<p>
+검색 테스트<br />
+<img src="../../../static/images/list-test-search.png" th:src="@{/static/images/list-test-search.png}" class="browser-output" alt="목록 페이지 검색 테스트" />
+</p>
+
+<p>
+페이지당 게시글 수 테스트<br />
+<img src="../../../static/images/list-test-number-per-page.png" th:src="@{/static/images/list-test-number-per-page.png}" class="browser-output" alt="목록 페이지 페이지당 게시글 수 테스트" />
+</p>
+
+<p>
+새 글쓰기 기능을 서버부터 구현한다.<br />
+</p>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;insert id="insertPost" parameterType="net.java_school.board.Post" useGeneratedKeys="true"&gt;
+  &lt;selectKey keyProperty="postNo" resultType="int" order="BEFORE"&gt;
+    SELECT post_seq.nextval FROM dual
+  &lt;/selectKey&gt;
+  INSERT INTO post (postno, boardcd, title, content, username, hit, regdate)
+  VALUES (#{postNo}, #{boardCd}, #{title}, #{content}, #{username}, 0, sysdate)
+&lt;/insert&gt;
+</pre>
+
+<p>
+마이바티스는 자동생성키 컬럼을 지원하지 않는 데이터베이스를 위해,
+selectKey 엘리먼트라는 대안을 제공한다.<br />
+selectKey 엘리먼트의 keyProperty 프로퍼티는 selectKey 구문이 반환한 키 값을 설정할 속성을 지정한다.<br />
+order 프로퍼티는 BEFORE 또는 AFTER를 값으로 가질 있다. BEFORE로 설정하면 selectKey 문이 먼저 실행하고 keyProperty를 설정한 다음 INSERT 문이 실행한다.
+AFTER로 설정하면 INSERT문이 실행한 다음 selectKey 문이 실행한다.<br />
+</p>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">public int insertPost(Post post);
+</pre>
+
+<div class="filename">BoardService.java</div>
+<pre class="prettyprint">@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public int addPost(Post post);
 </pre>
 
 <div class="filename">BoardServiceImpl.java</div>
-<pre class="prettyprint">package net.java_school.board;
+<pre class="prettyprint">@Override
+public int addPost(Post post) {
+  return boardMapper.insertPost(post);
+}
+</pre>
 
-import java.util.HashMap;
-import java.util.List;
+<div class="filename">BbsController.java</div>
+<pre class="prettyprint">@PostMapping("{boardCd}")
+public String write(Post post, 
+    @PathVariable(name="boardCd") String boardCd,
+    Locale locale, Model model, Principal principal) {
+  post.setBoardCd(boardCd);
+  post.setUsername(principal.getName());
+  boardService.addPost(post);
+  return "redirect:/bbs/" + boardCd + "?page=1";
+}
+</pre>
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+<p>
+다음 임포트 문이 필요하다.<br />
+import java.security.Principal;<br />
+import org.springframework.web.bind.annotation.PostMapping;<br />
+</p>
 
-import net.java_school.mybatis.BoardMapper;
+<p>
+상세보기를 담당하는 핸들러는 다음을 순서대로 수행한다.<br />
+</p>
 
-@Service
-public class BoardServiceImpl implements BoardService {
-  @Autowired
-  private BoardMapper boardMapper;
+<ul>
+	<li>조회수를 1 증가시킨다.</li>
+	<li>내용을 볼 Post를 구한다.</li>
+	<li>이전 글 번호와 다음 글 번호를 구한다.</li>
+	<li>모든 게시판 레코드를 구한다.</li>
+	<li>게시판 이름을 구한다.</li>
+	<li>총 레코드 수를 구한다.</li>
+	<li>현재 페이지에서 페이징 처리에 필요한 숫자를 구한다.</li>
+	<li>현재 페이지에서 목록 테이블에 채울 List&lt;Post&gt;를 구한다.</li>
+</ul>
 
-  @Override
-  public Board getBoard(String boardCd) {
-    return boardMapper.selectOneBoard(boardCd);
+<p>
+'모든 게시판 레코드를 구한다'부터 마지막까지는 목록보기와 같다.<br />
+상세보기에서 추가할 데이터베이스 관련 작업은 조회수를 1증가 시키는 것과 
+내용을 볼 Post 레코드를 구하는 것이다.<br />
+</p>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;update id="updateHit" parameterType="int"&gt;
+  UPDATE post SET hit = hit + 1 WHERE postno = #{postNo}
+&lt;/update&gt;
+&lt;select id="selectOne" parameterType="int" resultType="net.java_school.board.Post"&gt;
+  SELECT postno,title,content,username,hit,regdate
+  FROM post
+  WHERE postno = #{postNo}
+&lt;/select&gt;
+&lt;select id="selectNextOne" parameterType="hashmap" resultType="Integer"&gt;
+  SELECT postno
+  FROM
+    (SELECT rownum r,a.*
+    FROM
+      (SELECT postno
+      FROM post
+      WHERE
+        boardcd = #{boardCd}
+        AND postno &gt; #{postNo}
+      &lt;if test="search != null and search != ''"&gt;
+        AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
+      &lt;/if&gt;
+      ORDER BY postno)
+    a)
+  WHERE r = 1
+&lt;/select&gt;
+&lt;select id="selectPrevOne" parameterType="hashmap" resultType="Integer"&gt;
+  SELECT postno
+  FROM
+    (SELECT rownum r,a.*
+    FROM
+      (SELECT postno
+      FROM post
+    WHERE
+        boardcd = #{boardCd}
+        AND postno &lt; #{postNo}
+      &lt;if test="search != null and search != ''"&gt;
+        AND (title LIKE '%${search}%' OR content LIKE '%${search}%')
+      &lt;/if&gt;
+      ORDER BY postno DESC)
+    a)
+  WHERE r = 1
+&lt;/select&gt;
+</pre>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">public void updateHit(int postNo);
+public Post selectOne(int postNo);
+public Integer selectNextOne(HashMap&lt;String, String&gt; hashmap);
+public Integer selectPrevOne(HashMap&lt;String, String&gt; hashmap);
+</pre>
+
+<p>
+selectNextOne과 selectPrevOne 메소드의 반환 타입이 Integer인 것은,
+해당 레코드가 없을 때 NULL을 리턴하기 때문이다.<br />
+</p>
+
+<div class="filename">BoardService.java</div>
+<pre class="prettyprint">@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public void increaseHit(int postNo);
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public Post getPost(int postNo);
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+public Integer getNextPostNo(int postNo, String boardCd, String search);
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+public Integer getPrevPostNo(int postNo, String boardCd, String search);	
+</pre>
+
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">@Override
+public void increaseHit(int postNo) {
+  boardMapper.updateHit(postNo);
+}
+@Override
+public Post getPost(int postNo) {
+  return boardMapper.selectOne(postNo);
+}
+@Override
+public Integer getNextPostNo(int postNo, String boardCd, String search) {
+  HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+  Integer no = postNo;
+  hashmap.put("postNo", no.toString());
+  hashmap.put("boardCd", boardCd);
+  hashmap.put("search", search);
+
+  return boardMapper.selectNextOne(hashmap);
+}
+@Override
+public Integer getPrevPostNo(int postNo, String boardCd, String search) {
+  HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
+  Integer no = postNo;
+  hashmap.put("postNo", no.toString());
+  hashmap.put("boardCd", boardCd);
+  hashmap.put("search", search);
+
+  return boardMapper.selectPrevOne(hashmap);
+}
+</pre>
+
+<div class="filename">BbsController.java</div>
+<pre class="prettyprint">@GetMapping("{boardCd}/{postNo}")
+public String view(
+    @CookieValue(name="numberPerPage", defaultValue="10") Integer numberPerPage,
+    @PathVariable(name="boardCd") String boardCd,
+    @PathVariable(name="postNo") Integer postNo,
+    @RequestParam(name="page", defaultValue="1") Integer page,
+    @RequestParam(name="search", defaultValue="") String search,
+    Locale locale, Model model) {
+
+  boardService.increaseHit(postNo);//조회수 1 증가
+  Post one = boardService.getPost(postNo);//내용을 볼 Post
+  int nextPostNo = 0;
+  Integer ret = boardService.getNextPostNo(postNo, boardCd, search);//다음 글
+  if (ret != null) nextPostNo = ret.intValue();
+  int prevPostNo = 0;
+  ret = boardService.getPrevPostNo(postNo, boardCd, search);//이전 글
+  if (ret != null) prevPostNo = ret.intValue();
+  
+  List&lt;Board&gt; boards = boardService.getBoards();//모든 게시판 레코드
+  
+  String lang = locale.getLanguage();
+  String boardName = this.getBoardName(boardCd, lang);//게시판 이름
+	
+  int pagePerBlock = 10;
+  int totalRecord = boardService.getTotalRecord(boardCd, search);총 레코드 수
+  
+  //페이징 처리에 필요한 숫자
+  NumbersForPaging numbers = this.getNumbersForPaging(totalRecord, page, numberPerPage, pagePerBlock);
+
+  int start = (page - 1) * numberPerPage + 1;
+  int end = page * numberPerPage;
+  
+  //목록 테이블에 채울 List&lt;Post&gt;
+  List&lt;Post&gt; list = boardService.getPostList(boardCd, search, start, end);
+
+  model.addAttribute("one", one);
+  model.addAttribute("nextPostNo", nextPostNo);
+  model.addAttribute("prevPostNo", prevPostNo);
+  model.addAttribute("boards", boards);
+  model.addAttribute("boardName", boardName);
+  model.addAttribute("posts", posts);
+  model.addAttribute("prevPage", numbers.getPrevPage());
+  model.addAttribute("pages", numbers.getPages());
+  model.addAttribute("nextPage", numbers.getNextPage());
+  model.addAttribute("finalPage", numbers.getFinalPage());
+  model.addAttribute("listItemNo", numbers.getListItemNo());		
+
+  return "bbs/view";
+}
+</pre>
+
+<p>
+다음 페이지을 작성하고, 컴파일 후 테스트한다.<br />
+</p>
+
+<div class="filename">/bbs/view.html</div>
+<pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
+&lt;html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title th:text="${#locale.language == 'ko'} ? _ : 'View the Post'"&gt;내용보기&lt;/title&gt;
+&lt;meta name="Keywords" th:content="${#locale.language == 'ko'} ? '내용보기' : 'View the post'" /&gt;
+&lt;meta name="Description" th:content="${#locale.language == 'ko'} ? '내용보기' : 'View the post'" /&gt;
+&lt;link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
+&lt;div id="i18n"&gt;&lt;/div&gt;
+&lt;section th:replace="~{articles/view :: article}"&gt;&lt;/section&gt;
+&lt;aside th:replace="~{bbs/menu :: index}"&gt;&lt;/aside&gt;
+&lt;footer th:replace="~{bbs/refs :: references}"&gt;&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+<img src="../../../static/images/selected-item.png" th:src="@{/static/images/selected-item.png}" alt="읽고 있는 게시글 강조" />
+</p>
+
+<p>
+bbs/view.html에서 다음 코드는<br />
+&lt;title th:text="${#locale.language == 'ko'} ? _ : 'View the Post'"&gt;내용보기&lt;/title&gt;<br />
+&lt;title&gt;&lt;/title&gt;로 바꿔도 된다.<br />
+view.js 자바스크립트에서 동적으로 게시글의 제목으로 title 엘리먼트의 내용을 바꾼다.<br />
+</p>
+
+<p>
+상세보기 페이지에서 글을 수정하는 기능을 서버에 추가한다.<br />
+</p>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;update id="updatePost" parameterType="net.java_school.board.Post"&gt;
+  UPDATE post
+  SET title = #{title}, content = #{content} 
+  WHERE postno = #{postNo}
+&lt;/update&gt;
+</pre>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">public void updatePost(Post post);
+</pre>
+
+<div class="filename">BoardService.java</div>
+<pre class="prettyprint">@PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
+public void editPost(@P("post") Post post);
+</pre>
+
+<p>
+다음 임포트 문이 필요하다.<br />
+import org.springframework.security.access.method.P;<br />
+</p>
+
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">@Override
+public void editPost(Post post) {
+  boardMapper.updatePost(post);
+}
+</pre>
+
+<div class="filename">BbsController.java</div>
+<pre class="prettyprint">@PutMapping("{boardCd}/{postNo}")
+public String editPost(Post post,
+    @PathVariable(name="boardCd") String boardCd,
+    @PathVariable(name="postNo") Integer postNo,
+    @RequestParam(name="page") Integer page,
+    @RequestParam(name="search") String search,
+    Locale locale, Model model) throws Exception {
+  post.setPostNo(postNo);
+  post.setBoardCd(boardCd);
+  String username = boardService.getPost(post.getPostNo()).getUsername();
+  post.setUsername(username);
+  boardService.editPost(post);
+  search = URLEncoder.encode(search, "UTF-8");
+  return "redirect:/bbs/" + boardCd + "/" + postNo + "?page=" + page + "&amp;search=" + search;
+}
+</pre>
+
+<p>
+상세보기 페이지에서 글을 삭제하는 기능을 서버에 추가한다.
+</p>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;delete id="deletePost" parameterType="int"&gt;
+  DELETE FROM post WHERE postno = #{postNo}
+&lt;/delete&gt;
+</pre>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">public void deletePost(int postNo);
+</pre>
+
+
+<div class="filename">BoardService.java</div>
+<pre class="prettyprint">@PreAuthorize("hasRole('ADMIN') or #post.username == principal.username")
+  public void deletePost(@P("post") Post post);
+</pre>
+
+
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">@Override
+public void deletePost(Post post) {
+  boardMapper.deletePost(post.getPostNo());
+}
+</pre>
+
+<div class="filename">BbsController.java</div>
+<pre class="prettyprint">@DeleteMapping("/{boardCd}/{postNo}")
+public String deletePost(
+    @PathVariable(name="boardCd") String boardCd,
+    @PathVariable(name="postNo") Integer postNo,
+    @RequestParam(name="page") Integer page,
+    @RequestParam(name="search") String search) throws Exception {
+  Post post = boardService.getPost(postNo);
+  boardService.deletePost(post);
+  search = URLEncoder.encode(search, "UTF-8");
+  return "redirect:/bbs/" + boardCd + "?page=" + page + "&amp;search=" + search;
+}
+</pre>
+</article>
+
+<article id="admin">
+<h2>관리자</h2>
+
+<p>
+자바스크립트의 XMLHttpRequest 객체를 사용하여 서버와 통신하는 코드는,
+페이지 리로딩 없이 내용을 갱신할 수 있다.
+</p>
+
+<p>
+XMLHttpRequest 객체가 서버와 통신하는 개발에선 서버측 코드는 간단해지고,
+클라이언트의 자바스크립트 코드가 복잡해 진다.<br />
+게시판처럼 기능별로 구현하는 것보단 서버 측 코드를 완성한 후,
+서버를 실행시킨 상태에서 자바스크립트 코드를 완성해 나가는 게 개발 속도를 높일 수 있다.<br />
+</p>
+
+<p>
+관리자 기능에 필요한 페이지는 다음과 같다.<br />
+</p>
+
+<ul>
+	<li>articles/users.html</li>
+	<li>articles/boards.html</li>
+	<li>admin/users.html</li>
+	<li>admin/boards.html</li>
+	<li>admin/menu.html</li>
+</ul>
+
+<p>
+refs.html은 만들지 않겠다.<br />
+refs 자리는 content가 확장해서 점유하도록 스타일을 추가하려 한다.<br />
+</p>
+
+<p>
+관리자 페이지로의 요청 URL은, 회원 관리는 /admin/users이고, 게시판 관리는 /admin/boards이다.<br />
+
+</p>
+
+<h3>회원 관리 RESTful URL</h3>
+
+<p>
+회원 관리 페이지가 서버와 통신하는 URL은 다음과 같다.<br />
+</p>
+
+<pre style="border: 2px dotted grey;padding: 0.3em;">회원 목록	GET	/users?search=
+비밀번호 변경	PATCH	/users/phoebe
+권한 삭제	DELETE	/users/phoebe/ROLE_USER
+권한 추가	POST	/users/phoebe/ROLE_USER
+계정 삭제	DELETE	/users/phoebe
+</pre>
+
+<h3>관리자 화면 프로토타입</h3>
+
+<p>
+관리자 화면 프로토타입을 작성하고, 회원관리 페이지를 서버를 통해 보이는 데까지 테스트한 다음,
+회원 관리 페이지의 자바스크립트 코드를 작성해 나가겠다.<br />
+</p>
+
+<h4>회원 관리 페이지 프로토타입</h4>
+
+<div class="filename">articles/users.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title&gt;Users&lt;/title&gt;
+&lt;meta name="Keywords" content="Users" /&gt;
+&lt;meta name="Description" content="Users" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/en.css" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
+&lt;style&gt;
+article {
+  width: 830px;
+  margin: 0 auto; 
+}
+&lt;/style&gt;
+&lt;script src="../../../static/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function() {
+  $('.username').click(function(e) {
+    e.preventDefault();
+    $('#authorities').empty();
+    var username = $(this).text();
+    var authorities = $(this).parent().next().text();
+    var arr = authorities.split(",");
+    var authorities_del = ""
+    for (var idx in arr) {
+      authorities_del += arr[idx] + ' &lt;a href="#" title="' + arr[idx] + '" class="del-auth-link"&lt;x&lt;/a&gt; ';
+    }
+    $('#changePasswordForm input[name*=username]').val(username);
+    $('#addAuthorityForm input[name*=username]').val(username);
+    $('#deleteAccountForm input[name*=username]').val(username);
+    $('#authorities').append(authorities_del);
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;article&gt;
+&lt;script th:inline="javascript"&gt;
+
+&lt;/script&gt;
+&lt;h3&gt;Users&lt;/h3&gt;
+&lt;table id="list-table" class="bbs-table" style="width: 49%;float: left;"&gt;
+&lt;tr&gt;
+  &lt;th style="text-align: left;"&gt;No&lt;/th&gt;
+  &lt;th style="text-align: left;"&gt;Username&lt;/th&gt;
+  &lt;th style="text-align: left;"&gt;Authorities&lt;/th&gt;
+&lt;/tr&gt;
+&lt;!--/*--&gt;
+&lt;tr class="data-row"&gt;
+  &lt;td&gt;1&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" class="username"&gt;admin&lt;/a&gt;&lt;/td&gt;
+  &lt;td&gt;ROLE_USER,ROLE_ADMIN&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="data-row"&gt;
+  &lt;td&gt;2&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" class="username"&gt;charles&lt;/a&gt;&lt;/td&gt;
+  &lt;td&gt;ROLE_USER&lt;/td&gt;
+&lt;/tr&gt;
+&lt;!--*/--&gt;
+&lt;/table&gt;
+&lt;div style="width: 49%;float: right;"&gt;
+  &lt;form id="changePasswordForm"&gt;
+  &lt;table class="bbs-table"&gt;
+  &lt;caption&gt;Change Password&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Username&lt;/td&gt;
+    &lt;td&gt;
+      &lt;input type="text" name="username" disabled /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;New Password&lt;/td&gt;
+    &lt;td&gt;
+      &lt;input type="password" name="password" /&gt;
+      &lt;input type="submit" value="Submit" /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+  &lt;form id="addAuthorityForm"&gt;
+  &lt;table class="bbs-table"&gt;
+  &lt;caption&gt;Add Authorities&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Username&lt;/td&gt;
+    &lt;td&gt;&lt;input type="text" name="username" disabled /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Authorities&lt;/td&gt;
+    &lt;td id="authorities"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Add Authority&lt;/td&gt;
+    &lt;td&gt;
+      &lt;select name="authority" id="dropDownAuthority"&gt;
+        &lt;option value="ROLE_USER" selected="selected"&gt;USER&lt;/option&gt;
+        &lt;option value="ROLE_ADMIN"&gt;ADMIN&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;input type="submit" value="Submit" /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+  &lt;form id="deleteAccountForm"&gt;
+  &lt;table class="bbs-table"&gt;
+  &lt;caption&gt;Delete Account&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Username&lt;/td&gt;
+    &lt;td&gt;
+      &lt;input type="text" name="username" disabled /&gt;
+      &lt;input type="submit" value="Delete" /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+&lt;form id="deleteAuthorityForm" action="/admin/users/" th:method="delete"&gt;
+&lt;input type="hidden" name="authority" /&gt;
+&lt;/form&gt;
+&lt;/article&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+서버없이 파일을 웹 브라우저로 열면 다음과 같다.<br />
+회원 목록 리스트에서 Username을 클릭하면 오른쪽 폼에 Username이 셋팅된다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/users-prototype.png" th:src="@{/static/images/users-prototype.png}" class="browser-output" alt="관리자 화면 중 회원 관리 프로토타입" />
+</p>
+
+<p>
+계정 삭제<sup>Delete Account</sup>가 실제로 사용자 레코드를 삭제해선 안 된다.<br />
+데이터베이스 설계대로 라면, 
+게시글 테이블의 username 컬럼은 사용자 테이블의 username을 참조하지 않기에,
+게시글을 등록한 사용자라도 삭제할 수 있다.
+하지만 삭제한 후에 똑같은 사용자명으로 회원가입이 될 수 있고, 
+새로운 사용자는 삭제되기 전 사용자가 작성한 게시글의 소유자가 된다.
+</p>
+
+<p>
+다음을 article 엘리먼트 바로 아래 &lt;script th:inline="javascript"&gt;에 추가한다.<br />
+</p>
+
+<pre class="prettyprint">var link = /*[[@{/}]]*/'';
+</pre>
+
+<p>
+자바스크립트 인라인 코드는 이것 뿐이다.<br />
+게시판 코드와 달리 인라인 코드가 적으니, 인라인 코드와 그렇지 않은 코드로 분리하는 게 유지보수에
+도움이 될 수 있다.<br /> 
+head안 script 블록 안에 자바스크립트 코드를 모두 완성하면, 
+정적 테스트에 필요한 코드 외에는 모두 users.js 파일에 옮기도록 한다.<br /> 
+</p>
+
+<div class="filename">articles/boards.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title&gt;Boards&lt;/title&gt;
+&lt;meta name="Keywords" content="Boards" /&gt;
+&lt;meta name="Description" content="Boards" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/en.css" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
+&lt;style&gt;
+article {
+  width: 830px;
+  margin: 0 auto; 
+}
+&lt;/style&gt;
+&lt;script src="../../../static/js/jquery.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function() {
+  $('.board-code').click(function(e) {
+    e.preventDefault();
+    var boardCd = $(this).text();
+    $('#editBoardForm input[name*=boardCd]').val(boardCd);
+    $('#deleteBoardForm input[name*=boardCd]').val(boardCd);
+  });
+});	
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;article&gt;
+&lt;script th:inline="javascript"&gt;
+var link = /*[[@{/}]]*/'';
+&lt;/script&gt;
+&lt;h3&gt;Boards&lt;/h3&gt;
+&lt;div style="width: 49%;float: left;"&gt;
+&lt;table id="list-table" class="bbs-table"&gt;
+&lt;tr&gt;
+  &lt;th style="text-align: left"&gt;No&lt;/th&gt;
+  &lt;th style="text-align: left"&gt;Code&lt;/th&gt;
+  &lt;th style="text-align: left"&gt;Name&lt;/th&gt;
+  &lt;th style="text-align: left"&gt;Name_ko&lt;/th&gt;
+&lt;/tr&gt;
+&lt;!--/*--&gt;
+&lt;tr&gt;
+  &lt;td&gt;1&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" class="board-code"&gt;chat&lt;/a&gt;&lt;/td&gt;
+  &lt;td&gt;Chat&lt;/td&gt;
+  &lt;td&gt;자유 토론&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;td&gt;2&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" class="board-code"&gt;notice&lt;/a&gt;&lt;/td&gt;
+  &lt;td&gt;Notice&lt;/td&gt;
+  &lt;td&gt;공지&lt;/td&gt;
+&lt;/tr&gt;
+&lt;!--*/--&gt;
+&lt;/table&gt;
+&lt;form id="searchForm" style="margin-top: 10px;text-align: center;"&gt;
+  &lt;input type="text" name="search" style="width: 120px;" /&gt;
+  &lt;input type="submit" value="Search" /&gt;
+&lt;/form&gt;
+&lt;/div&gt;
+&lt;div style="width: 49%;float: right;"&gt;
+  &lt;form id="editBoardForm"&gt;
+  &lt;table class="bbs-table"&gt;
+  &lt;caption&gt;Edit Board&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Code&lt;/td&gt;
+    &lt;td&gt;&lt;input type="text" name="boardCd" style="width: 135px;" disabled /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name&lt;/td&gt;
+    &lt;td&gt;
+      &lt;input type="text" name="boardNm" style="width: 135px;" /&gt;
+      &lt;input type="button" id="name-btn" value="Submit" /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name_ko&lt;/td&gt;
+    &lt;td&gt;
+      &lt;input type="text" name="boardNm_ko" style="width: 135px;" /&gt;
+      &lt;input type="button" id="ko-name-btn" value="Submit" /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+
+  &lt;form id="newBoardForm"&gt;
+  &lt;table class="bbs-table"&gt;
+  &lt;caption&gt;New Board&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Code&lt;/td&gt;
+    &lt;td&gt;&lt;input type="text" name="boardCd" style="width: 135px;" /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name&lt;/td&gt;
+    &lt;td&gt;&lt;input type="text" name="boardNm" style="width: 135px;" /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Name_ko&lt;/td&gt;
+    &lt;td&gt;&lt;input type="text" name="boardNm_ko" style="width: 135px;" /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td cols="2" style="border: none;"&gt;&lt;input type="submit" value="Submit" /&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+
+  &lt;form id="deleteBoardForm"&gt;
+  &lt;table class="bbs-table"&gt;
+  &lt;caption&gt;Delete Board&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Code&lt;/td&gt;
+    &lt;td&gt;
+      &lt;input type="text" name="boardCd" style="width: 135px;" /&gt;
+      &lt;input type="submit" value="Submit" /&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;/article&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+<img src="../../../static/images/boards-prototype.png" th:src="@{/static/images/boards-prototype.png}" class="browser-output" alt="관리자 화면 중 게시판 관리 프로토타입" />
+</p>
+
+<p>
+관리자 테스트를 위해, 한 사용자에게 관리자 권한을 부여한다.<br />
+</p>
+
+<p>
+admin이 가입된 회원이라면, sqlplus web/programming2로 접속 후 다음 명령을 실행한다.<br />
+</p>
+
+<pre class="prettyprint">insert into authorities values ('admin','ROLE_ADMIN');
+commit;
+</pre>
+
+<p>
+관리자 페이지로 접근하기 위한 메뉴를 추가한다.<br />
+아래를 참고해 타임리프 레이아웃 파일을 수정한다.<br />
+</p>
+
+<div class="filename">baseLayoutFile.html</div>
+<pre class="prettyprint">&lt;th:block sec:authorize="isAuthenticated()"&gt;
+  &lt;a href="#" id="logout"&gt;&lt;button type="button" th:text="${lang == null} ? #{logout} : (${lang == 'ko'} ? _ : 'Logout')"&gt;로그아웃&lt;/button&gt;&lt;/a&gt;
+  &lt;a href="#" th:href="@{/user/editAccount}"&gt;&lt;button type="button" th:text="${lang == null} ? #{edit.my.account} : (${lang == 'ko'} ? _ : 'Edit Account')"&gt;내 정보 수정&lt;/button&gt;&lt;/a&gt;
+&lt;/th:block&gt;
+<strong>&lt;th:block sec:authorize="hasRole('ROLE_ADMIN')"&gt;</strong>
+  <strong>&lt;a th:href="@{/admin}" /&gt;&lt;button type="button"&gt;&lt;b&gt;Administrator&lt;/b&gt;&lt;/button&gt;&lt;/a&gt;</strong>
+<strong>&lt;/th:block&gt;</strong>
+</pre>
+
+<p>
+컨트롤러는 세 개가 필요하다.<br />
+관리자 페이지를 보여주기 위한 핸들러는 AdminController 클래스에 두고,
+회원관리 페이지와 통신하는 핸들러는 RestUsersController에,
+게시판관리 페이지와 통신하는 핸들러는 RestBoardsController에 두도록 하겠다.<br />
+</p>
+
+<div class="filename">AdminController.java</div>
+<pre class="prettyprint">package net.java_school.controller;
+
+import org.springframework.stereotype.Controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("admin")
+public class AdminController {
+  @GetMapping
+  public String boards() {
+    return "admin/boards";
   }
-
-  @Override
-  public List&lt;Board&gt; getBoards() {
-    return boardMapper.selectAllBoard();
-  }
-
-  @Override
-  public void createBoard(Board board) {
-    boardMapper.insertBoard(board);
-  }
-
-  @Override
-  public void editBoard(Board board) {
-    boardMapper.updateBoard(board);
-  }
-
-  @Override
-  public List&lt;Article&gt; getArticleList(HashMap&lt;String, String&gt; hashmap) {
-    return boardMapper.selectListOfArticles(hashmap);
-  }
-
-  @Override
-  public int getTotalRecord(String boardCd, String searchWord) {
-    HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
-    hashmap.put("boardCd", boardCd);
-    hashmap.put("searchWord", searchWord);
-
-    return boardMapper.selectCountOfArticles(hashmap);
-  }
-
-  @Override
-  public int addArticle(Article article) {
-    return boardMapper.insert(article);
-  }
-
-  @Override
-  public void editArticle(Article article) {
-    boardMapper.update(article);
-  }
-
-  @Override
-  public void deleteArticle(Article article) {
-    boardMapper.delete(article.getArticleNo());
-  }
-
-  @Override
-  public void increaseHit(Integer articleNo, String ip, String yearMonthDayHour) {
-    HashMap&lt;String, String&gt; map = new HashMap&lt;&gt;();
-    map.put("articleNo", articleNo.toString());
-    map.put("ip", ip);
-    map.put("yearMonthDayHour", yearMonthDayHour);
-
-    boardMapper.insertOneViews(map);
-  }
-
-  @Override
-  public Article getArticle(int articleNo) {
-    return boardMapper.selectOne(articleNo);
-  }
-
-  @Override
-  public Article getNextArticle(int articleNo, String boardCd, String searchWord) {
-    HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
-    Integer no = articleNo;
-    hashmap.put("articleNo", no.toString());
-    hashmap.put("boardCd", boardCd);
-    hashmap.put("searchWord", searchWord);
-
-    return boardMapper.selectNextOne(hashmap);
-  }
-
-  @Override
-  public Article getPrevArticle(int articleNo, String boardCd, String searchWord) {
-    HashMap&lt;String, String&gt; hashmap = new HashMap&lt;&gt;();
-    Integer no = articleNo;
-    hashmap.put("articleNo", no.toString());
-    hashmap.put("boardCd", boardCd);
-    hashmap.put("searchWord", searchWord);
-
-    return boardMapper.selectPrevOne(hashmap);
-  }
-
-  @Override
-  public int getTotalViews(int articleNo) {
-    return boardMapper.selectCountOfViews(articleNo);
+  @GetMapping("users")
+  public String users() {
+    return "admin/users";
   }
 }
 </pre>
 
-<div class="filename">BoardMapper.xml</div>
-<pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-
-&lt;!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;
-
-&lt;mapper namespace="net.java_school.mapper.BoardMapper"&gt;
-  &lt;select id="selectOneBoard" resultType="net.java_school.board.Board"&gt;
-    SELECT * FROM board WHERE boardcd = #{boardCd}
-  &lt;/select&gt;
-
-  &lt;select id="selectAllBoard" resultType="net.java_school.board.Board"&gt;
-    SELECT * FROM board order by boardcd
-  &lt;/select&gt;
-
-  &lt;update id="updateBoard" parameterType="net.java_school.board.Board"&gt;
-    UPDATE board SET boardnm = #{boardNm}, boardnm_ko = #{boardNm_ko}
-    WHERE boardcd = #{boardCd}
-  &lt;/update&gt;
-
-  &lt;insert id="insertBoard" parameterType="net.java_school.board.Board"&gt;
-    INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
-  &lt;/insert&gt;
-
-  &lt;update id="update" parameterType="net.java_school.board.Article"&gt;
-    UPDATE article 
-    SET title = #{title}, content = #{content} 
-    WHERE articleno = #{articleNo}
-  &lt;/update&gt;
-
-  &lt;delete id="delete" parameterType="int"&gt;
-    DELETE FROM article WHERE articleno = #{articleNo}
-  &lt;/delete&gt;
-
-  &lt;select id="selectCountOfViews" parameterType="int" resultType="int"&gt;
-    SELECT count(*) FROM views 
-    WHERE articleno = #{articleNo}
-  &lt;/select&gt;
-
-  &lt;select id="selectNextOne" parameterType="hashmap" resultType="net.java_school.board.Article"&gt;
-    SELECT articleno, title
-    FROM
-      (SELECT rownum r,a.*
-      FROM
-        (SELECT articleno, title FROM article 
-        WHERE 
-          boardCd = #{boardCd} 
-          AND articleno &gt; #{articleNo}
-          &lt;if test="search != null and search != ''"&gt;
-          AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
-          &lt;/if&gt; 
-        ORDER BY articleno) 
-      a)
-    WHERE r = 1
-  &lt;/select&gt;
-  
-  &lt;select id="selectPrevOne" parameterType="hashmap" resultType="net.java_school.board.Article"&gt;
-    SELECT articleno, title
-    FROM
-      (SELECT rownum r,a.*
-       FROM
-       (SELECT articleno, title FROM article 
-        WHERE 
-          boardCd = #{boardCd} 
-          AND articleno &lt; #{articleNo}
-          &lt;if test="search != null and search != ''"&gt;
-          AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
-          &lt;/if&gt; 
-        ORDER BY articleno DESC)
-      a)
-    WHERE r = 1
-  &lt;/select&gt;	
-  
-  &lt;select id="selectOne" parameterType="int" resultType="net.java_school.board.Article"&gt;
-    SELECT articleno, title, content, username, regdate
-    FROM article
-    WHERE articleno = #{articleNo}
-  &lt;/select&gt;
-  
-  &lt;insert id="insertOneViews" parameterType="hashmap"&gt;
-    INSERT INTO views values (seq_views.nextval, #{articleNo}, #{ip}, #{yearMonthDayHour})
-  &lt;/insert&gt;
-  
-  &lt;insert id="insert" parameterType="net.java_school.board.Article" useGeneratedKeys="true"&gt;
-    &lt;selectKey keyProperty="articleNo" resultType="int" order="BEFORE"&gt;
-      SELECT seq_article.nextval FROM dual
-    &lt;/selectKey&gt;
-    INSERT INTO article (articleno, boardcd, title, content, username, regdate)
-    VALUES (#{articleNo}, #{boardCd}, #{title}, #{content}, #{username}, sysdate)
-  &lt;/insert&gt;
-  
-  &lt;select id="selectCountOfArticles" parameterType="hashmap" resultType="int"&gt;
-    SELECT count(*) FROM article 
-    WHERE boardcd = #{boardCd}
-      &lt;if test="search != null and search != ''"&gt;
-      AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
-      &lt;/if&gt;
-  &lt;/select&gt;
-  
-  &lt;select id="selectListOfArticles" parameterType="hashmap" resultType="net.java_school.board.Article"&gt;
-    SELECT articleno, title, regdate, hit
-      FROM (
-        SELECT rownum R,A.* 
-        FROM (
-          SELECT a.articleno, a.title, a.regdate, count(distinct(v.no)) hit
-          FROM 
-            article a left join views v on a.articleno = v.articleno
-          WHERE
-            a.boardcd = #{boardCd}
-            &lt;if test="search != null and search != ''"&gt;
-            AND (title LIKE '%${search}%' OR DBMS_LOB.INSTR(content, #{search}) &gt; 0)
-            &lt;/if&gt;
-          GROUP BY a.articleno, title, a.regdate
-          ORDER BY articleno DESC
-        ) A
-      )
-    WHERE R BETWEEN #{start} AND #{end}
-  &lt;/select&gt;	
-&lt;/mapper&gt;
-</pre>
-
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-<div class="filename"></div>
-<pre class="prettyprint">
-
-</pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h3>관리자</h3>
-
 <p>
-ADMIN 권한 사용자만 사용할 수 있는 회원, 게시판 관리 기능을 구현한다.<br />
+관리자 메뉴 페이지를 작성한다.<br />
 </p>
 
-<div class="filename">회원 관리에 필요한 페이지</div>
-
-<ul>
-	<li>articles/admin/users.html</li>
-	<li>articles/admin/editAccount.html</li>
-	<li>users/admin/users.html</li>
-	<li>users/admin/editAccount.html</li>
-	<li>users/admin/menu.html</li>
-</ul>
-
-<div class="filename">게시판 관리에 필요한 페이지</div>
-
-<ul>
-	<li>articles/admin/boards.html</li>
-	<li>users/admin/boards.html</li>
-</ul>
+<div class="filename">admin/menu.html</div>
+<pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;link rel="stylesheet" media="all" href="../../../static/css/screen.css" /&gt;
+&lt;link rel="stylesheet" media="all" href="../../../static/css/en.css" /&gt;
+&lt;style&gt;
+#sidebar {
+  margin-left: 0;
+}
+&lt;/style&gt;
+&lt;body&gt;
+&lt;th:block th:fragment="index" id="sidebar"&gt;
+&lt;h1&gt;Admin&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{/admin}"&gt;Boards&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#" th:href="@{/admin/users}"&gt;Users&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/th:block&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
 
 <p>
+refs.html 파일을 만들지 않고, 참고 문서가 차지하지 공간을 content가 확장하여 점유토록 하려면
+다음 스타일시트 파일을 만들고 요청 페이지에 추가하다.<br />
+</p>
+
+<div class="filename">admin.css</div>
+<pre class="prettyprint">#content  {
+  margin-right: 0;
+}
+</pre>
+
+<h3>핸들러 요청 페이지 작성</h3>
+
+<p>
+컨트롤러의 핸들러가 요청하는 페이지를 작성한다.
+</p>
+
+<div class="filename">admin/users.html</div>
+<pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
+&lt;html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title&gt;Admin :: Users&lt;/title&gt;
+&lt;meta name="Keywords" content="Admin :: Users" /&gt;
+&lt;meta name="Description" content="Admin :: Users" /&gt;
+&lt;link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" /&gt;
+<strong>&lt;link rel="stylesheet" media="all" th:href="@{/static/css/admin.css}" /&gt;</strong>
+&lt;script th:src="@{/static/js/users.js}"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
+&lt;div id="i18n"&gt;&lt;/div&gt;
+&lt;section th:replace="~{articles/users :: article}"&gt;&lt;/section&gt;
+&lt;aside th:replace="~{admin/menu :: index}"&gt;&lt;/aside&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<div class="filename">admin/boards.html</div>
+<pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
+&lt;html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;title&gt;Admin :: Boards&lt;/title&gt;
+&lt;meta name="Keywords" content="Admin :: Boards" /&gt;
+&lt;meta name="Description" content="Admin :: Boards" /&gt;
+&lt;link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" /&gt;
+&lt;link rel="stylesheet" media="all" th:href="@{/static/css/admin.css}" /&gt;
+&lt;script th:src="@{/static/js/boards.js}"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
+&lt;div id="i18n"&gt;&lt;/div&gt;
+&lt;section th:replace="~{articles/boards :: article}"&gt;&lt;/section&gt;
+&lt;aside th:replace="~{admin/menu :: index}"&gt;&lt;/aside&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h3>시큐리티 설정 클래스 편집</h3>
+
+<p>
+다음 요청은 ROLE_ADMIN 권한을 가진 사용자만이 접근할 수 있도록,
+아래를 참고해 스프링 시큐리티 설정 클래스를 편집한다.<br />
+</p>
+
+<div class="filename">SecurityConfig.java</div>
+<pre class="prettyprint">.requestMatchers(HttpMethod.DELETE, "/boards/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.PATCH, "/boards/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.PUT, "/boards/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.POST, "/boards/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.GET, "/boards/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.PATCH, "/users/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.POST, "/users/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+.requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
+</pre>
+
+<p>
+XMLHttpRequest를 통해 서버와 통신하는 프로그램은,
+csrf 토큰을 전달하면 403 에러를 발생한다.<br />
+디폴트로 설정되어 있는 csrf 방어 기능을 억제한다.<br />
+</p>
+
+<div class="filename">SecurityConfig.java</div>
+<pre class="prettyprint">.httpBasic(withDefaults()).csrf(AbstractHttpConfigurer::disable);
+</pre>
+
+<h3>jackson-databind 의존성 추가</h3>
+
+<p>
+JSON 객체를 사용하기 위해 다음을 의존성에 추가한다.<br />
+</p>
+
+<div class="filename">pom.xml</div>
+<pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+  &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+  &lt;version&gt;2.18.2&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+
+<h3>1차 테스트</h3>
+
+<p>
+컴파일하고 서버를 시작한 후, ROLE_ADMIN 권한을 가진 사용자로 로그인한다.<br />
+상단에 Administrator 버튼이 클릭하고 게시판 관리 페이지로 이동한다.<br />
+</p>
+
+<p>
+articles/users.html에서 자바스크립트 코드를 복사하여 /static/js/users.js 파일에 붙여넣는다.<br />
+users.html에는 정적 테스트를 위해 아래 코드만 유지한다.<br />
+</p>
+
+<pre class="prettyprint">$(document).ready(function() {
+  $('.username').click(function(e) {
+    e.preventDefault();
+    $('#authorities').empty();
+    var username = $(this).text();
+    var authorities = $(this).parent().next().text();
+    var arr = authorities.split(",");
+    var authorities_del = ""
+    for (var idx in arr) {
+      authorities_del += arr[idx] + ' &lt;a href="#" title="' + arr[idx] + '" class="del-auth-link"&gt;x&lt;/a&gt; ';
+    }
+    $('#changePasswordForm input[name*=username]').val(username);
+    $('#addAuthorityForm input[name*=username]').val(username);
+    $('#deleteAccountForm input[name*=username]').val(username);
+    $('#authorities').append(authorities_del);
+  });
+});
+</pre>
+
+<h3>회원 관리 서버측 구현</h3>
+
+<p>
+users.html 페이지와 통신하는 컨트롤러인, RestUsersController를 작성해 보자.<br />
+</p>
+
+<div class="filename">RestUsersController.java</div>
+<pre class="prettyprint">package net.java_school.controller;
+
+import java.util.List;
+
+import net.java_school.user.User;
+import net.java_school.user.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@RestController
+@RequestMapping("users")
+public class RestUsersController {
+
+  @Autowired
+  private UserService userService;
+
+  @Autowired
+  private BCryptPasswordEncoder bcryptPasswordEncoder;
+
+  @GetMapping
+  public List&lt;User&gt; getUsers(@RequestParam(name="search", defaultValue="") String search) {
+    List&lt;User&gt; users = userService.getUsers(search);
+    return users;
+  }
+  @PatchMapping("{username}")
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void patchUser(@PathVariable(name="username") String username, @RequestBody User user) {
+    String password = user.getPassword();
+    if (password != null) {
+      userService.changePassword(username, this.bcryptPasswordEncoder.encode(password));
+    }
+    //email, fullName, address ..등 사용자 정보를 추가한다면, 위와 같은 로직으로 추가한다
+  }
+  @DeleteMapping("{username}/{authority}")
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void deleteAuthority(@PathVariable(name="username") String username,
+      @PathVariable(name="authority") String authority) {
+    userService.deleteAuthority(username, authority);
+  }
+  @PostMapping("{username}/{authority}")
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void addAuthority(@PathVariable(name="username") String username,
+       @PathVariable(name="authority") String authority) {
+    userService.addAuthority(username, authority);
+  }
+  @DeleteMapping("{username}")
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void deleteUser(@PathVariable(name="username") String username) {
+    userService.deleteUser(username);
+  }
+}
+</pre>
+
+<div class="filename">UserService.java</div>
+<pre class="prettyprint">@PreAuthorize("hasRole('ROLE_ADMIN')")
+public List&lt;User&gt; getUsers(String search);
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public int changePassword(String username, String password);
+@PreAuthorize("hasRole('ADMIN') or #username == principal.username")
+public String getPassword(@P("username") String username);
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+public int deleteAuthority(String username, String authority);
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+public int addAuthority(String username, String authority);
+@PreAuthorize("hasRole('ROLE_ADMIN')")
+public int deleteUser(String username);
+</pre>
+
+<p>
+다음 임포트 문이 필요하다.<br />
+import org.springframework.security.access.method.P;<br />
+</p>
+
+<div class="filename">UserServiceImpl.java</div>
+<pre class="prettyprint">@Override
+public List&lt;User&gt; getUsers(String search) {
+  return userMapper.selectAll(search);
+}
+@Override
+public int changePassword(String username, String password) {
+  return userMapper.updatePassword(username, password);
+}
+@Override
+public String getPassword(String username) {
+  return userMapper.selectPassword(username);
+}	
+@Override
+public int deleteAuthority(String username, String authority) {
+  return userMapper.deleteAuthority(username, authority);
+}
+@Override
+public int addAuthority(String username, String authority) {
+  return userMapper.insertAuthority(username, authority);
+}
+@Override
+public int deleteUser(String username) {
+  return userMapper.updateEnabledToZero(username);
+}
+</pre>
+
+<div class="filename">UserMapper.java</div>
+<pre class="prettyprint">public List&lt;User&gt; selectAll(@Param("search") String search);
+public int updatePassword(@Param("username") String username, @Param("password") String password);
+public String selectPassword(@Param("username") String username);
+public int deleteAuthority(@Param("username") String username, @Param("authority") String authority);
+public int insertAuthority(@Param("username") String username, @Param("authority") String authority);
+public int updateEnabledToZero(@Param("username") String username);
+</pre>
+
+<div class="filename">UserMapper.xml</div>
+<pre class="prettyprint">&lt;select id="selectAll" resultMap="UserResult"&gt;
+  SELECT username
+  FROM users
+  WHERE enabled = 1
+  &lt;if test="search != null and search != ''"&gt;
+  AND username LIKE '%' || #{search} || '%'
+  &lt;/if&gt;
+  ORDER BY username ASC
+&lt;/select&gt;
+&lt;resultMap id="UserResult" type="net.java_school.user.User"&gt;
+  &lt;id property="username" column="username" /&gt;
+  &lt;collection property="authorities" javaType="ArrayList" column="username" ofType="string" select="selectAuthoritiesOfUser" /&gt;
+&lt;/resultMap&gt;
+&lt;select id="selectAuthoritiesOfUser" resultType="string"&gt;
+  SELECT authority
+  FROM authorities
+  WHERE username = #{username}
+&lt;/select&gt;
+&lt;delete id="deleteAuthority"&gt;
+  DELETE authorities WHERE username = #{username} and authority = #{authority}
+&lt;/delete&gt;
+&lt;insert id="insertAuthority"&gt;
+  INSERT INTO authorities VALUES (#{username}, #{authority})
+&lt;/insert&gt;
+&lt;update id="updateEnabledToZero"&gt;
+  UPDATE users SET enabled = 0 WHERE username = #{username}
+&lt;/update&gt;
+</pre>
+
+<p>
+컴파일하고 서버를 동작시킨다.<br />
+관리자로 로그인하고 관리자 회원관리 페이지로 이동한다.<br />
+회원관리 페이지가 보이면, 자바스크립트를 완성시켜 보자.<br />
+</p>
+
+<h3>회원 관리 자바스크립트 구현</h3>
+
+<h4>검색 기능</h4>
+
+<p>
+검색어를 입력하지 않고 검색 버튼을 누르면, 서버로부터 모든 회원 정보를 가져와 목록 테이블에 채운다.<br />
+</p>
+
+<div class="filename">users.js</div>
+<pre class="prettyprint">function showListItems(search) {
+  if (search == null) search = '';
+  var url = link + 'users?search=' + search;
+  $.getJSON(url, function (data) {
+    $('#list-table .data-row').remove();
+    $.each(data, function (i, item) {
+      var trs = '&lt;tr class="data-row"&gt;'
+        + '&lt;td&gt;' + (i+1) + '&lt;/td&gt;'
+        + '&lt;td&gt;' + '&lt;a href="#" class=username&gt;' + item.username + '&lt;/a&gt;&lt;/td&gt;'
+        + '&lt;td&gt;' + item.authorities + '&lt;/td&gt;'
+        + '&lt;/tr&gt;'
+      $('#list-table').append(trs);
+      //console.log(item);
+    });
+  });
+}
+<strong>$(document).ready(function() {</strong>
+  <strong>$('#searchForm').submit(function(e) {</strong>
+    <strong>e.preventDefault();</strong>
+    <strong>var search = $('#searchForm input[name*=search]').val();</strong>
+    <strong>showListItems(search);</strong>
+    <strong>$('#searchForm input[name*=search]').val('');</strong>
+  <strong>});</strong>
+<strong>});</strong>
+</pre>
+
+<p>
+새로 고침을 누른 후, 검색 버튼을 클릭한다.
+</p>
+
+<p>
+<img src="../../../static/images/users-search.png" th:src="@{/static/images/users-search.png}" class="browser-output" alt="search 버튼 클릭 전" />
+</p>
+
+<p>
+<img src="../../../static/images/users-search2.png" th:src="@{/static/images/users-search2.png}" class="browser-output" alt="search 버튼 클릭 후" />
+</p>
+
+<p>
+목록 테이블에서 사용자명을 클릭하면 오른쪽 폼에 사용자명이 나타나도록 구현할 차례다.<br />
+해당 함수는 프로토타입을 작성할 때 추가했다.<br />
+하지만 그대로 사용하면 동작하지 않는다. 자바스크립트로 동적으로 만들어진 엘리먼트를 다루는 코드를 
+$(document).ready(function() {..} 함수에 두면 작동하지 않기 때문이다.<br />
+$(document).on('click', '<em>이벤트를 일으키는 엘리먼트</em>', function (e) { .. } 함수는 동적으로 만들어진 엘리먼트에 잘 작동한다.<br />
+</p>
+
+<pre class="prettyprint">$(document).on('click', '.username', function (e) {
+  e.preventDefault();
+  $('#authorities').empty();
+  var username = $(e.target).text();
+  var authorities = $(e.target).parent().next().text();
+  var arr = authorities.split(",");
+  var authorities_del = ""
+  for (var idx in arr) {
+    if (arr[idx] != '')
+      authorities_del += ' &lt;a href="#" title="' + arr[idx] + '" class="del-auth-link"&gt;' + arr[idx] + ' x&lt;/a&gt; ';
+  }
+  $('#changePasswordForm input[name*=username]').val(username);
+  $('#addAuthorityForm input[name*=username]').val(username);
+  $('#deleteAccountForm input[name*=username]').val(username);
+  $('#authorities').append(authorities_del);
+});
+</pre>
+
+<p>
+새로 고침을 누른 후, 검색 버튼을 클릭한다.<br />
+목록 테이블에서 사용자명을 클릭한다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/users-username.png" th:src="@{/static/images/users-username.png}" class="browser-output" alt="list table username click" />
+</p>
+
+<h4>비밀번호 변경</h4>
+
+<p>
+비밀번호 변경 폼은 동적으로 생성된 코드가 아니기에, $(document).ready(function() {..} 함수 안에 다음 함수를 추가한다.<br />
+</p>
+
+<pre class="prettyprint">$('#changePasswordForm').submit(function(e) {
+  e.preventDefault();
+  var username = $('#changePasswordForm input[name*=username]').val();
+  if (!username) return;
+  var pw = $('#changePasswordForm input[name*=password]').val();
+  pw = pw.trim();
+  if(!pw) return;
+  var data = {
+    "password": pw,
+  };
+  var jsonString = JSON.stringify(data);
+  var url = link + "users/" + username;
+  var method = "PATCH";
+  $.ajax({
+    url: url,
+    type: method,
+    data: jsonString,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function () {
+      console.log('pw change success!');
+      $('#changePasswordForm input[name*=password]').val('');				
+    },
+    error: function (xhr, status, error) {
+      console.log('error!');
+      console.log(xhr.statusText);
+    }
+  });
+});
+</pre>
+
+<p>
+<img src="../../../static/images/users-pw.png" th:src="@{/static/images/users-pw.png}" class="browser-output" alt="change password" />
+</p>
+
+<p>
+비밀번호는 변경되었는지 확인할 수 없으니 개발자 툴을 열고 콘솔에 pw change success!가 출력되는지 확인한다.<br />
+</p>
+
+<p>
+<img src="../../../static/images/edge-developer-tools.png" th:src="@{/static/images/edge-developer-tools.png}" alt="Edge developer-tools open" />
+</p>
+
+<p>
+<img src="../../../static/images/edge-developer-tools-console.png" th:src="@{/static/images/edge-developer-tools-console.png}" alt="Edge developer-tools console" />
+</p>
+
+<h4>권한 삭제</h4>
+
+<pre class="prettyprint">$(document).on('click', '.del-auth-link', function (e) {
+  e.preventDefault();
+  var authority = $(e.target).attr('title');
+  var username = $('#addAuthorityForm input[name*=username]').val();
+  if (!username) return;
+  var url = link + "users/" + username + "/" + authority;
+  $.ajax({
+    url: url,
+    type: 'DELETE',
+    success: function () {
+      $(e.target).remove();
+      showListItems(username);
+    },
+    error: function(xhr, status, error) {
+      console.log('error!');
+      console.log(xhr.statusText);
+    }
+  });		
+});
+</pre>
+
+<p>
+<img src="../../../static/images/users-del-auth.png" th:src="@{/static/images/users-del-auth.png}" class="browser-output" alt="delete authority before" />
+</p>
+
+<p>
+<img src="../../../static/images/users-del-auth2.png" th:src="@{/static/images/users-del-auth2.png}" class="browser-output" alt="delete authority after" />
+</p>
+
+<h4>권한 추가</h4>
+
+<p>
+$(document).ready(function() {..} 함수 안에 다음 함수를 추가한다.<br />
+</p>
+
+<pre class="prettyprint">$('#addAuthorityForm').submit(function(e) {
+  e.preventDefault();
+  var username = $('#addAuthorityForm input[name*=username]').val();
+  if (!username) return;
+  var authority = $('#dropDownAuthority').val();
+  var auth_dels = $('#authorities').text();
+  var chk = auth_dels.indexOf(authority);
+  if (chk != -1) return;
+  var url = link + "users/" + username + "/" + authority;
+  $.ajax({
+    url: url,
+    type: 'POST',
+    success: function () {
+      console.log('authority add success!');
+      var addlink = ' &lt;a href="#" title="' + authority + '" class="del-auth-link"&gt;' + authority + ' x&lt;/a&gt; ';
+      if(authority === 'ROLE_ADMIN') $('#authorities').prepend(addlink);
+      else $('#authorities').append(addlink);
+      showListItems(username);
+    },
+    error: function (xhr, status, error) {
+      console.log('error!');
+      console.log(xhr.statusText);
+    }
+  });
+});
+</pre>
+
+<p>
+<img src="../../../static/images/users-add-auth.png" th:src="@{/static/images/users-add-auth.png}" class="browser-output" alt="add authority before" />
+</p>
+
+<p>
+<img src="../../../static/images/users-add-auth2.png" th:src="@{/static/images/users-add-auth2.png}" class="browser-output" alt="add authority after" />
+</p>
+
+<h4>계정 삭제</h4>
+
+<p>
+계정 삭제는 사용자 레코드를 삭제하는 게 아니라, enabled 필드의 값을 1에서 0으로 수정한다.<br />
+enabled 필드의 값이 0인 사용자는 로그인할 수 없다.<br />
+</p>
+
+<pre class="prettyprint">$('#deleteAccountForm').submit(function(e) {
+  e.preventDefault();
+  var username = $('#deleteAccountForm input[name*=username]').val();
+  if (!username) return;
+  var url = link + "users/" + username;
+  $.ajax({
+    url: url,
+    type: 'DELETE',
+    success: function () {
+      console.log('delete account success!');
+      showListItems(username);
+      $('#changePasswordForm input[name*=username]').val('');
+      $('#addAuthorityForm input[name*=username]').val('');
+      $('#deleteAccountForm input[name*=username]').val('');
+      $('#authorities').empty();
+    },
+    error: function (xhr, status, error) {
+      console.log('error!');
+      console.log(xhr.statusText);
+    }		
+  });
+});
+</pre>
+
+<p>
+<img src="../../../static/images/users-del-account.png" th:src="@{/static/images/users-del-account.png}" class="browser-output" alt="delete account before" />
+</p>
+
+<p>
+<img src="../../../static/images/users-del-account2.png" th:src="@{/static/images/users-del-account2.png}" class="browser-output" alt="delete account after" />
+</p>
+
+<h3>게시판 관리 RESTful URL</h3>
+
+<pre style="border: 2px dotted grey;padding: 0.3em;">목록	GET	/boards?search=
+생성	POST	/boards
+수정	PATCH	/boards/chat
+삭제	DELETE	/boards/chat
+</pre>
+
+<h3>게시판 관리 서버 구현</h3>
+
+<div class="filename">RestBoardsController.java</div>
+<pre class="prettyprint">package net.java_school.controller;
+
+import java.util.List;
+
+import net.java_school.board.Board;
+import net.java_school.board.BoardService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@RestController
+@RequestMapping("boards")
+public class RestBoardsController {
+
+  @Autowired
+  private BoardService boardService;
+
+  @GetMapping
+  public List&lt;Board&gt; getBoards(@RequestParam(name="search", defaultValue="") String search) {
+    List&lt;Board&gt; boards = boardService.getBoards(search);
+    return boards;
+  }
+  @PatchMapping("{boardCd}")
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void patchBoard(@PathVariable(name="boardCd") String boardCd, @RequestBody Board board) {
+    if (board.getBoardNm() != null) {
+      boardService.changeBoardName(boardCd, board.getBoardNm());
+    }
+    if (board.getBoardNm_ko() != null) {
+      boardService.changeBoardKorName(boardCd, board.getBoardNm_ko());
+    }
+  }
+  @PostMapping
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void createBoard(@RequestBody Board board) {
+    boardService.createBoard(board);
+  }
+  @DeleteMapping("{boardCd}")
+  @ResponseStatus(code=HttpStatus.NO_CONTENT)
+  public void deleteBoard(@PathVariable(name="boardCd") String boardCd) {
+    boardService.deleteBoard(boardCd);
+  }
+}
+</pre>
+
+<div class="filename">BoardService.java</div>
+<pre class="prettyprint">@PreAuthorize("hasAnyRole('ADMIN','USER')")
+public List&lt;Board&gt; getBoards(String search);
+@PreAuthorize("hasRole('ADMIN')")
+public void changeBoardName(String boardCd, String boardNm);
+@PreAuthorize("hasRole('ADMIN')")
+public void changeBoardKorName(String boardCd, String boardNm_ko);
+@PreAuthorize("hasRole('ADMIN')")
+public void createBoard(Board board);
+@PreAuthorize("hasRole('ADMIN')")
+public void deleteBoard(String boardCd);
+</pre>
+
+<div class="filename">BoardServiceImpl.java</div>
+<pre class="prettyprint">@Override
+public List&lt;Board&gt; getBoards(String search) {
+  return boardMapper.selectAllBoards(search);
+}
+@Override
+public void changeBoardName(String boardCd, String boardNm) {
+  boardMapper.updateBoardName(boardCd, boardNm);
+}
+@Override
+public void changeBoardKorName(String boardCd, String boardNm_ko) {
+  boardMapper.updateBoardKorName(boardCd, boardNm_ko);
+}
+@Override
+public void createBoard(Board board) {
+  boardMapper.insertBoard(board);
+}
+@Override
+public void deleteBoard(String boardCd) {
+  boardMapper.deleteBoard(boardCd);
+}
+</pre>
+
+<div class="filename">BoardMapper.java</div>
+<pre class="prettyprint">public List&lt;Board&gt; selectAllBoards(@Param("search") String search);
+public void updateBoardName(@Param("boardCd") String boardCd, @Param("boardNm") String boardNm);
+public void updateBoardKorName(@Param("boardCd") String boardCd, @Param("boardNm_ko") String boardNm_ko);
+public void insertBoard(Board board);
+public void deleteBoard(@Param("boardCd") String boardCd);
+</pre>
+
+<div class="filename">BoardMapper.xml</div>
+<pre class="prettyprint">&lt;select id="selectAllBoards" parameterType="string" resultType="net.java_school.board.Board"&gt;
+  SELECT * FROM board
+  &lt;if test="search != null and search != ''"&gt;
+  WHERE boardCd LIKE '%' || #{search} || '%' 
+      OR boardNm LIKE '%' || #{search} || '%' 
+      OR boardNm_ko LIKE '%' || #{search} || '%'
+  &lt;/if&gt;
+  order by boardcd
+&lt;/select&gt;
+&lt;insert id="insertBoard" parameterType="net.java_school.board.Board"&gt;
+  INSERT INTO board VALUES (#{boardCd}, #{boardNm}, #{boardNm_ko})
+&lt;/insert&gt;
+&lt;update id="updateBoardName" parameterType="string"&gt;
+  UPDATE board SET boardNm = #{boardNm} WHERE boardCd = #{boardCd}
+&lt;/update&gt;
+&lt;update id="updateBoardKorName" parameterType="string"&gt;
+  UPDATE board SET boardNm_ko = #{boardNm_ko} WHERE boardCd = #{boardCd}
+&lt;/update&gt;
+&lt;delete id="deleteBoard" parameterType="string"&gt;
+  DELETE board WHERE boardCd = #{boardCd}
+&lt;/delete&gt;
+</pre>
+
+<p>
+컴파일하고 서버를 작동한 다음 관리자 권한을 가진 사용자로 로그인한다.<br />
+게시판 관리 페이지로 이동한 후, static/js/boards.js 파일에 자바스크립트를 완성해 나간다.<br />
+</p>
+
+<h3>게시판 관리 자바스크립트 구현</h3>
+
+<h4>Search</h4>
+
+<pre class="prettyprint">function showListItems(search) {
+  if (search == null) search = '';
+  var url = link + 'boards?search=' + search;
+  $.getJSON(url, function (data) {
+    $('#list-table .data-row').remove();
+    $.each(data, function (i, item) {
+      var trs = '&lt;tr class="data-row"&gt;'
+        + '&lt;td&gt;' + (i+1) + '&lt;/td&gt;'
+        + '&lt;td&gt;' + '&lt;a href="#" class=board-code&gt;' + item.boardCd + '&lt;/a&gt;&lt;/td&gt;'
+        + '&lt;td&gt;' + item.boardNm + '&lt;/td&gt;'
+        + '&lt;td&gt;' + item.boardNm_ko + '&lt;/td&gt;'
+        + '&lt;/tr&gt;'
+      $('#list-table').append(trs);
+    });
+  });
+}
+$(document).ready(function() {
+  $('#searchForm').submit(function(e) {
+    e.preventDefault();
+    var search = $('#searchForm input[name*=search]').val();
+    showListItems(search);
+    $('#searchForm input[name*=search]').val('');
+  });
+});
+</pre>
+
+<p>
+목록 테이블에서 게시판 코드를 클릭하면 오른쪽 폼에 게시판 코드가 셋팅되도록 코드를 추가한다.<br />
+</p>
+
+<pre class="prettyprint">$(document).on('click', '.board-code', function (e) {
+  e.preventDefault();
+  var boardCd = $(e.target).text();
+  $('#editBoardForm input[name*=boardCd]').val(boardCd);
+  $('#deleteBoardForm input[name*=boardCd]').val(boardCd);
+});
+</pre>
+
+<p>
+<img src="../../../static/images/boards-search.png" th:src="@{/static/images/boards-search.png}" class="browser-output" alt="처음 게시판 관리 페이지 요청" />
+</p>
+
+<p>
+<img src="../../../static/images/boards-search1.png" th:src="@{/static/images/boards-search1.png}" class="browser-output" alt="검색어 입력없이 검색 버튼 클릭" />
+</p>
+
+<p>
+<img src="../../../static/images/boards-search2.png" th:src="@{/static/images/boards-search2.png}" class="browser-output" alt="게시판 코드 클릭 " />
+</p>
+
+<h4>Edit Board</h4>
+
+<pre class="prettyprint">$(document).ready(function() {
+  //..검색 코드 생략 ..
+  $('#name-btn').click(function(e) {
+    var boardCd = $('#editBoardForm input[name*=boardCd]').val();
+    if (!boardCd) return;
+    var boardNm = $('#editBoardForm input[name*=boardNm]').val();
+    boardNm = boardNm.trim();
+    if(!boardNm) return;
+    var data = {
+      "boardNm": boardNm,
+    };
+    var jsonString = JSON.stringify(data);
+    var url = link + "boards/" + boardCd;
+    var method = "PATCH";
+    $.ajax({
+      url: url,
+      type: method,
+      data: jsonString,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function () {
+        showListItems(boardCd);
+        console.log('board name change success!');
+        $('#editBoardForm input[name*=boardNm]').val('');				
+      },
+      error: function (xhr, status, error) {
+        console.log('error!');
+        console.log(xhr.statusText);
+      }
+    });
+  });
+  $('#ko-name-btn').click(function(e) {
+    var boardCd = $('#editBoardForm input[name*=boardCd]').val();
+    if (!boardCd) return;
+    var boardNm_ko = $('#editBoardForm input[name*=boardNm_ko]').val();
+    boardNm_ko = boardNm_ko.trim();
+    if(!boardNm_ko) return;
+    var data = {
+      "boardNm_ko": boardNm_ko,
+    };
+    var jsonString = JSON.stringify(data);
+    var url = link + "boards/" + boardCd;
+    var method = "PATCH";
+    $.ajax({
+      url: url,
+      type: method,
+      data: jsonString,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function () {
+        showListItems(boardCd);
+        console.log('board kor name change success!');
+        $('#editBoardForm input[name*=boardNm_ko]').val('');				
+      },
+      error: function (xhr, status, error) {
+        console.log('error!');
+        console.log(xhr.statusText);
+      }
+    });
+  });
+  
+});
+</pre>
+
+<p>
+<img src="../../../static/images/boards-edit.png" th:src="@{/static/images/boards-edit.png}" class="browser-output" alt="게시판 한글 이름 변경" />
+</p>
+
+<p>
+<img src="../../../static/images/boards-edit2.png" th:src="@{/static/images/boards-edit2.png}" class="browser-output" alt="게시판 한글 이름 변경 성공 " />
+</p>
+
+<h4>New Board</h4>
+
+<pre class="prettyprint">$(document).ready(function() {
+  //.. 검색 코드 생략 ..
+  //.. 수정 코드 생략 ..
+  $('#newBoardForm').submit(function(e) {
+    e.preventDefault();
+    var boardCd = $('#newBoardForm input[name*=boardCd]').val();
+    var boardNm = $('#newBoardForm input[name*=boardNm]').val();
+    var boardNm_ko = $('#newBoardForm input[name*=boardNm_ko]').val();
+    if (!boardCd) return;
+    if (!boardNm) return;
+    if (!boardNm_ko) return;
+    var data = {
+      "boardCd": boardCd,
+      "boardNm": boardNm,
+      "boardNm_ko": boardNm_ko,
+    };
+    var jsonString = JSON.stringify(data);
+    var url = link + "boards";
+    var method = "POST";
+    $.ajax({
+      url: url,
+      type: method,
+      data: jsonString,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function () {
+        console.log('create new board success!');
+        $('#newBoardForm input[name*=boardCd]').val('');
+        $('#newBoardForm input[name*=boardNm]').val('');
+        $('#newBoardForm input[name*=boardNm_ko]').val('');
+        showListItems(boardCd);
+      },
+      error: function (xhr, status, error) {
+        console.log('error!');
+        console.log(xhr.statusText);
+      }
+    });
+  });
+  
+});
+</pre>
+
+<p>
+<img src="../../../static/images/boards-new.png" th:src="@{/static/images/boards-new.png}" class="browser-output" alt="새 게시판 생성" />
+</p>
+
+<p>
+<img src="../../../static/images/boards-new2.png" th:src="@{/static/images/boards-new2.png}" class="browser-output" alt="새 게시판 생성 성공 " />
+</p>
+
+<h4>Delete Board</h4>
+
+<pre class="prettyprint">$(document).ready(function() {
+  //..검색 코드 생략..
+  //..수정 코드 생략..
+  //..생성 코드 생략..  
+  $('#deleteBoardForm').submit(function(e) {
+    e.preventDefault();
+    var boardCd = $('#deleteBoardForm input[name*=boardCd]').val();
+    if (!boardCd) return;
+    var url = link + "boards/" + boardCd;
+    var method = "DELETE";
+    $.ajax({
+      url: url,
+      type: method,
+      success: function () {
+        console.log('create new board success!');
+        $('#editBoardForm input[name*=boardCd]').val('');
+        $('#deleteBoardForm input[name*=boardCd]').val('');
+        showListItems(boardCd);
+      },
+      error: function (xhr, status, error) {
+        console.log('error!');
+        console.log(xhr.statusText);
+      }
+    });
+  });
+  
+});
+</pre>
+
+<p>
+<img src="../../../static/images/boards-del.png" th:src="@{/static/images/boards-del.png}" class="browser-output" alt="게시판 삭제" />
+</p>
+
+<p>
+<img src="../../../static/images/boards-del2.png" th:src="@{/static/images/boards-del2.png}" class="browser-output" alt="새 게시판 삭제 성공 " />
 </p>
 </article>
-
 
 </body>
 </html>
