@@ -40,6 +40,10 @@ $(document).ready(function() {
 	$('title').empty();
 	var title = $('#post-title').html();
 	$('title').append(title);
+	//게시글 본문에 개행문자 적용
+	$content = $('#post-content').html();
+	$content = $content.replace(/\n\r?/g, '<br />');
+	$('#post-content').html($content);
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
 		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
