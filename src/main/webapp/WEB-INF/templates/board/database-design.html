@@ -14,13 +14,13 @@
 <nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
 
 <div id="i18n">
-  <a th:href="@{/ko/board/get-started}">korean</a>
-  <a th:href="@{/en/board/get-started}">english</a>
+  <a th:href="@{/ko/board/database-design}">korean</a>
+  <a th:href="@{/en/board/database-design}">english</a>
 </div>
 
 <section th:replace="${#locale.language == 'ko'} ? ~{articles/03 :: #database-design} : ~{articles/03_en :: #database-design}"></section>
 
-<aside th:replace="${#locale.language == 'ko'} ? ~{board/menu :: index} : ~{board/menu_en :: index}">"></aside>
+<aside th:replace="${#locale.language == 'ko'} ? ~{board/menu :: index} : ~{board/menu_en :: index}"></aside>
 
 <footer th:replace="${#locale.language == 'ko'} ? ~{board/refs :: references} : ~{board/refs_en :: references}"></footer>
 

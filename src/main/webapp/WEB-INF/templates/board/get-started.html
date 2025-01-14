@@ -20,7 +20,7 @@
 
 <section th:replace="${#locale.language == 'ko'} ? ~{articles/03 :: #get-started} : ~{articles/03_en :: #get-started}"></section>
 
-<aside th:replace="${#locale.language == 'ko'} ? ~{board/menu :: index} : ~{board/menu_en :: index}">"></aside>
+<aside th:replace="${#locale.language == 'ko'} ? ~{board/menu :: index} : ~{board/menu_en :: index}"></aside>
 
 <footer th:replace="${#locale.language == 'ko'} ? ~{board/refs :: references} : ~{board/refs_en :: references}"></footer>
 

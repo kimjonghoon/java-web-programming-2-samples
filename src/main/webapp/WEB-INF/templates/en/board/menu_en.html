@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../../static/css/en.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Board</h1>
+<ul>
+	<li><a href="#" th:href="@{/en/board/get-started}">Get Started</a></li>
+	<li><a href="#" th:href="@{/en/board/prototype}">Prototype</a></li>
+	<li><a href="#" th:href="@{/en/board/javascript}">JavaScript</a></li>
+	<li><a href="#" th:href="@{/en/board/thymeleaf-test}">Thymeleaf Test for BBS</a></li>
+	<li><a href="#" th:href="@{/en/board/thymeleaf-coding}">Thymeleaf Coding</a></li>
+	<li><a href="#" th:href="@{/en/board/database-design}">Database Design</a></li>
+	<li><a href="#" th:href="@{/en/board/beans-design}">Beans Design</a></li>
+	<li><a href="#" th:href="@{/en/board/implement}">Implement</a></li>
+	<li><a href="#" th:href="@{/en/board/admin}">Admin</a></li>
+</ul>
+</th:block>
+</body>
+</html>

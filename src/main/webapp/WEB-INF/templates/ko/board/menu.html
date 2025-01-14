@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" media="all" href="../../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../../static/css/screen.css" />
+<style>
+#sidebar {
+	margin-left: 0;
+}
+</style>
+<body>
+<th:block th:fragment="index" id="sidebar">
+<h1>Board</h1>
+<ul>
+	<li><a href="#" th:href="@{/ko/board/get-started}">게시판 시작하기</a></li>
+	<li><a href="#" th:href="@{/ko/board/prototype}">프로토타입</a></li>
+	<li><a href="#" th:href="@{/ko/board/javascript}">자바스크립트</a></li>
+	<li><a href="#" th:href="@{/ko/board/thymeleaf-test}">게시판 구현을 위한 타임리프 테스트</a></li>
+	<li><a href="#" th:href="@{/ko/board/thymeleaf-coding}">타임리프 코딩</a></li>
+	<li><a href="#" th:href="@{/ko/board/database-design}">데이터베이스 설계</a></li>
+	<li><a href="#" th:href="@{/ko/board/beans-design}">빈 설계</a></li>
+	<li><a href="#" th:href="@{/ko/board/implement}">구현</a></li>
+	<li><a href="#" th:href="@{/ko/board/admin}">관리자</a></li>
+</ul>
+</th:block>
+</body>
+</html>

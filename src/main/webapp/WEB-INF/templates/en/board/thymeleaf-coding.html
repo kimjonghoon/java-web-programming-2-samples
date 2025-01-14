@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{::footer})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Thymeleaf Coding</title>
+<meta name="Keywords" th:replace="~{articles/03_en :: meta[@name='Keywords']}" />
+<meta name="Description" th:replace="~{articles/03_en :: meta[@name='Description']}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
+<script th:src="@{/static/js/run_prettify.js}"></script>
+</head>
+<body>
+
+<nav th:replace="~{commons/mainmenu_en :: mainmenu}"></nav>
+
+<div id="i18n">
+  <a th:href="@{/ko/board/thymeleaf-coding}">korean</a>
+</div>
+
+<section th:replace="~{articles/03_en :: #thymeleaf-coding}"></section>
+
+<aside th:replace="~{board/menu_en :: index}"></aside>
+
+<footer th:replace="~{board/refs_en :: references}"></footer>
+
+</body>
+</html>
