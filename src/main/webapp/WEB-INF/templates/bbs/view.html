@@ -17,7 +17,6 @@
 
 <aside th:replace="~{bbs/menu :: index}"></aside>
 
-<footer th:replace="~{bbs/refs :: references}"></footer>
-
+<footer th:replace="${#locale.language == 'ko'} ? ~{bbs/refs :: references} : ~{bbs/refs_en :: reference}"></footer>
 </body>
 </html>

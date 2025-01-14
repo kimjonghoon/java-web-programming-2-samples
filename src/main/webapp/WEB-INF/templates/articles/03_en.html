@@ -1938,6 +1938,14 @@ screen.css와 print.css 파일에 다음을 추가한다.<br />
 </p>
 
 <p>
+refs_en.html 파일도 생성한다.
+</p>
+
+<p>
+<img src="../../../images/bbs-refs_en.png" th:src="@{/static/images/bbs-refs_en.png}" alt="게시판 참고자료 영어 화면" />
+</p>
+
+<p>
 commons/mainmenu.html,
 commons/mainmenu_ko.html,
 commons/mainmenu_en.html에 
@@ -2513,7 +2521,7 @@ public class BbsController <strong>extends Paginator</strong> {
 &lt;div id="i18n"&gt;&lt;/div&gt;
 &lt;section th:replace="~{articles/list :: article}"&gt;&lt;/section&gt;
 &lt;aside th:replace="~{bbs/menu :: index}"&gt;&lt;/aside&gt;
-&lt;footer th:replace="~{bbs/refs :: references}"&gt;&lt;/footer&gt;
+&lt;footer th:replace="${#locale.language == 'ko'} ? ~{bbs/refs :: references} : ~{bbs/refs_en :: reference}"&gt;&lt;/footer&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -2785,7 +2793,7 @@ public String view(
 &lt;div id="i18n"&gt;&lt;/div&gt;
 &lt;section th:replace="~{articles/view :: article}"&gt;&lt;/section&gt;
 &lt;aside th:replace="~{bbs/menu :: index}"&gt;&lt;/aside&gt;
-&lt;footer th:replace="~{bbs/refs :: references}"&gt;&lt;/footer&gt;
+&lt;footer th:replace="${#locale.language == 'ko'} ? ~{bbs/refs :: references} : ~{bbs/refs_en :: reference}"&gt;&lt;/footer&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
