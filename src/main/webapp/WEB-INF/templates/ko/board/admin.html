@@ -5,7 +5,7 @@
 <title>관리자</title>
 <meta name="Keywords" th:replace="~{articles/03 :: meta[@name='Keywords']}" />
 <meta name="Description" th:replace="~{articles/03 :: meta[@name='Description']}" />
-<link rel="stylesheet" media="all" th:href="@{/static/css/ko.css} />
+<link rel="stylesheet" media="all" th:href="@{/static/css/ko.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/run_prettify.js}"></script>
 </head>
@@ -19,9 +19,9 @@
 
 <section th:replace="~{articles/03 :: #admin}"></section>
 
-<aside th:replace="~{board/menu :: index}"></aside>
+<aside th:replace="~{ko/board/menu :: index}"></aside>
 
-<footer th:replace="~{board/refs :: references}"></footer>
+<footer th:replace="~{ko/board/refs :: references}"></footer>
 
 </body>
 </html>
