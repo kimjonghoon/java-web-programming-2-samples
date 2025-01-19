@@ -342,5 +342,5 @@ article > ol > li {
 	line-height: 1.7em;
 }
 .selected-item {
-	background: #FFF url('../images/arrow.gif') no-repeat 5% 50%;
+	background: #FFF url('../images/arrow.gif') no-repeat 50% 50%;
 }

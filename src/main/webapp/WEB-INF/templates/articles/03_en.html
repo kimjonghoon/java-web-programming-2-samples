@@ -1785,12 +1785,12 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 <p>
 th:utext="${one.postNo} == ${post.postNo} ? '&lt;b&gt;&gt;&lt;/b&gt;' : ${listItemNo} - ${postStat.index}"에서
 &gt; 대신 프로토타입처럼 이미지를 보이려면,
-'&lt;b&gt;&gt;&lt;/b&gt;'을 '&lt;b class=selected-item&gt;&nbsp;&lt;/b&gt;' 변경하고,
+'&lt;b&gt;&gt;&lt;/b&gt;'을 '&lt;b class=selected-item&gt;&amp;nbsp;&amp;nbsp;&lt;/b&gt;'로 변경하고,
 screen.css와 print.css 파일에 다음을 추가한다.<br />
 </p>
 
 <pre class="prettyprint">.selected-item {
-  background: #FFF url('../images/arrow.gif') no-repeat 5% 50%;
+  background: #FFF url('../images/arrow.gif') no-repeat 50% 50%;
 }
 </pre>
 

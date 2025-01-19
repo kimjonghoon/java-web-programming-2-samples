@@ -161,10 +161,12 @@ article > ul > li {
 	text-align: right;
 }
 #post-content {
-	font-size: 15px;
-	color: #333;
+	font-size: 0.96em;
+	color: #555;
 	min-height: 100px;
+	padding: 0 1em;
+	line-height: 1.7em;
 }
 .selected-item {
-	background: #FFF url('../images/arrow.gif') no-repeat 5% 50%;
+	background: #FFF url('../images/arrow.gif') no-repeat 50% 50%;
 }
