@@ -6,7 +6,7 @@ function showListItems(search) {
 		$.each(data, function (i, item) {
 			var trs = '<tr class="data-row">'
 				+ '<td>' + (i+1) + '</td>'
-				+ '<td>' + '<a href="#" class=board-code>' + item.boardCd + '</a></td>'
+				+ '<td>' + '<a href="#" class="board-code">' + item.boardCd + '</a></td>'
 				+ '<td>' + item.boardNm + '</td>'
 				+ '<td>' + item.boardNm_ko + '</td>'
 				+ '</tr>'
