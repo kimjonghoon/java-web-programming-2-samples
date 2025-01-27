@@ -2,7 +2,7 @@ package net.java_school.user;
 
 import java.util.List;
 
-import org.springframework.security.access.method.P;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface UserService {

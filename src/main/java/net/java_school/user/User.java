@@ -18,7 +18,7 @@ public class User {
   private List<String> authorities;
 
   public User() {}
-  public User(String username, String password, Integer enabled, List authorities) {
+  public User(String username, String password, Integer enabled, List<String> authorities) {
     this.username = username;
     this.password = password;
     this.enabled = enabled;

@@ -1,10 +1,9 @@
 package net.java_school.board;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.access.method.P;
+import org.springframework.security.core.parameters.P;
 
 public interface BoardService {
 	//게시판 목록

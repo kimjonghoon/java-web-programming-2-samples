@@ -12,10 +12,10 @@
 
 <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<maven.compiler.source>17</maven.compiler.source>
-	<maven.compiler.target>17</maven.compiler.target>
-	<spring.version>6.2.1</spring.version>
-	<spring.security.version>6.4.1</spring.security.version>
+	<maven.compiler.source>21</maven.compiler.source>
+	<maven.compiler.target>21</maven.compiler.target>
+	<spring.version>6.2.2</spring.version>
+	<spring.security.version>6.4.2</spring.security.version>
 </properties>
 
 <dependencyManagement>
@@ -95,13 +95,13 @@
 	<dependency>
 		<groupId>org.hibernate.validator</groupId>
 		<artifactId>hibernate-validator</artifactId>
-		<version>8.0.1.Final</version>
+		<version>8.0.2.Final</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 	<dependency>
 		<groupId>org.mybatis</groupId>
 		<artifactId>mybatis</artifactId>
-		<version>3.5.17</version>
+		<version>3.5.19</version>
 	</dependency>	
 	<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 	<dependency>
