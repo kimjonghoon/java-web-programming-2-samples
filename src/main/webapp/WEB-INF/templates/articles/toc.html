@@ -14,6 +14,12 @@
 
 <article>
 
+<th:block th:replace="~{thymeleaf/menu :: index}"></th:block>
+
+<th:block th:replace="~{spring-security/menu :: index}"></th:block>
+
+<th:block th:replace="~{board/menu :: index}"></th:block>
+
 <h1>개발환경 준비</h1>
 
 <h3>Java</h3>
@@ -24,7 +30,7 @@ https://www.oracle.com/java/technologies/downloads<br />
 </p>
 
 <p>
-<img src="../../../static/images/java-latest-x64-installer.png" th:src="@{/static/images/java-latest-x64-installer.png}" alt="최신 자바 x64 Installer 선택" /><br />
+<img src="../../../static/images/Java-latest.png" th:src="@{/static/images/Java-latest.png}" alt="최신 자바 x64 Installer 선택" /><br />
 </p>
 
 <p>
@@ -94,7 +100,7 @@ C:\Windows;
 C:\Windows\System32\Wbem;
 C:\Windows\System32\WindowsPowerShell\v1.0\;
 C:\Windows\System32\OpenSSH\;
-<strong>C:\Program Files\Java\jdk-22\bin;</strong>
+<strong>C:\Program Files\Java\jdk-21\bin;</strong>
 </pre>
 
 <h3>Maven</h3>
@@ -396,9 +402,6 @@ startup.bat를 실행하면 새로운 명령 프롬프트창이 실행되면서 
 <img src="../../../static/images/logging_properties2.png" th:src="@{/static/images/logging_properties2.png}" alt="logging.properties 편집 후 화면" />
 </p>
 
-<th:block th:replace="~{thymeleaf/menu :: index}"></th:block>
-
-<th:block th:replace="~{spring-security/menu :: index}"></th:block>
 
 <h1>게시판 구현을 위한 타임리프 테스트</h1>
 
