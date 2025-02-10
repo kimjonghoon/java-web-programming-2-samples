@@ -4,7 +4,7 @@
 <title>Bulletin Board System</title>
 <meta name="Keywords" content="Thymeleaf,jwp2samples,thymeleaf-spring6,jetty plugin,Java-based Configuration,Prototype,Thymeleaf base layout,css positioning,tomcat,how to deploy app to tomcat,ROOT.xml,mvn clean compile war:inplace,mvn clean jetty:run,i18n,homepage,MessageSource,Bean Validation,Sign Up,Login,Change Password,Bulletin Board System" />
 <meta name="Description" content="This article covers examples for Thymeleaf, Spring, Spring Security, Mybatis Spring, i18n, MessageSource and Bean Validation." />
-<link rel="stylesheet" media="all" href="../../../static/css/ko.css" />
+<link rel="stylesheet" media="all" href="../../../static/css/en.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/screen.css" />
 <link rel="stylesheet" media="all" href="../../../static/css/prettify.css" />
 <script src="../../../static/js/run_prettify.js"></script>
@@ -39,11 +39,11 @@ Delete		DELETE /bbs/chat/54?page=1&amp;search=
 <div class="filename">articles/list.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
 &lt;head&gt;
-&lt;title&gt;자유게시판&lt;/title&gt;
+&lt;title&gt;Chat&lt;/title&gt;
 &lt;meta name="Keywords" content="List" /&gt;
 &lt;meta name="Description" content="List" /&gt;
 &lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
-&lt;link rel="stylesheet" media="screen" href="../../../static/css/ko.css" /&gt;
+&lt;link rel="stylesheet" media="screen" href="../../../static/css/en.css" /&gt;
 &lt;style&gt;
 article {
   width: 777px;
@@ -66,10 +66,10 @@ $(document).ready(function() {
   });
 });
 &lt;/script&gt;
-&lt;div id="content-categories"&gt;자유게시판&lt;/div&gt;
+&lt;div id="content-categories"&gt;Chat&lt;/div&gt;
 &lt;div style="text-align: right;"&gt;
   &lt;select id="numberPerPage"&gt;
-    &lt;option value=""&gt;페이지당 게시글 수&lt;/option&gt;
+    &lt;option value=""&gt;Number of posts per page&lt;/option&gt;
     &lt;option value="10"&gt;10&lt;/option&gt;
     &lt;option value="20"&gt;20&lt;/option&gt;
     &lt;option value="50"&gt;50&lt;/option&gt;
@@ -85,38 +85,38 @@ $(document).ready(function() {
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td style="text-align: center;"&gt;405&lt;/td&gt;
-  &lt;td&gt;&lt;a href="#" title="23488"&gt;자바 웹 프로그래밍 2 최종 소스&lt;/a&gt;&lt;/td&gt;
-  &lt;td style="text-align: center;"&gt;24 10 20&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23488"&gt;Java Web Programming 2 Final Source&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;10 20 24&lt;/td&gt;
   &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td style="text-align: center;"&gt;404&lt;/td&gt;
-  &lt;td&gt;&lt;a href="#" title="23486"&gt;우분투 24.04에 자바 개발 환경&lt;/a&gt;&lt;/td&gt;
-  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23486"&gt;Ubuntu 24.04&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;07 15 24&lt;/td&gt;
   &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td style="text-align: center;"&gt;403&lt;/td&gt;
-  &lt;td&gt;&lt;a href="#" title="23466"&gt;스프링 자바 기반 설정&lt;/a&gt;&lt;/td&gt;
-  &lt;td style="text-align: center;"&gt;24 07 15&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23466"&gt;Java-based configuration&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;07 15 24&lt;/td&gt;
   &lt;td style="text-align: center;"&gt;3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td style="text-align: center;"&gt;402&lt;/td&gt;
-  &lt;td&gt;&lt;a href="#" title="23087"&gt;다음 글, 이전 글 기능 수정&lt;/a&gt;&lt;/td&gt;
-  &lt;td style="text-align: center;"&gt;24 04 22&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23087"&gt;Next Post, Prev Post&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;04 22 24&lt;/td&gt;
   &lt;td style="text-align: center;"&gt;3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td style="text-align: center;"&gt;401&lt;/td&gt;
-  &lt;td&gt;&lt;a href="#" title="23086"&gt;페이징 처리&lt;/a&gt;&lt;/td&gt;
-  &lt;td style="text-align: center;"&gt;24 04 16&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23086"&gt;Paging&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;04 16 24&lt;/td&gt;
   &lt;td style="text-align: center;"&gt;2&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
   &lt;td style="text-align: center;"&gt;400&lt;/td&gt;
-  &lt;td&gt;&lt;a href="#" title="23059"&gt;간단한 Spring MyBatis 예제&lt;/a&gt;&lt;/td&gt;
-  &lt;td style="text-align: center;"&gt;24 04 08&lt;/td&gt;
+  &lt;td&gt;&lt;a href="#" title="23059"&gt;Spring MyBatis Simple Example&lt;/a&gt;&lt;/td&gt;
+  &lt;td style="text-align: center;"&gt;04 08 24&lt;/td&gt;
   &lt;td style="text-align: center;"&gt;1&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -238,7 +238,7 @@ $(document).ready(function() {
   });
 });
 &lt;/script&gt;
-&lt;div id="content-categories"&gt;자유게시판&lt;/div&gt;
+&lt;div id="content-categories"&gt;Chat&lt;/div&gt;
 &lt;div style="height: 22px;"&gt;
   &lt;div style="float: left;"&gt;
     &lt;input type="button" value="수정" id="edit-post-btn" /&gt;
@@ -1295,7 +1295,7 @@ commit;
 <img src="../../../static/images/bbs-list-prototype-title.png" th:src="@{/static/images/bbs-list-prototype-title.png}" class="browser-output" alt="목록 페이지 title" />
 </p>
 
-<pre class="prettyprint">&lt;title <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/title&gt;
+<pre class="prettyprint">&lt;title <strong>th:text="${boardName}"</strong>&gt;Chat&lt;/title&gt;
 </pre>
 
 <p>
@@ -1308,7 +1308,7 @@ boardName에는, 사용자의 로케일에 따라, 게시판 영어 이름 또�
 <img src="../../../static/images/bbs-list-prototype-board-name.png" th:src="@{/static/images/bbs-list-prototype-board-name.png}" class="browser-output" alt="목록 게시판" />
 </p>
 
-<pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/div&gt;
+<pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;Chat&lt;/div&gt;
 </pre>
 
 <h4>페이지당 게시글 수</h4>
@@ -1647,7 +1647,7 @@ search를 메시지소스 프로퍼티 파일에 추가한다.<br />
 <img src="../../../static/images/bbs-view-prototype-boardname-viewmenu.png" th:src="@{/static/images/bbs-view-prototype-boardname-viewmenu.png}" class="browser-output" alt="게시판 이름과 내용보기 화면 메뉴" />
 </p>
 
-<pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;자유게시판&lt;/div&gt;
+<pre class="prettyprint">&lt;div id="content-categories" <strong>th:text="${boardName}"</strong>&gt;Chat&lt;/div&gt;
 &lt;div style="height: 22px;"&gt;
   &lt;div style="float: left;"&gt;
     &lt;input type="button" value="수정" <strong>th:if="${#authentication.name eq one.username or #authorization.expression('hasRole(''ROLE_ADMIN'')')}"</strong> <strong>th:value="#{edit.post}"</strong> id="edit-post-btn" /&gt;
