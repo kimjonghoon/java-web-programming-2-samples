@@ -42,7 +42,9 @@ public class MvcWebConfig implements WebMvcConfigurer {
 */	
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+		registry.
+			addResourceHandler("/static/**").
+			addResourceLocations("/static/");
 	}
 	
 	@Bean

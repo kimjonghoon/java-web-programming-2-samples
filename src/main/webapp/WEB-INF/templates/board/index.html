@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="${#locale.language == 'ko'} ? _ : 'Board Index'">게시판 목차</title>
+<meta name="Keywords" th:content="${#locale.language == 'ko'} ? '게시판 목차' : 'Spring Security Index'" />
+<meta name="Description" th:content="${#locale.language == 'ko'} ? '게시판 목차' : 'Spring Security Index'" />
+<link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/index.css}" />
+</head>
+<body>
+
+<nav th:replace="~{commons/mainmenu :: mainmenu}"></nav>
+
+<div id="i18n">
+  <a th:href="@{/ko/spring-security}">korean</a>
+  <a th:href="@{/en/spring-security}">english</a>
+</div>
+
+<section th:replace="~{board/menu :: index}"></section>
+
+</body>
+</html>
