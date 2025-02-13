@@ -13,13 +13,10 @@
 <body>
 
 <article id="spring-security-get-started">
+
 <h1>Spring Security</h1>
 
 <h2>스프링 시큐리티 의존성 추가</h2>
-
-<p>
-다음 라이브러리를 의존성을 추가한다.<br />
-</p>
 
 <ul>
 	<li>Spring Security Web</li>
@@ -98,42 +95,11 @@
 &lt;/dependency&gt;
 </pre>
 
-<p>
-Thymeleaf extras springsecurity6 모듈은, 타임리프 템플릿에 시큐리티 관련 작업을 핸들링할 수 있는 기능을 제공함으로써, 타임리프와 스프링 시큐리티를 통합한다.
-</p>
-
-<p>
-이 모듈은 새로운 다이얼렉<sup>Dialect</sup>, org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect을 제공한다.
-이 다이얼렉은 디폴트 접두사는 sec다.
-</p>
-
-<p>
-표현식 유틸리티 객체:<br />
-#authentication: 스프링 시큐리티 인증 객체를 나타낸다.<br />
-#authorization: 표현식에 기반한 권한을 검사하기 위한 메소드를 제공한다.<br />
-</p>
-
-<p>
-속성:<br />
-sec:authentication="prop": 인증 객체의 속성을 출력한다.<br />
-sec:authorize="expr" 또는 sec:authorize-expr="expr": 지정된 표현식에 권한을 가진 사용자라면 자식 엘리먼트를 랜더링한다.<br />
-sec:authorize-url="url": 인증된 사용자에게 지정된 URL를 볼 수 있는 권한을 있다면 자식 엘리먼트를 랜더링한다.<br />
-sec:authorize-acl="object :: permissions": 인증된 사용자에게 지정된 도메인 객체에 대한 지정된 권한이 있는 경우 자식 엘리먼트를 랜더링한다.<br />
-</p>
-
-<p>
-https://www.thymeleaf.org/doc/articles/springsecurity.html<br />
-</p>
 </article>
 
 <article id="spring-security-java-based-config">
 
 <h2>자바 기반 설정</h2>
-
-<p>
-요청을 처리하는 프로세스에 스프링 시큐리티가 참여하는 지를 먼저 확인하는 게 좋다.<br />
-다음 스프링 시큐리티 자바 기반 설정 클래스는 그런 목적으로 작성했다.<br />
-</p>
 
 <div class="filename">SecurityConfig.java</div>
 <pre class="prettyprint">package net.java_school.config;
@@ -171,12 +137,6 @@ public class SecurityConfig {
 }
 </pre>
 
-<p>
-다음 스프링 시큐리티 자바 기반 설정 클래스가 없으면 스프링 시큐리티가 동작하지 않는다.<br />
-AbstractSecurityWebApplicationInitializer를 상혹하는 클래스는 DelegatingFilterProxy를 등록하여 다른 필터보다 먼저 springSecurityFilterChain를 사용한다.<br />
-ContextLoaderListener도 등록한다.<br />
-</p>
-
 <div class="filename">SecurityWebApplicationInitializer.java</div>
 <pre class="prettyprint">package net.java_school.config;
 
@@ -185,15 +145,6 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
 }
 </pre>
-
-<p>
-이것만으로도 스프링 시큐리티가 동작하지만, HttpSessionEventPublisher를 리슨너에 포함시키려면 enableHttpSessionEventPublisher() 메소드를 오버라이딩한다.<br />
-세션 매니지먼트가 지정된 최대 세션 수를 가지게 하려면 true를 리턴하게 한다.<br />
-</p>
-
-<p>
-HttpSessionEventPublisher는 스프링 루트 WebApplicationContext에 HttpSessionApplicationEvents를 게시한다.<br />
-</p>
 
 <div class="filename">SecurityWebApplicationInitializer.java</div>
 <pre class="prettyprint">package net.java_school.config;
@@ -208,48 +159,24 @@ public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplic
 }
 </pre>
 
-<p>
-HttpSessionEventPublisher를 리슨너에 포함시키는 XML 설정은 다음과 같다.
-</p>
-
 <pre class="prettyprint">&lt;listener&gt;
   &lt;listener-class&gt;org.springframework.security.web.session.HttpSessionEventPublisher&lt;/listener-class&gt;
 &lt;/listener&gt;
 </pre>
 
 <p>
-mvn clean compile war:inplace 컴파일하고 톰캣을 시작한 후 홈페이지, http://localhost:8080을 방문한다.<br />
-스프링 시큐리티가 동작한다면 사용자를 스프링 시큐리티의 디폴트 로그인 페이지로 리다이렉트한다.<br />
-</p>
-
-<p>
 <img src="../../../static/images/spring-security-default-login.png" th:src="@{/static/images/spring-security-default-login.png}" alt="스프링 시큐리티 디폴트 로그인 화면" />
-</p>
-
-<p>
-로그인 페이지에서 SecurityConfig 자바 기반 설정 클래스에서 지정한,
-Username에 user, Password엔 password를 입력한 후 Sign in 버튼을 클릭하면 홈페이지로 이동한다.
 </p>
 
 <p>
 <img src="../../../static/images/type-user-password-in-default-login.png" th:src="@{/static/images/type-user-password-in-default-login.png}" class="browser-output" alt="스프링 시큐리티 디폴트 로그인 화면에 user/password 입력 후 홈페이지로 이동 확인" />
 </p>
+
 </article>
 
 <article id="jdbc-authentication">
+
 <h2>JDBC Authentication</h2>
-
-<p>
-스프링 시큐리티가 동작하는지 확인했다.<br />
-스프링 시큐리티가 데이터베이스를 사용하여 인증과 권한부여를 하도록 설정을 바꿔 보겠다.<br />
-</p>
-
-<p>
-데이터베이스 작업:<br />
-스프링 시큐리트를 사용하는 데 필요한 테이블을 그대로 사용하기로 함.<br />
-아래 참조:<br />
-https://docs.spring.io/spring-security/reference/servlet/appendix/database-schema.html<br />
-</p>
 
 <div class="filename">디폴트 사용자 스키마</div>
 <pre class="prettyprint">create table users(
@@ -264,10 +191,6 @@ create table authorities (
 );
 create unique index ix_auth_username on authorities (username,authority);
 </pre>
-
-<p>
-디폴트 스키마를 참조해서 사용하려는 데이터베이스에 맞는 스키마를 만들어야 한다.<br />
-</p>
 
 <div class="filename">오라클 사용자 스키마</div>
 <pre class="prettyprint">SET TERMOUT OFF
@@ -289,19 +212,6 @@ SET TERMOUT ON
 SET ECHO ON
 </pre>
 
-<p>
-참조 링크에선 USERS 테이블의 ENABLED 컬럼은 다음과 같다.
-ENABLED CHAR(1) CHECK (ENABLED IN ('Y','N')) NOT NULL
-하지만 스프링 시큐리티가 내부적으로 로그인에 사용하는 쿼리에서 ENABLED 컬럼에서 불린말고
-문자열 값으로는 모두 로그인에 실패한다.
-숫자 1은 true로서 통과한다.
-</p>
-
-<p>
-SQL*PLUS에 관리자로 접속한 후 오라클 사용자 스키마를 실행한다.<br /> 
-오라클 사용자 스키마 파일 이름이 web.sql이고 C:\Users에 위치한다고 가정한다.<br />
-</p>
-
 <pre class="commandLine">C:\Users&gt; <strong>sqlplus</strong>
 
 Copyright (c) 1982, 2011, Oracle.  All rights reserved.
@@ -315,10 +225,6 @@ SQL&gt; <strong>@C:\Users\web.sql</strong>
 
 SQL&gt;
 </pre>
-
-<p>
-스프링 설정 클래스, MvcWebConfig에 다음 추가한다.<br />
-</p>
 
 <pre class="prettyprint">@Bean
 public SpringSecurityDialect springSecurityDialect() {
@@ -339,10 +245,6 @@ public DataSource dataSource() {
 }
 </pre>
 
-<p>
-스프링 시큐리티 다이얼렉을 사용하기 위해, SpringTemplateEngine에 아래 강조한 부분 추가한다.
-</p>
-
 <pre class="prettyprint">@Bean
 public SpringTemplateEngine templateEngine() {
   SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -354,18 +256,10 @@ public SpringTemplateEngine templateEngine() {
 }
 </pre>
 
-<p>
-다음 임포트 문이 필요하다.
-</p>
-
 <pre class="prettyprint">import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 </pre>
-
-<p>
-스프링 시큐리티 자바 기반 설정 클래스를 아래처럼 수정한다.
-</p>
 
 <div class="filename">SecurityConfig.java</div>
 <pre class="prettyprint">package net.java_school.config;
@@ -420,10 +314,6 @@ public class SecurityConfig {
 }
 </pre>
 
-<p>
-MvcWebApplicationInitializer 클래스에 스프링 시큐리티 자바 기반 설정 클래스를 추가한다.<br />
-</p>
-
 <pre class="prettyprint">@Override
 protected Class&lt;?&gt;[] getServletConfigClasses() {
   return new Class[] { <strong>SecurityConfig.class</strong>, MvcWebConfig.class };
@@ -432,11 +322,8 @@ protected Class&lt;?&gt;[] getServletConfigClasses() {
 </article>
 
 <article id="custom-login">
+
 <h2>사용자 정의 로그인</h2>
-<p>
-이젠 스프링 시큐리티 디폴트 로그인 페이지가 아닌 사용자 정의 로그인 페이지를 작성할 차례다.<br />
-로그인 페이지에 사용할 메시지 추가<br />
-</p>
 
 <div class="filename">messages_ko.properties</div>
 <pre class="prettyprint">login=로그인
@@ -468,19 +355,14 @@ user=User
 
 <div class="filename">/WEB-INF/templates/articles/login.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
-
 &lt;head&gt;
 &lt;title th:text="#{login}"&gt;로그인&lt;/title&gt;
 &lt;meta name="Keywords" th:content="#{login}" /&gt;
 &lt;meta name="Description" th:content="#{login}" /&gt;
 &lt;/head&gt;
-
 &lt;body&gt;
-
 &lt;article&gt;
-
 &lt;h2 th:text="#{login}"&gt;로그인&lt;/h2&gt;
-
 &lt;div th:if="${param.error }" th:text="#{login.error}"&gt;사용자명과 패스워드가 유효하지 않습니다.&lt;/div&gt;
 &lt;form th:action="@{/login }" th:method="post"&gt;
 &lt;table&gt;
@@ -498,16 +380,10 @@ user=User
   &lt;a href="#" th:href="@{/users/signUp}"&gt;&lt;button type="button" th:text="#{sign.up}"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;/form&gt;
-
 &lt;/article&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-요청 페이지
-</p>
 
 <div class="filename">/WEB-INF/templates/users/login.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -521,24 +397,13 @@ user=User
 &lt;link rel="stylesheet" media="all" th:href="@{/static/css/validation.css}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
-
-&lt;div id="i18n"&gt;
-&lt;/div&gt;
-
+&lt;div id="i18n"&gt;&lt;/div&gt;
 &lt;section th:replace="~{articles/login :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{users/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-사용자 정의 로그인 페이지를 사용하려면 핸들러가 필요하다.
-UsersController 클래스에 다음 핸들러를 추가한다.
-</p>
 
 <pre class="prettyprint">@GetMapping("login")
 public String login() {
@@ -547,34 +412,14 @@ public String login() {
 </pre>
 
 <p>
-테스트<br />
-mvn clean compile war:inplace<br />
-http://localhost:8080<br />
-</p>
-
-<p>
 <img src="../../../static/images/custom-login-page-test.png" th:src="@{/static/images/custom-login-page-test.png}" class="browser-output" alt="사용자 정의 로그인 페이지 테스트" />
 </p>
+
 </article>
 
 <article id="sign-up">
+
 <h2>회원가입</h2>
-
-<p>
-가입한 회원이 없기에 로그인을 할 수 없다.<br />
-패스워드 인코드를 사용하고 있기에, 
-데이터베이스에 접속해 사용자명과 패스워드를 인서트한 후 로그인을 테스트할 수도 없다.<br />
-회원가입을 구현하고 로그인을 테스트한다.<br />
-</p>
-
-<p>
-데이터베이스를 사용하는 코드가 필요하다.<br />
-데이터베이스 관련 퍼시스턴스 프레임워크 중 마이바티스<sup>MyBatis</sup>를 선택했다.
-</p>
-
-<p>
-마이바티스와 마이바티스-스프링<sup>MyBatis-Spring</sup> 라이브러리를 의존성에 추가한다.<br />
-</p>
 
 <pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --&gt;
 &lt;dependency&gt;
@@ -589,27 +434,6 @@ http://localhost:8080<br />
   &lt;version&gt;3.0.4&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
-
-<p>
-마이바티스-스프링은 마이바티스와 스프링을 쉽게 연동시키기 위한 모듈이다.<br />
-마이바티스-스프링 3.0 버전은 마이바티스 3.5이상, 스프링 6.0이상, 자바 17이상에서 동작한다.<br />
-https://mybatis.org/spring/ko/index.html<br />
-</p>
-
-<p>
-데이베이스 작업은 스프링 시큐리티 디폴트 스키마를 사용하기로 했기에 생략한다.<br />
-회원과 관련된 빈은
-User, UserDao, UserService, UserServiceImpl, UsersController이다.<br />
-대부분 개발자가 이렇게 빈을 이렇게 디자인한다.<br />
-</p>
-
-<p>
-마이바티스를 사용하려면 매퍼가 필요하다.<br />
-서비스 계층에서 바로 매퍼를 사용하도록 구현하면 DAO 패턴을 생략할 수 있다.<br />
-DAO을 유지하는 것도 한 방법이다.
-예제는 DAO를 생략하고, 아래처럼 구현한다.<br />
-UsersController --uses--&gt; UserService --uses--&gt; UserMapper<br />
-</p>
 
 <div class="filename">User.java</div>
 <pre class="prettyprint">package net.java_school.user;
@@ -666,10 +490,6 @@ public class User {
 }
 </pre>
 
-<p>
-매퍼 인터페이스를 작성한다.<br />
-</p>
-
 <pre class="commandLine">mkdir -p src/main/java/net/java_school/mapper
 </pre>
 
@@ -684,13 +504,6 @@ public interface UserMapper {
   public int insertAuthority(@Param("username") String username, @Param("authority") String authority);
 }
 </pre>
-
-<p>
-UserMapper.xml 파일을 매퍼 인터페이스 패키지와 같게 작성한다.<br />
-src/main/resources/<strong>net/java_school/mapper</strong>/UserMapper.xml<br />
-
-https://mybatis.org/spring/ko/mappers.html
-</p>
 
 <div class="commandLine">mkdir -p src/main/resources/net/java_school/mapper</div>
 
@@ -708,10 +521,6 @@ https://mybatis.org/spring/ko/mappers.html
   &lt;/insert&gt;
 &lt;/mapper&gt;
 </pre>
-
-<p>
-UserService 인터페이스와 그 구현체를 작성한다.
-</p>
 
 <div class="filename">UserService.java</div>
 <pre class="prettyprint">package net.java_school.user;
@@ -750,10 +559,6 @@ public class UserServiceImpl implements UserService {
 }
 </pre>
 
-<p>
-스프링 설정 클래스에서 @MapperScan을 추가한다.
-</p>
-
 <pre class="prettyprint">@Configuration
 @EnableWebMvc
 <strong>@MapperScan("net.java_school.mapper")</strong>
@@ -761,21 +566,7 @@ public class UserServiceImpl implements UserService {
 </pre>
 
 <p>
-다음 임포트 문이 필요하다.<br />
 import org.mybatis.spring.annotation.MapperScan;
-</p>
-
-<p>
-@MapperScan에 UserMapper 매퍼 인터페이스 파일이 있는 디렉터리를 지정하면,
-userMapper 이름으로 매퍼(MapperFactoryBean)가 스프링 컨테이너에 등록된다.<br />
-@ComponentScan에 net.java_school.user가 추가했기에, 
-스프링은 UserServiceImpl을 userService 이름으로 스프링 빈 컨테이너에 등록하면서
-UserSeriveImpl에 매퍼를 주입한다.<br />
-https://mybatis.org/spring/ko/mappers.html<br />
-</p>
-
-<p>
-다음을 스프링 설정 클래스에 추가한다.
 </p>
 
 <pre class="prettyprint">@Bean
@@ -787,13 +578,8 @@ public SqlSessionFactory sqlSessionFactory() throws Exception {
 </pre>
 
 <p>
-다음 임포트 문이 필요하다.<br />
 import org.apache.ibatis.session.SqlSessionFactory;<br />
 import org.mybatis.spring.SqlSessionFactoryBean;<br />
-</p>
-
-<p>
-UsersController 클래스에 핸들러 추가
 </p>
 
 <pre class="prettyprint">package net.java_school.controller;
@@ -843,15 +629,6 @@ public class UsersController {
 }
 </pre>
 
-<p>
-welcome.html 페이지는 회원가입이 성공하면 보이는 페이지다.<br />
-회원가입 환영 메시지를 보이도록 작성한다.<br />
-</p>
-
-<p>
-메시지소스 프로퍼티에 회원가입 환영 메시지를 추가한다.
-</p>
-
 <div class="filename">messages_ko.properties</div>
 <pre class="prettyprint">login=로그인
 sign.up=회원가입
@@ -882,10 +659,6 @@ login.error=Your username and password are invalid.
 <strong>welcome=Thank you for signing up.</strong>
 </pre>
 
-<p>
-회원가입 환영 페이지를 위한 파일 리스트
-</p>
-
 <ul>
 	<li>articles/welcome.html</li>
 	<li>users/welcome.html</li>
@@ -893,21 +666,15 @@ login.error=Your username and password are invalid.
 
 <div class="filename">articles/welcome.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
-
 &lt;head&gt;
 &lt;title th:text="#{welcome}"&gt;회원가입을 환영합니다&lt;/title&gt;
 &lt;meta name="Keywords" th:content="#{welcome}" /&gt;
 &lt;meta name="Description" th:content="#{welcome}" /&gt;
 &lt;/head&gt;
-
 &lt;body&gt;
-
 &lt;article&gt;
-
 &lt;h3 th:text="#{welcome}"&gt;회원가입을 환영합니다.&lt;/h3&gt;
-
 &lt;/article&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -923,48 +690,23 @@ login.error=Your username and password are invalid.
 &lt;link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
-
-&lt;div id="i18n"&gt;
-&lt;/div&gt;
-
+&lt;div id="i18n"&gt;&lt;/div&gt;
 &lt;section th:replace="~{articles/welcome :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{users/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
 <p>
-mvn clean compile war:inplace 컴파일한 후, 로그인 페이지에서 회원가입 페이지로 이동한다.<br />
-회원가입 후 welcome.html로 이동하는 지 확인한다.<br />
-</p>
-
-<p>
 <img src="../../../static/images/signup-test-1.png" th:src="@{/static/images/signup-test-1.png}" class="browser-output" alt="회원가입 테스트" />
 </p>
+
 </article>
 
 <article id="spring-security-logout">
+
 <h2>로그아웃</h2>
-
-<p>
-스프링 시큐리티에서 로그아웃은 POST 방식으로 /logout을 요청해야 한다.<br />
-이때 CSRF 토큰을 전달해야 한다.<br />
-타임리프는 폼에 CSRF 토큰을 자동으로 포함시킨다.<br />
-</p>
-
-<p>
-스프링 시큐리티 다이얼렉을 사용하면, 
-로그인 전에는 로그인과 회원가입 버튼이, 
-로그인 후에는 로그아웃과 내 정보 수정 버튼이 보이게 할 수 있다.
-</p>
-
-<p>
-메시지소스가 사용하는 프로퍼티 파일에 헤더 메뉴에 사용할 메시지 추가한다.
-</p>
 
 <div class="filename">messages_en.properties</div>
 <pre class="prettyprint">logout=logout
@@ -975,10 +717,6 @@ edit.my.account=Edit Account
 <pre class="prettyprint">logout=로그아웃
 edit.my.account=내 정보 수정
 </pre>
-
-<p>
-baseLayoutFile.html 파일의 #member의 내용을 다음처럼 수정한다.<br />
-</p>
 
 <pre class="prettyprint">&lt;th:block sec:authorize="isAnonymous()"&gt;
   &lt;a href="#" th:href="@{/users/login}"&gt;&lt;button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')"&gt;로그인&lt;/button&gt;&lt;/a&gt;
@@ -999,15 +737,6 @@ $(document).ready(function() {
 &lt;/script&gt;
 </pre>
 
-<p>
-로그아웃 버튼을 클릭하면 로그인 페이지로 이동하게 된다.<br />
-이것이 스프링 시큐리티의 로그아웃 디폴트 동작이다.<br />
-</p>
-
-<p>
-로그아웃 후 로그인 페이지가이 아닌 다른 페이지로 이동하고 싶다면, 댜음 스프링 시큐리티 공식 홈페이지의 힌트를 참고한다.<br />
-</p>
-
 <pre class="prettyprint">http
   .authorizeHttpRequests((authorize) -&gt; authorize
     .requestMatchers("/my/success/endpoint").permitAll()
@@ -1015,10 +744,6 @@ $(document).ready(function() {
   )
   .logout((logout) -&gt; logout.logoutSuccessUrl("/my/success/endpoint"))
 </pre>
-
-<p>
-로그아웃 후 홈페이지로 이동하고 싶다면 스프링 시큐리티 설정 클래스에 아래를 추가한다.<br />
-</p>
 
 <pre class="prettyprint">http
   .authorizeHttpRequests((authorize) -&gt; authorize
@@ -1037,20 +762,13 @@ $(document).ready(function() {
   .httpBasic(withDefaults());
 return http.build();  
 </pre>
+
 </article>
 
 <article id="edit-account">
+
 <h2>내 정보 수정</h2>
 			
-<p>
-users 테이블에 컬럼을 추가하거나 회원 정보를 저장할 다른 테이블을 만들지 않는 한,
-내 정보 수정에서 변경할 수 있는 건 비밀번호 밖에 없다.<br />
-</p>
-
-<p>
-내 정보 수정에 필요한 페이지 목록
-</p>
-
 <ul>
 	<li>articles/editAccount.html</li>
 	<li>users/editAccount.html</li>
@@ -1120,10 +838,6 @@ users 테이블에 컬럼을 추가하거나 회원 정보를 저장할 다른 �
 &lt;/html&gt;
 </pre>
 
-<p>
-컨트롤러에 editAccount 요청 핸들러를 추가한다.<br />
-</p>
-
 <div class="filename">UsersController.java</div>
 <pre class="prettyprint">@GetMapping("editAccount")
 public String editAccount() {
@@ -1134,23 +848,17 @@ public String editAccount() {
 <p>
 <img src="../../../static/images/editAccount-test-1.png" th:src="@{/static/images/editAccount-test-1.png}" class="browser-output" alt="내 정보 수정 테스트" />
 </p>
+
 </article>
 
 <article id="change-password">
-<h2>비밀번호 변경</h2>
 
-<p>
-비빌번호 변경에 필요한 페이지
-</p>
+<h2>비밀번호 변경</h2>
 
 <ul>
 	<li>articles/changePassword.html</li>
 	<li>users/changePassword.html</li>
 </ul>
-
-<p>
-다음 순으로 구현
-</p>
 
 <ul>
 	<li>UserMapper.xml</li>
@@ -1159,33 +867,6 @@ public String editAccount() {
 	<li>UserServiceImpl.java</li>
 	<li>UsersController.java</li>
 </ul>
-
-<p>
-UserMapper.xml에 
-UPDATE users SET password=? WHERE username=?
-SQL문이 필요하다.
-</p>
-
-<p>
-본인과 관리자만이 비밀번호를 변경할 수 있도록
-메소드 보안을 UserService 인터페이스의 해당 메소드에 적용한다.<br />
-</p>
-
-<p>
-UsersController에 GET 방식 users/changePassword 요청과 
-POST 방식 users/changePassword 요청에 대한 핸들러가 필요하다.<br />
-비밀번호 변경에서 빈 유효성 검사는 하지 않기로 한다.<br />
-</p>
-
-<p>
-앞단 작업부터
-작업 순서
-articles/changePassword.html
-messages_ko.properties
-messages_en.properties
-users/changePassword.html
-UsersController.java
-</p>
 
 <div class="filename">articles/changePassword.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
@@ -1255,16 +936,7 @@ public String changePassword() {
 </pre>
 
 <p>
-첫 번째 테스트
-</p>
-
-<p>
 <img src="../../../static/images/changePassword-test-1.png" th:src="@{/static/images/changePassword-test-1.png}" class="browser-output" alt="비밀번호 변경 화면 테스트" />
-</p>
-
-<p>
-뒷단 작업<br />
-작업순서:
 </p>
 
 <ol>
@@ -1280,45 +952,6 @@ public String changePassword() {
 UPDATE users SET password=#{newPassword} WHERE username=#{username} AND password=#{currentPassword}
 &lt;/update&gt;
 </pre>
-
-<div class="filename">UserMapper.java</div>
-<pre class="prettyprint">import org.apache.ibatis.annotations.Param;
-
-public int updatePassword(@Param("currentPassword") String currentPassword, @Param("newPassword") String newPassword, @Param("username") String username);
-</pre>
-
-<div class="filename">UserService.java</div>
-<pre class="prettyprint">import org.springframework.security.access.prepost.PreAuthorize;
-
-@PreAuthorize("hasAnyRole('ADMIN','USER')")
-public int changePassword(String currentPassword, String newPassword, String username);
-</pre>
-
-<div class="filename">UserServiceImpl.java</div>
-<pre class="prettyprint">@Override
-public int changePassword(String currentPassword, String newPassword, String username) {
-  currentPassword = this.bcryptPasswordEncoder.encode(currentPassword);
-  newPassword = this.bcryptPasswordEncoder.encode(newPassword);
-  return userMapper.updatePassword(currentPassword, newPassword, username);
-}
-</pre>
-
-<div class="filename">UsersController.java</div>
-<pre class="prettyprint">@PostMapping("changePassword")
-public String changePassword(@RequestParam("currentPassword") String currentPassword, @RequestParam("newPassword") String newPassword, Principal principal) {
-  String username = principal.getName();
-  userService.changePassword(currentPassword, newPassword, username);
-  return "redirect:/users/changePassword";
-}
-</pre>
-
-<p>
-위 코드는 비밀번호를 갱신할 수 없다.<br />
-스프링 시큐리티의 패스워드 인코더는 솔트 값을 사용하여 인코드하기에,
-인코드되기 전에 같은 값이라도 인코드된 후는 값이 같지 않게 된다.<br />
-사용자가 입력한 패스워드를 테이블에 있는 값과 비교하려면, 
-패스워드 인코더의 matches 메소드를 사용해야 한다.<br />
-</p>
 
 <div class="filename">UserMapper.xml</div>
 <pre class="prettyprint">&lt;update id="updatePassword"&gt;
@@ -1386,88 +1019,13 @@ public int changePassword(String currentPassword, String newPassword, String use
 
 <h4>메소드 매개변수를 이용하는 메소드 보안</h4>
 
-<p>
-참조:<br />
-https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#using_method_parameters<br />
-</p>
-
-<p>
-스프링 시큐리티는 매서드 매개변수를 찾는 방법을 제공하기에 SpEL 표현식에서 매개변수에 접근할 수 있다.<br />
-UserService 인터페이스에서 비밀번호를 찾는 메서드는 ADMIN 권한을 가지거나 해당 사용자만 실행할 수 있게 하려면
-다음과 같다.<br />
-</p>
-
 <pre class="prettyprint">@PreAuthorize("hasRole('ADMIN') or <strong>#username == principal.username</strong>")
 public String getPassword(<strong>@P("username")</strong> String username);
 </pre>
 
-<p>
-@P 애너테이션을 사용하기 위해선, 다음 임포트 문이 필요하다.<br />
-</p>
+<pre class="prettyprint no-border">import org.springframework.security.core.parameters.P;</pre>
 
-<pre class="prettyprint no-border">import org.springframework.security.access.method.P;
-</pre>
-
-<p>
-매개변수가 하나 이상인 경우는 스프링 Data의 @Param 애너테이션을 사용한다.<br />
-</p>
-
-<p>
-이경우 스프링 Data를 의존성에 추가해야 한다.<br />
-우리의 예제는 스프링 Data를 사용하지 않으며, getPassword 메서드도 매개변수가 하나이므로
-@Param 애너테이션을 사용하지 않아도 된다.<br />
-</p>
-
-<p>
-@Param 애너테이션을 테스트하려면 다음 과정을 따른다.<br />
-</p>
-
-<pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-data --&gt;
-&lt;dependency&gt;
-  &lt;groupId&gt;org.springframework.security&lt;/groupId&gt;
-  &lt;artifactId&gt;spring-security-data&lt;/artifactId&gt;
-  &lt;version&gt;6.3.4&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
-
-<p>
-스프링 시큐리티 설정 클래스에 다음을 추가한다.<br />
-</p>
-
-<pre class="prettyprint">@Bean
-public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
-  return new SecurityEvaluationContextExtension();
-}
-</pre>
-
-<p>
-다음 임포트 문이 필요하다.<br />
-import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
-</p>
-
-<p>
-UserService 인터페이스의 getPassword 메소드에 @Param 애너테이션을 적용한다.<br />
-</p>
-
-<pre class="prettyprint">@PreAuthorize("hasRole('ADMIN') or <strong>#username == principal.username</strong>")
-public String getPassword(<strong>@Param("username")</strong> String username);
-</pre>
-
-<p>
-다음 임포트 문이 필요하다.<br />
-import org.springframework.data.repository.query.Param;<br />
-</p>
-
-<p>
-우리의 예제는 Spring Data Integration를 사용하지 않겠다.<br />
-Spring Security provides Spring Data integration that allows referring to the 
-current user within your queries. 
-It is not only useful but necessary to include the user in the queries to support 
-paged results since filtering the results afterwards would not scale.
-https://docs.spring.io/spring-security/reference/features/integrations/data.html
-</p>
 </article>
-
 
 </body>
 </html>

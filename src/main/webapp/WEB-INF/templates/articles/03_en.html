@@ -502,7 +502,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   $('#numberPerPage').change(function() {
     var numberPerPage = $('#numberPerPage option:selected').val();
     if (numberPerPage) {
-      createCookie('numberPerPage', numberPerPage, '30'); //30일
+      createCookie('numberPerPage', numberPerPage, '30'); //30 days
       $('#listForm input[name*=page]').val('1');
       $('#listForm').submit();
     }
@@ -752,6 +752,7 @@ $('title').append(title);
 </article>
 
 <article id="thymeleaf-test">
+
 <h2>Thymeleaf Test for BBS</h2>
 
 <pre class="prettyprint">@GetMapping("/")

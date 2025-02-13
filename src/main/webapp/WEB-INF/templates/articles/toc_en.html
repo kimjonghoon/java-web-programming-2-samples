@@ -13,7 +13,15 @@
 
 <article>
 
-<h1>Setting up a Java development environment</h1>
+<th:block th:replace="~{thymeleaf/menu_en :: index}"></th:block>
+
+<th:block th:replace="~{spring-security/menu_en :: index}"></th:block>
+
+<th:block th:replace="~{board/menu_en :: index}"></th:block>
+
+<p></p>
+
+<h1>Install</h1>
 
 <h3>Java</h3>
 
@@ -22,13 +30,13 @@ https://www.oracle.com/java/technologies/downloads<br />
 </p>
 
 <p>
-<img src="../../../static/images/Java-latest.png" th:src="@{/static/images/Java-latest.png}" alt="최신 자바 x64 Installer 선택" /><br />
+<img src="../../../static/images/Java-latest.png" th:src="@{/static/images/Java-latest.png}" alt="x64 Installer" /><br />
 </p>
 
 <p>
 Run the JDK Installer.<br>
 Continue clicking the Next button to complete the installation.<br />
-The installed JDK directory is <strong>C:\Program Files\Java\jdk-22</strong>.
+The installed JDK directory is <strong>C:\Program Files\Java\jdk-21</strong>.
 </p>
 
 <p>
@@ -42,7 +50,7 @@ Open <strong>Start</strong><br />
 <strong>Environment Variables(N)...</strong><br />
 Under the "User variables for someson" section, click the <strong>New</strong> button.<br />
 Type JAVA_HOME in the "Variable name" setting.<br />
-Type C:\Program Files\Java\jdk-22 in the "Variable values" setting.<br />
+Type C:\Program Files\Java\jdk-21 in the "Variable values" setting.<br />
 Click the OK button.<br />
 Click the OK button.<br />
 </p>
@@ -62,7 +70,7 @@ C:\Windows\system32;C:\Windows;
 C:\Windows\System32\Wbem;
 C:\Windows\System32\WindowsPowerShell\v1.0\;
 C:\Windows\System32\OpenSSH\;
-<strong>C:\Program Files\Java\jdk-22\bin;</strong>
+<strong>C:\Program Files\Java\jdk-21\bin;</strong>
 </pre>
 
 <h3>Maven</h3>
@@ -353,11 +361,6 @@ Tomcat stop: run shutdown.bat of the bin folder.<br />
 
 <pre class="commandLine">C:\tomcat10\bin&gt; <strong>.\shutdown.bat</strong></pre>
 
-<th:block th:replace="~{thymeleaf/menu_en :: index}"></th:block>
-
-<th:block th:replace="~{spring-security/menu_en :: index}"></th:block>
-
-<h1>Chapter 3. Bulletin Board</h1>
 
 </article>
 

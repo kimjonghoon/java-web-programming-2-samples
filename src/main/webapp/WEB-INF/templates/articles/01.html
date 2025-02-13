@@ -16,29 +16,9 @@
 
 <h1>Thymeleaf</h1>
 
-<p>
-타임리프는 스프링 진영에서 권장하는 레이아웃 템플릿 엔진이다.<br />
-</p>
-
-<h2>예제 준비</h2>
-
-<p>
-아래 링크를 참조해, 스프링에서 타임리프를 사용하는 예제를 만들어 보겠다.<br />
-https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html<br />
-메이븐 프로젝트의 루트 디렉터리를 jwp2samples이라 정한다면, 예제는 다음과 같은 디렉터리와 파일을 갖게 된다.<br />
-</p>
-
 <div class="filename">jwp2samples</div>
 <p style="margin: 0;padding: 0">
 <img src="../../../static/images/tree.png" th:src="@{/static/images/tree.png}" alt="예제 파일 구조" />
-</p>
-
-<h3>POM</h3>
-
-<p>
-pom.xml 파일은 메이븐 루트 디렉터리에 두는 파일이다.<br />
-pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
-파일이 빌드를 위한 정보를 제공한다는 정도로 이해하면 된다.<br />
 </p>
 
 <div class="filename" id="pom.xml">pom.xml</div>
@@ -144,100 +124,13 @@ pom 의미는 Project Object Model로, XML 표현으로 이름붙인 것일 뿐,
 &lt;/project&gt;
 </pre>
 
-<p style="padding-left: 0.5em">
-<strong>Note</strong>
-mvn archetype:generate -Dfilter=maven-archetype-webapp를 명령 프롬프트에서 실행<br /> 
-org.apache.maven.archetypes:maven-archetype-webapp에 해당하는 번호를 선택하고 엔터<br />
-org.apache.maven.archetypes:maven-archetype-webapp의 최신 버전을 선택하고 엔터<br />
-groupId에 net.java_school.tutorial를 입력<br />
-artifactId에 jwp2samples를 입력<br />
-그 외 항목은 그냥 엔터를 치면, 생성된 jwp2samples 디렉터리에서 위와 유사한 pom.xml 파일을 얻을 수 있다.
-</p>
-
-<pre class="prettyprint">&lt;properties&gt;
-  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-  &lt;maven.compiler.source&gt;<strong>17</strong>&lt;/maven.compiler.source&gt;
-  &lt;maven.compiler.target&gt;<strong>17</strong>&lt;/maven.compiler.target&gt;
-  &lt;spring.version&gt;<strong>6.1.14</strong>&lt;/spring.version&gt;
-&lt;/properties&gt;
-</pre>
-
-<p>
-스프링 6은 자바 17 이상에서 사용할 수 있다.<br />
-17을 설치한 자바 버전으로 바꿔도 상관없지만,
-책 내용은 17로 진행하기에, 그대로 둘 것을 권장한다.<br />
-</p>
-
-<p>
-단순한 예제부터 시작하기에, 스프링은 spring-webmvc만 추가했다.<br />
-</p>
-
-<pre class="prettyprint">&lt;dependency&gt;
-  &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-  &lt;artifactId&gt;<strong>spring-webmvc</strong>&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</pre>
-
-<p>
-타임리프<sup>Thymeleaf</sup>는 thymeleaf-spring6를 추가했다.<br />
-</p>
-
-<pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring6 --&gt;
-&lt;dependency&gt;
-  &lt;groupId&gt;org.thymeleaf&lt;/groupId&gt;
-  &lt;artifactId&gt;<strong>thymeleaf-spring6</strong>&lt;/artifactId&gt;
-  &lt;version&gt;<strong>3.1.2.RELEASE</strong>&lt;/version&gt;
-&lt;/dependency&gt;
-</pre>
-
-<p>
-스프링 6는 Jakarta EE 10을 지원한다.<br />
-서블릿 6.0은 Jakarta EE 10 스펙의 일부다.<br />
-</p>
-
-<pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api --&gt;
-&lt;dependency&gt;
-  &lt;groupId&gt;jakarta.servlet&lt;/groupId&gt;
-  &lt;artifactId&gt;<strong>jakarta.servlet-api</strong>&lt;/artifactId&gt;
-  &lt;version&gt;<strong>6.0.0</strong>&lt;/version&gt;
-  &lt;scope&gt;provided&lt;/scope&gt;
-&lt;/dependency&gt;
-</pre>
-
-<p>
-예제를 톰캣에 돌릴거지만, 제티<sup>Jetty</sup> 플러그인도 추가했다.<br />
-제티 11 버전은 Jakarta EE 10 지원한다.<br />
-톰캣에서 에러를 찾지 못할 때, 제티로 테스트해 보는 것도 한 방법이다.<br /> 
-</p>
-
-<pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin --&gt;
-&lt;plugin&gt;
-  &lt;groupId&gt;org.eclipse.jetty&lt;/groupId&gt;
-  &lt;artifactId&gt;<strong>jetty-maven-plugin</strong>&lt;/artifactId&gt;
-  &lt;version&gt;<strong>11.0.24</strong>&lt;/version&gt;
-&lt;/plugin&gt;
-</pre>
-
-<p>
-테스트에 성공한 의존 라이브러리 최신 버전은 블로그에서 확인할 수 있다.<br />
-<a href="http://java-school.net">http://java-school.net</a><br />
-</p>
 </article>
 
 <article id="java-based-config">
+
 <h3>자바 기반 스프링 설정</h3>
 
-<p>
-자바 기반 스프링 설정 클래스의 패키지를 net.java_school.config로 정했다.<br />
-이클립스에선 JavaEE 퍼스펙티브의 Project Explorer에 net.java_school.config 패키지를 생성한다.<br />
-Notepad++과 같은 일반 에디터에서 작업할 때는 다음 명령으로 폴더를 생성한 후 파일을 작성한다.<br />
-</p>
-
 <pre class="commandLine">mkdir -p src/main/java/net/java_school/config</pre>
-
-<p>
-스프링 설정을 담는 클래스를 작성한다.<br />
-</p>
 
 <div class="filename" id="MvcWebConfig.java">MvcWebConfig.java</div>
 <pre class="prettyprint">package net.java_school.config;
@@ -297,45 +190,6 @@ public class MvcWebConfig implements <strong>WebMvcConfigurer</strong> {
 }
 </pre>
 
-<p>
-애너테이션 <strong>@Configuration</strong>은 클래스가 설정 클래스임을 스프링에게 알린다.<br />
-</p>
-
-<pre class="prettyprint"><strong>@Configuration</strong>
-<strong>@EnableWebMvc</strong>
-<strong>@ComponentScan("net.java_school.controller")</strong>
-public class MvcWebConfig implements <strong>WebMvcConfigurer</strong> {
-</pre>
-
-<p>
-<strong>@EnableWebMvc</strong>는 XML 설정 &lt;mvc:annotation-driven /&gt;과 같다.<br />
-<strong>@ComponentScan("net.java_school.controller")</strong>는 스프링으로 하여금 해당 패키지에서 컴포넌트를 찾아 빈 컨테이너에 등록하게 한다.<br />
-WebMvcConfigurer 인터페이스는 @EnableWebMvc를 통해 활성화된 스프링 MVC 자바 기반 설정을 커스터마이즈 하기 위한 콜백 메서드를 정의한다.
-대부분의 스프링 MVC를 위한 자바 기반 설정 클래스는 WebMvcConfigurer를 구현<sup>implements WebMvcConfigurer</sup>하면서 @EnableWebMvc 주석을 가진다.<br />
-</p>
-
-<p>
-MvcWebConfig 클래스는 WebMvcConfigurer 인터페이스의 addResourceHandlers 메소드를 구현해서 리소스 핸들러를 정의했다.<br />
-</p>
-
-<pre class="prettyprint">@Override
-public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-  <strong>registry.addResourceHandler("/static/**").addResourceLocations("/static/");</strong>
-}
-</pre>
-
-<p>
-타임리프 관련 설정은 공식 문서와 거의 같다.<br />
-유일한 차이는, ThymeleafViewResolver에 한글이 깨지지 않도록<br />
-<strong>viewResolver.setCharacterEncoding("UTF-8");</strong>을 추가한 것이다.<br />
-</p>
-
-<p>
-MvcWebConfig 클래스와 같은 위치에 MvcWebApplicationInitializer이란 이름의 자바 기반 설정 클래스를 생성한다.<br />
-이 클래스는 web.xml 파일 역할을 하지만, web.xml의 모든 기능을 대체할 수 있는 건 아니다.<br /> 
-필요하면, web.xml 파일과 함께 사용할 수 있다.<br />
-</p>
-
 <div class="filename" id="MvcWebApplicationInitializer.java">MvcWebApplicationInitializer.java</div>
 <pre class="prettyprint">package net.java_school.config;
 
@@ -356,26 +210,14 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
   }
 }
 </pre>
+
 </article>
 
 <article id="prototype">
 
 <h3>프로토타입</h3>
 
-<p>
-타임리프가 사용할 레이아웃 페이지를 만들기 위해 디자인이 필요하다.<br />
-아래는 디자인 파일을 기반으로 타임리트 레이아웃 파일을 만드는 과정이다.<br />
-</p>
-
-<p>
-타임리프 레이아웃 파일 위치를 src/main/webapp/WEB-INF/templates/layout 폴더로 정했다.
-</p>
-
 <pre class="commandLine">mkdir -p src/main/webapp/WEB-INF/templates/layout</pre>
-
-<p>
-레이아웃 파일의 프로토타입을 작성한다.
-</p>
 
 <div class="filename">baseLayoutFile.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -388,9 +230,7 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 &lt;link rel="stylesheet" media="screen" <strong>href="../../../static/css/screen.css"</strong> /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="wrap"&gt;
-
   &lt;div id="header"&gt;
     &lt;div id="java-school-ci"&gt;
       &lt;a href="#"&gt;&lt;img src="../../../static/images/ci.gif" alt="java-school" /&gt;&lt;/a&gt;
@@ -400,7 +240,6 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
       &lt;a href="#"&gt;&lt;button type="button"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-	
   &lt;div id="main-menu"&gt;
     &lt;ul id="nav"&gt;
       &lt;li&gt;&lt;a href="#"&gt;Thymeleaf&lt;/a&gt;&lt;/li&gt;
@@ -408,14 +247,12 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
       &lt;li&gt;&lt;a href="#"&gt;Bulletin Board&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/div&gt;
-
   &lt;div id="i18n"&gt;
 <strong>&lt;!--i18n --&gt;</strong>
 &lt;a href="#"&gt;korean&lt;/a&gt;
 &lt;a href="#"&gt;english&lt;/a&gt;
 <strong>&lt;!--i18n --&gt;</strong>
   &lt;/div&gt;
-	
   &lt;div id="container"&gt;
     &lt;div id="content"&gt;
       &lt;article&gt;
@@ -444,7 +281,6 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
       &lt;/article&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-
   &lt;div id="sidebar"&gt;
 <strong>&lt;!--submenu --&gt;</strong>
 &lt;h1&gt;Home&lt;/h1&gt;
@@ -454,7 +290,6 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 &lt;/ul&gt;
 <strong>&lt;!--submenu --&gt;</strong>
   &lt;/div&gt;
-	
   &lt;div id="extra"&gt;
 <strong>&lt;!--references --&gt;</strong>
 &lt;ul&gt;
@@ -466,114 +301,23 @@ public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispat
 &lt;/ul&gt;
 <strong>&lt;!--references --&gt;</strong>
   &lt;/div&gt;
-
   &lt;div id="footer"&gt;
     &lt;ul&gt;
       &lt;li&gt;Copyright java-school All Rights Reserved.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/div&gt;
-
 &lt;/div&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-
-wrap 안에 header, main-menu, i18n, container, sidebar, extra, footer가 있다.<br />
---편의상 id 속성값으로 엘리먼트를 불렀다--
-</p>
-
-<pre>---wrap----------
-|----header-----|
-|----main-menu--|
-|----i18n-------|
-|----container--|
-|----sidebar----| 
-|----extra------|
-|----footer-----|
------------------
-</pre>
-
-<p>
-sidebar는 서브 메뉴를 둘 자리로 왼쪽에 두었다.<br />
-extra는 참고 문서 링크 자리다.<br />
-container, sidebar, extra 순으로 있지만, CSS의 float과 마이너스 마진을 사용해서
-container 왼쪽엔 sidebar가, 오르쪽엔 extra가 위로 덮어 쓰도록 구현할 것이다.<br />
-이 레이아웃은 containter 안에 순서대로 sidebar, content, extra가 있는 구조보다 견고하다.<br />
-메인 텍스트에 content의 너비보다 큰 내용이 있다 하더라도 레이아웃이 깨지지 않는다.<br />
-container안에 sidebar, content, extra가 있는 레이아웃은 이경우 깨진다.<br />
-float와 마이너스 마진을 사용하는 CSS 레이아웃에 대한 내용은 다음 참조:<br />
-http://java-school.net/css-layout/div-element-arrangement<br />
-</p>
-
-<p>
-header 엘리먼트 안에 java-school-ci와 memeber 엘리먼트가 있다.
-</p>
-
-<pre>---header----------------
-|----java-school-ci-----|
-|----member-------------|
--------------------------
-</pre>
-
-<p>
-containter 엘리먼트 안에 content 엘리먼트가 있다.<br />
-content 엘리먼트 안의 article에 페이지의 메인 텍스트가 둔다.<br />
-</p>
-
-<pre>---container---------
-|----content--------|
----------------------
-</pre>
-
-<p>
-이미지 파일, 스타일 시트와 제이쿼리 파일이 위치할 폴더를 생성한다.<br />
-</p>
 
 <pre class="commandLine">mkdir -p src/main/webapp/static/images</pre>
 <pre class="commandLine">mkdir -p src/main/webapp/static/js</pre>
 <pre class="commandLine">mkdir -p src/main/webapp/static/css</pre>
 
-<p>
-images 폴더에, 메인 메뉴의 리스트 스타일을 위한 bull_circle.gif, 메인 테스트에서 리스트 스타일을 위한 circle.gif, 그리고 웹사이트의 CI 이미지인 ci.gif 파일이 필요하다.<br />
-이들 이미지는 아래 주소에서 내려받는다.<br />
-http://java-school.net/css-layout/main-menu-styling<br />
-</p>
-
-<p>
-https://jquery.com/download/ 방문하여, 최신 버전 jQuery를 내려받은 후, 파일명을 jquery.js로 바꾸고 js 폴더에 복사한다. 이렇게 하면 유지보수가 더 쉽다.<br />
-</p>
-
-<p>
-스타일시트를 작성할 때, 미디어 쿼리를 사용하면 프로그램의 조건문처럼 페이지에 스타일시트를 적용할 수 있다.<br />
-</p>
-
-<pre class="prettyprint">@media only screen {
-
-}
-@media only screen and (min-width: 768px) {
-
-}
-@media only print {
-
-}
-</pre>
-
-<p>
-screen은 컴퓨터 모니터에서의 스타일을, print는 복사 용지로 출력할 때의 스타일을 의미햔다.<br />
-미디어 쿼리는 스타일시트의 줄 수를 줄일 수 있지만 프로젝트를 진행하면서 스타일시트 파일을 하나로 유지하는 건 어렵다. 코드가 늘더라도 파일을 분리하는 방법이 유지보수에 유리할 수 있다.<br />
-예제의 스타일시트를 여러 파일도 분리하기로 정했다.<br />
-</p>
-
 <pre class="prettyprint">&lt;link rel="stylesheet" <strong>media="print"</strong> href="../../static/css/print.css"&gt;
 &lt;link rel="stylesheet" <strong>media="screen"</strong> href="../../static/css/screen.css"&gt;
 </pre>
-
-<p>
-프린트를 위한 스타일시트는 #header, #main-menu, #i18n, #sidebar, #extra, #footer 엘리먼트를 프린트 출력시 보이지 않게 한다. 메인 텍스트는 content 엘리먼트의 자식 엘리먼트인 article에 있다.<br />
-</p>
 
 <div class="filename" id="print.css">print.css</div>
 <pre class="prettyprint">table {
@@ -682,10 +426,6 @@ article &gt; ul &gt; li {
   display: none;
 }
 </pre>
-
-<p>
-table, img, form, a 엘리먼트 스타일은 페이지 전역에 적용되고, article 엘리먼트 스타일은 메인 텍스트에 적용된다.
-</p>
 
 <div class="filename" id="screen.css">screen.css</div>
 <pre class="prettyprint">table {
@@ -974,16 +714,6 @@ article &gt; ol &gt; li {
 </pre>
 
 <p>
-table, img, form, a, article 엘리먼트 스타일은 print.css 파일 내용과 같고,
-모니터 스크린에서 화면을 구성하는 #header, #main-menu, #i18n, #sidebar, #extra, #footer
-엘리먼트 스타일이 추가된다.<br />
-</p>
-
-<p>
-탐색기에서 baseLayoutFile.html을 웹 브라우저로 연다.<br />
-</p>
-
-<p>
 <img src="../../../static/images/homepage-design.png" th:src="@{/static/images/homepage-design.png}" class="browser-output" alt="메인 페이지 디자인" />
 </p>
 
@@ -992,21 +722,6 @@ table, img, form, a, article 엘리먼트 스타일은 print.css 파일 내용�
 <article id="thymeleaf-layout">
 
 <h3>타임리프 레이아웃 파일</h3>
-
-<p>
-다음은 레이아웃 프로토타입 파일을 타임리프의 레이아웃 파일로 변환하는 과정이다.<br />
-</p>
-
-<p>
-baseLayoutFile.html에서
-<strong>&lt;!--i18n --&gt;</strong>,
-<strong>&lt;!--main text --&gt;</strong>,
-<strong>&lt;!--submenu --&gt;</strong>,
-<strong>&lt;!--references --&gt;</strong>는 페이지마다 다른 내용으로 채워야 할 부분이다.<br />
-title, Keywords 메타 태그, Description 메타 태그도 페이지마다 다르다.<br />
-어떤 페이지에는 스타일과 자바스크립트가 추가로 필요할 수 있다.<br />
-페이지마다 다를 수 있는 부분은 프레그먼트로 채울 수 있도록 수정하여 레이아웃 파일을 완성한다.<br />
-</p>
 
 <div class="filename">layout/baseLayoutFile.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -1081,68 +796,11 @@ title, Keywords 메타 태그, Description 메타 태그도 페이지마다 다�
 </pre>
 
 <p>
-타임리프 레이아웃 파일은 서버를 동작하지 않고도 웹브라우저로 확인할 수 있다.
-</p>
-
-<p>
 <img src="../../../static/images/homepage-design2.png" th:src="@{/static/images/homepage-design2.png}" class="browser-output" alt="Thymeleaf layout file" />
-</p>
-
-<p>
-html 시작태그의 <strong>th:fragment="layout (title, metas, links, scripts, i18n, maintext, submenu, reference)"</strong>는 일종의 함수 파라미터 리스트다. 타임리프는 요청 페이지를 레이아웃 페이지로 치환할 때, 요청 페이지의 정보를 레이아웃 페이지의 파라미터 리스트로 전달한다.<br />
-</p>
-
-<p>
-html 시작 태그의 <strong>xmlns:th="http://www.thymeleaf.org"</strong>는 템플릿 처리에 전혀 영향을 미치지 않지만, IDE가 th:* 속성에 대한 네임스페이스 정의가 없다고 불평하는 것을 막는다.
-</p>
-
-<p>
-th:replace는 태그 전체를 지정한 프레그먼트로 바꾼다.<br />
-<strong>&lt;title</strong> th:replace="${title}"&gt;Title<strong>&lt;/title&gt;</strong> 굵게 강조한 부분이 호스트 태그다.<br />
-th:replace="다음에 호스트 태그를 교체하는 프레그먼트가 나온다.<br />
-호스트 태그가 title인 만큼 th:replace의 값은 title 프레그먼트여야 문제가 없다.<br />
-</p>
-
-<p>
-<strong>&lt;th:block th:replace="${metas}"&gt;</strong>의 
-th:replace="${metas}"는 호스트 태그 &lt;th:block&gt;..&lt;/th:block&gt;을 
-레이아웃 페이지 metas 파라미터에 전달된 프레그먼트로 바꾼다.<br />
-&lt;title th:replace="${title}"&gt;Title&lt;/title&gt;과 다른 점은,
-title은 HTML 엘리먼트이기에 탐색기에서 웹 브라우저로 확인할 때 웹 브라우저는 title 태그를 해석하여 보여주지만,
-타임리프의 유일한 자체 태그인 th:block 태그는, 서버없이 웹 브라우저로 볼 때,
-웹 브라우저는 이를 해석할 수 없기에 태그를 보여 주지 못한다.<br />
-랜더링시에도 th:block 태그는 내용이 있다면 내용만 보이고 th:block 태그는 제거된다.<br />
-<strong>&lt;th:block th:replace="${metas}"&gt;</strong>는 메타 태그 자리에 있기에, 
-th:replace의 값은 메타 프레그먼트여야 문제가 없다.<br />
-</p>
-
-<p>
-th:href는 값으로 주어지는 링크 URL을 컨텍스트 패스부터 시작하는 링크로 계산하고,
-그 값으로 href 속성값을 설정한다.<br />
 </p>
 
 <pre class="prettyprint no-border">&lt;link rel="stylesheet" media="print" href="../../../static/css/print.css" <strong>th:href="@{/static/css/print.css}"</strong> /&gt;</pre>
 
-<p>
-위 라인은, 랜더링 시 th:href 속성값은 <i>컨텍스트패스</i>/static/css/print.css로 계산되어,
-href 속성값을 설정한다.<br />
---루트 애플리케이션이라면, href="/static/css/print.css"가 된다--<br /> 
-</p>
-
-<p>
-&lt;div id="i18n" th:replace="${i18n}"&gt;로 시작해 &lt;/div&gt;로 끝나는 div 엘리먼트는 
-레이아웃 페이지의 i18n 파라미터에 전달된 프레그먼트로 교체된다.<br />
-</p>
-
-<p>
-&lt;div id="sidebar" th:replace="${submenu}"&gt;로 시작하여 &lt;/div&gt;로 끝나는 
-div 엘리먼트는 레이아웃 페이지의 submenu 파라미터에 전달된 프레그먼트로 교체된다.<br />
-</p>
-
-<p>
-&lt;div id="extra" th:replace="${reference}"&gt;로 시작해 &lt;/div&gt;로
-끝나는 엘리먼트는 레이아웃 페이지의 reference 파라미터로 전달된 프레그먼트로 교체된다.<br />
-</p>
 </article>
 
 <article id="homepage-test">
@@ -1151,20 +809,7 @@ div 엘리먼트는 레이아웃 페이지의 submenu 파라미터에 전달된 
 
 <h3>컨트롤러</h3>
 
-<p>
-컨트롤러 패키지를 net.java_school.controller로 정했다.<br />
-</p>
-
-<p>
-일반 에디터로 작업한다면, src/main/java/net/java_school/controller 폴더를 생성한 후,
- 파일을 작성한다.<br />
-</p>
-
 <pre class="commandLine">mkdir -p src/main/java/net/java_school/controller</pre>
-
-<p>
-홈페이지 핸들러를 가진 홈컨트롤러를 작성한다.
-</p>
 
 <div class="filename">HomeController.java</div>
 <pre class="prettyprint">package net.java_school.controller;
@@ -1181,11 +826,6 @@ public class HomeController {
 }
 </pre>
 
-<p>
-자바 기반 설정과 홈 컨트롤러의 홈페이지 핸들러 설정대로, 다음이 예제 홈페이지 파일이다.<br />
-src/main/webapp/WEB-INF/templates/index.html<br />
-</p>
-
 <div class="filename" id="index-html">index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
 &lt;!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 i18n, 6 maintext, 7 submenu, 8 reference */--&gt;
@@ -1196,142 +836,39 @@ src/main/webapp/WEB-INF/templates/index.html<br />
 &lt;meta name="Description" th:replace="<strong>~{articles/toc :: meta[@name='Description']}</strong>" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;!--빈 div id="i18n"이라도 레이아웃에 전달해야, 응답에 div id="i18n" 엘리먼트가 사라지지 않는다--&gt;
 <strong>&lt;div id="i18n"&gt;&lt;/div&gt;</strong>
-
 &lt;section th:replace="<strong>~{articles/toc :: article}</strong>"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="<strong>~{home/menu :: index}</strong>"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
-<p>
-홈페이지는 자신을 레이아웃 페이지로 치환하면서 자신이 가진 정보를 레이아웃 페이지에 전달해 
-응답 화면을 완성한다.<br />
-</p>
-
-<p>
-홈페이지에서 왜 section 엘리먼트와 aside 엘리먼트를 사용했는가를 고민할 필요 없다.<br />
-문서내 프레그먼트를 서로 다른 엘리먼트를 사용해 구별한 것일 뿐이다.<br />
-</p>
-
-<p>
-정보를 전달하는 페이지는,
-레이아웃 페이지의 title, metas, links, scripts, i18n, maintext, submenu, reference 
-파라미터 순서에 맞게 정보를 전달해야 한다.<br />
-홈페이지에선 ~{::title}, ~{::meta}, ~{}, ~{}, ~{::div}, ~{::section}, ~{::aside}, ~{}
-으로 레이아웃 페이지에 프레그먼트 정보를 전달한다.<br />
-</p>
-
-<p>
-홈페이지의 ~{::title}, ~{::meta}, ~{::div}, ~{::section}, ~{::aside}에서 
-title, meta, div, section, aside는 HTML 엘리먼트다.<br />
-</p>
-
-<ul>
-	<li>~{::title} - 현재 HTML 문서의 title 엘리먼트</li>
-	<li>~{::meta} - 현재 HTML 문서의 meta 엘리먼트</li>
-	<li>~{::div} - 현재 HTML 문서의 div 엘리먼트</li>
-	<li>~{::section} - 현재 HTML 문서의 section 엘리먼트</li>
-	<li>~{::aside} - 현재 HTML 문서의 aside 엘리먼트</li>
-</ul>
-
-<p>
-어떤 엘리먼트가 문서에서 하나 이상일 때 이 엘리먼트 이름으로 프레그먼트를 선택하면 해당 엘리먼트 
-모두 선택된다.<br />
-랜더링된 홈페이지에서 메타 엘리먼트 부분을 페이지 소스보기로 보면 다음과 같다.<br />
-</p>
-
 <pre class="prettyprint no-border">&lt;meta name="Keywords" content="목차" /&gt;&lt;meta name="Description" content="목차" /&gt;</pre>
-
-<p>
-~{ 와 } 사이에 ::를 사용하여 문서내 프레그먼트를 선택한다.<br />
-~{}는 해당 파라미터에 아무런 정보를 넘기지 않을 때 사용한다.<br />
-</p>
-
-<p>
-정보를 레이아웃 페이지에 전달하는 페이지는 자신과 분리된 페이지를 사용할 수 있다.<br />
-프레그먼트 지시어에서, :: 앞에 아무것도 없으면 현재 페이지의 프레그먼트를 의미한다.<br />
-:: 앞에는 분리는 외부 파일을 의미한다.
-이 외부 파일은, 이름 앞에 "/WEB-INF/templates/"를, 이름 뒤에 ".html"를 뒤에 붙인 위치에 있다.
---templateResolver.setPrefix("/WEB-INF/templates/");로 설정했기에, 
-타임리프의 모든 경로는 /WEB-INF/templates/부터 시작한다--<br />
-</p>
-
-<p>
-홈페이지의 &lt;title th:replace="~{articles/toc :: title}"&gt;홈페이지&lt;/title&gt;
-라인은, 홈페이지 title을 article/toc 페이지에 있는 title 엘리먼트로 교체한다.
-articles/toc는 /WEB-INF/templates/articles/toc.html 파일이다.<br />
-</p>
 
 <pre class="prettyprint">&lt;meta name="Keywords" th:replace="~{articles/toc :: meta[@name='Keywords']}" /&gt;
 &lt;meta name="Description" th:replace="~{articles/toc :: meta[@name='Description']}" /&gt;
 </pre>
 
-<p>
-위 라인은 홈페이지 메타 엘리먼트를 /WEB-INF/templates/articles/toc.html 파일의 메타 엘리먼트로 교체한다.<br />
-~{articles/toc :: meta[@name='Keywords']}는 toc.html 문서 메타 엘리먼트 중 
-name이 Keywords인 메타 엘리먼트를,
-~{articles/toc :: meta[@name='Description']}은 toc.html 문서 메타 엘리먼트 중 
-name이 Description인 메타 엘리먼트를 선택한다.<br />
-[@name='Keywords']와 [@name='Description']을 사용하여 메타 엘리먼트를 구분하고 있다.<br />
-메타뿐 아니라 다른 엘리먼트에서도 꺽쇠, []를 사용해, 엘리먼트를 특정할 수 있다.<br />
-</p>
-
-<p>
-&lt;section th:replace="~{articles/toc :: article}"&gt;&lt;/section&gt; 라인은,
- section 엘리먼트를 toc.html 문서의 article 엘리먼트로 교체한다.<br />
-</p>
-
-<p>
-&lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt; 라인은,
-aside 엘리먼트를 toc.html 문서의 index 프레그먼트로 교체한다.
-index는 HTML 공식 엘리먼트 이름이 아니다.
-공식 엘리먼트 이름이 아니더라도, /WEB-INF/templates/home/menu.html 페이지에서 index란 이름으로 
-프레그먼트를 선언하면, 선언한 이름으로 프레그먼트를 선택할 수 있다.<br />
-</p>
-
-<p>
-홈페이지는, 
-레이아웃 페이지의 타이틀, 메타, 메인 텍스트에 /WEB-INF/templates/articles/toc.html 페이지를, 
-레이아웃 페이지의 서브 메뉴에 /WEB-INF/templates/home/menu.html 페이지를 사용해 정보를 제공한다.<br />
-</p>
-
 <div class="filename">articles/toc.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
-
 &lt;head&gt;
 &lt;title&gt;목차&lt;/title&gt;
 &lt;meta name="Keywords" content="목차" /&gt;
 &lt;meta name="Description" content="목차" /&gt;
 &lt;link rel="stylesheet" media="all" href="../../../static/css/screen.css" /&gt;
 &lt;/head&gt;
-
 &lt;body&gt;
-
 &lt;article&gt;
-
 &lt;h1&gt;개발환경 준비&lt;/h1&gt;
-
 &lt;h3&gt;Java 설치&lt;/h3&gt;
-
 &lt;h3&gt;Maven 설치&lt;/h3&gt;
-
 &lt;h3&gt;Git 설치&lt;/h3&gt;
-
 &lt;h3&gt;Vim 설치&lt;/h3&gt;
-
 &lt;h1&gt;1장 Thymeleaf&lt;/h1&gt;
-
 &lt;h1&gt;2장 Spring Security&lt;/h1&gt;
-
 &lt;h1&gt;3장 Bulletin Board&lt;/h1&gt;
-
 &lt;/article&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -1358,20 +895,6 @@ index는 HTML 공식 엘리먼트 이름이 아니다.
 &lt;/html&gt;
 </pre>
 
-<p>
-페이지 화면을 구성하는 부분<sup>part</sup>을 타임리프 공식 용어로 
-프레그먼트<sup>fragment</sup>라 한다.<br />
-엘리먼트는 모두 프레그먼트다.<br />
-엘리먼트가 프레그먼트로 사용될 때, 엘리먼트 이름이 프레그먼트 이름이 된다.<br />
-</p>
-
-<p>
-프레그먼트 선언을 사용하면, 엘리먼트 이름이 아닌 선언된 이름으로 프레그먼트를 선택할 수 있다.<br />
-프레그먼트 선언은 th:fragment를 사용한다.<br />
-home/menu.html 파일의 div 엘리먼트에 th:fragment="index"를 추가하면, 
-index란 이름으로 해당 프레그먼트를 index란 이름으로 div 엘리먼트를 선택할 수 있다.<br />
-</p>
-
 <pre class="prettyprint">&lt;style&gt;
 #sidebar {
   margin-left: 0;
@@ -1379,26 +902,10 @@ index란 이름으로 해당 프레그먼트를 index란 이름으로 div 엘리
 &lt;/style&gt;
 </pre>
 
-<p>
-탐색기에서 웹 브라우저로 디자인을 확인하기 위해 스타일을 추가했다.<br />
-screen.css에선 #sidebar가 margin-left: -100%;으로 설정되었기에,
-탐색기에서 웹 브라우저로 확인하면 아무것도 보이지 않는다.<br />
-</p>
-
-<p>
-제티 플러그인을 사용하면 빠르게 테스트할 수 있다.<br />
-다음 명령으로 제티를 실행하고, http://localhost:8080을 방문한다.<br />
-</p>
-
 <pre class="commandLine">mvn jetty:run</pre>
 
 <p>
 <img src="../../../static/images/homepage-test.png" th:src="@{/static/images/homepage-test.png}" class="browser-output" alt="homepage test by jetty plugin" />
-</p>
-
-<p>
-th:block의 내용<sup>body</sup>은 쉽게 재사용할 수 있다.<br />
-home/menu.html 페이지에서 div 엘리먼트를 th:block으로 변경한다.<br />
 </p>
 
 <div class="filename">home/menu.html</div>
@@ -1418,16 +925,6 @@ home/menu.html 페이지에서 div 엘리먼트를 th:block으로 변경한다.<
 &lt;/html&gt;
 </pre>
 
-<p>
-&lt;th:block th:fragment="index" <strong>id="sidebar"</strong>&gt;처럼, 
-id="sidebar" 속성을 유지하면, th:block이 타임리프만의 엘리먼트라 하더라도, 
-서버없이 웹 브라우저로 menu.html 파일을 볼 때 스타일시트가 적용된다.<br />
-</p>
-
-<p>
-레이아웃 파일에서 #sidebar의 th:replace="${submenu}"를 th:insert="${submenu}"로 수정한다.<br /> 
-</p>
-
 <pre class="prettyprint">&lt;div id="sidebar" <strong>th:insert="${submenu}"</strong>&gt;
 &lt;h1&gt;Home&lt;/h1&gt;
 &lt;ul&gt;
@@ -1437,28 +934,12 @@ id="sidebar" 속성을 유지하면, th:block이 타임리프만의 엘리먼트
 &lt;/div&gt;
 </pre>
 
-<p>
-th:insert는 호스트 태그를 그대로 두고,
-호스트 태그의 내용을 th:insert 값으로 설정된 프레그먼트로 교체한다.<br />
-호스트 태그의 기존 내용은 제거된다.<br />
-</p>
-
-<p>
-th:block은 처리시 사라지기에,
-index란 이름으로 선언된 프레그먼트 내용만 #sidebar 내용으로 삽입된다.
-감싸는 엘리먼트없이 아래 내용만 전달된다.
-</p>
-
 <pre class="prettyprint">&lt;h1&gt;Home&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li class="sub-heading"&gt;예제 소스&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://github.com/kimjonghoon/java-web-programming-2-samples"&gt;자바 웹 프로그래밍 2&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </pre>
-
-<p>
-아래처럼 홈페이지를 수정하면, 메인 텍스트에 index 프레그먼트를 두게 된다.<br />
-</p>
 
 <div class="filename" id="index-html2">index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -1470,41 +951,25 @@ index란 이름으로 선언된 프레그먼트 내용만 #sidebar 내용으로 
 &lt;meta name="Description" th:replace="~{articles/toc :: meta[@name='Description']}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;!--빈 div id="i18n"이라도 레이아웃에 전달해야, 응답에 div id="i18n" 엘리먼트가 사라지지 않는다--&gt;
 &lt;div id="i18n"&gt;&lt;/div&gt;
-
 &lt;section th:replace="<strong>~{home/menu :: index}</strong>"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
 <p>
-제티를 실행하고 홈페이지를 방문한다.
-</p>
-
-<p>
 <img src="../../../static/images/homepage-test2.png" th:src="@{/static/images/homepage-test2.png}" class="browser-output" alt="서브 메뉴를 메인 텍스트에 보이기" />
-</p>
-
-<p>
-페이지 소스보기로 메인 텍스트 부분을 보면,
-article 엘리먼트가 index 프레그먼트로 교체되었음을 알 수 있다.<br />
-감싸는 엘리먼트없이 th:block 내용만 레이아웃 페이지에 전달된 것이다.<br />
 </p>
 
 <pre class="prettyprint">&lt;div id="container"&gt;		
   &lt;div id="content"&gt;
-      
 <strong>&lt;h1&gt;Home&lt;/h1&gt;</strong>
 <strong>&lt;ul&gt;</strong>
   <strong>&lt;li class="sub-heading"&gt;예제 소스&lt;/li&gt;</strong>
   <strong>&lt;li&gt;&lt;a href="https://github.com/kimjonghoon/java-web-programming-2-samples"&gt;자바 웹 프로그래밍 2&lt;/a&gt;&lt;/li&gt;</strong>
 <strong>&lt;/ul&gt;</strong>
-
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -1515,13 +980,6 @@ article 엘리먼트가 index 프레그먼트로 교체되었음을 알 수 있�
 
 <h2>톰캣에 배포</h2>
 
-<p>
-개발 속도를 높이는 데 도움이 되는 방법을 소개한다.<br />
-아래 방법으로 톰캣에 예제를 배포하면, 이후 개발 속도를 높일 수 있다.<br />
-ROOT.xml 파일을 작성하고 톰캣이 설치된 디렉터리의 conf\Catalina\localhost에 복사하면, 
-톰캣은 기존 루트 에플리케이션은 무시하고, 예제를 루트 애플리케이션으로 서비스한다.<br />
-</p>
-
 <div class="filename" id="ROOT.xml">ROOT.xml</div>
 <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;Context
@@ -1529,21 +987,6 @@ ROOT.xml 파일을 작성하고 톰캣이 설치된 디렉터리의 conf\Catalin
   reloadable="true"&gt;
 &lt;/Context&gt;
 </pre>
-
-<p>
-일반적인 배포 방식은,
-mvn package 명령으로 생성된 war 파일을 톰캣의 webapps 디렉터리에 두는 것이다.
-하지만 개발 단계에서 이 방식은 개발을 더디게 한다.
-</p>
-
-<p>
-일반적인 배포 방식 대신 개발 속도를 높이는 방식을 소개하겠다.<br />
-</p>
-
-<p>
-pom.xml 파일에서 maven-clean-plugin에 아래 강조된 부분을 추가되어 있다.<br />
-이 부분은 maven-archetype-webapp 아키타입엔 없다.<br />
-</p>
 
 <pre class="prettyprint">&lt;artifactId&gt;maven-clean-plugin&lt;/artifactId&gt;
 &lt;version&gt;3.1.0&lt;/version&gt;
@@ -1559,16 +1002,6 @@ pom.xml 파일에서 maven-clean-plugin에 아래 강조된 부분을 추가되�
 <strong>&lt;/configuration&gt;</strong>
 </pre>
 
-<p>
-mvn compile war:inplace 명령으로 컴파일하면, 
-webapp/WEB-INF/classes와 webapp/WEB-INF/lib 폴더에 자바 바이트 코드가 생성된다.
-추가한 설정은 mvn clean 명령시 webapp/WEB-INF/classes와 webapp/WEB-INF/lib 폴더를 삭제한다.<br />
-</p>
-
-<p>
-개발 단계에선 SpringResourceTemplateResolver의 setCacheable 설정을 false로 설정하는 게 좋다. MvcWebConfig.java 파일을 열고 setCacheable를 false로 수정한다.
-</p>
-
 <pre class="prettyprint">@Bean
 public SpringResourceTemplateResolver templateResolver() {
  SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -1581,49 +1014,13 @@ public SpringResourceTemplateResolver templateResolver() {
 }
 </pre>
 
-<p>
-톰캣 로그를 검토해도 디버깅이 쉽지 않은 경우가 있다.
-이렇때 제티를 사용하면 힌트를 얻을 수 있다.
-제티 플러그인과 함께 사용하는 경우를 염두해서 컴파일할 때, 
-clean 골<sup>goal</sup>을 추가해 컴파일하도록 한다.
-</p>
-
 <pre class="commandLine">mvn clean compile war:inplace</pre>
 
-<p>
-startup.bat 실행 후, http://localhost:8080을 방문해 테스트한다.<br /> 
-</p>
-
-<p>
-자바스크립트나 스타일시트 같은 정적 요소를 수정하거나 타임리프 뷰를 수정하는 경우에는 
-톰캣을 다시 시작하지 않아도 된다.<br />
-자바 클래스 파일을 변경하고 mvn clean compile war:inplace 명령으로 컴파일하는 경우도
-톰캣을 다시 시작하지 않아도 된다. 톰캣 컨텍스트에서 reloadable 속성을 true로 설정했기에, 
-자바 바이트 코드가 변경되면 톰캣은 애플리케이션을 다시 로드한다.<br />
-</p>
-
-<p>
-톰캣 로그 파일--localhost.<i>날짜</i>.log 와 catalina.<i>날짜</i>.log--을 Notepad++과 
-같은 에디터로 열어 놓고 개발을 진행하도록 한다.
-로그 파일 위치는 톰캣 설치 폴더의 logs 서브 폴더에 있다.<br />
-</p>
 </article>
 
 <article id="internationalization">
 
 <h2>i18n</h2>
-
-<p>
-애플리케이션이 여러 언어를 지원하도록 만드는 것을 국제화<sup>internationalization</sup>라 한다.<br />
-첫글자 i와 마지막 글자 n 사이에 18자가 있기에, internationalization을 i18n이라 줄여 부른다.<br />
-</p>
-
-<p>
-예제가 영어를 지원하도록 하려면, 우선 영문 페이지가 필요하다.<br />
-기존 홈페이지에 필요한 파일을 참고해, 영문 홈페이지에 필요한 파일 위치를 정한다.<br />
-</p>
-
-<h4>한글 홈페이지를 위한 페이지 리스트</h4>
 
 <ul>
 	<li>articles/toc.html</li>
@@ -1631,59 +1028,31 @@ startup.bat 실행 후, http://localhost:8080을 방문해 테스트한다.<br /
 	<li>index.html</li>
 </ul>
 
-<h4>영문 홈페이지를 위한 페이지 리스트</h4>
-
 <ul>
 	<li>articles/toc_en.html</li>
 	<li>home/menu_en.html</li>
 	<li>en/index.html</li>
 </ul>
 
-<p>
-영문 홈페이지 URL을 http://localhost:8080/en로 정했다 하더라도
-영문 홈페이지를 위한 페이지 위치를 모두 WEB-INF/templates/en 폴더 아래 둘 필요는 없다.<br />
-articles/toc.html 파일과 articles/toc_en.html 파일은 언어만 다를 뿐 내용은 같으니 같은 
-폴더에 두는 게 유지보수에 유리하다.<br />
-home/menu.html 파일과 home/menu_en.html 파일 역시 같은 위치에 두는 게 낫다.<br />
-</p>
-
-<p>
-사용자가 한글 페이지 대신 영문 페이지를 원한다면,
-한글 홈페이지에서 http://localhost:8080/en/로의 링크를 클릭하면 된다.<br />
-</p>
-
 <div class="filename">articles/toc_en.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
-
 &lt;head&gt;
 &lt;title&gt;TOC&lt;/title&gt;
 &lt;meta name="Keywords" content="TOC" /&gt;
 &lt;meta name="Description" content="TOC" /&gt;
 &lt;link rel="stylesheet" media="all" href="../../../static/css/screen.css" /&gt;
 &lt;/head&gt;
-
 &lt;body&gt;
-
 &lt;article&gt;
-
 &lt;h1&gt;Setting up a Java development environment&lt;/h1&gt;
-
 &lt;h3&gt;Java&lt;/h3&gt;
-
 &lt;h3&gt;Maven&lt;/h3&gt;
-
 &lt;h3&gt;Git&lt;/h3&gt;
-
 &lt;h3&gt;Vim&lt;/h3&gt;
-
 &lt;h1&gt;Chapter 1. Thymeleaf&lt;/h1&gt;
-
 &lt;h1&gt;Chapter 2. Spring Security&lt;/h1&gt;
-
 &lt;h1&gt;Chapter 3. Bulletin Board&lt;/h1&gt;
-
 &lt;/article&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -1720,20 +1089,12 @@ home/menu.html 파일과 home/menu_en.html 파일 역시 같은 위치에 두는
 &lt;meta name="Description" th:replace="<strong>~{articles/toc_en :: meta[@name='Description']}</strong>" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="i18n"&gt;&lt;/div&gt;
-
 &lt;section th:replace="<strong>~{articles/toc_en :: article}</strong>"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="<strong>~{home/menu_en :: index}</strong>"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-영문 페이지 전용 컨트롤러를 작성한다. 
-</p>
 
 <div class="filename" id="EnHomeController.java">EnHomeController.java</div>
 <pre class="prettyprint">package net.java_school.controller;
@@ -1752,10 +1113,6 @@ public class EnHomeController {
 }
 </pre>
 
-<p>
-홈페이지 #i18n 위치에 영문 홈페이지로의 링크를 추가한다.<br />
-</p>
-
 <div class="filename" id="index.html2">index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
 &lt;!--*/1 title, 2 metas, 3 links, 4 scripts, 5 i18n, 6 maintext, 7 submenu, 8 reference */--&gt;
@@ -1766,39 +1123,16 @@ public class EnHomeController {
 &lt;meta name="Description" th:replace="~{articles/toc :: meta[@name='Description']}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 <strong>&lt;div id="i18n"&gt;</strong>
   <strong>&lt;a th:href="@{/en}"&gt;english&lt;/a&gt;</strong>
 <strong>&lt;/div&gt;</strong>
-
 &lt;section th:replace="~{articles/toc :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
-<p>
-mvn clean compile war:inplace로 컴파일한 후,
-http://localhost:8080을 방문한다.
-english 링크를 클릭하여, 영문 홈페이지로 이동하는지 확인한다.<br />
-</p>
-
-<p>
-htt://localhost:8080/en 방문하고 브라우저를 페이지 소스보기로 보면,
-html 태그의 lang 속성이 "ko"이다.<br />
-</p>
-
 <pre class="prettyprint">&lt;html lang="ko"&gt;</pre>
-
-<p>
-영문 컨틀로러가 lang 변수에 "en"를 담아 뷰에 전달하고,
-레이아웃 페이지의 html 시작 태그에 th:lang="${lang} ?: 'ko'"을 추가한다.<br />
-영문 홈컨트롤러는 lang변수를 "en"를 담아 뷰에 전송하기에, 영문 페이지는 lang="en"는 되고,
-한글 홈컨트롤러는 lang변수를 뷰에 전당하지 않기에, lang 변수가 null이고 'ko'가 디폴트 값이 되어, lang="ko"가 된다.<br />
-th:lang="${lang} ?: 'ko'"에서 사용한 연산자를 Elvis Operator라 한다.<br />
-</p>
 
 <pre class="prettyprint">@Controller
 @RequestMapping("en")
@@ -1813,24 +1147,8 @@ public class EnHomeController {
 }
 </pre>
 
-<p>
-영문 사용자의 요청 URL은 모두 /en으로 시작해야 하는데,
-영문 홈페이지 메인 메뉴링크는, 레이아웃 페이지에 고정되어 있기에, /en으로 시작하지 않는다.<br />
-메인 메뉴를 프레그먼트로 레이아웃 페이지로 전달하거나 또는 언어별로 레이아웃 파일을 두는 방법이 있다.<br />
-정답이 있는 게 아니지만, 지금까지 레이아웃 페이지를 하나로 유지하는 걸 선택했기에,
-메인 메뉴를 프로그먼트로 레이아웃 페이지에 전달하는 방법을 선택하기로 한다.<br />
-</p>
-
-<p>
-레이아웃 페이지 html 시작 태그의 프레그먼트 파라미터 리스트에 mainmenu 추가한다.<br />
-</p>
-
 <pre class="prettyprint">&lt;html th:lang="${lang} ?: 'ko'" th:fragment="layout (title, metas, links, scripts, <strong>mainmenu</strong>, i18n, maintext, submenu, reference)" xmlns:th="http://www.thymeleaf.org"&gt;
 </pre>
-
-<p>
-div id="main-menu" 엘리먼트 속성에 th:replace="${mainmenu}" 추가한다.
-</p>
 
 <pre class="prettyprint">&lt;div id="main-menu" <strong>th:replace="${mainmenu}"</strong>&gt;
   &lt;ul id="nav"&gt;
@@ -1840,11 +1158,6 @@ div id="main-menu" 엘리먼트 속성에 th:replace="${mainmenu}" 추가한다.
   &lt;/ul&gt;
 &lt;/div&gt;
 </pre>
-
-<p>
-한글 페이지의 메인 메뉴를 위한 파일을 templates/commons 폴더에 mainmenu.html 이름으로,
-영문 페이지의 메인 메뉴를 위한 파일을 같은 폴더에 mainmenu_en.html 이름으로 생성한다.<br />
-</p>
 
 <div class="filename">commons/mainmenu.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
@@ -1880,10 +1193,6 @@ div id="main-menu" 엘리먼트 속성에 th:replace="${mainmenu}" 추가한다.
 &lt;/html&gt;
 </pre>
 
-<p>
-한글 홈페이지 index.html 파일이 메인 메뉴 프레그먼트를 레이아웃 페이지로 전달하도록 수정한다.<br />
-</p>
-
 <div class="filename" id="index.html3">index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
 &lt;html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{}, ~{}, ~{<strong>::nav</strong>}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org"&gt;
@@ -1893,24 +1202,15 @@ div id="main-menu" 엘리먼트 속성에 th:replace="${mainmenu}" 추가한다.
 &lt;meta name="Description" th:replace="~{articles/toc :: meta[@name='Description']}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 <strong>&lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;</strong>
-
 &lt;div id="i18n"&gt;
   &lt;a th:href="@{/en}"&gt;english&lt;/a&gt;
 &lt;/div&gt;
-
 &lt;section th:replace="~{articles/toc :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-영문 홈페이지 en/index.html 파일이 메인 메뉴 프레그먼트를 레이아웃 페이지로 전달하도록 수정한다.
-</p>
 
 <div class="filename">en/index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -1922,28 +1222,13 @@ div id="main-menu" 엘리먼트 속성에 th:replace="${mainmenu}" 추가한다.
 &lt;meta name="Description" th:replace="~{articles/toc_en :: meta[@name='Description']}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 <strong>&lt;nav th:replace="~{commons/mainmenu_en :: mainmenu}"&gt;&lt;/nav&gt;</strong>
-
 &lt;div id="i18n"&gt;&lt;/div&gt;
-
 &lt;section th:replace="~{articles/toc_en :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/menu_en :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-mvn clean compile war:inplace로 컴파일한 후,
-한글 홈페이지와 영문 홈페이지를 방문하고 페이지 소스보기를 통해
-메인 메뉴 링크와 html의 lang 속성을 확인한다.
-</p>
-
-<p>
-한글 페이지와 영어 페이지의 폰트 속성을 담은 스타일시트을 각각 만든다.
-</p>
 
 <div class="filename" id="ko.css">src/main/webapp/static/css/ko.css</div>
 <pre class="prettyprint">@CHARSET "UTF-8";
@@ -2006,11 +1291,6 @@ button {
 }
 </pre>
 
-<p>
-screen.css 파일에서 button 스타일을 삭제한다.<br />
-홈페이지에 ko.css가, 영문 홈페이지에 en.css가 추가되도록 수정한다.<br />
-</p>
-
 <div class="filename">index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
 &lt;!--*/ 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
@@ -2022,17 +1302,12 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 <strong>&lt;link rel="stylesheet" media="all" th:href="@{/static/css/ko.css}" /&gt;</strong>
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
-
 &lt;div id="i18n"&gt;
   &lt;a th:href="@{/en}"&gt;english&lt;/a&gt; 
 &lt;/div&gt;
-
 &lt;section th:replace="~{articles/toc :: index}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -2048,15 +1323,10 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 <strong>&lt;link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" /&gt;</strong>
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu_en :: mainmenu}"&gt;&lt;/nav&gt;
-
 &lt;div id="i18n"&gt;&lt;/div&gt;
-
 &lt;section th:replace="~{articles/toc_en :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/menu_en :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -2077,12 +1347,9 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 &lt;link rel="stylesheet" media="print" href="/static/css/print.css" /&gt;
 &lt;link rel="stylesheet" media="screen" href="/static/css/screen.css" /&gt;
 <strong>&lt;link rel="stylesheet" media="all" href="/static/css/ko.css" /&gt;</strong>
-
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="wrap"&gt;
-
   &lt;div id="header"&gt;
     &lt;div id="java-school-ci"&gt;
       &lt;a href="/"&gt;&lt;img src="/static/images/ci.gif" alt="java-school" /&gt;&lt;/a&gt;
@@ -2092,7 +1359,6 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
       &lt;a href="#"&gt;&lt;button type="button"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-	
   &lt;div id="main-menu"&gt;
   &lt;ul id="nav"&gt;
     &lt;li&gt;&lt;a href="/thymeleaf"&gt;Thymeleaf&lt;/a&gt;&lt;/li&gt;
@@ -2100,11 +1366,9 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
     &lt;li&gt;&lt;a href="/board"&gt;Bulletin Board&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
   &lt;/div&gt;
-
   &lt;div id="i18n"&gt;
   &lt;a href="/en"&gt;english&lt;/a&gt; 
   &lt;/div&gt;
-
   ..
   .
 </pre>
@@ -2125,12 +1389,9 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 &lt;link rel="stylesheet" media="print" href="/static/css/print.css" /&gt;
 &lt;link rel="stylesheet" media="screen" href="/static/css/screen.css" /&gt;
 <strong>&lt;link rel="stylesheet" media="all" href="/static/css/en.css" /&gt;</strong>
-
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="wrap"&gt;
-
   &lt;div id="header"&gt;
     &lt;div id="java-school-ci"&gt;
       &lt;a href="/"&gt;&lt;img src="/static/images/ci.gif" alt="java-school" /&gt;&lt;/a&gt;
@@ -2140,7 +1401,6 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
       &lt;a href="#"&gt;&lt;button type="button"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-	
   &lt;div id="main-menu"&gt;
   &lt;ul id="nav"&gt;
     &lt;li&gt;&lt;a href="/en/thymeleaf"&gt;Thymeleaf&lt;/a&gt;&lt;/li&gt;
@@ -2148,39 +1408,12 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
     &lt;li&gt;&lt;a href="/en/board"&gt;Bulletin Board&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
   &lt;/div&gt;
-
   &lt;div id="i18n"&gt;&lt;/div&gt;
-  
   ..
   .
 </pre>
 
-<p>
-페이지 원본 보기에서<br />
-&lt;link rel="stylesheet" media="all" href="/static/css/en.css" /&gt;가 빠졌다면,
-아래 코드에서 3번째 파라미터가 ~{::link}가 아니고 ~{}인 경우다.
-</p>
-
-<pre class="prettyprint">&lt;!--*/ 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */--&gt;
-&lt;html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, <strong>~{::link}</strong>, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{::aside}, ~{})}" xmlns:th="http://www.thymeleaf.org"&gt;
-</pre>
-  
-<p>
-영어 홈페이지 오른쪽 상단에 로그인 회원가입 버튼은 Login과 Sign Up이 되야 맞다.<br />
-이 부분을 프레그먼트로 분리해도 되지만, 메시지소스를 적용하기 위해 그대로 두었다.<br />
-메시지소스는 다음 절에서 다룬다.<br />
-</p>
-
 <h4>로케일에 따라 프레그먼트를 지정하는 방법</h4>
-
-<p>
-로케일에 따라 프레그먼트를 지정해 페이지를 완성하는 법 소개한다.<br />
-요청 정보에는 사용자 로케일 정보가 있다.<br />
-로케일 정보를 이용해서 우리가 이미 준비한 페이지로, 로케일에 맞는 페이지를 사용자에게
-보여줄 수 있다.<br />
-/en으로 시작하는 URL를 가질 필요없이, 영어 사용자나 한글 사용자에게 같은 페이지로 
-언어가 다른 페이지를 보여주는 것이 가능하다.<br />
-</p>
 
 <div class="filename">index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -2193,31 +1426,16 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 &lt;link rel="stylesheet" media="all" th:href="<strong>${#locale.language == 'ko'} ?</strong> @{/static/css/ko.css} : <strong>@{/static/css/en.css}</strong>" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
-
 &lt;div id="i18n"&gt;
   <strong>&lt;a th:href="@{/ko}"&gt;korean&lt;/a&gt;</strong>
   &lt;a th:href="@{/en}"&gt;english&lt;/a&gt; 
 &lt;/div&gt;
-
 &lt;section th:replace="<strong>${#locale.language == 'ko'} ?</strong> ~{articles/toc :: article} : <strong>~{articles/toc_en :: article}</strong>"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="<strong>${#locale.language == 'ko'} ?</strong> ~{home/menu :: index} : <strong>~{home/menu_en :: index}</strong>"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-&lt;a th:href="@{/ko}"&gt;korean&lt;/a&gt; 추가해서 사용자가 언어를 선택할 수 있는 길을 열어 놓았다.
-</p>
-
-<p>
-메인 메뉴 프레그먼트를<br />
-&lt;nav th:replace="${#locale.language == 'ko'} ? ~{commons/mainmenu :: mainmenu} : ~{commons/mainmenu_en :: mainmenu}"&gt;&lt;/nav&gt;처럼 가져와서는 안 된다.<br />
-/ko와 /en으로 시작하는 URL의 페이지는 로케일에 따라 프레그먼트를 가져오도록 구현하지 않아야 한다.<br />
-</p>
 
 <div class="filename">ko/index.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -2230,26 +1448,15 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 &lt;link rel="stylesheet" media="all" th:href="@{/static/css/ko.css}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/<strong>mainmenu_ko</strong> :: mainmenu}"&gt;&lt;/nav&gt;
-
 &lt;div id="i18n"&gt;
  <strong>&lt;a th:href="@{/en}"&gt;english&lt;/a&gt;</strong>
 &lt;/div&gt;
-
 &lt;section th:replace="~{articles/toc :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/<strong>menu</strong> :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-한글 전용 페이지는 /ko로 시작하는 링크만 허용해야 한다.<br />
-홈페이지 서브메뉴에는 절대 경로뿐이기에 기존 menu.html을 그대로 사용해도 된다.<br />
-하지만 절대 경로가 아니면 menu_ko.html 페이지를 만들어야 한다.<br />
-</p>
 
 <div class="filename">commons/mainmenu_ko.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
@@ -2279,38 +1486,19 @@ screen.css 파일에서 button 스타일을 삭제한다.<br />
 &lt;link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/<strong>mainmenu_en</strong> :: mainmenu}"&gt;&lt;/nav&gt;
-
 &lt;div id="i18n"&gt;
  <strong>&lt;a th:href="@{/ko}"&gt;korean&lt;/a&gt;</strong>
 &lt;/div&gt;
-
 &lt;section th:replace="~{articles/toc_en :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{home/<strong>menu_en</strong> :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
-<p>
-홈페이지, 한글 전용 홈페이지, 영어 홈페이지 모두 동일한 레아아웃 페이지를 사용하도록 하려면 
-레이아웃 페이지에서 th:lang 속성값을 수정해야 한다.<br />
-</p>
-
 <pre class="prettyprint">th:lang="${lang} ?: 'ko'"</pre>
 
-<p>
-⇩
-</p>
-
-<pre class="prettyprint">th:lang="${lang} ?: (${#locale.language == 'ko'} ? 'ko' : 'en')"
-</pre>
-
-<p>
-한글 전용 컨트롤러를 수정한다.<br />
-</p>
+<pre class="prettyprint">th:lang="${lang} ?: (${#locale.language == 'ko'} ? 'ko' : 'en')"</pre>
 
 <div class="filename">KoHomeController.java</div>
 <pre class="prettyprint">package net.java_school.controller;
@@ -2346,12 +1534,9 @@ public class KoHomeController {
 &lt;link rel="stylesheet" media="print" href="/static/css/print.css" /&gt;
 &lt;link rel="stylesheet" media="screen" href="/static/css/screen.css" /&gt;
 &lt;link rel="stylesheet" media="all" href="/static/css/ko.css" /&gt;
-
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="wrap"&gt;
-
   &lt;div id="header"&gt;
     &lt;div id="java-school-ci"&gt;
       &lt;a href="/"&gt;&lt;img src="/static/images/ci.gif" alt="java-school" /&gt;&lt;/a&gt;
@@ -2361,7 +1546,6 @@ public class KoHomeController {
       &lt;a href="#"&gt;&lt;button type="button"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-	
   &lt;div id="main-menu"&gt;
   &lt;ul id="nav"&gt;
     &lt;li&gt;&lt;a href="/thymeleaf"&gt;Thymeleaf&lt;/a&gt;&lt;/li&gt;
@@ -2369,36 +1553,24 @@ public class KoHomeController {
     &lt;li&gt;&lt;a href="/board"&gt;Bulletin Board&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;
-
   &lt;div id="i18n"&gt;
   &lt;a href="/ko"&gt;korean&lt;/a&gt; 
   &lt;a href="/en"&gt;english&lt;/a&gt; 
 &lt;/div&gt;
-	
   &lt;div id="container"&gt;		
     &lt;div id="content"&gt;
       &lt;article&gt;
-
 &lt;h1&gt;개발환경 준비&lt;/h1&gt;
-
 &lt;h3&gt;Java 설치&lt;/h3&gt;
-
 &lt;h3&gt;Maven 설치&lt;/h3&gt;
-
 &lt;h3&gt;Git 설치&lt;/h3&gt;
-
 &lt;h3&gt;Vim 설치&lt;/h3&gt;
-
 &lt;h1&gt;1장 Thymeleaf&lt;/h1&gt;
-
 &lt;h1&gt;2장 Spring Security&lt;/h1&gt;
-
 &lt;h1&gt;3장 Bulletin Board&lt;/h1&gt;
-
 &lt;/article&gt;
     &lt;/div&gt;
   &lt;/div&gt;	
-	
   &lt;div id="sidebar"&gt;
 &lt;h1&gt;Home&lt;/h1&gt;
 &lt;ul&gt;
@@ -2406,24 +1578,18 @@ public class KoHomeController {
   &lt;li&gt;&lt;a href="https://github.com/kimjonghoon/java-web-programming-2-samples"&gt;자바 웹 프로그래밍 2&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-	
-  
-
   &lt;div id="footer"&gt;
     &lt;ul&gt;
       &lt;li&gt;Copyright java-school All Rights Reserved.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/div&gt;
-
 &lt;/div&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
 <div class="filename">ko/index.html 페이지 원본 보기</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
-
 &lt;html <strong>lang="ko"</strong>&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -2433,12 +1599,9 @@ public class KoHomeController {
 &lt;link rel="stylesheet" media="print" href="/static/css/print.css" /&gt;
 &lt;link rel="stylesheet" media="screen" href="/static/css/screen.css" /&gt;
 &lt;link rel="stylesheet" media="all" href="/static/css/ko.css" /&gt;
-
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="wrap"&gt;
-
   &lt;div id="header"&gt;
     &lt;div id="java-school-ci"&gt;
       &lt;a href="/"&gt;&lt;img src="/static/images/ci.gif" alt="java-school" /&gt;&lt;/a&gt;
@@ -2448,7 +1611,6 @@ public class KoHomeController {
       &lt;a href="#"&gt;&lt;button type="button"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-	
   &lt;div id="main-menu"&gt;
   &lt;ul id="nav"&gt;
     &lt;li&gt;&lt;a href="/ko/thymeleaf"&gt;Thymeleaf&lt;/a&gt;&lt;/li&gt;
@@ -2456,7 +1618,6 @@ public class KoHomeController {
     &lt;li&gt;&lt;a href="/ko/board"&gt;Bulletin Board&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;
-
   &lt;div id="i18n"&gt;
   &lt;a href="/en"&gt;english&lt;/a&gt; 
 &lt;/div&gt;
@@ -2466,7 +1627,6 @@ public class KoHomeController {
 
 <div class="filename">en/index.html 페이지 원본 보기</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
-
 &lt;html <strong>lang="en"</strong>&gt;
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
@@ -2476,12 +1636,9 @@ public class KoHomeController {
 &lt;link rel="stylesheet" media="print" href="/static/css/print.css" /&gt;
 &lt;link rel="stylesheet" media="screen" href="/static/css/screen.css" /&gt;
 &lt;link rel="stylesheet" media="all" href="/static/css/en.css" /&gt;
-
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;div id="wrap"&gt;
-
   &lt;div id="header"&gt;
     &lt;div id="java-school-ci"&gt;
       &lt;a href="/"&gt;&lt;img src="/static/images/ci.gif" alt="java-school" /&gt;&lt;/a&gt;
@@ -2491,7 +1648,6 @@ public class KoHomeController {
       &lt;a href="#"&gt;&lt;button type="button"&gt;회원가입&lt;/button&gt;&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-	
   &lt;div id="main-menu"&gt;
   &lt;ul id="nav"&gt;
     &lt;li&gt;&lt;a href="/en/thymeleaf"&gt;Thymeleaf&lt;/a&gt;&lt;/li&gt;
@@ -2499,7 +1655,6 @@ public class KoHomeController {
     &lt;li&gt;&lt;a href="/en/board"&gt;Bulletin Board&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;
-
   &lt;div id="i18n"&gt;
   &lt;a href="/ko"&gt;korean&lt;/a&gt; 
 &lt;/div&gt;
@@ -2512,11 +1667,6 @@ public class KoHomeController {
 
 <h2>메시지소스</h2>
 
-<p>
-메시지소스는, 사용자 로케일에 따라 자바 프로퍼티 파일이나 XML 파일에서 텍스트를 가져오는 기술이다.<br />
-다음 설정을 추가한다.<br />
-</p>
-
 <pre class="prettyprint">@Bean
 public MessageSource messageSource() {
   ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -2527,13 +1677,8 @@ public MessageSource messageSource() {
 </pre>
 
 <p>
-다음 임포트 문이 필요하다.<br />
 import org.springframework.context.MessageSource;<br />
 import org.springframework.context.support.ResourceBundleMessageSource;<br />
-</p>
-
-<p>
-SpringTemplateEngine 설정에 아래 강조된 부분을 추가한다.
 </p>
 
 <pre class="prettyprint">@Bean
@@ -2546,19 +1691,6 @@ public SpringTemplateEngine templateEngine() {
 }
 </pre>
 
-<p>
-ResourceBundleMessageSource 구현체의 setBasename("messages")는, 
-WEB-INF/classes/ 폴더에서, "messages.properties", "messages_en.properties"드의 배열이나
-"messages.xml", "messages_en.xml"등의 배열을 찾는다.
-메이븐 src/main/resources/ 폴더에 messages로 시작하는 프로퍼티 파일을 작성하면, 
-setBasename("messages") 설정과 맞다.
-</p>
-
-<p>
-개발 속도 높이거나 또는 다른 이유로, 
-ResourceBundleMessageSource 대신 ReloadableResourceBundleMessageSource을 사용할 수 있다.<br />
-</p>
-
 <pre class="prettyprint">@Bean
 public MessageSource messageSource() {
   ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -2570,43 +1702,7 @@ public MessageSource messageSource() {
 </pre>
 
 <p>
-다음 임포트 문이 필요하다.<br />
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;<br />
-</p>
-
-<p>
-(1) ReloadableResourceBundleMessageSource는 타임스탬프 변경에 따라 파일을 다시 로드할 수 있다.<br /> 
-"basenames" 속성은 ResourceBundleMessageSource의 "basenames" 속성과 약간 다른 방식으로 처리된다.<br />
-클래스 경로 리소스로 제한되지 않고 모든 Spring 리소스 위치를 참조할 수 있다.<br />
-웹 애플리케이션의 WEB-INF에 배치할 수 있다.<br />
-"basename" 속성이 "WEB-INF/messages"이면, "WEB-INF/messages.properties", 
-"WEB-INF/messages_en.properties" 등의 배열과 "WEB-INF/messages.xml", 
-"WEB-INF/messages_en.xml" 등을 찾는다.<br /> 
-참조:https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/support/ReloadableResourceBundleMessageSource.html<br />
-</p>
-
-<p>
-(2) cacheSeconds<br />
-cacheSeconds는 ReloadableResourceBundleMessageSource의 속성이다.<br />
-디폴트 -1: java.util.Resource와 처럼 영구 캐시<br />
-양수: 10이면 10초동안 로드된 프로퍼티 파일을 캐시한다.
-10초가 지나면 프로퍼티 파일이 변경됬는지 확인하고 변경되었으면 프로퍼티 파일을 다시 로드하고 캐시한다. 
-변경되지 않았으면 파일을 로드하지 않는다.<br />
-0: 모든 메시지 액세스에서 파일의 마지막 수정 타임스탬프를 확인한다.<br />
-성능에 영향을 주기 때문에 product 모드에선 사용하지 않는다.<br />
-cacheSeconds 설정은 프로퍼티 파일이 클래스 패스에 위치하는 경우 보장할 수 없다.<br />
-ClassLoader가 번들 파일의 캐시된 버전을 유지할 수 있기 때문이다.<br />
-참조:https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/support/AbstractResourceBasedMessageSource.html#setCacheSeconds(int)<br />
-</p>
-
-<p>
-ReloadableResourceBundleMessageSource를 사용하는 이유가 개발 속도 외에 다른 이유가 없다면,
-개발이 완료된 후 다시 ResourceBundleMessageSource로 돌아가는 게 좋다.
-</p>
-
-<p>
-로그인, 회원가입 버튼의 value 속성값을 로케일에 따라 한글과 영어로 보여주려면
-아래 프로퍼티 파일을 생성한다.
 </p>
 
 <div class="filename">src/main/webapp/WEB-INF/messages_ko.properties</div>
@@ -2619,10 +1715,6 @@ signUp=회원가입
 signUp=Sign Up
 </pre>
 
-<p>
-레이아웃 페이지에서 로그인, 회원가입의 코드를 아래를 참고해 수정한다.<br />
-</p>
-
 <div class="filename">layout/baseLayoutFile.html</div>
 <pre class="prettyprint">&lt;div id="member"&gt;
   &lt;a href="#" <strong>th:href="@{/users/login}"</strong>&gt;&lt;button type="button" <strong>th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')"</strong>&gt;로그인&lt;/button&gt;&lt;/a&gt;
@@ -2630,37 +1722,10 @@ signUp=Sign Up
 &lt;/div&gt;
 </pre>
 
-<p>
-자바 기반 설정 클래스를 변경했으니 컴파일하고, 
-홈페이지, 영어 홈페이지, 한글 홈페이지를 방문한다.<br />
-각 화면에서 로그인, 회원가입 버튼 속성값이 옳바른지 확인한다.<br />
-</p>
-
-<p>
-_는 노-오퍼레이션 토큰<sup>No-Operation token</sup>이다.<br />
-th:text에서 사용하면 th:text가 아무것도 하지 않게 된다.
-그 결과 프로토타입에 적은 값이 그대로 적용된다.<br />
-</p>
-
 <pre class="prettyprint">&lt;button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? '로그인' : 'Login')"&gt;로그인&lt;/button&gt;</pre>
 <pre class="prettyprint">&lt;button type="button" th:text="${lang == null} ? #{login} : (${lang == 'ko'} ? _ : 'Login')"&gt;로그인&lt;/button&gt;</pre>
 
-<p>
-위 두 코드는 같은 동작을 한다.<br />
-첫 번째 코드는 '로그인' 값과 프로토타입에 쓴 값이 일치하도록 신경써야 하지만 두 번째 노-오퍼레이션 토큰을 사용한 코드는 그렇지 않다.
-</p>
-
 <h4>서브 메뉴 템플릿 수정</h4>
-
-<p>
-많지 않은 단어 또는 간단한 문장으로만 된 파트는 메시지소스를 적용해 볼 수 있는 대상이다.
-홈페이지의 서브 메뉴 파트가 그러하다.
-홈페이지 서브 메뉴에 있는 링크도 절대 경로다.
-</p>
-
-<p>
-menu.html 파일을 아래처럼 수정한다.
-</p>
 
 <div class="filename">home/menu.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
@@ -2683,10 +1748,6 @@ menu.html 파일을 아래처럼 수정한다.
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-home/menu.html에 필요한 텍스트를 프로퍼티 파일에 추가한다.
-</p>
 
 <div class="filename">src/main/webapp/WEB-INF/messages_ko.properties</div>
 <pre class="prettyprint">login=로그인
@@ -2713,73 +1774,30 @@ signUp=Sign Up
 &lt;link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" /&gt;
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
-
 &lt;div id="i18n"&gt;
   &lt;a th:href="@{/ko}"&gt;korean&lt;/a&gt; 
   &lt;a th:href="@{/en}"&gt;english&lt;/a&gt; 
 &lt;/div&gt;
-
 &lt;section th:replace="${#locale.language == 'ko'} ? ~{articles/toc :: article} : ~{articles/toc_en :: article}"&gt;&lt;/section&gt;
-
 <strong>&lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt;</strong>
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
 
-<p>
-바뀐 부분
-</p>
-
 <pre class="prettyprint">&lt;aside th:replace="${#locale.language == 'ko'} ? ~{home/menu :: index} : ~{home/menu_en :: index}"&gt;&lt;/aside&gt;</pre>
-
-<p>
-⇩
-</p>
 
 <pre class="prettyprint">&lt;aside th:replace="~{home/menu :: index}"&gt;&lt;/aside&gt;</pre>
 
-
-<p>
-ReloadableResourceBundleMessageSource를 사용하고, cacheSeconds에 양수값을 주었다면,
-톰캣를 다시 시작하지 않아도 된다. 컴파일도 필요없다.<br />
-홈페이지를 방문해서 로케일대로 서브 메뉴 파트가 출력되지는 확인한다.<br />
-</p>
-
-<p> 
-개발을 끝낸 후엔 실제 서비스를 할 때는 ResourceBundleMessageSource을 사용하는 게 성능상 유리하다.<br />
-ResourceBundleMessageSource를 사용할 때는 프로퍼티 파일이 클래스 패스에 위치해야 하기에
-메이븐 src/main/resources/에 프로퍼티 파일을 옮기고 다음 설정을 수정한다.<br />
-</p>
-
 <pre class="prettyprint no-border">messageSource.setBasename("WEB-INF/messages");</pre>
-
-<p>
-⇩
-</p>
 
 <pre class="prettyprint no-border">messageSource.setBasename("messages");</pre>
 
-<p>
-언어별 전용 페이지에는 메시지소스를 사용할 필요가 없다.<br />
-언어별 전용 페이지의 서브 메뉴는 menu_ko.html, menu_en.html 이름으로 만든다.<br />
-이들 페이지는 메시지소스를 적용하지 않고, 로케일을 판단하는 코드없이 작성한다.<br />
-</p>
 </article>
 
 <article id="bean-validation">
 
 <h2>빈 유효성 검사</h2>
-
-<p>
-회원가입을 구현하면서 메시지소스와 <strong>빈 유효성 검사</strong><sup>Bean validation</sup>를 함께 다루겠다.<br />
-</p>
-
-<p>
-빈 유효성 검사에 필요한 라이브러리를 의존성을 추가한다.<br />
-</p>
 
 <pre class="prettyprint">&lt;!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator --&gt;
 &lt;dependency&gt;
@@ -2789,12 +1807,6 @@ ResourceBundleMessageSource를 사용할 때는 프로퍼티 파일이 클래스
 &lt;/dependency&gt;
 </pre>
 
-<p>
-일반적인 빈 유효성 검사를 위해서 스프링 설정 클래스에 추가해야 하는 설정은 없다.<br />
-하지만, 메시지소소를 사용해 빈 유효성 검사 에러 메시지를 출력하려면,
-스프링 설정 클래스에 다음을 추가한다.
-</p>
-
 <pre class="prettyprint"><strong>@Override</strong>
 public Validator getValidator() {
   LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
@@ -2802,20 +1814,6 @@ public Validator getValidator() {
   return bean;
 }
 </pre>
-
-<p>
-getValidator() 메소드는 커스텀 검증기를 제공할 때 오버라이딩한다.<br />
-이 메소드는 디폴트 메소드이며 null을 리턴할 수 있다.<br />
-오버라이딩하지 않거나 null을 리턴하도록 오버라이딩하면 디폴트 검증기가 작동한다.<br />
-이 메소드를 오버라이딩하지 않아도 빈에 설정한 유효성 검사 에러 메시지는 출력된다.<br />
-하지만 유효성 검사 에러 메시지를 메시지소소를 사용해 출력하려면 위 설정이 필요하다.<br />
-</p>
-
-<p>
-추가하는 설정에는 다음 임포트 문이 필요하다.<br />
-import org.springframework.validation.Validator;<br />
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;<br />
-</p>
 
 <p>
 회원가입을 위한 파일 리스트<br />
@@ -2828,10 +1826,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;<
 	<li>users/signUp.html</li>
 	<li>UsersController.java</li>
 </ul>
-
-<p>
-username, password와 enable 필드를 가진 User 클래스를 작성한다.
-</p>
 
 <div class="filename">User.java</div>
 <pre class="prettyprint">package net.java_school.user;
@@ -2887,63 +1881,17 @@ public class User {
 }
 </pre>
 
-<pre class="prettyprint no-border">@NotNull
-@Size(min=4, message="{username.validation.error}")
-private String username;
-</pre>
-
-<p>
-username 필드는 Null이 될 수 없고 동시에 길이는 4자 이상이어야 된다.<br />
-그렇지 않으면, message에 지정된 값이 출력된다.<br />
-message 값에는, 중괄호({})를 사용해 메시지소스를 적용할 수 있다.<br />
-</p>
-
-<p>
-enabled 필드를 아래처럼 구현할 수 있다.
-</p>
-
-<pre class="prettyprint">@NotNull
-@Pattern(regexp="(0|1)", message="{enabled.validation.error}")
-private Integer enabled;
-</pre>
-
-<p>
-다음 임포트 문이 필요하다.<br />
-import jakarta.validation.constraints.Pattern;<br />
-</p>
-
-<p>
-다음 장에서 데이터베이스 users 테이블의 enabled 필드는 디폴트로 1이 입력되도록 설계했다.<br />
-스프링 시큐리티는 enabled 필드값이 1이 아닌 사용자는 로그인을 허용하지 않는다.<br />
-따라서 이 유효성 검사는 필요없기에 하지 않았다.<br />
-</p>
-
-<p>
-User 객체를 스프링 시큐리티가 알지 못한다.<br />
-스프링 시큐리티를 커스터마이즈하는 경우 UserDetails를 구현하는 객체를 만들어야 하는 경우가 생기는 데
-이 객체는 스프링 시큐리티를 동작하는 데 참여한다.<br />
-하지만 여기 우리가 만든 User 클래스로부터 생성된 객체는 스프링 시큐리티와 관련이 없다.<br />
-사용자 정보는 스프링 시큐리티의 신원 객체<sup>Principal</sup>에 담겨져 있다.<br />
-User 객체를 사용하려면 신원 객체와 바인딩하는 코드가 필요하다.<br />
-이것도 users 테이블에 email, mobile, full name 등등의 컬럼을 추가한 후에 생각해도 된다.<br /> 
-</p>
-
 <div class="filename">articles/signUp.html</div>
 <pre class="prettyprint">&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
-
 &lt;head&gt;
 &lt;title th:text="#{signUp}"&gt;회원가입&lt;/title&gt;
 &lt;meta name="Keywords" content="회원 가입" th:content="#{signUp}" /&gt;
 &lt;meta name="Description" content="회원 가입" th:content="#{signUp}" /&gt;
 &lt;link rel="stylesheet" media="screen" href="../../../static/css/screen.css" /&gt;
 &lt;/head&gt;
-
 &lt;body&gt;
-
 &lt;article&gt;
-
 &lt;h3 th:text="#{signUp}"&gt;회원가입&lt;/h3&gt;
-
 &lt;form id="signUpForm" <strong>th:action="@{/users/signUp}"</strong> <strong>th:method="post"</strong> <strong>th:object="${user}"</strong>&gt;
 &lt;table&gt;
 &lt;tr&gt;
@@ -2967,16 +1915,10 @@ User 객체를 사용하려면 신원 객체와 바인딩하는 코드가 필요
   &lt;input type="submit" <strong>th:value="#{submit}"</strong> value="전송" /&gt;
 &lt;/div&gt;
 &lt;/form&gt;
-
 &lt;/article&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-
-<p>
-메시지소스 프로퍼티 파일에 signUp.html 페이지와 User 클래스에 필요한 텍스트를 추가한다.<br />
-</p>
 
 <div class="filename">src/main/webapp/WEB-INF/messages_ko.properties</div>
 <pre class="prettyprint">username=사용자명
@@ -2993,10 +1935,6 @@ submit=Submit
 username.validation.error=Please enter an account name that is at least 4 characters long.
 password.validation.error=Please enter a password that is at least 4 characters long.
 </pre>
-
-<p>
-컨트롤러에 GET 방식과 POST 방식의 signUp 요청에 대한 핸들러를 각각 추가한다.<br />
-</p>
 
 <div class="filename">UsersController.java</div>
 <pre class="prettyprint">package net.java_school.controller;
@@ -3028,10 +1966,6 @@ public class UsersController {
   }
 }
 </pre>
-
-<p>
-데이터베이스 관련 코드는 다음 장에서 다룬다.<br />
-</p>
 
 <div class="filename">users/signUp.html</div>
 <pre class="prettyprint">&lt;!DOCTYPE html&gt;
@@ -3074,10 +2008,6 @@ public class UsersController {
 </pre>
 
 <p>
-회원가입 화면에서 아무것도 입력하지 않고 전송 버튼을 클릭했을 때 보이는 화면이다.<br />
-</p>
-
-<p>
 <img src="../../../static/images/messageSource.png" th:src="@{/static/images/messageSource.png}" class="browser-output" alt="빈에 프로퍼티 값으로 에러 메시지 설정" /><br />
 </p>
 
@@ -3100,11 +2030,6 @@ public class UsersController {
 &lt;/table&gt;
 </pre>
 
-<p>
-validationError 스타일 지정 필요
-static/css/validation.css 파일 생성
-</p>
-
 <div class="filename">validation.css</div>
 <pre class="prettyprint">.validationError {
   color: red;
@@ -3123,16 +2048,10 @@ static/css/validation.css 파일 생성
 <strong>&lt;link rel="stylesheet" media="all" th:href="@{/static/css/validation.css}" /&gt;</strong>
 &lt;/head&gt;
 &lt;body&gt;
-
 &lt;nav th:replace="~{commons/mainmenu :: mainmenu}"&gt;&lt;/nav&gt;
-
-&lt;div id="i18n"&gt;
-&lt;/div&gt;
-
+&lt;div id="i18n"&gt;&lt;/div&gt;
 &lt;section th:replace="~{articles/signUp :: article}"&gt;&lt;/section&gt;
-
 &lt;aside th:replace="~{users/menu :: index}"&gt;&lt;/aside&gt;
-
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
@@ -3140,11 +2059,12 @@ static/css/validation.css 파일 생성
 <p>
 <img src="../../../static/images/messageSource-with-style.png" th:src="@{/static/images/messageSource-with-style.png}" class="browser-output" alt="스타일 지정으로 에러 메시지" /><br />
 </p>
+
 </article>
 
 <article id="mapping-requests">
-<h2>요청 매핑</h2>
 
+<h2>요청 매핑</h2>
 
 <h3>컨트롤러</h3>
 
@@ -3190,13 +2110,6 @@ public class EnHomeController {
   }
 }
 </pre>
-
-<p>
-https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html<br />
-{varName:regex} 형태로 정규 표현식을 사용하여 URI 변수를 선언할 수 있다.<br />
-위의 두 컨트롤러를 제거하고, 두 컨틀로러에 있는 핸들러를 HomeController에 구현해 보겠다.<br />
-HomeController.java는 다음과 같다.<br />
-</p>
 
 <div class="filename">HomeController.java</div>
 <pre class="prettyprint">package net.java_school.controller;
@@ -3251,11 +2164,6 @@ public class HomeController {
 }
 </pre>
 
-<p>
-@GetMapping 애터테이션에 path를 여러 개 설정할 수 있다.
-이를 이용하면 다음 4개의 메소드를 2개로 줄일 수 있다.
-</p>
-
 <pre class="prettyprint">@GetMapping("{chapter:thymeleaf|spring-security}")
 public String chapterIndex(@PathVariable("chapter") String chapter) {
   return chapter + "/index";
@@ -3308,86 +2216,18 @@ public String getSectionByLang(@PathVariable("lang") String lang,
 }
 </pre>
 	
-<div class="note">
-<p>
-http://localhost:8080/en은 되지만,
-http://localhost:8080/en/은 404 에러가 난다.<br />
-스프링 6부터 UseTrailingSlashMatch 디폴트 설정이 false로 바뀌어서 그렇다.
-UseTrailingSlashMatch 설정을 true로 바꾸려면, 스프링 설정 클래스에 다음을 추가한다.<br />
-</p>
-<pre class="prettyprint">@Override
-public void configurePathMatch(PathMatchConfigurer configurer) {
-  configurer.setUseTrailingSlashMatch(true);
-}
-</pre>
-<p>
-다음 임포트 문이 필요하다.<br />
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;<br />
-참조: https://github.com/spring-projects/spring-framework/issues/28552<br />
-참조 글을 보면, UseTrailingSlashMatch 설정을 true로 고치는 것보다,
-리다이렉트를 사용하도록 권하고 있다.<br />
-권고대로 /가 붙은 경로를 리다이렉트로 처리해 보자.<br />
-</p>
-
-<pre class="prettyprint">
-@GetMapping("{chapter:thymeleaf|spring-security}/")
-public String index(@PathVariable("chapter") String chapter) {
-	
-  return chapter + "/index";
-}
-@GetMapping(value={"{chapter:thymeleaf|spring-security}", 
-    "{chapter:thymeleaf|spring-security}/{section}"})
-public String getSection(@PathVariable("chapter") String chapter, 
-    @PathVariable(value="section", required=false) String section) {
-	
-  if (section != null) {
-    return chapter + "/" + section;
-  } else {
-    return chapter + "/index";
-  }
-}
-@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security}/")
-public String index(@PathVariable("lang") String lang, 
-    @PathVariable("chapter") String chapter, Model model) {
-	
-  model.addAttribute("lang", lang);
-  return lang + "/" + chapter + "/index";
-}
-@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security}", 
-    "{lang:en|ko}/{chapter:thymeleaf|spring-security}/{section}"})
-public String getSectionByLang(@PathVariable("lang") String lang, 
-    @PathVariable("chapter") String chapter, 
-    @PathVariable(value="section", required=false) String section, Model model) {
-	
-  model.addAttribute("lang", lang);
-  if (section != null)
-    return lang + "/" + chapter + "/" + section;
-  else 
-    return lang + "/" + chapter + "/index";
-}
-</pre>
-</div>
-
 <h3>Google Code Prettify</h3>
 
 <p>
-구글에서 제공하는, 코드를 이쁘게 보여주는, 자바스크립트를 사용하겠다.<br />
 https://github.com/googlearchive/code-prettify<br />
 https://github.com/googlearchive/code-prettify/blob/master/docs/getting_started.md<br />
-다운로드한 후 압축을 풀고, prettify.css 파일은 /static/css에, run_prettify.js는 /static/js 폴더에 넣는다.<br />
-사용법은 다음과 같다.<br />
-내용에 코드가 있는 HTML 파일의 헤더에 다음을 추가한다.<br />
 </p>
 
 <pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="prettify.css" /&gt;
 &lt;script type="text/javascript" src="run_prettify.js"&gt;&lt;/script&gt;
 </pre>
 
-<p>
-본문의 코드는, &lt;pre class="prettyprint"&gt; 와 &lt;/pre&gt; 사이에 넣는다.<br />
-C 계열이나 HTML 코드는 이걸로 충분하다.<br />
-</p>
-
 </article>
+
 </body>
 </html>
