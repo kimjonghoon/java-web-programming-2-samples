@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-framework-bom</artifactId>
-			<version>6.2.4</version>
+			<version>6.2.5</version>
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
@@ -30,7 +30,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-bom</artifactId>
-			<version>6.4.3</version>
+			<version>6.4.4</version>
 			<type>pom</type>
 			<scope>import</scope>		    
 		</dependency>
@@ -161,7 +161,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>11.0.24</version>
+				<version>11.0.25</version>
 			</plugin>
 		</plugins>
 	</pluginManagement>
