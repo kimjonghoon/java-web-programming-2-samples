@@ -13,17 +13,16 @@ public class User {
   @Size(min=4, message="{password.validation.error}")
   private String password;
 	
-  //private Integer enabled;
-
   private List<String> authorities;
 
   public User() {}
-  public User(String username, String password, Integer enabled, List<String> authorities) {
-    this.username = username;
-    this.password = password;
-    //this.enabled = enabled;
-    this.authorities = authorities;
+
+  public User(String username, String password, List<String> authorities) {
+	this.username = username;
+	this.password = password;
+	this.authorities = authorities;
   }
+
   public String getUsername() {
     return username;
   }
@@ -36,14 +35,6 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
-  /*
-  public Integer getEnabled() {
-    return enabled;
-  }
-  public void setEnabled(Integer enabled) {
-    this.enabled = enabled;
-  }
-  */
   public List<String> getAuthorities() {
     return authorities;
   }
