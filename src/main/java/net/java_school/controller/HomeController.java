@@ -49,6 +49,13 @@ public class HomeController {
 		model.addAttribute("lang", lang);
 		return lang + "/index";
 	}
+	
+	//trailing slash match
+	@GetMapping("{lang:en|ko}/")
+	public String indexByLang4TrailingSlashMatch(@PathVariable("lang") String lang, Model model) {
+		model.addAttribute("lang", lang);
+		return lang + "/index";
+	}
 
 	@GetMapping(value={"{chapter:thymeleaf|spring-security|board}", "{chapter:thymeleaf|spring-security|board}/{section}"})
 	public String getSection(@PathVariable("chapter") String chapter, @PathVariable(value="section", required=false) String section) {
@@ -58,7 +65,13 @@ public class HomeController {
 			return chapter + "/index";
 		}
 	}
-	
+
+	//trailing slash match
+	@GetMapping("{chapter:thymeleaf|spring-security|board}/")
+	public String getSection(@PathVariable("chapter") String chapter) {
+		return chapter + "/index";
+	}
+
 	@GetMapping(value={"{lang:en|ko}/{chapter:thymeleaf|spring-security|board}", "{lang:en|ko}/{chapter:thymeleaf|spring-security|board}/{section}"})
 	public String getSectionByLang(@PathVariable("lang") String lang, @PathVariable("chapter") String chapter, @PathVariable(value="section", required=false) String section, Model model) {
 		model.addAttribute("lang", lang);
@@ -66,5 +79,12 @@ public class HomeController {
 			return lang + "/" + chapter + "/" + section;
 		else
 			return lang + "/" + chapter + "/index";
+	}
+
+	//trailing slash match
+	@GetMapping("{lang:en|ko}/{chapter:thymeleaf|spring-security|board}/")
+	public String getSectionByLang(@PathVariable("lang") String lang, @PathVariable("chapter") String chapter, Model model) {
+		model.addAttribute("lang", lang);
+		return lang + "/" + chapter + "/index";
 	}
 }
