@@ -32,6 +32,7 @@ public class HomeController {
 		model.addAttribute("username","charles");
 		return "index";
 	}
+
 	@PatchMapping("/")
 	public String editBoard(@RequestParam(name="page", defaultValue="1") Integer page, 
 			@RequestParam(name="search", defaultValue="") String search, 
@@ -42,11 +43,13 @@ public class HomeController {
 
 		return "redirect:/?page=" + page + "&search=" + search;
 	}
+
 	@GetMapping("{lang:en|ko}")
 	public String indexByLang(@PathVariable("lang") String lang, Model model) {
 		model.addAttribute("lang", lang);
 		return lang + "/index";
 	}
+
 	@GetMapping(value={"{chapter:thymeleaf|spring-security|board}", "{chapter:thymeleaf|spring-security|board}/{section}"})
 	public String getSection(@PathVariable("chapter") String chapter, @PathVariable(value="section", required=false) String section) {
 		if (section != null) {
