@@ -40,10 +40,63 @@ $(document).ready(function() {
 	$('title').empty();
 	var title = $('#post-title').html();
 	$('title').append(title);
-	//게시글 본문에 개행문자 적용
-	$content = $('#post-content').html();
-	$content = $content.replace(/\n\r?/g, '<br />');
-	$('#post-content').html($content);
+	
+	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
+	$('#post-content').html(function(){
+		return $(this).html().replace(/\[IMG\]/g,'<div class="images">')
+							.replace(/\[:IMG\]/g,'</div>')
+							.replace(/\[CODE\]/g,'<pre class="prettyprint">')
+							.replace(/\[:CODE\]/g,'</pre>')
+							.replace(/\[VID\]/g,'<div class="videos">')
+							.replace(/\[:VID\]/g,'</div>')
+							.replace(/\[TXT\]/g,'<p>')
+							.replace(/\[:TXT\]/g,'</p>');
+	});
+	//이미지
+	if ($('#post-content .images').length) {
+		$('#post-content .images').each(function(idx,element) {
+			const str = $(element).html();
+			const lines = str.split(/\n\r?/);
+			$.each(lines, function(index, line) {
+				if ($.trim(line) === '') {
+					return true;
+				}
+				if (line.endsWith('.jpg') || line.endsWith('.png')) {
+					let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
+					imgTag.css({'width':'100%','height': 'auto','display': 'block'});
+					$(element).append(imgTag);
+				}
+			});
+			$(element).contents().filter(function() {
+				return this.nodeType === 3;
+			}).remove();
+		});
+	}
+	//글
+	if ($('#post-content p').length) {
+		$('#post-content p').html(function() {
+			return $(this).html().trim().replace(/\n\r?/g, "<br />");
+		});
+	}
+	//동영상
+	if ($('#post-content .videos').length) {
+		$('#post-content .videos').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+	}
+	//동영상 너비 조정
+	var originWidth = $('.videos > iframe').width();
+    var originHeight = $('.videos > iframe').height();
+
+    var width = $('#post-content').width();
+    var height = originHeight * width / originWidth;
+
+    $('.videos > iframe').attr('width', width);
+    $('.videos > iframe').attr('height', height);
+
+    $('.videos > iframe').attr('allowFullScreen', '');
+    
+	
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
 		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
@@ -123,6 +176,10 @@ $(document).ready(function() {
 		}
 		$('#editForm input[name*=title]').val(title);
 		$('#editForm-ta').val(content);
+	});
+	prettyPrint();
+	$('pre.prettyprint').html(function() {
+		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
 	});
 });
 </script>
