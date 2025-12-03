@@ -13,7 +13,8 @@ pre {
 	white-space: pre-wrap;      /* CSS3 */
 	white-space: -moz-pre-wrap; /* Firefox */
 	white-space: -o-pre-wrap;   /* Opera 7 */
-	word-wrap: break-word;      /* Internet Explorer 5.5+ */	
+	word-wrap: break-word;      /* Internet Explorer 5.5+ */
+	font-size: 0.88em;	
 }
 pre:lang(en) {
 	font-family: Consolas, "Liberation Mono", Courier, monospace;
