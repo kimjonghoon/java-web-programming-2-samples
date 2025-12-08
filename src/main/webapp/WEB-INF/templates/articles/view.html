@@ -85,13 +85,16 @@ $(document).ready(function() {
 		});
 	}
 	//동영상 너비 조정
-	var originWidth = $('.videos > iframe').width();
-    var originHeight = $('.videos > iframe').height();
-    var width = $('#post-content').width();
-    var height = originHeight * width / originWidth;
-    $('.videos > iframe').attr('width', width);
-    $('.videos > iframe').attr('height', height);
-    $('.videos > iframe').attr('allowFullScreen', '');
+	const width = $('#post-content').width();
+	if ($('#post-content iframe').length) {
+		$('#post-content iframe').each(function(index,element) {
+			let originWidth = $(element).width();
+		    let originHeight = $(element).height();
+		    let height = originHeight * width / originWidth;
+		    
+			$(element).css({'width':width,'height':height,'allowFullScreen':''})
+		});
+	}
 	
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
