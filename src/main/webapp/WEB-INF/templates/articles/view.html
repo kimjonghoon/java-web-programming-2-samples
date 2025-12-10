@@ -85,14 +85,13 @@ $(document).ready(function() {
 		});
 	}
 	//동영상 너비 조정
-	const width = $('#post-content').width();
 	if ($('#post-content iframe').length) {
+		const width = $('#post-content').width();
 		$('#post-content iframe').each(function(index,element) {
 			let originWidth = $(element).width();
-		    let originHeight = $(element).height();
-		    let height = originHeight * width / originWidth;
-		    
-			$(element).css({'width':width,'height':height,'allowFullScreen':''})
+			let originHeight = $(element).height();
+			let height = originHeight * width / originWidth;
+			$(element).css({'width':width,'height':height})
 		});
 	}
 	
