@@ -184,7 +184,7 @@ $(document).ready(function() {
   <a href="#" title="41" th:if="${nextPage} &gt; 0" th:title="${finalPage}" th:text="'[' + #{final.page} + ']'">[마지막]</a>
 </div>
 <div>
-  <input type="button" value="새 글쓰기" th:value="#{write.new.post}" id="new-post-btn" />
+  <input type="button" value="새 글쓰기" th:value="#{write.new.post}" id="new-post-btn" th:if="${#authorization.expression('isAuthenticated()')}"/> 
 </div>
 <form id="searchForm" action="/bbs/chat" th:action="@{/bbs/{boardCd}(boardCd=${boardCd})}" method="get">
   <input type="hidden" name="page" value="1" />

@@ -56,7 +56,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET, "/user/signUp").permitAll()
 				.requestMatchers(HttpMethod.GET, "/en/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/ko/**").permitAll()
-				//.requestMatchers(HttpMethod.POST, "/").permitAll() //테스트
+				.requestMatchers(HttpMethod.GET, "/bbs/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/static/**").permitAll()
 				.anyRequest().authenticated()
