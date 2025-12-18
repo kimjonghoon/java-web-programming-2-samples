@@ -37,6 +37,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((authorize) -> authorize
+				.requestMatchers(HttpMethod.GET, "/blog/**").permitAll()	
 				.requestMatchers(HttpMethod.DELETE, "/boards/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.PATCH, "/boards/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.PUT, "/boards/**").hasRole("ADMIN")

@@ -108,4 +108,9 @@ public class BoardServiceImpl implements BoardService {
 	public void deleteBoard(String boardCd) {
 		boardMapper.deleteBoard(boardCd);
 	}
+	@Override
+	public List<Post> getBlogList() {
+		return boardMapper.selectListOfBlogs();
+	}
+	
 }

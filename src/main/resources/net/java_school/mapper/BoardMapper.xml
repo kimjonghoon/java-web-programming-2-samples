@@ -111,4 +111,12 @@
     <delete id="deleteBoard" parameterType="string">
         DELETE board WHERE boardCd = #{boardCd}
     </delete>
+
+    <select id="selectListOfBlogs" resultType="net.java_school.board.Post">
+        SELECT postno, title, regdate 
+        FROM post
+        WHERE boardcd = 'blog'
+        ORDER BY postno DESC
+    </select>	
+    
 </mapper>
