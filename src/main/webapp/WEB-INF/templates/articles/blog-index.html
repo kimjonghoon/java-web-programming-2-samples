@@ -28,10 +28,10 @@ $(document).ready(function() {
 
 });
 </script>
-<div id="content-categories">블로그</div>
+<div id="content-categories">Blog</div>
 <ul>
 	<li th:each="post : ${posts}">
-	<a th:with="link=${#strings.replace(#strings.toLowerCase(post.title), ' ', '-')}" href="#" th:href="@{/blog/{link}(link=${link})}" title="23488" th:title="${post.postNo}" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</a>
+	<a th:with="link=${#strings.replace(#strings.toLowerCase(post.title), ' ', '-')}" href="#" th:href="@{/blog/{postNo}(postNo=${post.postNo})}" title="23488" th:title="${post.postNo}" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</a>
 	- <em th:with="df=#{date.format}" th:text="${#calendars.format(post.regdate,df)}">24 10 20</em>
 	</li>
 <!--/*-->

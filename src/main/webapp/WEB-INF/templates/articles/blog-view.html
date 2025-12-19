@@ -1,0 +1,103 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>내용보기</title>
+<meta name="Keywords" content="View details" />
+<meta name="Description" content="View details" />
+<link rel="stylesheet" media="screen" href="../../../static/css/ko.css" />
+<link rel="stylesheet" media="screen" href="../../../static/css/screen.css" />
+<style>
+article {
+  width: 777px;
+  margin: 0 auto;
+}
+#paging a {
+  color: #555;
+  text-decoration: none;
+}
+#paging a:hover {
+  color: #555;
+  text-decoration: underline;
+}
+</style>
+<script src="../../../static/js/jquery.js"></script>
+</head>
+<body>
+<article>
+<script th:inline="javascript">
+$(document).ready(function() {
+	//title 바꾸기
+	$('title').empty();
+	var title = $('#post-title').html();
+	alert(title);
+	$('title').append(title);
+	
+	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
+	$('#post-content').html(function(){
+		return $(this).html().replace(/\[IMG\]/g,'<div class="images">')
+							.replace(/\[:IMG\]/g,'</div>')
+							.replace(/\[CODE\]/g,'<pre class="prettyprint">')
+							.replace(/\[:CODE\]/g,'</pre>')
+							.replace(/\[VID\]/g,'<div class="videos">')
+							.replace(/\[:VID\]/g,'</div>')
+							.replace(/\[TXT\]/g,'<p>')
+							.replace(/\[:TXT\]/g,'</p>');
+	});
+	//이미지
+	if ($('#post-content .images').length) {
+		$('#post-content .images').each(function(idx,element) {
+			const str = $(element).html();
+			const lines = str.split(/\n\r?/);
+			$.each(lines, function(index, line) {
+				if ($.trim(line) === '') {
+					return true;
+				}
+				if (line.endsWith('.jpg') || line.endsWith('.png')) {
+					let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
+					imgTag.css({'width':'100%','height': 'auto','display': 'block'});
+					$(element).append(imgTag);
+				}
+			});
+			$(element).contents().filter(function() {
+				return this.nodeType === 3;
+			}).remove();
+		});
+	}
+	//글
+	if ($('#post-content p').length) {
+		$('#post-content p').html(function() {
+			return $(this).html().trim().replace(/\n\r?/g, "<br />");
+		});
+	}
+	//동영상
+	if ($('#post-content .videos').length) {
+		$('#post-content .videos').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+	}
+	//동영상 너비 조정
+	if ($('#post-content iframe').length) {
+		const width = $('#post-content').width();
+		$('#post-content iframe').each(function(index,element) {
+			let originWidth = $(element).width();
+			let originHeight = $(element).height();
+			let height = originHeight * width / originWidth;
+			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
+		});
+	}
+	prettyPrint();
+	$('pre.prettyprint').html(function() {
+		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
+	});
+});
+</script>
+<div id="content-categories">Blog</div>
+<h2 id="post-title" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</h2>
+<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(post.regdate,df)}">edited 24 07 15 오후 8:18:39</div>
+<div id="post-content" th:text="${post.content}">
+자바 웹 프로그래밍 2 예제<br />
+https://github.com/kimjonghoon/java-web-programming-2-samples
+</div>
+
+</article>
+</body>
+</html>
