@@ -56,6 +56,4 @@ public interface BoardMapper {
 	
 	//게시판 삭제(게시글 없는 게시판만 삭제할 수 있음)
 	public void deleteBoard(@Param("boardCd") String boardCd);
-
-	public List<Post> selectListOfBlogs();
 }

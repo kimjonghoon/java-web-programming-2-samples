@@ -83,6 +83,50 @@ $(document).ready(function() {
 			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
 		});
 	}
+	$('#changeSlugForm').submit(function(event){
+		event.preventDefault();
+		let slug = $('#changeSlugForm input[name*=slug]').val();
+		slug = slug.trim();
+		if(!slug) return;
+		const url = $('#changeSlugForm').attr('action');
+		const data = {
+			"slug": slug,
+		};
+		const jsonString = JSON.stringify(data);
+		const method = "PATCH";
+		$.ajax({
+			url: url,
+			type: method,
+			data: jsonString,
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function() {
+				console.log('change slug success!');
+				$('#changeSlugForm input[name*=slug]').val('');
+			},
+			error: function(xhr,status,error) {
+				console.log('error!');
+				console.log(xhr.statusText);
+			}
+		});
+	});
+	$('#deleteBlogForm').submit(function(event){
+		event.preventDefault();
+		const url = $('#deleteBlogForm').attr('action');
+		const method = "DELETE";
+		$.ajax({
+			url: url,
+			type: method,
+			contentType: "application/json; charset=utf-8",
+			success: function() {
+				console.log('removed this from blog!');
+			},
+			error: function(xhr,status,error) {
+				console.log('error!');
+				console.log(xhr.statusText);
+			}
+		});
+	});	
 	prettyPrint();
 	$('pre.prettyprint').html(function() {
 		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
@@ -90,13 +134,22 @@ $(document).ready(function() {
 });
 </script>
 <div id="content-categories">Blog</div>
-<h2 id="post-title" th:text="${post.title}">자바 웹 프로그래밍 2 최종 소스</h2>
-<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(post.regdate,df)}">edited 24 07 15 오후 8:18:39</div>
-<div id="post-content" th:text="${post.content}">
+<h2 id="post-title" th:text="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
+<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(blog.regdate,df)}">edited 24 07 15 오후 8:18:39</div>
+<div id="post-content" th:text="${blog.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </div>
-
+<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+	<form id="changeSlugForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
+		<label for="slug">Change Slug:</label>
+		<input type="text" name="slug" id="slug" th:value="${blog.slug}"/>
+		<input type="submit" value="전송" th:value="#{submit}"/>
+	</form>
+	<form id="deleteBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
+		<input type="submit" value="블로그에서 이 글을 제거"/>
+	</form>
+</div>
 </article>
 </body>
 </html>

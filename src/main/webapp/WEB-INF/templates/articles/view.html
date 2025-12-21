@@ -94,7 +94,6 @@ $(document).ready(function() {
 			$(element).css({'width':width,'height':height})
 		});
 	}
-	
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
 		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
@@ -175,6 +174,35 @@ $(document).ready(function() {
 		$('#editForm input[name*=title]').val(title);
 		$('#editForm-ta').val(content);
 	});
+	$('#addBlogForm').submit(function(event){
+		event.preventDefault();
+		const postNo = $('#addBlogForm input[name*=postNo]').val();
+		let slug = $('#addBlogForm input[name*=slug]').val();
+		slug = slug.trim();
+		if(!slug) return;
+		const url = $('#addBlogForm').attr('action');
+		const data = {
+			"postNo": postNo,
+			"slug": slug,
+		};
+		const jsonString = JSON.stringify(data);
+		const method = "POST";
+		$.ajax({
+			url: url,
+			type: method,
+			data: jsonString,
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function() {
+				console.log('add blog success!');
+				$('#addBlogForm input[name*=slug]').val('');
+			},
+			error: function(xhr,status,error) {
+				console.log('error!');
+				console.log(xhr.statusText);
+			}
+		});
+	});
 	prettyPrint();
 	$('pre.prettyprint').html(function() {
 		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
@@ -192,6 +220,13 @@ $(document).ready(function() {
     <input type="button" value="이전 글" title="13087" id="prev-post-btn" th:if="${prevPostNo} &gt; 0" th:value="#{prev.post}" th:title="${prevPostNo}" />
     <input type="button" value="목록" id="list-btn" th:value="#{list}" />
   </div>
+  <div style="float: left;padding-left: 1em;" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+  	<form id="addBlogForm" th:action="@{/blog}">
+  	<input type="hidden" name="postNo" th:value="${one.postNo}"/>
+    <label for="slug" style="font-size: 0.8em;">Slug:</label><input type="text" id="slug" name="slug" value="how-to-install-java" th:value="${#strings.replace(#strings.toLowerCase(one.title),' ','-')}"/>
+    <input type="submit" value="전송" th:value="#{submit}" />
+   </form>
+  </div>  
 </div>
 <div id="detail">
 <table class="bbs-table">

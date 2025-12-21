@@ -68,6 +68,4 @@ public interface BoardService {
 	//게시판 삭제
 	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteBoard(String boardCd);
-	
-	public List<Post> getBlogList();
 }
