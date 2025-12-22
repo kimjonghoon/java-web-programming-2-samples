@@ -13,12 +13,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 //import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+
+import java.util.Properties;
+
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.mybatis.spring.annotation.MapperScan;
@@ -117,5 +121,15 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		SqlSessionFactoryBean sessionBean = new SqlSessionFactoryBean();
 		sessionBean.setDataSource(dataSource());
 		return sessionBean.getObject();
+	}
+	
+	@Bean
+	public SimpleMappingExceptionResolver exceptionResolver() {
+		SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+		Properties properties = new Properties();
+		properties.put("org.springframework.web.servlet.NoHandlerFoundException", "error/404");
+		resolver.setExceptionMappings(properties);
+		resolver.setDefaultErrorView("error/error");
+		return resolver;
 	}
 }
