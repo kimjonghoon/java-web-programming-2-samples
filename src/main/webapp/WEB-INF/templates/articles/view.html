@@ -49,8 +49,8 @@ $(document).ready(function() {
 							.replace(/\[:CODE\]/g,'</pre>')
 							.replace(/\[VID\]/g,'<div class="videos">')
 							.replace(/\[:VID\]/g,'</div>')
-							.replace(/\[TXT\]/g,'<p>')
-							.replace(/\[:TXT\]/g,'</p>');
+							.replace(/\[TXT\]/g,'<div class="text">')
+							.replace(/\[:TXT\]/g,'</div>');
 	});
 	//이미지
 	if ($('#post-content .images').length) {
@@ -73,8 +73,8 @@ $(document).ready(function() {
 		});
 	}
 	//글
-	if ($('#post-content p').length) {
-		$('#post-content p').html(function() {
+	if ($('#post-content .text').length) {
+		$('#post-content .text').html(function() {
 			return $(this).html().trim().replace(/\n\r?/g, "<br />");
 		});
 	}
@@ -91,7 +91,7 @@ $(document).ready(function() {
 			let originWidth = $(element).width();
 			let originHeight = $(element).height();
 			let height = originHeight * width / originWidth;
-			$(element).css({'width':width,'height':height})
+			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
 		});
 	}
 	//삭제 버튼

@@ -38,8 +38,8 @@ $(document).ready(function() {
 							.replace(/\[:CODE\]/g,'</pre>')
 							.replace(/\[VID\]/g,'<div class="videos">')
 							.replace(/\[:VID\]/g,'</div>')
-							.replace(/\[TXT\]/g,'<p>')
-							.replace(/\[:TXT\]/g,'</p>');
+							.replace(/\[TXT\]/g,'<div class="text">')
+							.replace(/\[:TXT\]/g,'</div>');
 	});
 	//이미지
 	if ($('#post-content .images').length) {
@@ -50,23 +50,35 @@ $(document).ready(function() {
 				if ($.trim(line) === '') {
 					return true;
 				}
-				if (line.endsWith('.jpg') || line.endsWith('.png')) {
-					let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
-					imgTag.css({'width':'100%','height': 'auto','display': 'block'});
-					$(element).append(imgTag);
-				}
+				let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
+				imgTag.css({'width':'100%','height': 'auto','display': 'block'});
+				$(element).append(imgTag);
 			});
 			$(element).contents().filter(function() {
 				return this.nodeType === 3;
 			}).remove();
 		});
 	}
+	$('#post-content .images').click(function() {
+		toggleFullScreen(this);
+	});
 	//글
-	if ($('#post-content p').length) {
-		$('#post-content p').html(function() {
+	if ($('#post-content .text').length) {
+		$('#post-content .text').html(function() {
 			return $(this).html().trim().replace(/\n\r?/g, "<br />");
 		});
 	}
+	
+	const keywords = $("#post-content .text").eq(0).html();
+	const description = $("#post-content .text").eq(1).html();
+	if(keywords) {
+		$("meta[name='Keywords']").attr('content',keywords);
+	}
+	if (description) {
+		$("meta[name='Description']").attr('content',description);
+	}
+	$("#post-content .text").eq(0).hide();
+	$("#post-content .text").eq(1).hide();
 	//동영상
 	if ($('#post-content .videos').length) {
 		$('#post-content .videos').html(function() {
@@ -131,6 +143,39 @@ $(document).ready(function() {
 	$('pre.prettyprint').html(function() {
 		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
 	});
+    function toggleFullScreen(elem) {
+        elem = elem || document.documentElement;
+
+        // Check if already fullscreen
+        if (!document.fullscreenElement &&
+            !document.mozFullScreenElement &&
+            !document.webkitFullscreenElement &&
+            !document.msFullscreenElement) {
+            
+            // Enter fullscreen
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+        } else {
+            // Exit fullscreen
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    }
+	
 });
 </script>
 <div id="content-categories">Blog</div>
