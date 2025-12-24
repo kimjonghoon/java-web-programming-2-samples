@@ -59,8 +59,8 @@ $(document).ready(function() {
 			}).remove();
 		});
 	}
-	$('#post-content .images').click(function() {
-		toggleFullScreen(this);
+	$('#post-content > .images').click(function(event) {
+		toggleFullScreen(event.target);
 	});
 	//글
 	if ($('#post-content .text').length) {
