@@ -61,11 +61,9 @@ $(document).ready(function() {
 				if ($.trim(line) === '') {
 					return true;
 				}
-				if (line.endsWith('.jpg') || line.endsWith('.png')) {
-					let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
-					imgTag.css({'width':'100%','height': 'auto','display': 'block'});
-					$(element).append(imgTag);
-				}
+				let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
+				imgTag.css({'width':'100%','height': 'auto','display': 'block'});
+				$(element).append(imgTag);
 			});
 			$(element).contents().filter(function() {
 				return this.nodeType === 3;
