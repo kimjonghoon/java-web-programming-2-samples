@@ -12,7 +12,9 @@ public interface BlogMapper {
 	
 	public Blog selectOne(@Param("slug") String slug);
 	
-	public int updateBlog(Blog blog);
+	public int updateSlug(Blog blog);
+	
+	public int updateDescription(Blog blog);
 	
 	public int insertBlog(Blog blog);
 	

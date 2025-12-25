@@ -43,7 +43,12 @@ public class BlogController {
 	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void patchSlug(@PathVariable(name="postNo") int postNo, @RequestBody Blog blog) {
 		blog.setPostNo(postNo);
-		blogService.changeBlog(blog);
+		if (blog.getSlug() != null) {
+			blogService.changeSlug(blog);
+		}
+		if (blog.getDescription() != null) {
+			blogService.changeDescription(blog);
+		}
 	}
 	
 	@PostMapping

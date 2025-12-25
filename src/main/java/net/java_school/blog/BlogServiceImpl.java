@@ -24,8 +24,13 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public int changeBlog(Blog blog) {
-		return blogMapper.updateBlog(blog);
+	public int changeSlug(Blog blog) {
+		return blogMapper.updateSlug(blog);
+	}
+
+	@Override
+	public int changeDescription(Blog blog) {
+		return blogMapper.updateDescription(blog);
 	}
 
 	@Override

@@ -8,7 +8,9 @@ public interface BlogService {
 	
 	public Blog getOne(String slug);
 	
-	public int changeBlog(Blog blog);
+	public int changeSlug(Blog blog);
+	
+	public int changeDescription(Blog blog);
 	
 	public int addBlog(Blog blog);
 	

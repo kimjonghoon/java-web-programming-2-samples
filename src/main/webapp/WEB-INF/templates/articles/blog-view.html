@@ -25,11 +25,6 @@ article {
 <article>
 <script th:inline="javascript">
 $(document).ready(function() {
-	//title 바꾸기
-	$('title').empty();
-	var title = $('#post-title').html();
-	$('title').append(title);
-	
 	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
 	$('#post-content').html(function(){
 		return $(this).html().replace(/\[IMG\]/g,'<div class="images">')
@@ -68,17 +63,6 @@ $(document).ready(function() {
 			return $(this).html().trim().replace(/\n\r?/g, "<br />");
 		});
 	}
-	
-	const keywords = $("#post-content .text").eq(0).html();
-	const description = $("#post-content .text").eq(1).html();
-	if(keywords) {
-		$("meta[name='Keywords']").attr('content',keywords);
-	}
-	if (description) {
-		$("meta[name='Description']").attr('content',description);
-	}
-	$("#post-content .text").eq(0).hide();
-	$("#post-content .text").eq(1).hide();
 	//동영상
 	if ($('#post-content .videos').length) {
 		$('#post-content .videos').html(function() {
@@ -95,12 +79,11 @@ $(document).ready(function() {
 			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
 		});
 	}
-	$('#changeSlugForm').submit(function(event){
-		event.preventDefault();
-		let slug = $('#changeSlugForm input[name*=slug]').val();
+	$('#change-slug-btn').click(function(){
+		let slug = $('#changeBlogForm input[name*=slug]').val();
 		slug = slug.trim();
 		if(!slug) return;
-		const url = $('#changeSlugForm').attr('action');
+		const url = $('#changeBlogForm').attr('action');
 		const data = {
 			"slug": slug,
 		};
@@ -114,7 +97,7 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function() {
 				console.log('change slug success!');
-				$('#changeSlugForm input[name*=slug]').val('');
+				$('#changeBlogForm input[name*=slug]').val('');
 			},
 			error: function(xhr,status,error) {
 				console.log('error!');
@@ -122,6 +105,32 @@ $(document).ready(function() {
 			}
 		});
 	});
+	$('#change-description-btn').click(function(){
+		let description = $('#changeBlogForm input[name*=description]').val();
+		description = description.trim();
+		if(!description) return;
+		const url = $('#changeBlogForm').attr('action');
+		const data = {
+			"description": description,
+		};
+		const jsonString = JSON.stringify(data);
+		const method = "PATCH";
+		$.ajax({
+			url: url,
+			type: method,
+			data: jsonString,
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function() {
+				console.log('change description success!');
+				$('#changeBlogForm input[name*=description]').val('');
+			},
+			error: function(xhr,status,error) {
+				console.log('error!');
+				console.log(xhr.statusText);
+			}
+		});
+	});	
 	$('#deleteBlogForm').submit(function(event){
 		event.preventDefault();
 		const url = $('#deleteBlogForm').attr('action');
@@ -175,7 +184,6 @@ $(document).ready(function() {
             }
         }
     }
-	
 });
 </script>
 <div id="content-categories">Blog</div>
@@ -186,10 +194,13 @@ $(document).ready(function() {
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </div>
 <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-	<form id="changeSlugForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
-		<label for="slug">Change Slug:</label>
+	<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
+		<label for="slug">Change Slug</label>
 		<input type="text" name="slug" id="slug" th:value="${blog.slug}"/>
-		<input type="submit" value="전송" th:value="#{submit}"/>
+		<input type="button" id="change-slug-btn" value="전송" th:value="#{submit}"/>
+		<label for="description">Change Description</label>
+		<input type="text" name="description" id="description" th:value="${blog.description}"/>
+		<input type="button" id="change-description-btn" value="전송" th:value="#{submit}"/>
 	</form>
 	<form id="deleteBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
 		<input type="submit" value="블로그에서 이 글을 제거"/>

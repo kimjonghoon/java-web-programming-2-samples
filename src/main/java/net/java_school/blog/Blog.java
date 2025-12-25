@@ -7,6 +7,7 @@ public class Blog {
 	private int postNo;
 	private String slug;
 	private String title;
+	private String description;
 	private String content;
 	private Date regdate;
 
@@ -27,6 +28,12 @@ public class Blog {
 	}
 	public void setTitle(String title) {
 		this.title = title.trim();
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getContent() {
 		return content;

@@ -12,15 +12,18 @@
         order by post.postno desc
     </select>	
 	<select id="selectOne" parameterType="string" resultType="net.java_school.blog.Blog">
-		SELECT post.postno,slug,title,content,regdate
+		SELECT post.postno,slug,description,title,content,regdate
 		FROM post,blog
 		WHERE post.postno = blog.postno and slug = #{slug}
 	</select>
-	<update id="updateBlog" parameterType="net.java_school.blog.Blog">
+	<update id="updateSlug" parameterType="net.java_school.blog.Blog">
 		update blog set slug = #{slug} where postno = ${postNo}
 	</update>
+	<update id="updateDescription" parameterType="net.java_school.blog.Blog">
+		update blog set description = #{description} where postno = ${postNo}
+	</update>	
 	<insert id="insertBlog" parameterType="net.java_school.blog.Blog">
-		insert into blog values (#{postNo}, #{slug})
+		insert into blog values (#{postNo}, #{slug}, #{description})
 	</insert>
 	<delete id="deleteBlog" parameterType="int">
 		delete from blog where postno = ${postNo}

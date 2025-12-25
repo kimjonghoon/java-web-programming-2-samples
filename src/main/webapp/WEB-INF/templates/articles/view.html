@@ -213,10 +213,13 @@ $(document).ready(function() {
 		let slug = $('#addBlogForm input[name*=slug]').val();
 		slug = slug.trim();
 		if(!slug) return;
+		const description = $('#addBlogForm input[name*=description]').val();
+		if(!description) return;
 		const url = $('#addBlogForm').attr('action');
 		const data = {
 			"postNo": postNo,
 			"slug": slug,
+			"description": description
 		};
 		const jsonString = JSON.stringify(data);
 		const method = "POST";
@@ -229,6 +232,7 @@ $(document).ready(function() {
 			success: function() {
 				console.log('add blog success!');
 				$('#addBlogForm input[name*=slug]').val('');
+				$('#addBlogForm input[name*=description]').val('');
 			},
 			error: function(xhr,status,error) {
 				console.log('error!');
@@ -256,7 +260,10 @@ $(document).ready(function() {
   <div style="float: left;padding-left: 1em;" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
   	<form id="addBlogForm" th:action="@{/blog}">
   	<input type="hidden" name="postNo" th:value="${one.postNo}"/>
-    <label for="slug" style="font-size: 0.8em;">Slug:</label><input type="text" id="slug" name="slug" value="how-to-install-java" th:value="${#strings.replace(#strings.toLowerCase(one.title),' ','-')}"/>
+    <label for="slug" style="font-size: 0.8em;">Slug</label>
+    <input type="text" id="slug" name="slug" value="how-to-install-java" th:value="${#strings.replace(#strings.toLowerCase(one.title),' ','-')}"/>
+    <label for="description" style="font-size: 0.8em;">Desc</label>
+    <input type="text" id="description" name="description"/>
     <input type="submit" value="전송" th:value="#{submit}" />
    </form>
   </div>  
