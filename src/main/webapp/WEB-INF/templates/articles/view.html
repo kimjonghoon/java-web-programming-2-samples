@@ -257,17 +257,18 @@ $(document).ready(function() {
     <input type="button" value="이전 글" title="13087" id="prev-post-btn" th:if="${prevPostNo} &gt; 0" th:value="#{prev.post}" th:title="${prevPostNo}" />
     <input type="button" value="목록" id="list-btn" th:value="#{list}" />
   </div>
-  <div style="float: left;padding-left: 1em;" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+</div>
+  <div style="clear: both;" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
   	<form id="addBlogForm" th:action="@{/blog}">
   	<input type="hidden" name="postNo" th:value="${one.postNo}"/>
     <label for="slug" style="font-size: 0.8em;">Slug</label>
-    <input type="text" id="slug" name="slug" value="how-to-install-java" th:value="${#strings.replace(#strings.toLowerCase(one.title),' ','-')}"/>
+    <input type="text" id="slug" name="slug" value="how-to-install-java" th:value="${#strings.replace(#strings.toLowerCase(one.title),' ','-')}" style="width: 60%;"/><br />
     <label for="description" style="font-size: 0.8em;">Desc</label>
-    <input type="text" id="description" name="description"/>
+    <input type="text" id="description" name="description" style="width: 70%;"/>
     <input type="submit" value="전송" th:value="#{submit}" />
    </form>
   </div>  
-</div>
 <div id="detail">
 <table class="bbs-table">
 <tr>

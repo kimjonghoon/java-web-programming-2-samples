@@ -31,7 +31,7 @@ $(document).ready(function() {
 							.replace(/\[:IMG\]/g,'</div>')
 							.replace(/\[CODE\]/g,'<pre class="prettyprint">')
 							.replace(/\[:CODE\]/g,'</pre>')
-							.replace(/\[VID\]/g,'<div class="videos">')
+							.replace(/\[VID\]/g,'<div class="videos" style="float: left;margin-right: 1em;">')
 							.replace(/\[:VID\]/g,'</div>')
 							.replace(/\[TXT\]/g,'<div class="text">')
 							.replace(/\[:TXT\]/g,'</div>');
@@ -60,8 +60,16 @@ $(document).ready(function() {
 	//글
 	if ($('#post-content .text').length) {
 		$('#post-content .text').html(function() {
-			return $(this).html().trim().replace(/\n\r?/g, "<br />");
+			return $(this).html().trim().replace(/\&lt;/g,"<").replace(/\&gt;/g,">").replace(/\n\r?/g, "<br />");
 		});
+		const keywordsArr = $('.text > em').map(function() {
+			return $(this).text();
+		}).get();
+		if (keywordsArr) {
+			const keywords = keywordsArr.join(',');
+			$("meta[name='Keywords']").attr("content", keywords);
+	        //console.log("Keywords:", $("meta[name='Keywords']").attr("content"));
+		}
 	}
 	//동영상
 	if ($('#post-content .videos').length) {
@@ -71,7 +79,8 @@ $(document).ready(function() {
 	}
 	//동영상 너비 조정
 	if ($('#post-content iframe').length) {
-		const width = $('#post-content').width();
+		//const width = $('#post-content').width();
+		const width = 700;
 		$('#post-content iframe').each(function(index,element) {
 			let originWidth = $(element).width();
 			let originHeight = $(element).height();
@@ -188,18 +197,18 @@ $(document).ready(function() {
 </script>
 <div id="content-categories">Blog</div>
 <h2 id="post-title" th:text="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
-<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(blog.regdate,df)}">edited 24 07 15 오후 8:18:39</div>
+<div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(blog.regdate,df)}" style="float: right;">edited 24 07 15 오후 8:18:39</div>
 <div id="post-content" th:text="${blog.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </div>
 <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-	<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
+	<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}" style="margin-top: 3em;">
 		<label for="slug">Change Slug</label>
-		<input type="text" name="slug" id="slug" th:value="${blog.slug}"/>
-		<input type="button" id="change-slug-btn" value="전송" th:value="#{submit}"/>
+		<input type="text" name="slug" id="slug" th:value="${blog.slug}" style="width: 60%;"/>
+		<input type="button" id="change-slug-btn" value="전송" th:value="#{submit}"/><br />
 		<label for="description">Change Description</label>
-		<input type="text" name="description" id="description" th:value="${blog.description}"/>
+		<input type="text" name="description" id="description" th:value="${blog.description}" style="width: 70%;"/>
 		<input type="button" id="change-description-btn" value="전송" th:value="#{submit}"/>
 	</form>
 	<form id="deleteBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
