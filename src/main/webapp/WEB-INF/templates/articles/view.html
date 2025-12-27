@@ -108,7 +108,7 @@ $(document).ready(function() {
 	//글
 	if ($('#post-content .text').length) {
 		$('#post-content .text').html(function() {
-			return $(this).html().trim().replace(/\n\r?/g, "<br />");
+			return $(this).html().trim().replace(/\&lt;/g,"<").replace(/\&gt;/g,">").replace(/\n\r?/g, "<br />");
 		});
 	}
 	//동영상
@@ -293,7 +293,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 </tr>
 <tr>
   <td colspan="2">
-<textarea id="editForm-ta" name="content" rows="10" style="width: 100%" th:text="${one.content}">
+<textarea id="editForm-ta" name="content" rows="10" style="width: 100%;height: 500px;font-size: 14px;line-height: 1.5em;font-weight: bold;" th:text="${one.content}">
 자바 웹 프로그래밍 2 예제
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </textarea>
