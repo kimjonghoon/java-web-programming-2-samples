@@ -203,7 +203,7 @@ $(document).ready(function() {
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </div>
 <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-	<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}" style="margin-top: 3em;">
+	<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}" style="margin-top: 3em;clear: both;">
 		<label for="slug">Change Slug</label>
 		<input type="text" name="slug" id="slug" th:value="${blog.slug}" style="width: 60%;"/>
 		<input type="button" id="change-slug-btn" value="전송" th:value="#{submit}"/><br />
