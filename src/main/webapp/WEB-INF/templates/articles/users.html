@@ -17,11 +17,11 @@ $(document).ready(function() {
 	$('.username').click(function(e) {
 		e.preventDefault();
 		$('#authorities').empty();
-		var username = $(this).text();
-		var authorities = $(this).parent().next().text();
-		var arr = authorities.split(",");
-		var authorities_del = ""
-		for (var idx in arr) {
+		const username = $(this).text();
+		const authorities = $(this).parent().next().text();
+		const arr = authorities.split(",");
+		let authorities_del = ""
+		for (let idx in arr) {
 			authorities_del += arr[idx] + ' <a href="#" title="' + arr[idx] + '" class="del-auth-link">x</a> ';
 		}
 		$('#changePasswordForm input[name*=username]').val(username);
@@ -36,7 +36,7 @@ $(document).ready(function() {
 
 <article>
 <script th:inline="javascript">
-var link = /*[[@{/}]]*/'';
+const link = /*[[@{/}]]*/'';
 </script>
 <h3>Users</h3>
 <div style="width: 49%;float: left;">

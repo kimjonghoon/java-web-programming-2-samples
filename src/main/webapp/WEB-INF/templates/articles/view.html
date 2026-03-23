@@ -26,8 +26,8 @@ article {
 <script th:inline="javascript">
 $(document).ready(function() {
 	$('#edit-post-btn').click(function() {
-		var $div = $('#detail');
-		var $form = $('#editForm');
+		const $div = $('#detail');
+		const $form = $('#editForm');
 		if ($form.is(':hidden') === true) {
 			$form.show();
 			$div.hide();
@@ -38,7 +38,7 @@ $(document).ready(function() {
 	});
 	//title 바꾸기
 	$('title').empty();
-	var title = $('#post-title').html();
+	const title = $('#post-title').html();
 	$('title').append(title);
 	
 	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
@@ -129,8 +129,8 @@ $(document).ready(function() {
 	}
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
-		var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
-		var chk = confirm(warning);
+		const warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
+		const chk = confirm(warning);
 		if (chk === true) {
 			$('#delForm').submit();
 		}
@@ -190,17 +190,15 @@ $(document).ready(function() {
 	});
 	//수정 양식 전송
 	$('#editForm').submit(function() {
-		var title = $('#editForm input[name*=title]').val();
-		title = $.trim(title);
+		const title = $('#editForm input[name*=title]').val().trim();
 		if (title.length === 0) {
-			var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+			const warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
 			alert(warning);
 			return false;
 		}
-		var content = $('#editForm-ta').val();
-		content = $.trim(content);
+		const content = $('#editForm-ta').val().trim();
 		if (content === 0) {
-			var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+			const warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
 			alert(warning);
 			return false;
 		}

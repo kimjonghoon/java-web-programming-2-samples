@@ -50,7 +50,7 @@ article {
 &lt;script th:inline="javascript"&gt;
 $(document).ready(function() {
   $('#new-post-btn').click(function() {
-    var $form = $('#writeForm');
+    const $form = $('#writeForm');
     if ($form.is(':hidden') === true) {
       $form.show();
     } else {
@@ -219,8 +219,8 @@ article {
 &lt;script th:inline="javascript"&gt;
 $(document).ready(function() {
   $('#edit-post-btn').click(function() {
-    var $div = $('#detail');
-    var $form = $('#editForm');
+    const $div = $('#detail');
+    const $form = $('#editForm');
     if ($form.is(':hidden') === true) {
       $form.show();
       $div.hide();
@@ -485,7 +485,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
 <div class="filename">list.html</div>
 <pre class="prettyprint">$(document).ready(function() {
   $('#new-post-btn').click(function() {
-    var $form = $('#writeForm');
+    const $form = $('#writeForm');
     if ($form.is(':hidden') === true) {
       $form.show();
     } else {
@@ -494,7 +494,7 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   });
   // 페이지당 게시글 수
   $('#numberPerPage').change(function() {
-    var numberPerPage = $('#numberPerPage option:selected').val();
+    const numberPerPage = $('#numberPerPage option:selected').val();
     if (numberPerPage) {
       createCookie('numberPerPage', numberPerPage, '30'); //30일
       $('#listForm input[name*=page]').val('1');
@@ -503,9 +503,9 @@ https://github.com/kimjonghoon/java-web-programming-2-samples
   });
 });
 function createCookie(name, value, days) {
-  var newCookie = name + "=" + escape(value);
+  let newCookie = name + "=" + escape(value);
   if (days) {
-    var expires = new Date();
+    const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
     newCookie += "; expires=" + expires.toGMTString();
   }
@@ -540,18 +540,16 @@ function createCookie(name, value, days) {
 </pre>
 
 <pre class="prettyprint">$('#writeForm').submit(function() {
-  var title = $('#writeForm input[name*=title]').val();
-  title = $.trim(title);
-  var content = $('#writeForm-ta').val();
-  content = $.trim(content);
+  const title = $('#writeForm input[name*=title]').val().trim();
+  const content = $('#writeForm-ta').val().trim();
   if (title.length === 0) {
-    var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+    const warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
     alert(warning);
     $('#writeForm input[name*=title]').val('');
     return false;
   }
   if (content.length === 0) {
-    var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+    const warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
     alert(warning);
     $('#writeForm-ta').val('');
     return false;
@@ -570,7 +568,7 @@ function createCookie(name, value, days) {
 &lt;/script&gt;
 </pre>
 
-<pre class="prettyprint">var warning = <strong>"</strong>제목이 비었습니다!<strong>"</strong>;</pre>
+<pre class="prettyprint">const warning = <strong>"</strong>제목이 비었습니다!<strong>"</strong>;</pre>
 
 <div class="filename">messages_en.properties</div>
 <pre class="prettyprint">title.empty.warning=The title is empty!
@@ -584,8 +582,8 @@ content.empty.warning=내용이 비었습니다!
 
 <pre class="prettyprint">$(document).ready(function () {
   $('#edit-post-btn').click(function() {
-    var $div = $('#detail');
-    var $form = $('#editForm');
+    const $div = $('#detail');
+    const $form = $('#editForm');
     if ($form.is(':hidden') === true) {
       $form.show();
       $div.hide();
@@ -601,13 +599,13 @@ content.empty.warning=내용이 비었습니다!
 </pre>
 
 <pre class="prettyprint">$('title').empty();
-var title = $('#post-title').html();
+const title = $('#post-title').html();
 $('title').append(title);
 </pre>
 
 <pre class="prettyprint" th:inline="none">$('#del-post-btn').click(function () {
-  var warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하겠습니까?";    
-  var chk = confirm(warning);
+  const warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하겠습니까?";    
+  const chk = confirm(warning);
   if (chk === true) {
     $('#delForm').submit();
   }
@@ -668,7 +666,7 @@ $('title').append(title);
 <h4>페이지당 게시글 수 선택박스에서 값을 선택했을 때 동작하는 코드</h4>
 
 <pre class="prettyprint">$('#numberPerPage').change(function() {
-  var numberPerPage = $('#numberPerPage option:selected').val();
+  const numberPerPage = $('#numberPerPage option:selected').val();
   if (numberPerPage) {
     createCookie('numberPerPage', numberPerPage, '30');
     $('#listForm input[name*=page].val('1');
@@ -678,9 +676,9 @@ $('title').append(title);
 </pre>
 
 <pre class="prettyprint">function createCookie(name, value, days) {
-  var newCookie = name + "=" + escape(value);
+  let newCookie = name + "=" + escape(value);
   if (days) {
-    var expires = new Date();
+    const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
     newCookie += "; expires=" + expires.toGMTString();
   }
@@ -723,18 +721,16 @@ $('title').append(title);
 <h4>수정 양식을 작성한 후 전송 버튼을 눌렀을 때 동작하는 코드</h4>
 	
 <pre class="prettyprint">$('#editForm').submit(function() {
-  var title = $('#editForm input[name*=title]').val();
-  title = $.trim(title);
+  const title = $('#editForm input[name*=title]').val().trim();
   if (title.length === 0) {
-    var warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
+    const warning = /*[[#{title.empty.warning}]]*/ "제목이 비었습니다!";
     alert(warning);
     $('#editForm input[name*=title]').val('');
     return false;
   }
-  var content = $('#editForm-ta').val();
-  content = $.trim(content);
+  const content = $('#editForm-ta').val().trim();
   if (content.length === 0) {
-    var warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
+    const warning = /*[[#{content.empty.warning}]]*/ "내용이 비었습니다!";
     alert(warning);
     $('#editForm-ta').val('');
     return false;
@@ -1469,9 +1465,9 @@ screen.css와 print.css 파일에 다음을 추가한다.<br />
 
 <div class="filename">cookie.js</div>
 <pre class="prettyprint">function createCookie(name, value, days) {
-  var newCookie = name + "=" + escape(value);
+  let newCookie = name + "=" + escape(value);
   if (days) {
-    var expires = new Date();
+    const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
     newCookie += "; expires=" + expires.toGMTString();
   }
@@ -2255,11 +2251,11 @@ $(document).ready(function() {
   $('.username').click(function(e) {
     e.preventDefault();
     $('#authorities').empty();
-    var username = $(this).text();
-    var authorities = $(this).parent().next().text();
-    var arr = authorities.split(",");
-    var authorities_del = ""
-    for (var idx in arr) {
+    const username = $(this).text();
+    const authorities = $(this).parent().next().text();
+    const arr = authorities.split(",");
+    let authorities_del = ""
+    for (let idx in arr) {
       authorities_del += arr[idx] + ' &lt;a href="#" title="' + arr[idx] + '" class="del-auth-link"&lt;x&lt;/a&gt; ';
     }
     $('#changePasswordForm input[name*=username]').val(username);
@@ -2362,7 +2358,7 @@ $(document).ready(function() {
 <img src="../../../static/images/users-prototype.png" th:src="@{/static/images/users-prototype.png}" class="browser-output" alt="관리자 화면 중 회원 관리 프로토타입" />
 </p>
 
-<pre class="prettyprint">var link = /*[[@{/}]]*/'';
+<pre class="prettyprint">const link = /*[[@{/}]]*/'';
 </pre>
 
 <div class="filename">articles/boards.html</div>
@@ -2384,7 +2380,7 @@ article {
 $(document).ready(function() {
   $('.board-code').click(function(e) {
     e.preventDefault();
-    var boardCd = $(this).text();
+    const boardCd = $(this).text();
     $('#editBoardForm input[name*=boardCd]').val(boardCd);
     $('#deleteBoardForm input[name*=boardCd]').val(boardCd);
   });
@@ -2394,7 +2390,7 @@ $(document).ready(function() {
 &lt;body&gt;
 &lt;article&gt;
 &lt;script th:inline="javascript"&gt;
-var link = /*[[@{/}]]*/'';
+const link = /*[[@{/}]]*/'';
 &lt;/script&gt;
 &lt;h3&gt;Boards&lt;/h3&gt;
 &lt;div style="width: 49%;float: left;"&gt;
@@ -2638,11 +2634,11 @@ public class AdminController {
   $('.username').click(function(e) {
     e.preventDefault();
     $('#authorities').empty();
-    var username = $(this).text();
-    var authorities = $(this).parent().next().text();
-    var arr = authorities.split(",");
-    var authorities_del = ""
-    for (var idx in arr) {
+    const username = $(this).text();
+    const authorities = $(this).parent().next().text();
+    const arr = authorities.split(",");
+    let authorities_del = ""
+    for (let idx in arr) {
       authorities_del += arr[idx] + ' &lt;a href="#" title="' + arr[idx] + '" class="del-auth-link"&gt;x&lt;/a&gt; ';
     }
     $('#changePasswordForm input[name*=username]').val(username);
@@ -2817,11 +2813,11 @@ public int updateEnabledToZero(@Param("username") String username);
 <div class="filename">users.js</div>
 <pre class="prettyprint">function showListItems(search) {
   if (search == null) search = '';
-  var url = link + 'users?search=' + search;
+  const url = link + 'users?search=' + search;
   $.getJSON(url, function (data) {
     $('#list-table .data-row').remove();
     $.each(data, function (i, item) {
-      var trs = '&lt;tr class="data-row"&gt;'
+      const trs = '&lt;tr class="data-row"&gt;'
         + '&lt;td&gt;' + (i+1) + '&lt;/td&gt;'
         + '&lt;td&gt;' + '&lt;a href="#" class=username&gt;' + item.username + '&lt;/a&gt;&lt;/td&gt;'
         + '&lt;td&gt;' + item.authorities + '&lt;/td&gt;'
@@ -2834,7 +2830,7 @@ public int updateEnabledToZero(@Param("username") String username);
 <strong>$(document).ready(function() {</strong>
   <strong>$('#searchForm').submit(function(e) {</strong>
     <strong>e.preventDefault();</strong>
-    <strong>var search = $('#searchForm input[name*=search]').val();</strong>
+    <strong>const search = $('#searchForm input[name*=search]').val();</strong>
     <strong>showListItems(search);</strong>
     <strong>$('#searchForm input[name*=search]').val('');</strong>
   <strong>});</strong>
@@ -2852,11 +2848,11 @@ public int updateEnabledToZero(@Param("username") String username);
 <pre class="prettyprint">$(document).on('click', '.username', function (e) {
   e.preventDefault();
   $('#authorities').empty();
-  var username = $(e.target).text();
-  var authorities = $(e.target).parent().next().text();
-  var arr = authorities.split(",");
-  var authorities_del = ""
-  for (var idx in arr) {
+  const username = $(e.target).text();
+  const authorities = $(e.target).parent().next().text();
+  const arr = authorities.split(",");
+  let authorities_del = ""
+  for (let idx in arr) {
     if (arr[idx] != '')
       authorities_del += ' &lt;a href="#" title="' + arr[idx] + '" class="del-auth-link"&gt;' + arr[idx] + ' x&lt;/a&gt; ';
   }
@@ -2875,17 +2871,16 @@ public int updateEnabledToZero(@Param("username") String username);
 
 <pre class="prettyprint">$('#changePasswordForm').submit(function(e) {
   e.preventDefault();
-  var username = $('#changePasswordForm input[name*=username]').val();
+  const username = $('#changePasswordForm input[name*=username]').val();
   if (!username) return;
-  var pw = $('#changePasswordForm input[name*=password]').val();
-  pw = pw.trim();
+  const pw = $('#changePasswordForm input[name*=password]').val().trim();
   if(!pw) return;
-  var data = {
+  const data = {
     "password": pw,
   };
-  var jsonString = JSON.stringify(data);
-  var url = link + "users/" + username;
-  var method = "PATCH";
+  const jsonString = JSON.stringify(data);
+  const url = link + "users/" + username;
+  const method = "PATCH";
   $.ajax({
     url: url,
     type: method,
@@ -2920,10 +2915,10 @@ public int updateEnabledToZero(@Param("username") String username);
 
 <pre class="prettyprint">$(document).on('click', '.del-auth-link', function (e) {
   e.preventDefault();
-  var authority = $(e.target).attr('title');
-  var username = $('#addAuthorityForm input[name*=username]').val();
+  const authority = $(e.target).attr('title');
+  const username = $('#addAuthorityForm input[name*=username]').val();
   if (!username) return;
-  var url = link + "users/" + username + "/" + authority;
+  const url = link + "users/" + username + "/" + authority;
   $.ajax({
     url: url,
     type: 'DELETE',
@@ -2951,19 +2946,19 @@ public int updateEnabledToZero(@Param("username") String username);
 
 <pre class="prettyprint">$('#addAuthorityForm').submit(function(e) {
   e.preventDefault();
-  var username = $('#addAuthorityForm input[name*=username]').val();
+  const username = $('#addAuthorityForm input[name*=username]').val();
   if (!username) return;
-  var authority = $('#dropDownAuthority').val();
-  var auth_dels = $('#authorities').text();
-  var chk = auth_dels.indexOf(authority);
+  const authority = $('#dropDownAuthority').val();
+  const auth_dels = $('#authorities').text();
+  const chk = auth_dels.indexOf(authority);
   if (chk != -1) return;
-  var url = link + "users/" + username + "/" + authority;
+  const url = link + "users/" + username + "/" + authority;
   $.ajax({
     url: url,
     type: 'POST',
     success: function () {
       console.log('authority add success!');
-      var addlink = ' &lt;a href="#" title="' + authority + '" class="del-auth-link"&gt;' + authority + ' x&lt;/a&gt; ';
+      const addlink = ' &lt;a href="#" title="' + authority + '" class="del-auth-link"&gt;' + authority + ' x&lt;/a&gt; ';
       if(authority === 'ROLE_ADMIN') $('#authorities').prepend(addlink);
       else $('#authorities').append(addlink);
       showListItems(username);
@@ -2988,9 +2983,9 @@ public int updateEnabledToZero(@Param("username") String username);
 
 <pre class="prettyprint">$('#deleteAccountForm').submit(function(e) {
   e.preventDefault();
-  var username = $('#deleteAccountForm input[name*=username]').val();
+  const username = $('#deleteAccountForm input[name*=username]').val();
   if (!username) return;
-  var url = link + "users/" + username;
+  const url = link + "users/" + username;
   $.ajax({
     url: url,
     type: 'DELETE',
@@ -3161,11 +3156,11 @@ public void deleteBoard(@Param("boardCd") String boardCd);
 
 <pre class="prettyprint">function showListItems(search) {
   if (search == null) search = '';
-  var url = link + 'boards?search=' + search;
+  const url = link + 'boards?search=' + search;
   $.getJSON(url, function (data) {
     $('#list-table .data-row').remove();
     $.each(data, function (i, item) {
-      var trs = '&lt;tr class="data-row"&gt;'
+      const trs = '&lt;tr class="data-row"&gt;'
         + '&lt;td&gt;' + (i+1) + '&lt;/td&gt;'
         + '&lt;td&gt;' + '&lt;a href="#" class=board-code&gt;' + item.boardCd + '&lt;/a&gt;&lt;/td&gt;'
         + '&lt;td&gt;' + item.boardNm + '&lt;/td&gt;'
@@ -3178,7 +3173,7 @@ public void deleteBoard(@Param("boardCd") String boardCd);
 $(document).ready(function() {
   $('#searchForm').submit(function(e) {
     e.preventDefault();
-    var search = $('#searchForm input[name*=search]').val();
+    const search = $('#searchForm input[name*=search]').val();
     showListItems(search);
     $('#searchForm input[name*=search]').val('');
   });
@@ -3187,7 +3182,7 @@ $(document).ready(function() {
 
 <pre class="prettyprint">$(document).on('click', '.board-code', function (e) {
   e.preventDefault();
-  var boardCd = $(e.target).text();
+  const boardCd = $(e.target).text();
   $('#editBoardForm input[name*=boardCd]').val(boardCd);
   $('#deleteBoardForm input[name*=boardCd]').val(boardCd);
 });
@@ -3210,17 +3205,16 @@ $(document).ready(function() {
 <pre class="prettyprint">$(document).ready(function() {
   //..검색 코드 생략 ..
   $('#name-btn').click(function(e) {
-    var boardCd = $('#editBoardForm input[name*=boardCd]').val();
+    const boardCd = $('#editBoardForm input[name*=boardCd]').val();
     if (!boardCd) return;
-    var boardNm = $('#editBoardForm input[name*=boardNm]').val();
-    boardNm = boardNm.trim();
+    const boardNm = $('#editBoardForm input[name*=boardNm]').val().trim();
     if(!boardNm) return;
-    var data = {
+    const data = {
       "boardNm": boardNm,
     };
-    var jsonString = JSON.stringify(data);
-    var url = link + "boards/" + boardCd;
-    var method = "PATCH";
+    const jsonString = JSON.stringify(data);
+    const url = link + "boards/" + boardCd;
+    const method = "PATCH";
     $.ajax({
       url: url,
       type: method,
@@ -3239,17 +3233,16 @@ $(document).ready(function() {
     });
   });
   $('#ko-name-btn').click(function(e) {
-    var boardCd = $('#editBoardForm input[name*=boardCd]').val();
+    const boardCd = $('#editBoardForm input[name*=boardCd]').val();
     if (!boardCd) return;
-    var boardNm_ko = $('#editBoardForm input[name*=boardNm_ko]').val();
-    boardNm_ko = boardNm_ko.trim();
+    const boardNm_ko = $('#editBoardForm input[name*=boardNm_ko]').val().trim();
     if(!boardNm_ko) return;
-    var data = {
+    const data = {
       "boardNm_ko": boardNm_ko,
     };
-    var jsonString = JSON.stringify(data);
-    var url = link + "boards/" + boardCd;
-    var method = "PATCH";
+    const jsonString = JSON.stringify(data);
+    const url = link + "boards/" + boardCd;
+    const method = "PATCH";
     $.ajax({
       url: url,
       type: method,
@@ -3286,20 +3279,20 @@ $(document).ready(function() {
   //.. 수정 코드 생략 ..
   $('#newBoardForm').submit(function(e) {
     e.preventDefault();
-    var boardCd = $('#newBoardForm input[name*=boardCd]').val();
-    var boardNm = $('#newBoardForm input[name*=boardNm]').val();
-    var boardNm_ko = $('#newBoardForm input[name*=boardNm_ko]').val();
+    const boardCd = $('#newBoardForm input[name*=boardCd]').val();
+    const boardNm = $('#newBoardForm input[name*=boardNm]').val();
+    const boardNm_ko = $('#newBoardForm input[name*=boardNm_ko]').val();
     if (!boardCd) return;
     if (!boardNm) return;
     if (!boardNm_ko) return;
-    var data = {
+    const data = {
       "boardCd": boardCd,
       "boardNm": boardNm,
       "boardNm_ko": boardNm_ko,
     };
-    var jsonString = JSON.stringify(data);
-    var url = link + "boards";
-    var method = "POST";
+    const jsonString = JSON.stringify(data);
+    const url = link + "boards";
+    const method = "POST";
     $.ajax({
       url: url,
       type: method,
@@ -3339,10 +3332,10 @@ $(document).ready(function() {
   //..생성 코드 생략..  
   $('#deleteBoardForm').submit(function(e) {
     e.preventDefault();
-    var boardCd = $('#deleteBoardForm input[name*=boardCd]').val();
+    const boardCd = $('#deleteBoardForm input[name*=boardCd]').val();
     if (!boardCd) return;
-    var url = link + "boards/" + boardCd;
-    var method = "DELETE";
+    const url = link + "boards/" + boardCd;
+    const method = "DELETE";
     $.ajax({
       url: url,
       type: method,

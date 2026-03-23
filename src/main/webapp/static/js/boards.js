@@ -1,10 +1,10 @@
 function showListItems(search) {
 	if (search == null) search = '';
-	var url = link + 'boards?search=' + search;
+	const url = link + 'boards?search=' + search;
 	$.getJSON(url, function (data) {
 		$('#list-table .data-row').remove();
 		$.each(data, function (i, item) {
-			var trs = '<tr class="data-row">'
+			const trs = '<tr class="data-row">'
 				+ '<td>' + (i+1) + '</td>'
 				+ '<td>' + '<a href="#" class="board-code">' + item.boardCd + '</a></td>'
 				+ '<td>' + item.boardNm + '</td>'
@@ -17,22 +17,22 @@ function showListItems(search) {
 $(document).ready(function() {
 	$('#searchForm').submit(function(e) {
 		e.preventDefault();
-		var search = $('#searchForm input[name*=search]').val();
+		const search = $('#searchForm input[name*=search]').val();
 		showListItems(search);
 		$('#searchForm input[name*=search]').val('');
 	});
-	$('#name-btn').click(function(e) {
-		var boardCd = $('#editBoardForm input[name*=boardCd]').val();
+	$('#name-btn').click(function() {
+		const boardCd = $('#editBoardForm input[name*=boardCd]').val();
 		if (!boardCd) return;
-		var boardNm = $('#editBoardForm input[name*=boardNm]').val();
-		boardNm = boardNm.trim();
+		const boardNm = $('#editBoardForm input[name*=boardNm]').val().trim();
 		if(!boardNm) return;
-		var data = {
+		
+		const data = {
 			"boardNm": boardNm,
 		};
-		var jsonString = JSON.stringify(data);
-		var url = link + "boards/" + boardCd;
-		var method = "PATCH";
+		const jsonString = JSON.stringify(data);
+		const url = link + "boards/" + boardCd;
+		const method = "PATCH";
 		$.ajax({
 			url: url,
 			type: method,
@@ -50,18 +50,17 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('#ko-name-btn').click(function(e) {
-		var boardCd = $('#editBoardForm input[name*=boardCd]').val();
+	$('#ko-name-btn').click(function() {
+		const boardCd = $('#editBoardForm input[name*=boardCd]').val();
 		if (!boardCd) return;
-		var boardNm_ko = $('#editBoardForm input[name*=boardNm_ko]').val();
-		boardNm_ko = boardNm_ko.trim();
+		const boardNm_ko = $('#editBoardForm input[name*=boardNm_ko]').val().trim();
 		if(!boardNm_ko) return;
-		var data = {
+		const data = {
 			"boardNm_ko": boardNm_ko,
 		};
-		var jsonString = JSON.stringify(data);
-		var url = link + "boards/" + boardCd;
-		var method = "PATCH";
+		const jsonString = JSON.stringify(data);
+		const url = link + "boards/" + boardCd;
+		const method = "PATCH";
 		$.ajax({
 			url: url,
 			type: method,
@@ -81,20 +80,20 @@ $(document).ready(function() {
 	});
 	$('#newBoardForm').submit(function(e) {
 		e.preventDefault();
-		var boardCd = $('#newBoardForm input[name*=boardCd]').val();
-		var boardNm = $('#newBoardForm input[name*=boardNm]').val();
-		var boardNm_ko = $('#newBoardForm input[name*=boardNm_ko]').val();
+		const boardCd = $('#newBoardForm input[name*=boardCd]').val();
+		const boardNm = $('#newBoardForm input[name*=boardNm]').val();
+		const boardNm_ko = $('#newBoardForm input[name*=boardNm_ko]').val();
 		if (!boardCd) return;
 		if (!boardNm) return;
 		if (!boardNm_ko) return;
-		var data = {
+		const data = {
 			"boardCd": boardCd,
 			"boardNm": boardNm,
 			"boardNm_ko": boardNm_ko,
 		};
-		var jsonString = JSON.stringify(data);
-		var url = link + "boards";
-		var method = "POST";
+		const jsonString = JSON.stringify(data);
+		const url = link + "boards";
+		const method = "POST";
 		$.ajax({
 			url: url,
 			type: method,
@@ -116,10 +115,10 @@ $(document).ready(function() {
 	});
 	$('#deleteBoardForm').submit(function(e) {
 		e.preventDefault();
-		var boardCd = $('#deleteBoardForm input[name*=boardCd]').val();
+		const boardCd = $('#deleteBoardForm input[name*=boardCd]').val();
 		if (!boardCd) return;
-		var url = link + "boards/" + boardCd;
-		var method = "DELETE";
+		const url = link + "boards/" + boardCd;
+		const method = "DELETE";
 		$.ajax({
 			url: url,
 			type: method,
@@ -140,7 +139,7 @@ $(document).ready(function() {
 $(document).on('click', '#list-table', function (e) {
 	if ($(e.target).is('.board-code')) {
 		e.preventDefault();
-		var boardCd = $(e.target).text();
+		const boardCd = $(e.target).text();
 		$('#editBoardForm input[name*=boardCd]').val(boardCd);
 		$('#deleteBoardForm input[name*=boardCd]').val(boardCd);
 	}
@@ -148,7 +147,7 @@ $(document).on('click', '#list-table', function (e) {
 */
 $(document).on('click', '.board-code', function (e) {
 	e.preventDefault();
-	var boardCd = $(e.target).text();
+	const boardCd = $(e.target).text();
 	$('#editBoardForm input[name*=boardCd]').val(boardCd);
 	$('#deleteBoardForm input[name*=boardCd]').val(boardCd);
 });
