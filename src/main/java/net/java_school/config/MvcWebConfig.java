@@ -95,48 +95,35 @@ public class MvcWebConfig implements WebMvcConfigurer {
 		viewResolver.setTemplateEngine(templateEngine());
 		viewResolver.setCharacterEncoding("UTF-8");
 /*
-https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+https://mvnrepository.com/artifact/org.springframework/spring-framework-bom
+https://mvnrepository.com/artifact/org.springframework.security/spring-security-bom      
+https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api      
+https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin      
 https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11
-https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
-https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
-https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api
-https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl
-https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
-https://mvnrepository.com/artifact/org.mybatis/mybatis
-https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
-https://mvnrepository.com/artifact/commons-logging/commons-logging
-https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
-https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
-https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring6
-https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin
-https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6
+https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2      
 https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind
+https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator      
+https://mvnrepository.com/artifact/org.mybatis/mybatis      
+https://mvnrepository.com/artifact/org.mybatis/mybatis-spring      
+https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring6      
 */
 		//Global Variables
 		Map<String, Object> staticVariables = new HashMap<>();
 		staticVariables.put("java", "25"); //Java Version
 		staticVariables.put("spring", "7.0.7"); //Spring Framework Version
+		staticVariables.put("servlet", "6.1.0"); //Servlet Version
 		staticVariables.put("thymeleafSpring6", "3.1.3.RELEASE"); //Thymeleaf Spring6 Version
 		staticVariables.put("jettyMavenPlugin", "11.0.26"); //jetty-maven-plugin Version
-		staticVariables.put("springSecurityVersion", "7.0.4"); //Spring Security Version
+		staticVariables.put("springSecurity", "7.0.4"); //Spring Security Version
 		staticVariables.put("oracleJdbcDriver", "23.26.1.0.0"); //ojdbc11 Version
 		staticVariables.put("dbcp2", "2.14.0"); //commons-dbcp2 Version
 		staticVariables.put("thymeleafExtraSpringSecurity6", "3.1.3.RELEASE"); //Thymeleaf-Extra-Spring-Security6 Version
 		staticVariables.put("ojdbc11Version", "24.26.1.0.0"); //ojdbc11 Version
-		staticVariables.put("aspectjweaverVersion", "1.9.25.1"); //aspectweaver Version
-		staticVariables.put("servletVersion", "6.1.0"); //servlet Version
-		staticVariables.put("jstlApiVersion", "3.0.2"); //jstl-api Version
-		staticVariables.put("jstlVersion", "3.0.1"); //jstl Version
-		staticVariables.put("commonsDbcp2Version", "2.14.0"); //common-dbcp2 Version
-		staticVariables.put("mybatisVersion", "3.5.19"); //mybatis Version
-		staticVariables.put("mybatisSpringVersion", "4.0.0"); //mybatis-spring Version
-		staticVariables.put("commonsLoggingVersion", "1.3.6"); //commons-logging Version
-		staticVariables.put("log4jVersion", "2.25.4"); //log4j Version
-		staticVariables.put("hibernateValidatorVersion", "9.1.0.Final"); //hibernate-validator Version
-		staticVariables.put("thymeleafSpring6Version", "3.1.3.RELEASE"); //thymeleaf-spring6 Version
-		staticVariables.put("mysqlJdbcDriverVersion", "9.6.0"); //mysql jdbc driver Version
-		staticVariables.put("jacksonDatabindVersion", "3.1.2"); //jackson-databind Version
+		staticVariables.put("jacksonDatabind", "3.1.2"); //Jackson Databind Version
+		staticVariables.put("hibernateValidator", "9.1.0.Final"); //Hibernate Validator Version
+		staticVariables.put("mybatis", "3.5.19"); //Mybatis Version
+		staticVariables.put("mybatisSpring", "4.0.0"); //Mybatis-Spring Version
 		viewResolver.setStaticVariables(staticVariables);
 		return viewResolver;
 	}
