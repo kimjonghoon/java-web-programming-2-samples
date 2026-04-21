@@ -30,10 +30,10 @@
 
 <pre class="prettyprint">&lt;properties&gt;
   &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
-  &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
-  &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
-  &lt;spring.version&gt;6.1.14&lt;/spring.version&gt;
-  <strong>&lt;spring.security.version&gt;6.3.4&lt;/spring.security.version&gt;</strong>
+  &lt;maven.compiler.source&gt;[[${java}]]&lt;/maven.compiler.source&gt;
+  &lt;maven.compiler.target&gt;[[${java}]]&lt;/maven.compiler.target&gt;
+  &lt;spring.version&gt;[[${spring}]]&lt;/spring.version&gt;
+  <strong>&lt;spring.security.version&gt;[[${springSecurity}]]&lt;/spring.security.version&gt;</strong>
 &lt;/properties&gt;
 </pre>
 
@@ -75,23 +75,23 @@
   &lt;groupId&gt;org.springframework&lt;/groupId&gt;
   &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
 &lt;/dependency&gt;
-&lt;!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 --&gt;
+&lt;!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11 --&gt;
 &lt;dependency&gt;
   &lt;groupId&gt;com.oracle.database.jdbc&lt;/groupId&gt;
-  &lt;artifactId&gt;ojdbc6&lt;/artifactId&gt;
-  &lt;version&gt;11.2.0.4&lt;/version&gt;
+  &lt;artifactId&gt;ojdbc11&lt;/artifactId&gt;
+  &lt;version&gt;[[${oracleJdbcDriver}]]&lt;/version&gt;
 &lt;/dependency&gt;
 &lt;!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 --&gt;
 &lt;dependency&gt;
   &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
   &lt;artifactId&gt;commons-dbcp2&lt;/artifactId&gt;
-  &lt;version&gt;2.11.0&lt;/version&gt;
+  &lt;version&gt;[[${dbcp2}]]&lt;/version&gt;
 &lt;/dependency&gt;
 &lt;!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6 --&gt;
 &lt;dependency&gt;
   &lt;groupId&gt;org.thymeleaf.extras&lt;/groupId&gt;
   &lt;artifactId&gt;thymeleaf-extras-springsecurity6&lt;/artifactId&gt;
-  &lt;version&gt;3.1.2.RELEASE&lt;/version&gt;
+  &lt;version&gt;[[${thymeleafExtraSpringSecurity6}]]&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
 
