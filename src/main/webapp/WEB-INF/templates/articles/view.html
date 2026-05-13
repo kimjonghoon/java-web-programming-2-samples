@@ -107,7 +107,9 @@ $(document).ready(function() {
 				imgTag.css({'width':'100px','height': 'auto'});
 				$(element).append(imgTag);
 			});
-			$(element).contents().not('img').remove();
+			$(element).contents().filter(function() {
+				return this.nodeType === 3;
+			}).remove();
 		});
 	}
 	$('#post-content img').click(function(event) {
