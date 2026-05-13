@@ -41,18 +41,59 @@ $(document).ready(function() {
 	const title = $('#post-title').html();
 	$('title').append(title);
 	
-	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
-	$('#post-content').html(function(){
-		return $(this).html().replace(/\[IMG\]/g,'<div class="images">')
-							.replace(/\[:IMG\]/g,'</div>')
-							.replace(/\[CODE\]/g,'<pre class="prettyprint">')
-							.replace(/\[:CODE\]/g,'</pre>')
-							.replace(/\[VID\]/g,'<div class="videos">')
-							.replace(/\[:VID\]/g,'</div>')
-							.replace(/\[TXT\]/g,'<div class="text">')
-							.replace(/\[:TXT\]/g,'</div>');
+	//[img],[img100],[code],[vid],[txt],[link]를 HTML 엘리먼트로 바꿈
+	$('#post-content').html(function() {
+				return $(this).html().replace(/\[img\]/g,'<p class="images">')
+							.replace(/\[\/img\]/g,'</p>')
+							.replace(/\[img100\]/g,'<p class="image">')
+							.replace(/\[\/img100\]/g,'</p>')
+							.replace(/\[code\]/g,'<pre class="prettyprint">')
+							.replace(/\[\/code\]/g,'</pre>')
+							.replace(/\[vid\]/g,'<p class="videos">')
+							.replace(/\[\/vid\]/g,'</p>')
+							.replace(/\[txt\]/g,'<p class="text">')
+							.replace(/\[\/txt\]/g,'</p>')
+							.replace(/\[link\]/g,'<p class="links">')
+							.replace(/\[\/link\]/g,'</p>');
 	});
-	//이미지
+	//동영상 태그 활성
+	if ($('#post-content .videos').length) {
+		$('#post-content .videos').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+		$('#post-content .videos').contents().not('iframe').remove();
+	}
+	//동영상 너비와 속성 조정
+	if ($('#post-content iframe').length) {
+		const width = $('#post-content').width();
+		$('#post-content iframe').each(function(index,element) {
+			const originWidth = $(element).width();
+			const originHeight = $(element).height();
+			const height = originHeight * width / originWidth;
+			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
+		});
+	}
+	//글
+	if ($('#post-content .text').length) {
+		$('#post-content .text').html(function() {
+			return $(this).html().trim().replace(/\n\r?/g, "<br />");
+		});
+	}
+	//링크 태그 활성
+	if ($('#post-content .links').length) {
+		$('#post-content .links').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+		$('#post-content .links').contents().not('a').remove();
+	}
+	// 이미지 태그 활성
+	if ($('#post-content .image').length) {
+		$('#post-content .image').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+		$('#post-content .image').contents().not('img').remove();
+	}
+	//이미지 태그 생성
 	if ($('#post-content .images').length) {
 		$('#post-content .images').each(function(idx,element) {
 			const str = $(element).html();
@@ -62,7 +103,7 @@ $(document).ready(function() {
 					return true;
 				}
 				let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
-				imgTag.css({'width':'100%','height': 'auto','display': 'block'});
+				imgTag.css({'width':'100px','height': 'auto'});
 				$(element).append(imgTag);
 			});
 			$(element).contents().filter(function() {
@@ -70,7 +111,7 @@ $(document).ready(function() {
 			}).remove();
 		});
 	}
-	$('#post-content > .images').click(function(event) {
+	$('#post-content img').click(function(event) {
 		toggleFullScreen(event.target);
 	});
     function toggleFullScreen(elem) {
@@ -105,28 +146,6 @@ $(document).ready(function() {
             }
         }
     }	
-	//글
-	if ($('#post-content .text').length) {
-		$('#post-content .text').html(function() {
-			return $(this).html().trim().replace(/\&lt;/g,"<").replace(/\&gt;/g,">").replace(/\n\r?/g, "<br />");
-		});
-	}
-	//동영상
-	if ($('#post-content .videos').length) {
-		$('#post-content .videos').html(function() {
-			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
-		});
-	}
-	//동영상 너비 조정
-	if ($('#post-content iframe').length) {
-		const width = $('#post-content').width();
-		$('#post-content iframe').each(function(index,element) {
-			let originWidth = $(element).width();
-			let originHeight = $(element).height();
-			let height = originHeight * width / originWidth;
-			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
-		});
-	}
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
 		const warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";
