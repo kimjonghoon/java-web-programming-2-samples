@@ -92,6 +92,7 @@ $(document).ready(function() {
 			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
 		});
 		$('#post-content .image').contents().not('img').remove();
+		$('#post-content .image').find('img').css('width', '100%');
 	}
 	//이미지 태그 생성
 	if ($('#post-content .images').length) {
@@ -106,9 +107,7 @@ $(document).ready(function() {
 				imgTag.css({'width':'100px','height': 'auto'});
 				$(element).append(imgTag);
 			});
-			$(element).contents().filter(function() {
-				return this.nodeType === 3;
-			}).remove();
+			$(element).contents().not('img').remove();
 		});
 	}
 	$('#post-content img').click(function(event) {
