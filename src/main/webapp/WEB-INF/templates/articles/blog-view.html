@@ -27,15 +27,50 @@ article {
 $(document).ready(function() {
 	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
 	$('#post-content').html(function(){
-		return $(this).html().replace(/\[IMG\]/g,'<div class="images">')
-							.replace(/\[:IMG\]/g,'</div>')
-							.replace(/\[CODE\]/g,'<pre class="prettyprint">')
-							.replace(/\[:CODE\]/g,'</pre>')
-							.replace(/\[VID\]/g,'<div class="videos" style="float: left;margin-right: 1em;">')
-							.replace(/\[:VID\]/g,'</div>')
-							.replace(/\[TXT\]/g,'<div class="text">')
-							.replace(/\[:TXT\]/g,'</div>');
+				return $(this).html().replace(/\[img\]/g,'<p class="images">')
+							.replace(/\[\/img\]/g,'</p>')
+							.replace(/\[img100\]/g,'<p class="image">')
+							.replace(/\[\/img100\]/g,'</p>')
+							.replace(/\[code\]/g,'<pre class="prettyprint">')
+							.replace(/\[\/code\]/g,'</pre>')
+							.replace(/\[vid\]/g,'<p class="videos">')
+							.replace(/\[\/vid\]/g,'</p>')
+							.replace(/\[txt\]/g,'<p class="text">')
+							.replace(/\[\/txt\]/g,'</p>')
+							.replace(/\[link\]/g,'<p class="links">')
+							.replace(/\[\/link\]/g,'</p>');
 	});
+	//동영상 태그 활성화
+	if ($('#post-content .videos').length) {
+		$('#post-content .videos').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+		$('#post-content .videos').contents().not('iframe').remove();
+	}
+	//동영상 너비 조정
+	if ($('#post-content iframe').length) {
+		//const width = $('#post-content').width();
+		const width = 700;
+		$('#post-content iframe').each(function(index,element) {
+			let originWidth = $(element).width();
+			let originHeight = $(element).height();
+			let height = originHeight * width / originWidth;
+			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
+		});
+	}
+	//글
+	if ($('#post-content .text').length) {
+		$('#post-content .text').html(function() {
+			return $(this).html().trim().replace(/\n\r?/g, "<br />");
+		});
+	}
+	//링크 태그 활성
+	if ($('#post-content .links').length) {
+		$('#post-content .links').html(function() {
+			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
+		});
+		$('#post-content .links').contents().not('a').remove();
+	}
 	//이미지
 	if ($('#post-content .images').length) {
 		$('#post-content .images').each(function(idx,element) {
@@ -57,37 +92,7 @@ $(document).ready(function() {
 	$('#post-content > .images').click(function(event) {
 		toggleFullScreen(event.target);
 	});
-	//글
-	if ($('#post-content .text').length) {
-		$('#post-content .text').html(function() {
-			return $(this).html().trim().replace(/\&lt;/g,"<").replace(/\&gt;/g,">").replace(/\n\r?/g, "<br />");
-		});
-		const keywordsArr = $('.text > em').map(function() {
-			return $(this).text();
-		}).get();
-		if (keywordsArr) {
-			const keywords = keywordsArr.join(',');
-			$("meta[name='Keywords']").attr("content", keywords);
-	        //console.log("Keywords:", $("meta[name='Keywords']").attr("content"));
-		}
-	}
-	//동영상
-	if ($('#post-content .videos').length) {
-		$('#post-content .videos').html(function() {
-			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
-		});
-	}
-	//동영상 너비 조정
-	if ($('#post-content iframe').length) {
-		//const width = $('#post-content').width();
-		const width = 700;
-		$('#post-content iframe').each(function(index,element) {
-			let originWidth = $(element).width();
-			let originHeight = $(element).height();
-			let height = originHeight * width / originWidth;
-			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
-		});
-	}
+	
 	$('#change-slug-btn').click(function(){
 		let slug = $('#changeBlogForm input[name*=slug]').val();
 		slug = slug.trim();
