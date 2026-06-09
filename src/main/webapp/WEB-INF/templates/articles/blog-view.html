@@ -25,31 +25,9 @@ article {
 <article>
 <script th:inline="javascript">
 $(document).ready(function() {
-	//[IMG],[CODE],[VID],[TXT]를 HTML 엘리먼트로 바꿈
-	$('#post-content').html(function(){
-				return $(this).html().replace(/\[img\]/g,'<p class="images">')
-							.replace(/\[\/img\]/g,'</p>')
-							.replace(/\[img100\]/g,'<p class="image">')
-							.replace(/\[\/img100\]/g,'</p>')
-							.replace(/\[code\]/g,'<pre class="prettyprint">')
-							.replace(/\[\/code\]/g,'</pre>')
-							.replace(/\[vid\]/g,'<p class="videos">')
-							.replace(/\[\/vid\]/g,'</p>')
-							.replace(/\[txt\]/g,'<p class="text">')
-							.replace(/\[\/txt\]/g,'</p>')
-							.replace(/\[link\]/g,'<p class="links">')
-							.replace(/\[\/link\]/g,'</p>');
-	});
-	//동영상 태그 활성화
-	if ($('#post-content .videos').length) {
-		$('#post-content .videos').html(function() {
-			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
-		});
-		$('#post-content .videos').contents().not('iframe').remove();
-	}
 	//동영상 너비 조정
 	if ($('#post-content iframe').length) {
-		//const width = $('#post-content').width();
+		//const width = $('#post-content').width();//1182
 		const width = 700;
 		$('#post-content iframe').each(function(index,element) {
 			let originWidth = $(element).width();
@@ -58,41 +36,20 @@ $(document).ready(function() {
 			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
 		});
 	}
+	if ($('#post-content pre.prettyprint').length) {
+		$('#post-content pre.prettyprint').html(function() {
+			return $(this).html().replace(/</g,"&lt;").replace(/>/g,"&gt;");
+		});
+	}
 	//글
-	if ($('#post-content .text').length) {
-		$('#post-content .text').html(function() {
+	if ($('#post-content p').length) {
+		$('#post-content p').html(function() {
 			return $(this).html().trim().replace(/\n\r?/g, "<br />");
 		});
 	}
-	//링크 태그 활성
-	if ($('#post-content .links').length) {
-		$('#post-content .links').html(function() {
-			return $(this).html().replace(/\&lt;/g,"<").replace(/\&gt;/g,">");
-		});
-		$('#post-content .links').contents().not('a').remove();
-	}
-	//이미지
-	if ($('#post-content .images').length) {
-		$('#post-content .images').each(function(idx,element) {
-			const str = $(element).html();
-			const lines = str.split(/\n\r?/);
-			$.each(lines, function(index, line) {
-				if ($.trim(line) === '') {
-					return true;
-				}
-				let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
-				imgTag.css({'width':'100%','height': 'auto','display': 'block'});
-				$(element).append(imgTag);
-			});
-			$(element).contents().filter(function() {
-				return this.nodeType === 3;
-			}).remove();
-		});
-	}
-	$('#post-content > .images').click(function(event) {
+	$('#post-content img').click(function(event) {
 		toggleFullScreen(event.target);
 	});
-	
 	$('#change-slug-btn').click(function(){
 		let slug = $('#changeBlogForm input[name*=slug]').val();
 		slug = slug.trim();
@@ -166,44 +123,59 @@ $(document).ready(function() {
 	$('pre.prettyprint').html(function() {
 		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
 	});
-    function toggleFullScreen(elem) {
-        elem = elem || document.documentElement;
-
-        // Check if already fullscreen
-        if (!document.fullscreenElement &&
-            !document.mozFullScreenElement &&
-            !document.webkitFullscreenElement &&
-            !document.msFullscreenElement) {
-            
-            // Enter fullscreen
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { // Firefox
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { // IE/Edge
-                elem.msRequestFullscreen();
-            }
-        } else {
-            // Exit fullscreen
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
-    }
+	const language = navigator.language.split('-')[0];
+	switch (language) {
+		case "ko":
+			$('#post-content').children().hide();
+			$('#post-content [lang="ko"]').show();
+			break;
+		case "en":
+			$('#post-content').children().hide();
+			$('#post-content [lang="en"]').show();
+			break;
+		default:
+			$('#post-content').children().hide();
+			$('#post-content [lang="en"]').show();
+			break;
+	}
 });
+function toggleFullScreen(elem) {
+	elem = elem || document.documentElement;
+	
+	// Check if already fullscreen
+	if (!document.fullscreenElement &&
+		!document.mozFullScreenElement &&
+		!document.webkitFullscreenElement &&
+		!document.msFullscreenElement) {
+		
+		// Enter fullscreen
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.mozRequestFullScreen) { // Firefox
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { // IE/Edge
+			elem.msRequestFullscreen();
+		}
+	} else {
+		// Exit fullscreen
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+	}
+}
 </script>
 <div id="content-categories">Blog</div>
 <h2 id="post-title" th:text="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
 <div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(blog.regdate,df)}" style="float: right;">edited 24 07 15 오후 8:18:39</div>
-<div id="post-content" th:text="${blog.content}">
+<div id="post-content" th:utext="${blog.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </div>
