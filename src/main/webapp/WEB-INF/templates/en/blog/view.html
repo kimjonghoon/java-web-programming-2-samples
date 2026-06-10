@@ -2,7 +2,7 @@
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{}, ~{})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="${blog.title}">Title</title>
+<title th:text="${postTitle}">Title</title>
 <meta name="Keywords" th:content="'View the post'" />
 <meta name="Description" th:content="${blog.description}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" />
@@ -18,7 +18,7 @@
   <a th:href="@{/ko/blog/{slug}(slug=${blog.slug})}">korean</a>
 </div>
 
-<section th:replace="~{articles/blog-view :: article}"></section>
+<section th:replace="~{articles/blog-view_en :: article}"></section>
 
 </body>
 </html>

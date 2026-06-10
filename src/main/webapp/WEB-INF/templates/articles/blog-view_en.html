@@ -116,28 +116,12 @@ $(document).ready(function() {
 			}
 		});
 	});	
-	const lang = /*[[${#locale.language}]]*/ 'ko';
 
-	switch (lang) {
-		case "ko":
-			$('#post-title').children().hide();
-			$('#post-title [lang="ko"]').show();
-			$('#post-content').children().hide();
-			$('#post-content [lang="ko"]').show();
-			break;
-		case "en":
-			$('#post-title').children().hide();
-			$('#post-title [lang="en"]').show();
-			$('#post-content').children().hide();
-			$('#post-content [lang="en"]').show();
-			break;
-		default:
-			$('#post-title').children().hide();
-			$('#post-title [lang="en"]').show();
-			$('#post-content').children().hide();
-			$('#post-content [lang="en"]').show();
-			break;
-	}
+	$('#post-title').children().hide();
+	$('#post-title [lang="en"]').show();
+	$('#post-content').children().hide();
+	$('#post-content [lang="en"]').show();
+
 	$('#post-content').html(function() {
 				return $(this).html().replace(/\[img\]/g,'<p class="images">')
 							.replace(/\[\/img\]/g,'</p>')

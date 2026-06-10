@@ -43,6 +43,9 @@ public class BlogController {
 	public String view(@PathVariable(name="slug") String slug, Model model) {
 		Blog blog = blogService.getOne(slug);
 		model.addAttribute("blog", blog);
+		String title = blog.getTitle();
+		String postTitle = title.replaceAll("<i lang=\"en\">|<i lang=\"ko\">|</i>", "");
+		model.addAttribute("postTitle", postTitle.trim());
 		return "blog/view";
 	}
 	@GetMapping("{lang:en|ko}/blog/{slug}")
@@ -51,6 +54,9 @@ public class BlogController {
 		Blog blog = blogService.getOne(slug);
 		model.addAttribute("blog", blog);
 		model.addAttribute("lang", lang);
+		String title = blog.getTitle();
+		String postTitle = title.replaceAll("<i lang=\"en\">|<i lang=\"ko\">|</i>", "");
+		model.addAttribute("postTitle", postTitle.trim());
 		return lang + "/blog/view";
 	}
 	
