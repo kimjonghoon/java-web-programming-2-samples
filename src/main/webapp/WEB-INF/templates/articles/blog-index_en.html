@@ -25,27 +25,14 @@ article {
 <article>
 <script th:inline="javascript">
 $(document).ready(function() {
-	const lang = /*[[${#locale.language}]]*/ 'ko';
-	switch (lang) {
-		case "ko":
-			$('.post-title').children().hide();
-			$('.post-title [lang="ko"]').show();
-			break;
-		case "en":
-			$('.post-title').children().hide();
-			$('.post-title [lang="en"]').show();
-			break;
-		default:
-			$('.post-title').children().hide();
-			$('.post-title [lang="en"]').show();
-			break;
-	}
+	$('.post-title').children().hide();
+	$('.post-title [lang="en"]').show();
 });
 </script>
 <div id="content-categories">Blog</div>
 <ul>
 	<li th:each="blog : ${blogs}">
-	<a href="#" class="post-title" th:href="@{/blog/{slug}(slug=${blog.slug})}" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</a>
+	<a href="#" class="post-title" th:href="@{/en/blog/{slug}(slug=${blog.slug})}" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</a>
 	- <span style="font-size: 0.9em;" th:with="df=#{date.format}" th:text="${#calendars.format(blog.regdate,df)}">24 10 20</span>
 	</li>
 <!--/*-->

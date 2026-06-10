@@ -19,27 +19,42 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("blog")
 public class BlogController {
 
 	@Autowired
 	private BlogService blogService;
 
-	@GetMapping
+	//블로그 목록
+	@GetMapping("blog")
 	public String index(Model model) {
 		List<Blog> blogs = blogService.getAll();
 		model.addAttribute("blogs", blogs);
 		return "blog/index";
 	}
-	
-	@GetMapping("{slug}")
+	@GetMapping("{lang:en|ko}/blog")
+	public String indexByLang(@PathVariable("lang") String lang, Model model) {
+		List<Blog> blogs = blogService.getAll();
+		model.addAttribute("blogs", blogs);
+		model.addAttribute("lang", lang);
+		return lang + "/blog/index";
+	}
+	//블로그 상세보기
+	@GetMapping("blog/{slug}")
 	public String view(@PathVariable(name="slug") String slug, Model model) {
 		Blog blog = blogService.getOne(slug);
 		model.addAttribute("blog", blog);
 		return "blog/view";
 	}
+	@GetMapping("{lang:en|ko}/blog/{slug}")
+	public String viewByLang(@PathVariable("lang") String lang,
+			@PathVariable(name="slug") String slug, Model model) {
+		Blog blog = blogService.getOne(slug);
+		model.addAttribute("blog", blog);
+		model.addAttribute("lang", lang);
+		return lang + "/blog/view";
+	}
 	
-	@PatchMapping("{postNo}")
+	@PatchMapping("blog/{postNo}")
 	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void patchSlug(@PathVariable(name="postNo") int postNo, @RequestBody Blog blog) {
 		blog.setPostNo(postNo);
@@ -51,13 +66,13 @@ public class BlogController {
 		}
 	}
 	
-	@PostMapping
+	@PostMapping("blog")
 	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void addBlog(@RequestBody Blog blog) {
 		blogService.addBlog(blog);
 	}
 	
-	@DeleteMapping("{postNo}")
+	@DeleteMapping("blog/{postNo}")
 	@ResponseStatus(code=HttpStatus.NO_CONTENT)
 	public void removeBlog(@PathVariable(name="postNo") int postNo) {
 		blogService.removeBlog(postNo);

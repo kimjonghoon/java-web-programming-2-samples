@@ -121,19 +121,26 @@ $(document).ready(function() {
 	});	
 	prettyPrint();
 	$('pre.prettyprint').html(function() {
-		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;')
+		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;');
 	});
-	const language = navigator.language.split('-')[0];
-	switch (language) {
+	const lang = /*[[${lang}]]*/ 'ko';
+
+	switch (lang) {
 		case "ko":
+			$('#post-title').children().hide();
+			$('#post-title [lang="ko"]').show();
 			$('#post-content').children().hide();
 			$('#post-content [lang="ko"]').show();
 			break;
 		case "en":
+			$('#post-title').children().hide();
+			$('#post-title [lang="en"]').show();
 			$('#post-content').children().hide();
 			$('#post-content [lang="en"]').show();
 			break;
 		default:
+			$('#post-title').children().hide();
+			$('#post-title [lang="en"]').show();
 			$('#post-content').children().hide();
 			$('#post-content [lang="en"]').show();
 			break;
@@ -173,7 +180,7 @@ function toggleFullScreen(elem) {
 }
 </script>
 <div id="content-categories">Blog</div>
-<h2 id="post-title" th:text="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
+<h2 id="post-title" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
 <div id="date-writer-hit" th:with="df=#{detail.date.format}" th:text="'edited ' + ${#calendars.format(blog.regdate,df)}" style="float: right;">edited 24 07 15 오후 8:18:39</div>
 <div id="post-content" th:utext="${blog.content}">
 자바 웹 프로그래밍 2 예제<br />

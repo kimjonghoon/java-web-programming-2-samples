@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
+<html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{}, ~{::nav}, ~{::div}, ~{::section}, ~{}, ~{})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="'List of Posts'">List of Posts</title>
+<meta name="Keywords" th:content="'List of Posts'" />
+<meta name="Description" th:content="'List of Posts'" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/blog.css}" />
+</head>
+<body>
+
+<nav th:replace="~{commons/mainmenu_en :: mainmenu}"></nav>
+
+<div id="i18n">
+  <a th:href="@{/ko/blog}">korean</a>
+</div>
+
+<section th:replace="~{articles/blog-index_en :: article}"></section>
+
+</body>
+</html>
