@@ -1,6 +1,9 @@
 package net.java_school.controller;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.java_school.blog.Blog;
 import net.java_school.blog.BlogService;
@@ -23,7 +26,21 @@ public class BlogController {
 
 	@Autowired
 	private BlogService blogService;
-
+	
+	private String getTitle(String lang, String fullString) {
+		String prefix = "<i lang=\"" + lang + "\">";
+		String suffix = "</i>";
+		
+		Pattern pattern = Pattern.compile(prefix + "(.*?)" + suffix);
+		Matcher matcher = pattern.matcher(fullString);
+		
+		if (matcher.find()) {
+			String mainText = matcher.group(1); 
+			return mainText;
+		}
+		return fullString;
+	}
+	
 	//블로그 목록
 	@GetMapping("blog")
 	public String index(Model model) {
@@ -40,11 +57,12 @@ public class BlogController {
 	}
 	//블로그 상세보기
 	@GetMapping("blog/{slug}")
-	public String view(@PathVariable(name="slug") String slug, Model model) {
+	public String view(@PathVariable(name="slug") String slug, Locale locale, Model model) {
 		Blog blog = blogService.getOne(slug);
 		model.addAttribute("blog", blog);
 		String title = blog.getTitle();
-		String postTitle = title.replaceAll("<i lang=\"en\">|<i lang=\"ko\">|</i>", "");
+		String lang = locale.getLanguage();
+		String postTitle = this.getTitle(lang, title);
 		model.addAttribute("postTitle", postTitle.trim());
 		return "blog/view";
 	}
@@ -55,7 +73,7 @@ public class BlogController {
 		model.addAttribute("blog", blog);
 		model.addAttribute("lang", lang);
 		String title = blog.getTitle();
-		String postTitle = title.replaceAll("<i lang=\"en\">|<i lang=\"ko\">|</i>", "");
+		String postTitle = this.getTitle(lang, title);
 		model.addAttribute("postTitle", postTitle.trim());
 		return lang + "/blog/view";
 	}
