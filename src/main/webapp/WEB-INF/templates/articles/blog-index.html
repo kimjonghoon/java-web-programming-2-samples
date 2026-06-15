@@ -23,25 +23,22 @@ article {
 </head>
 <body>
 <article>
-<style>
-.post-title > i {
-	font-style: normal;
-}
-</style>
 <script th:inline="javascript">
 $(document).ready(function() {
+	$('.post-title').children().hide();
 	const lang = /*[[${#locale.language}]]*/ 'ko';
+
 	switch (lang) {
 		case "ko":
-			$('.post-title').children().hide();
+			//$('.post-title').children().hide();
 			$('.post-title [lang="ko"]').show();
 			break;
 		case "en":
-			$('.post-title').children().hide();
+			//$('.post-title').children().hide();
 			$('.post-title [lang="en"]').show();
 			break;
 		default:
-			$('.post-title').children().hide();
+			//$('.post-title').children().hide();
 			$('.post-title [lang="en"]').show();
 			break;
 	}

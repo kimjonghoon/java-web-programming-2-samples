@@ -342,3 +342,9 @@ article > ol > li {
 .selected-item {
 	background: #FFF url('../images/arrow.gif') no-repeat 50% 50%;
 }
+#post-title > i {
+	font-style: normal;
+}
+.post-title > i {
+	font-style: normal;
+}
