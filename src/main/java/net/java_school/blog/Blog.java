@@ -1,6 +1,6 @@
 package net.java_school.blog;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Blog {
 
@@ -9,7 +9,7 @@ public class Blog {
 	private String title;
 	private String description;
 	private String content;
-	private Date regdate;
+	private LocalDateTime regdate;
 
 	public int getPostNo() {
 		return postNo;
@@ -41,10 +41,10 @@ public class Blog {
 	public void setContent(String content) {
 		this.content = content.trim();
 	}
-	public Date getRegdate() {
+	public LocalDateTime getRegdate() {
 		return regdate;
 	}
-	public void setRegdate(Date regdate) {
+	public void setRegdate(LocalDateTime regdate) {
 		this.regdate = regdate;
 	}
 }
