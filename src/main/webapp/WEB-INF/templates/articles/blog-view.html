@@ -207,7 +207,7 @@ function toggleFullScreen(elem) {
 </script>
 <div id="content-categories">Blog</div>
 <h2 id="post-title" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
-<div id="date-writer-hit" th:text="'edited ' + ${#temporals.format(blog.regdate,'LONG')}" style="float: right;">edited 24 07 15 오후 8:18:39</div>
+<div id="date-writer-hit" th:text="'edited ' + ${#temporals.format(blog.regdate,'MEDIUM')}" style="float: right;">edited 24 07 15 오후 8:18:39</div>
 <div id="post-content" th:utext="${blog.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples

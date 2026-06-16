@@ -33,7 +33,7 @@ $(document).ready(function() {
 <ul>
 	<li th:each="blog : ${blogs}">
 	<a href="#" class="post-title" th:href="@{/ko/blog/{slug}(slug=${blog.slug})}" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</a>
-	- <span style="font-size: 0.9em;" th:text="${#temporals.format(blog.regdate,'yyyy.MM.dd')}">24 10 20</span>
+	- <span style="font-size: 0.9em;" th:text="${#temporals.format(blog.regdate,'yyyy년 M월 d일')}">24 10 20</span>
 	</li>
 <!--/*-->
 	<li>
