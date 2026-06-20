@@ -1,5 +1,6 @@
 package net.java_school.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -26,9 +27,20 @@ public class BlogController {
 
 	@Autowired
 	private BlogService blogService;
-	
+
+	//웹사이트에서 지원하는 언어 목록	
+	static ArrayList<String> languages = new ArrayList<>(List.of("en", "ko"));
+            
 	private String getTitle(String lang, String fullString) {
-		String prefix = "<i lang=\"" + lang + "\">";
+		String target = lang;// 사용자 언어
+		String defaultValue = "en";
+
+		//지원 언어 목록에서 사용자 언어가 없으면 "en"으로 설정
+		if (!languages.contains(target)) {
+			target = defaultValue;
+		}
+        	
+		String prefix = "<i lang=\"" + target + "\">";
 		String suffix = "</i>";
 		
 		Pattern pattern = Pattern.compile(prefix + "(.*?)" + suffix);
