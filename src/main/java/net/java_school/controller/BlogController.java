@@ -29,9 +29,9 @@ public class BlogController {
 	private BlogService blogService;
 
 	//웹사이트에서 지원하는 언어 목록	
-	static ArrayList<String> languages = new ArrayList<>(List.of("en", "ko"));
+	static List<String> languages = new ArrayList<>(List.of("en", "ko"));
             
-	private String getTitle(String lang, String fullString) {
+	private String getTitleElementValue(String lang, String fullString) {
 		String target = lang;// 사용자 언어
 		String defaultValue = "en";
 
@@ -74,7 +74,7 @@ public class BlogController {
 		model.addAttribute("blog", blog);
 		String title = blog.getTitle();
 		String lang = locale.getLanguage();
-		String postTitle = this.getTitle(lang, title);
+		String postTitle = this.getTitleElementValue(lang, title);
 		model.addAttribute("postTitle", postTitle.trim());
 		return "blog/view";
 	}
@@ -85,7 +85,7 @@ public class BlogController {
 		model.addAttribute("blog", blog);
 		model.addAttribute("lang", lang);
 		String title = blog.getTitle();
-		String postTitle = this.getTitle(lang, title);
+		String postTitle = this.getTitleElementValue(lang, title);
 		model.addAttribute("postTitle", postTitle.trim());
 		return lang + "/blog/view";
 	}

@@ -205,25 +205,28 @@ function toggleFullScreen(elem) {
 	}
 }
 </script>
-<div id="content-categories">Blog</div>
+<div id="blog-date" th:text="'edited ' + ${#temporals.format(blog.regdate,'MEDIUM')}">edited 24 07 15 오후 8:18:39</div>
 <h2 id="post-title" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
-<div id="date-writer-hit" th:text="'edited ' + ${#temporals.format(blog.regdate,'MEDIUM')}" style="float: right;">edited 24 07 15 오후 8:18:39</div>
 <div id="post-content" th:utext="${blog.content}">
 자바 웹 프로그래밍 2 예제<br />
 https://github.com/kimjonghoon/java-web-programming-2-samples
 </div>
-<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-	<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}" style="margin-top: 3em;clear: both;">
-		<label for="slug">Change Slug</label>
-		<input type="text" name="slug" id="slug" th:value="${blog.slug}" style="width: 60%;"/>
-		<input type="button" id="change-slug-btn" value="전송" th:value="#{submit}"/><br />
-		<label for="description">Change Description</label>
-		<input type="text" name="description" id="description" th:value="${blog.description}" style="width: 70%;"/>
-		<input type="button" id="change-description-btn" value="전송" th:value="#{submit}"/>
-	</form>
-	<form id="deleteBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
-		<input type="submit" value="블로그에서 이 글을 제거"/>
-	</form>
+<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" style="border: 1px solid grey;font-size: 14px;padding: 0.4em;">
+<strong>블로그 관리</strong>
+<form id="changeBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}" style="clear: both;">
+slug는 http://localhost:8080/blog/<strong>install-tomcat</strong>에서 <strong>install-tomcat</strong> 부분이다.<br />
+Description은 이 페이지에서 Description 메타 태그의 content 값이다.<br />
+	<label for="slug" style="display: inline-block;width: 8em;">Slug 변경</label>
+	<input type="text" name="slug" id="slug" th:value="${blog.slug}" style="width: 50%;"/>
+	<input type="button" id="change-slug-btn" value="전송" th:value="#{submit}"/><br />
+	<label for="description" style="display: inline-block;width: 8em;">Description 변경</label>
+	<input type="text" name="description" id="description" th:value="${blog.description}" style="width: 50%;"/>
+	<input type="button" id="change-description-btn" value="전송" th:value="#{submit}"/>
+</form>
+아래 버튼을 사용해도 글 데이터는 삭제되지 않는다. 게시판에서 찾을 수 있고, 다시 블로그에 올릴 수 있다.
+<form id="deleteBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
+	<input type="submit" value="블로그에서 이 글을 제거"/>
+</form>
 </div>
 </article>
 </body>
