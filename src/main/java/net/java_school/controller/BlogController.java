@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.ui.Model;
 
@@ -92,7 +91,7 @@ public class BlogController {
 	
 	@PatchMapping("blog/{postNo}")
 	@ResponseStatus(code=HttpStatus.NO_CONTENT)
-	public void patchSlug(@PathVariable(name="postNo") int postNo, @RequestBody Blog blog) {
+	public void patchSlugAndDescription(@PathVariable(name="postNo") int postNo, @RequestBody Blog blog) {
 		blog.setPostNo(postNo);
 		if (blog.getSlug() != null) {
 			blogService.changeSlug(blog);
