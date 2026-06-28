@@ -146,10 +146,49 @@ $(document).ready(function() {
 			}).remove();
 		});
 	}
+	/*
 	$('#post-content img').click(function(event) {
 		toggleFullScreen(event.target);
 	});
+	*/
+    let currentIndex = 0;
+    let images = $("#post-content img").map(function(){ return $(this).attr("src"); }).get();
 
+    // 이미지 클릭 시 모달 열기
+    $("#post-content img").click(function(){
+        currentIndex = $("#post-content img").index(this);
+        showImage(currentIndex);
+        $(".modal").fadeIn();
+    });
+
+    // 닫기 버튼
+    $(".close").click(function(){
+        $(".modal").fadeOut();
+    });
+
+    // 왼쪽 화살표
+    $(".arrow.left").click(function(){
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    });
+
+    // 오른쪽 화살표
+    $(".arrow.right").click(function(){
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    });
+
+    // ESC 키로 닫기
+    $(document).keydown(function(e){
+        if(e.key === "Escape") $(".modal").fadeOut();
+        if(e.key === "ArrowLeft") $(".arrow.left").click();
+        if(e.key === "ArrowRight") $(".arrow.right").click();
+    });
+
+    // 이미지 표시 함수
+    function showImage(index){
+        $(".modal-content img").attr("src", images[index]);
+    }	
 	
 	prettyPrint();
 	$('pre.prettyprint').html(function() {
@@ -211,6 +250,14 @@ Description은 이 페이지에서 Description 메타 태그의 content 값이�
 <form id="deleteBlogForm" th:action="@{/blog/{postNo}(postNo=${blog.postNo})}">
 	<input type="submit" value="블로그에서 이 글을 제거"/>
 </form>
+</div>
+<div class="modal">
+	<div class="modal-content">
+		<img src="" alt="Big Picture">
+	</div>
+	<span class="close">&times;</span>
+	<span class="arrow left">&#10094;</span>
+	<span class="arrow right">&#10095;</span>
 </div>
 </article>
 </body>
