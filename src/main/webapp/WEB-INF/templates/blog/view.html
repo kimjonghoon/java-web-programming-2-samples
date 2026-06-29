@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--/* 대표 블로그 뷰 요청 페이지 */-->
 <!--/* 1 title, 2 metas, 3 links, 4 scripts, 5 mainmenu, 6 i18n, 7 maintext, 8 submenu, 9 reference */-->
 <html th:replace="~{layout/baseLayoutFile :: layout (~{::title}, ~{::meta}, ~{::link}, ~{::script}, ~{::nav}, ~{::div}, ~{::section}, ~{}, ~{})}" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,6 +8,7 @@
 <meta name="Description" th:content="${blog.description}" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/blog.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/modal.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
 </head>

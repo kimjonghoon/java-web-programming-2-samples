@@ -6,6 +6,7 @@
 <meta name="Keywords" th:content="${#locale.language == 'ko'} ? '내용보기' : 'View the post'" />
 <meta name="Description" th:content="${#locale.language == 'ko'} ? '내용보기' : 'View the post'" />
 <link rel="stylesheet" media="all" th:href="${#locale.language == 'ko'} ? @{/static/css/ko.css} : @{/static/css/en.css}" />
+<link rel="stylesheet" media="all" th:href="@{/static/css/modal.css}" />
 <link rel="stylesheet" media="all" th:href="@{/static/css/prettify.css}" />
 <script th:src="@{/static/js/prettify.js}"></script>
 </head>

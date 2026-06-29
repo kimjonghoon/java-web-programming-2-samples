@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<!--/* 게시판 뷰 페이지 */-->
 <head>
 <title>내용보기</title>
 <meta name="Keywords" content="View details" />
@@ -23,104 +24,22 @@ article {
 </head>
 <body>
 <article>
-<style>
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1000;
-	left: 0; top: 0;
-	width: 100%; height: 100%;
-	background: rgba(0,0,0,0.8);
-	justify-content: center;
-	align-items: center;
-	overflow: hidden;	
-}
-.modal-content {
-	position: relative;
-	max-width: 100%;
-	max-height: 100%;
-	overflow: auto;              /* 이미지가 크면 스크롤바 생성 */
-	overscroll-behavior: contain; /* 모달 안 스크롤이 끝났을 때 배경 스크롤 방지 */
-	cursor: grab;                /* 마우스 커서를 손바닥 모양으로 변경 */
-	/* 터치 및 마우스 드래그 스크롤 활성화 */
-	touch-action: pan-x pan-y;
-	-webkit-overflow-scrolling: touch;
-}
-.modal-content img {
-	width: 100%;
-	height: auto;
-	display: block;
-}
-/* (선택 사항) 스크롤바 스타일을 숨기고 싶을 때 */
-.modal-content::-webkit-scrollbar {
-	display: none;               /* 크롬, 사파리, 오페라에서 스크롤바 숨김 */
-}
-.modal-content {
-	-ms-overflow-style: none;    /* IE, 엣지에서 스크롤바 숨김 */
-	scrollbar-width: none;       /* 파이어폭스에서 스크롤바 숨김 */
-}
-.close {
-	position: absolute;
-	top: 5%; right: 10px;
-	transform: translateY(-50%);
-	font-size: 30px;
-	color: white;
-	cursor: grab;
-	padding: 10px;
-	background: rgba(0,0,0,0.3);
-	border-radius: 50%;
-}
-.arrow {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	font-size: 30px;
-	color: white;
-	cursor: grab;
-	padding: 10px;
-	background: rgba(0,0,0,0.3);
-	border-radius: 50%;
-	user-select: none;
-}
-.arrow.left {
-	left: 10px;
-}
-.arrow.right {
-	right: 10px;
-}
-</style>
 <script th:inline="javascript">
 $(document).ready(function() {
-	$('#edit-post-btn').click(function() {
-		const $div = $('#detail');
-		const $form = $('#editForm');
-		if ($form.is(':hidden') === true) {
-			$form.show();
-			$div.hide();
-		} else {
-			$form.hide();
-			$div.show();
-		}
-	});
-	//title 바꾸기
-	$('title').empty();
-	const title = $('#post-title').html();
-	$('title').append(title);
-	
 	//[img],[img100],[code],[vid],[txt],[link]를 HTML 엘리먼트로 바꿈
 	$('#post-content').html(function() {
-				return $(this).html().replace(/\[img\]/g,'<p class="images">')
-							.replace(/\[\/img\]/g,'</p>')
-							.replace(/\[img100\]/g,'<p class="image">')
-							.replace(/\[\/img100\]/g,'</p>')
-							.replace(/\[code\]/g,'<pre class="prettyprint">')
-							.replace(/\[\/code\]/g,'</pre>')
-							.replace(/\[vid\]/g,'<p class="videos">')
-							.replace(/\[\/vid\]/g,'</p>')
-							.replace(/\[txt\]/g,'<p class="text">')
-							.replace(/\[\/txt\]/g,'</p>')
-							.replace(/\[link\]/g,'<p class="links">')
-							.replace(/\[\/link\]/g,'</p>');
+			return $(this).html().replace(/\[img\]/g,'<p class="images">')
+						.replace(/\[\/img\]/g,'</p>')
+						.replace(/\[img100\]/g,'<p class="image">')
+						.replace(/\[\/img100\]/g,'</p>')
+						.replace(/\[code\]/g,'<pre class="prettyprint">')
+						.replace(/\[\/code\]/g,'</pre>')
+						.replace(/\[vid\]/g,'<p class="videos">')
+						.replace(/\[\/vid\]/g,'</p>')
+						.replace(/\[txt\]/g,'<p class="text">')
+						.replace(/\[\/txt\]/g,'</p>')
+						.replace(/\[link\]/g,'<p class="links">')
+						.replace(/\[\/link\]/g,'</p>');
 	});
 	//동영상 태그 활성
 	if ($('#post-content .videos').length) {
@@ -139,12 +58,17 @@ $(document).ready(function() {
 			$(element).css({'width':width,'height':height,'allow':'fullscreen'})
 		});
 	}
+	if ($('#post-content pre.prettyprint').length) {
+		$('#post-content pre.prettyprint').html(function() {
+			return $(this).html().replace(/</g,"&lt;").replace(/>/g,"&gt;");
+		});
+	}
 	//글
 	if ($('#post-content .text').length) {
 		$('#post-content .text').html(function() {
 			return $(this).html().trim().replace(/\n\r?/g, "<br />");
 		});
-	}
+	}	
 	//링크 태그 활성
 	if ($('#post-content .links').length) {
 		$('#post-content .links').html(function() {
@@ -178,81 +102,54 @@ $(document).ready(function() {
 			}).remove();
 		});
 	}
-	/*
-	$('#post-content img').click(function(event) {
-		toggleFullScreen(event.target);
+	let currentIndex = 0;
+	let images = $("#post-content img").map(function(){ return $(this).attr("src"); }).get();
+	//이미지 클릭 모달 열기
+	$("#post-content img").click(function(){
+		currentIndex = $("#post-content img").index(this);
+		showImage(currentIndex);
+		$(".modal").fadeIn();
 	});
-    function toggleFullScreen(elem) {
-        elem = elem || document.documentElement;
-
-        // Check if already fullscreen
-        if (!document.fullscreenElement &&
-            !document.mozFullScreenElement &&
-            !document.webkitFullscreenElement &&
-            !document.msFullscreenElement) {
-            
-            // Enter fullscreen
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { // Firefox
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { // IE/Edge
-                elem.msRequestFullscreen();
-            }
-        } else {
-            // Exit fullscreen
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
-    }
-    */
-    let currentIndex = 0;
-    let images = $("#post-content img").map(function(){ return $(this).attr("src"); }).get();
-
-    // 이미지 클릭 시 모달 열기
-    $("#post-content img").click(function(){
-        currentIndex = $("#post-content img").index(this);
-        showImage(currentIndex);
-        $(".modal").fadeIn();
-    });
-
-    // 닫기 버튼
-    $(".close").click(function(){
-        $(".modal").fadeOut();
-    });
-
-    // 왼쪽 화살표
-    $(".arrow.left").click(function(){
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-    });
-
-    // 오른쪽 화살표
-    $(".arrow.right").click(function(){
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-    });
-
-    // ESC 키로 닫기
-    $(document).keydown(function(e){
-        if(e.key === "Escape") $(".modal").fadeOut();
-        if(e.key === "ArrowLeft") $(".arrow.left").click();
-        if(e.key === "ArrowRight") $(".arrow.right").click();
-    });
-
-    // 이미지 표시 함수
-    function showImage(index){
-        $(".modal-content img").attr("src", images[index]);
-    }
+	//모달 닫기
+	$(".close").click(function(){
+		$(".modal").fadeOut();
+	});
+	//왼쪽 화살표
+	$(".arrow.left").click(function(){
+		currentIndex = (currentIndex - 1 + images.length) % images.length;
+		showImage(currentIndex);
+	});
+	//오른쪽 화살표
+	$(".arrow.right").click(function(){
+		currentIndex = (currentIndex + 1) % images.length;
+		showImage(currentIndex);
+	});
+	//키 컨트롤
+	$(document).keydown(function(e){
+		if(e.key === "Escape") $(".modal").fadeOut();
+		if(e.key === "ArrowLeft") $(".arrow.left").click();
+		if(e.key === "ArrowRight") $(".arrow.right").click();
+	});
+	//이미지 표시 함수
+	function showImage(index){
+		$(".modal-content img").attr("src", images[index]);
+	}	
+	$('#edit-post-btn').click(function() {
+		const $div = $('#detail');
+		const $form = $('#editForm');
+		if ($form.is(':hidden') === true) {
+			$form.show();
+			$div.hide();
+		} else {
+			$form.hide();
+			$div.show();
+		}
+	});
+	//title 바꾸기
+	$('title').empty();
+	const title = $('#post-title').html();
+	$('title').append(title);
+	
 	//삭제 버튼
 	$('#del-post-btn').click(function() {
 		const warning = /*[[#{delete.confirm}]]*/ "정말로 삭제하시겠습니까?";

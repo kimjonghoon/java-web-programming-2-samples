@@ -47,6 +47,76 @@ $(document).ready(function() {
 			return $(this).html().trim().replace(/\n\r?/g, "<br />");
 		});
 	}
+	
+	$('#post-title').children().hide();
+	$('#post-title [lang="ko"]').show();
+	$('#post-content').children().hide();
+	$('#post-content [lang="ko"]').show();
+	
+	//꺽쇠를 태그로
+	$('#post-content').html(function() {
+				return $(this).html().replace(/\[img\]/g,'<p class="images">').replace(/\[\/img\]/g,'</p>')
+							.replace(/\[code\]/g,'<pre class="prettyprint">').replace(/\[\/code\]/g,'</pre>');
+	});
+	//이미지 링크로부터 이미지 태그 생성
+	if ($('#post-content .images').length) {
+		$('#post-content .images').each(function(idx,element) {
+			const str = $(element).html();
+			const lines = str.split(/\n\r?/);
+			$.each(lines, function(index, line) {
+				if ($.trim(line) === '') {
+					return true;
+				}
+				let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
+				imgTag.css({'width':'100px','height': 'auto'});
+				$(element).append(imgTag);
+			});
+			$(element).contents().filter(function() {
+				return this.nodeType === 3;
+			}).remove();
+		});
+	}
+	
+	//모달
+	let currentIndex = 0;
+	let images = $("#post-content img").map(function(){ return $(this).attr("src"); }).get();
+	//이미지 클릭 시 모달 열기
+	$("#post-content img").click(function(){
+		currentIndex = $("#post-content img").index(this);
+		showImage(currentIndex);
+		$(".modal").fadeIn();
+	});
+	//닫기 버튼
+	$(".close").click(function(){
+		$(".modal").fadeOut();
+	});
+	//왼쪽 화살표
+	$(".arrow.left").click(function(){
+		currentIndex = (currentIndex - 1 + images.length) % images.length;
+		showImage(currentIndex);
+	});
+	//오른쪽 화살표
+	$(".arrow.right").click(function(){
+		currentIndex = (currentIndex + 1) % images.length;
+		showImage(currentIndex);
+	});
+	//키 컨트롤
+	$(document).keydown(function(e){
+		if(e.key === "Escape") $(".modal").fadeOut();
+		if(e.key === "ArrowLeft") $(".arrow.left").click();
+		if(e.key === "ArrowRight") $(".arrow.right").click();
+	});
+    //이미지 표시 함수
+	function showImage(index){
+		$(".modal-content img").attr("src", images[index]);
+	}
+	//모달 끝
+	
+	prettyPrint();
+	$('pre.prettyprint').html(function() {
+		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;');
+	});
+	//블로그 수정 기능
 	$('#change-slug-btn').click(function(){
 		let slug = $('#changeBlogForm input[name*=slug]').val();
 		slug = slug.trim();
@@ -73,7 +143,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('#change-description-btn').click(function(){
+	$('#change-description-btn').click(function() {
 		let description = $('#changeBlogForm input[name*=description]').val();
 		description = description.trim();
 		if(!description) return;
@@ -115,121 +185,9 @@ $(document).ready(function() {
 				console.log(xhr.statusText);
 			}
 		});
-	});	
-
-	$('#post-title').children().hide();
-	$('#post-title [lang="ko"]').show();
-	$('#post-content').children().hide();
-	$('#post-content [lang="ko"]').show();
-
-	$('#post-content').html(function() {
-				return $(this).html().replace(/\[img\]/g,'<p class="images">')
-							.replace(/\[\/img\]/g,'</p>')
-							.replace(/\[code\]/g,'<pre class="prettyprint">')
-							.replace(/\[\/code\]/g,'</pre>');
 	});
-	//이미지 태그 생성
-	if ($('#post-content .images').length) {
-		$('#post-content .images').each(function(idx,element) {
-			const str = $(element).html();
-			const lines = str.split(/\n\r?/);
-			$.each(lines, function(index, line) {
-				if ($.trim(line) === '') {
-					return true;
-				}
-				let imgTag = $('<img/>').attr('src',line).attr('alt','img ' + (idx+1) + '' + (index+1));
-				imgTag.css({'width':'100px','height': 'auto'});
-				$(element).append(imgTag);
-			});
-			$(element).contents().filter(function() {
-				return this.nodeType === 3;
-			}).remove();
-		});
-	}
-	/*
-	$('#post-content img').click(function(event) {
-		toggleFullScreen(event.target);
-	});
-	*/
-    let currentIndex = 0;
-    let images = $("#post-content img").map(function(){ return $(this).attr("src"); }).get();
-
-    // 이미지 클릭 시 모달 열기
-    $("#post-content img").click(function(){
-        currentIndex = $("#post-content img").index(this);
-        showImage(currentIndex);
-        $(".modal").fadeIn();
-    });
-
-    // 닫기 버튼
-    $(".close").click(function(){
-        $(".modal").fadeOut();
-    });
-
-    // 왼쪽 화살표
-    $(".arrow.left").click(function(){
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-    });
-
-    // 오른쪽 화살표
-    $(".arrow.right").click(function(){
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-    });
-
-    // ESC 키로 닫기
-    $(document).keydown(function(e){
-        if(e.key === "Escape") $(".modal").fadeOut();
-        if(e.key === "ArrowLeft") $(".arrow.left").click();
-        if(e.key === "ArrowRight") $(".arrow.right").click();
-    });
-
-    // 이미지 표시 함수
-    function showImage(index){
-        $(".modal-content img").attr("src", images[index]);
-    }	
-	
-	
-	prettyPrint();
-	$('pre.prettyprint').html(function() {
-		return this.innerHTML.replace(/\t/g,'&nbsp;&nbsp;');
-	});
+	//블로그 수정 기능 끝
 });
-/*
-function toggleFullScreen(elem) {
-	elem = elem || document.documentElement;
-	
-	// Check if already fullscreen
-	if (!document.fullscreenElement &&
-		!document.mozFullScreenElement &&
-		!document.webkitFullscreenElement &&
-		!document.msFullscreenElement) {
-		
-		// Enter fullscreen
-		if (elem.requestFullscreen) {
-			elem.requestFullscreen();
-		} else if (elem.mozRequestFullScreen) { // Firefox
-			elem.mozRequestFullScreen();
-		} else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
-			elem.webkitRequestFullscreen();
-		} else if (elem.msRequestFullscreen) { // IE/Edge
-			elem.msRequestFullscreen();
-		}
-	} else {
-		// Exit fullscreen
-		if (document.exitFullscreen) {
-			document.exitFullscreen();
-		} else if (document.mozCancelFullScreen) {
-			document.mozCancelFullScreen();
-		} else if (document.webkitExitFullscreen) {
-			document.webkitExitFullscreen();
-		} else if (document.msExitFullscreen) {
-			document.msExitFullscreen();
-		}
-	}
-}
-*/
 </script>
 <div id="blog-date" th:text="'edited ' + ${#temporals.format(blog.regdate,'MEDIUM',T(java.util.Locale).KOREA)}">edited 24 07 15 오후 8:18:39</div>
 <h2 id="post-title" th:utext="${blog.title}">자바 웹 프로그래밍 2 최종 소스</h2>
