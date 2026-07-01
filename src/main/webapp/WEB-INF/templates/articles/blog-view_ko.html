@@ -53,7 +53,7 @@ $(document).ready(function() {
 	$('#post-content').children().hide();
 	$('#post-content [lang="ko"]').show();
 	
-	//꺽쇠를 태그로
+	//꺽쇠[code],[img]를 태그로
 	$('#post-content').html(function() {
 				return $(this).html().replace(/\[img\]/g,'<p class="images">').replace(/\[\/img\]/g,'</p>')
 							.replace(/\[code\]/g,'<pre class="prettyprint">').replace(/\[\/code\]/g,'</pre>');

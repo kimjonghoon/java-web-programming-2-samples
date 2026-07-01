@@ -25,7 +25,7 @@ article {
 <article>
 <script th:inline="javascript">
 $(document).ready(function() {
-	//동영상 너비 조정
+ 	//동영상 너비 조정
 	if ($('#post-content iframe').length) {
 		//const width = $('#post-content').width();//1182
 		const width = 700;
@@ -48,6 +48,7 @@ $(document).ready(function() {
 		});
 	}
 
+	//로케일 언어에 따라 컨텐츠 보여줌
 	const lang = /*[[${#locale.language}]]*/ 'ko';
 
 	switch (lang) {
@@ -70,12 +71,13 @@ $(document).ready(function() {
 			$('#post-content [lang="en"]').show();
 			break;
 	}
-	
+
 	//꺽쇠를 태그로
 	$('#post-content').html(function() {
-				return $(this).html().replace(/\[img\]/g,'<p class="images">').replace(/\[\/img\]/g,'</p>')
-							.replace(/\[code\]/g,'<pre class="prettyprint">').replace(/\[\/code\]/g,'</pre>');
+		return $(this).html().replace(/\[img\]/g,'<p class="images">').replace(/\[\/img\]/g,'</p>')
+			.replace(/\[code\]/g,'<pre class="prettyprint">').replace(/\[\/code\]/g,'</pre>');
 	});
+
 	//이미지 링크로부터 이미지 태그 생성
 	if ($('#post-content .images').length) {
 		$('#post-content .images').each(function(idx,element) {
