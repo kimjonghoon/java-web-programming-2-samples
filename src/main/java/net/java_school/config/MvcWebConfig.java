@@ -117,12 +117,12 @@ https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring6
 		staticVariables.put("thymeleafExtraSpringSecurity6", "3.1.5.RELEASE"); //Thymeleaf-Extra-Spring-Security6 Version
 		staticVariables.put("jettyMavenPlugin", "11.0.26"); //jetty-maven-plugin Version
 		staticVariables.put("springSecurity", "7.1.0"); //Spring Security Version
-		staticVariables.put("oracleJdbcDriver", "23.26.2.0.0"); //ojdbc11 Version
+		staticVariables.put("oracleJdbcDriver", "23.26.3.0.0"); //ojdbc11 Version
 		staticVariables.put("dbcp2", "2.14.0"); //commons-dbcp2 Version
-		staticVariables.put("jacksonDatabind", "3.2.0"); //Jackson Databind Version
-		staticVariables.put("hibernateValidator", "9.1.1.Final"); //Hibernate Validator Version
+		staticVariables.put("jacksonDatabind", "3.2.2"); //Jackson Databind Version
+		staticVariables.put("hibernateValidator", "9.1.3.Final"); //Hibernate Validator Version
 		staticVariables.put("mybatis", "3.5.19"); //Mybatis Version
-		staticVariables.put("mybatisSpring", "4.0.0"); //Mybatis-Spring Version
+		staticVariables.put("mybatisSpring", "4.1.0"); //Mybatis-Spring Version
 		viewResolver.setStaticVariables(staticVariables);
 		return viewResolver;
 	}
