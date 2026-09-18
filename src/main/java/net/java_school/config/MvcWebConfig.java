@@ -111,12 +111,12 @@ https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring6
 		//Global Variables
 		Map<String, Object> staticVariables = new HashMap<>();
 		staticVariables.put("java", "25"); //Java Version
-		staticVariables.put("spring", "7.0.8"); //Spring Framework Version
+		staticVariables.put("spring", "7.0.9"); //Spring Framework Version
 		staticVariables.put("servlet", "6.1.0"); //Servlet Version
 		staticVariables.put("thymeleafSpring6", "3.1.5.RELEASE"); //Thymeleaf Spring6 Version
 		staticVariables.put("thymeleafExtraSpringSecurity6", "3.1.5.RELEASE"); //Thymeleaf-Extra-Spring-Security6 Version
 		staticVariables.put("jettyMavenPlugin", "11.0.26"); //jetty-maven-plugin Version
-		staticVariables.put("springSecurity", "7.1.0"); //Spring Security Version
+		staticVariables.put("springSecurity", "7.1.1"); //Spring Security Version
 		staticVariables.put("oracleJdbcDriver", "23.26.3.0.0"); //ojdbc11 Version
 		staticVariables.put("dbcp2", "2.14.0"); //commons-dbcp2 Version
 		staticVariables.put("jacksonDatabind", "3.2.2"); //Jackson Databind Version
